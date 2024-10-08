@@ -1,6 +1,18 @@
 .App {
   width: 24rem;
+  max-width: 24rem;
   min-height: 100vh;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 30px -5px;
   overflow: hidden;
+}
+::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+::-webkit-scrollbar-thumb {
+  background: #b6b6b6; /* 스크롤바 막대 색상 */
+  border-radius: 1rem;
+}
+::-webkit-scrollbar-track {
+  background: #f0f0f0; /* 스크롤바 뒷 배경 색상 */
 }

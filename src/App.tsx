@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Auth from "./auth";
 import NavigationBar from "./components/NavigationBar";
 import MainHome from "./pages/MainHome";
+import EventHome from "./pages/EventHome";
 import "./App.css";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
     <div className="pb-20 App">
       <Routes>
         <Route path="/" element={<MainHome />} />
+        <Route path="/events" element={<EventHome />} />
         <Route path="/auth" element={<Auth />} />
       </Routes>
       <NavigationBar />
