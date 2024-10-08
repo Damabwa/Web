@@ -6,9 +6,9 @@ interface Props {
 
 export default function Header({ title, left, right }: Props) {
   return (
-    <div className="flex items-center justify-between w-full h-12 py-1 bg-violet600">
+    <div className="fixed top-0 flex items-center justify-between h-12 px-4 py-1 w-96 bg-violet600">
       <div>{left}</div>
-      <div className="text-2xl font-bold text-center text-white font-pre">
+      <div className="text-2xl font-bold text-center text-white cursor-pointer font-pre">
         {title}
       </div>
       <div>{right}</div>

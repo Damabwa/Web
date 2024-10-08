@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import icn_back from "../../assets/svgs/icn_back.svg";
 import icn_search_white from "../../assets/svgs/icn_search_white.svg";
 import Header from "../../components/Header";
-import NavigationBar from "../../components/NavigationBar";
 import ContentBox from "../../components/ContentBox";
 import FilterBar from "../../components/FilterBar";
 function EventHome() {
