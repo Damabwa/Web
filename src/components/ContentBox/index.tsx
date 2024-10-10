@@ -83,7 +83,7 @@ export default function ContentBox({ data }: Props) {
       </div>
       {isPC && (
         <div
-          className={`flex top-12 mt-6 absolute items-center h-32 w-12 from-[rgba(255,255,255,0)] to-[rgba(255,255,255,1)] ${isNext ? "bg-gradient-to-r justify-end right-0 " : "bg-gradient-to-l justify-start left-0"}`}
+          className={`flex top-12 mt-6 absolute items-center h-32 w-12 from-[rgba(255,255,255,0)] to-[rgba(255,255,255,0.75)] ${isNext ? "bg-gradient-to-r justify-end right-0 " : "bg-gradient-to-l justify-start left-0"}`}
         >
           <img
             className={`${isNext ? "pr-2" : "pl-2"} cursor-pointer`}
