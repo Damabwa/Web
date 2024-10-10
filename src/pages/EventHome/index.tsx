@@ -2,8 +2,10 @@ import { useNavigate } from "react-router-dom";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import icn_search_white from "../../assets/svgs/icn_search_white.svg";
 import Header from "../../components/Header";
-import ContentBox from "../../components/ContentBox";
+import SearchBar from "../../components/SearchBar";
 import FilterBar from "../../components/FilterBar";
+import ContentBox from "../../components/ContentBox";
+
 function EventHome() {
   const mockdata = [
     {
@@ -73,10 +75,13 @@ function EventHome() {
           }
         />
       </div>
-      <div className="fixed z-20 h-16 bg-white top-12 w-96 shadow-bottom-only">
+      <div className="fixed z-20 bg-white h-28 top-12 w-96 shadow-bottom-only">
+        <div className="px-4 pt-3">
+          <SearchBar />
+        </div>
         <FilterBar />
       </div>
-      <div className="flex flex-col gap-1 mt-16 bg-gray">
+      <div className="flex flex-col gap-1 mt-28 bg-gray">
         {mockdata.map((item) => (
           <div key={item.title} className="bg-white">
             <ContentBox data={item} />
