@@ -1,6 +1,7 @@
 import { useState } from "react";
+import FilterType from "./FIlterType";
 import icn_down from "../../assets/svgs/icn_down.svg";
-import icn_check from "../../assets/svgs/icn_check.svg";
+import FilterItem from "./FilterItem";
 
 export default function FilterBar() {
   const orderBtns = [
@@ -8,6 +9,7 @@ export default function FilterBar() {
     { id: "popularity", name: "저장순", full: "저장 많은 순" },
   ];
   const stateBtns = [
+    { id: "all", name: "전체", full: "전체" },
     { id: "in_progress", name: "진행중", full: "진행 중인 이벤트" },
     { id: "ended", name: "마감", full: "마감된 이벤트" },
   ];
@@ -18,31 +20,38 @@ export default function FilterBar() {
   const [showSelectBar, setShowSelectBar] = useState(false);
   const [clickedFilter, setClickedFilter] = useState("");
 
+  const handleSelectType = (name: string) => {
+    clickedFilter === "order" ? setOrder(name) : setState(name);
+    setShowSelectBar(false);
+  };
+
   const getBtnList = () => {
     return clickedFilter === "order" ? orderBtns : stateBtns;
   };
 
+  const handleFilter = (type: string) => {
+    setShowSelectBar(true);
+    setClickedFilter(type);
+  };
+
   return (
     <div className="flex items-center justify-around h-16 p-4 text-sm font-medium select-none">
-      <div className="px-[0.9rem] py-[0.4rem] cursor-pointer bg-gray rounded-3xl">
+      <div
+        className="px-[0.9rem] py-[0.4rem] cursor-pointer bg-gray rounded-3xl"
+        onClick={() => handleFilter("all")}
+      >
         F
       </div>
       <div
         className="flex gap-1 px-[0.9rem] py-[0.4rem] cursor-pointer bg-gray rounded-3xl"
-        onClick={() => {
-          setShowSelectBar(true);
-          setClickedFilter("order");
-        }}
+        onClick={() => handleFilter("order")}
       >
         {order}
         <img alt="▽" src={icn_down} />
       </div>
       <div
         className="flex gap-1 px-[0.9rem] py-[0.4rem] cursor-pointer bg-gray rounded-3xl"
-        onClick={() => {
-          setShowSelectBar(true);
-          setClickedFilter("state");
-        }}
+        onClick={() => handleFilter("state")}
       >
         {state}
         <img alt="▽" src={icn_down} />
@@ -66,28 +75,20 @@ export default function FilterBar() {
             className="absolute z-10 w-full h-full bg-[rgba(0,0,0,0.4)]"
             onClick={() => setShowSelectBar(false)}
           ></div>
-          <div className="z-20 flex flex-col w-full gap-5 pt-8 pb-12 bg-white px-7 rounded-t-xl">
-            <div className="mb-2 text-xl">
-              {clickedFilter === "order" ? "정렬" : "이벤트 상태"}
-            </div>
-            {getBtnList().map((item) => (
-              <div key={item.id} className="flex justify-between">
-                <span
-                  className="text-base cursor-pointer"
-                  onClick={() => {
-                    clickedFilter === "order"
-                      ? setOrder(item.name)
-                      : setState(item.name);
-                    setShowSelectBar(false);
-                  }}
-                >
-                  {item.full}
-                </span>
-                {(item.name === order || item.name === state) && (
-                  <img alt="✓" src={icn_check} />
-                )}
-              </div>
-            ))}
+          <div
+            className={`z-20 w-full ${showSelectBar ? "animate-slideUp" : "hidden"}`}
+          >
+            {clickedFilter === "all" ? (
+              <FilterItem />
+            ) : (
+              <FilterType
+                title={clickedFilter === "order" ? "정렬" : "이벤트 상태"}
+                child={getBtnList()}
+                handleSelectType={handleSelectType}
+                order={order}
+                state={state}
+              />
+            )}
           </div>
         </div>
       )}

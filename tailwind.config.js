@@ -9,6 +9,15 @@ module.exports = {
         "bottom-only":
           "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)",
       },
+      animation: {
+        slideUp: "slideUp 300ms ease-in-out forwards",
+      },
+      keyframes: {
+        slideUp: {
+          "0%": { transform: "translateY(100%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+      },
     },
     fontFamily: {
       pre: ["Pretendard"],
