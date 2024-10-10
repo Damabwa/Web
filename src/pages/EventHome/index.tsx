@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import icn_back from "../../assets/svgs/icn_back.svg";
+import icn_back from "../../assets/svgs/icn_back_white.svg";
 import icn_search_white from "../../assets/svgs/icn_search_white.svg";
 import Header from "../../components/Header";
 import ContentBox from "../../components/ContentBox";
@@ -7,7 +7,7 @@ import FilterBar from "../../components/FilterBar";
 function EventHome() {
   const mockdata = [
     {
-      images: ["", "", ""],
+      images: ["", "", "", ""],
       title: "이벤트1",
       name: "사진 업체 상호",
       tags: ["서울", "개인", "올림픽 공원"],
@@ -16,7 +16,7 @@ function EventHome() {
       clipCount: 100,
     },
     {
-      images: ["", "", ""],
+      images: ["", "", "", ""],
       title: "이벤트2",
       name: "사진 업체 상호",
       tags: ["서울", "개인", "올림픽 공원"],
@@ -25,7 +25,7 @@ function EventHome() {
       clipCount: 30,
     },
     {
-      images: ["", "", ""],
+      images: ["", "", "", ""],
       title: "이벤트3",
       name: "사진 업체 상호",
       tags: ["서울", "개인", "올림픽 공원"],
@@ -34,7 +34,7 @@ function EventHome() {
       clipCount: 20,
     },
     {
-      images: ["", "", ""],
+      images: ["", "", "", ""],
       title: "이벤트4",
       name: "사진 업체 상호",
       tags: ["서울", "개인", "올림픽 공원"],
