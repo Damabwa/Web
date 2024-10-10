@@ -9,10 +9,10 @@ function MainHome() {
       <div className="h-12">
         <Header title="Damaba" left={null} right={null} />
       </div>
-      <div className="flex flex-col w-full pt-3">
-        <div className="px-4 mb-3">
+      <div className="flex flex-col w-full">
+        {/* <div className="px-4 pt-3 mb-3">
           <SearchBar />
-        </div>
+        </div> */}
         <div className="h-24 cursor-pointer bg-gray mb-7"></div>
       </div>
       <div className="flex flex-col min-w-full">
