@@ -7,12 +7,12 @@
 }
 ::-webkit-scrollbar {
   height: 0;
-  width: 0;
+  width: 1rem;
 }
 ::-webkit-scrollbar-thumb {
-  background: #b6b6b6; /* 스크롤바 막대 색상 */
+  background: #b6b6b6;
   border-radius: 1rem;
 }
 ::-webkit-scrollbar-track {
-  background: #f0f0f0; /* 스크롤바 뒷 배경 색상 */
+  background: #f0f0f0;
 }
