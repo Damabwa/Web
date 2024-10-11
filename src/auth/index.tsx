@@ -50,7 +50,7 @@ function Auth() {
       .then((res) => {
         if (res) {
           localStorage.setItem("token", JSON.stringify(res.data.access_token));
-          navigate("/");
+          navigate("/signup");
         }
       })
       .catch((err) => console.log(err));

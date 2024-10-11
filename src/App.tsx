@@ -1,24 +1,20 @@
 import { Routes, Route } from "react-router-dom";
 import Auth from "./auth";
-import NavigationBar from "./components/NavigationBar";
 import MainHome from "./pages/MainHome";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 import EventHome from "./pages/EventHome";
 import "./App.css";
-
 function App() {
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_JS_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`;
-  const handleLogin = () => {
-    window.location.href = kakaoURL;
-  };
   return (
-    <div className="pb-20 App">
+    <div className="App">
       <Routes>
         <Route path="/" element={<MainHome />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<SignUp />} />
         <Route path="/events" element={<EventHome />} />
         <Route path="/auth" element={<Auth />} />
       </Routes>
-      <NavigationBar />
-      {/* <button onClick={handleLogin}>카카오 로그인</button> */}
     </div>
   );
 }
