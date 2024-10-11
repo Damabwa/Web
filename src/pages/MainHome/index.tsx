@@ -1,4 +1,5 @@
 import Header from "../../components/Header";
+import NavigationBar from "../../components/NavigationBar";
 import SearchBar from "../../components/SearchBar";
 import EventBox from "./EventBox";
 // import Posts from "./Posts";
@@ -37,6 +38,9 @@ function MainHome() {
           <Posts title="최신 게시글" subTitle="상호 무페이 작업들" />
         </div>
       </div> */}
+      <div className="h-20">
+        <NavigationBar />
+      </div>
     </div>
   );
 }

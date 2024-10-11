@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import SearchBar from "../../components/SearchBar";
 import FilterBar from "../../components/FilterBar";
 import ContentBox from "../../components/ContentBox";
+import NavigationBar from "../../components/NavigationBar";
 
 function EventHome() {
   const mockdata = [
@@ -87,6 +88,9 @@ function EventHome() {
             <ContentBox data={item} />
           </div>
         ))}
+      </div>
+      <div className="h-20">
+        <NavigationBar />
       </div>
     </div>
   );
