@@ -78,18 +78,18 @@ export default function EventBox({ title, subTitle }: Props) {
   return (
     <div className="relative flex flex-col">
       <div className="flex justify-between px-4 mb-3">
-        <div className="flex flex-col font-pre" onClick={navigateEvent}>
-          <span className="text-xl font-bold cursor-pointer">{title}</span>
-          <span className="text-xs cursor-pointer">{subTitle}</span>
+        <div className="flex flex-col font-pre" onClick={() => navigateEvent()}>
+          <span className="text-lg font-bold cursor-pointer">{title}</span>
+          <span className="text-sm cursor-pointer">{subTitle}</span>
         </div>
         <div className="flex items-center cursor-pointer">
           <button
-            className="text-[0.625rem] font-medium"
-            onClick={navigateEvent}
+            className="text-xs font-medium"
+            onClick={() => navigateEvent()}
           >
             전체보기
           </button>
-          <img className="w-3 h-3" alt=">" src={icn_next} />
+          <img className="w-4 h-4" alt=">" src={icn_next} />
         </div>
       </div>
       <div
