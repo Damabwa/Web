@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
-import icn_search_white from "../../assets/svgs/icn_search_white.svg";
 import Header from "../../components/Header";
 import SearchBar from "../../components/SearchBar";
 import FilterBar from "../../components/FilterBar";
@@ -64,16 +63,7 @@ function EventHome() {
               }}
             />
           }
-          right={
-            <img
-              className="cursor-pointer"
-              alt="search"
-              src={icn_search_white}
-              onClick={() => {
-                navigation("/");
-              }}
-            />
-          }
+          right={null}
         />
       </div>
       <div className="fixed z-20 bg-white h-28 top-12 w-96 shadow-bottom-only">

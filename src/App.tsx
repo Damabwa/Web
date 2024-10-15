@@ -4,6 +4,7 @@ import MainHome from "./pages/MainHome";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import EventHome from "./pages/EventHome";
+import EventDetail from "./pages/EventDetail";
 import "./App.css";
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
         <Route path="/events" element={<EventHome />} />
+        <Route path="/event" element={<EventDetail />} />
         <Route path="/auth" element={<Auth />} />
       </Routes>
     </div>

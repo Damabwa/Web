@@ -52,7 +52,10 @@ export default function ContentBox({ data }: Props) {
   };
 
   return (
-    <div className="relative flex flex-col gap-2 py-4 cursor-pointer">
+    <div
+      className="relative flex flex-col gap-2 py-4 cursor-pointer"
+      onClick={() => navigation("/event")}
+    >
       <div className="flex justify-between px-4 ">
         <div className="flex flex-col font-pre">
           <span className="text-xl font-bold">{data.title}</span>
