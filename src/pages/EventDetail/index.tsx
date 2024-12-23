@@ -62,7 +62,7 @@ export default function EventDetail() {
   };
 
   return (
-    <div className="text-sm ">
+    <div className="w-full text-sm">
       <div className="h-12">
         <Header
           title={mockdata.event_name}

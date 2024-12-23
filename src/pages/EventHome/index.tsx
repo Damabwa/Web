@@ -48,7 +48,7 @@ function EventHome() {
   const navigation = useNavigate();
 
   return (
-    <div>
+    <div className="w-full">
       <div className="h-12">
         <Header
           title="Event로 담아봐"

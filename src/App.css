@@ -1,6 +1,5 @@
 .App {
-  width: 24rem;
-  max-width: 24rem;
+  width: 100vw;
   min-height: 100vh;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 30px -5px;
   overflow: hidden;
@@ -15,4 +14,9 @@
 }
 ::-webkit-scrollbar-track {
   background: #f0f0f0;
+}
+@media (min-width: 426px) {
+  .App {
+    width: 426px;
+  }
 }

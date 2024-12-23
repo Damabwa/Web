@@ -4,7 +4,7 @@ export default function Login() {
     window.location.href = kakaoURL;
   };
   return (
-    <div>
+    <div className="w-full">
       <button onClick={handleLogin}>카카오 로그인</button>
     </div>
   );

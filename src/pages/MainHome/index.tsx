@@ -5,7 +5,7 @@ import EventBox from "./EventBox";
 
 function MainHome() {
   return (
-    <div>
+    <div className="w-full">
       <div className="h-12">
         <Header title="Damaba" left={null} right={null} />
       </div>
