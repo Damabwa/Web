@@ -8,7 +8,7 @@ import EventDetail from "./pages/EventDetail";
 import "./App.css";
 function App() {
   return (
-    <div className="App">
+    <div className="text-black App">
       <Routes>
         <Route path="/" element={<MainHome />} />
         <Route path="login" element={<Login />} />
