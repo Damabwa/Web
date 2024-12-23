@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
-import NavigationBar from "../../components/NavigationBar";
 import icn_back from "../../assets/svgs/icn_back.svg";
 import icn_next from "../../assets/svgs/icn_next.svg";
 import icn_back_w from "../../assets/svgs/icn_back_white.svg";
@@ -191,9 +190,6 @@ export default function EventDetail() {
             </button>
           </div>
         </div>
-      </div>
-      <div className="h-20">
-        <NavigationBar />
       </div>
     </div>
   );
