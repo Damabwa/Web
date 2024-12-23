@@ -27,14 +27,15 @@ function Auth() {
     getToken()
       .then((res) => {
         if (res) {
-          const code = axios
+          axios
             .post("https://api-dev.damaba.me/api/v1/auth/login", {
               loginType: "KAKAO",
               authKey: JSON.stringify(res.data.access_token).slice(1, -1),
             })
-            .then((c) => {
-              navigate("/signup");
-              console.log(c);
+            .then((r) => {
+              if (r.status === 200 && r.data.isRegistrationCompleted)
+                navigate("/");
+              else navigate("/signup");
             });
         }
       })
