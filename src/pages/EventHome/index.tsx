@@ -65,13 +65,10 @@ function EventHome() {
           right={null}
         />
       </div>
-      <div className="fixed z-20 bg-white h-28 top-12 w-96 shadow-bottom-only">
-        <div className="px-4 pt-3">
-          <SearchBar />
-        </div>
+      <div className="border-b-[0.375rem] border-lightgray">
         <FilterBar />
       </div>
-      <div className="flex flex-col gap-1 mt-28 bg-gray">
+      <div className="flex flex-col gap-1 mt-28 bg-lightgray">
         {mockdata.map((item) => (
           <div key={item.title} className="bg-white">
             <ContentBox data={item} />

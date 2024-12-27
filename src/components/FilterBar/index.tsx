@@ -1,17 +1,19 @@
 import { useState } from "react";
 import FilterType from "./FIlterType";
 import icn_down from "../../assets/svgs/icn_down.svg";
-import FilterItem from "./FilterItem";
+import icn_reset from "../../assets/svgs/icn_reset.svg";
+import icn_line from "../../assets/svgs/icn_filterLine.svg";
 
 export default function FilterBar() {
   const orderBtns = [
     { id: "latest", name: "최신순", full: "최신순" },
-    { id: "popularity", name: "저장순", full: "저장 많은 순" },
+    { id: "popularity", name: "인기순", full: "인기순" },
   ];
   const stateBtns = [
     { id: "all", name: "전체", full: "전체" },
-    { id: "in_progress", name: "진행중", full: "진행 중인 이벤트" },
-    { id: "ended", name: "마감", full: "마감된 이벤트" },
+    { id: "scheduled", name: "예정", full: "예정된 이벤트" },
+    { id: "ongoing", name: "진행중", full: "진행 중인 이벤트" },
+    { id: "end", name: "마감", full: "마감된 이벤트" },
   ];
   const [order, setOrder] = useState("최신순");
   const [state, setState] = useState("진행중");
@@ -21,13 +23,18 @@ export default function FilterBar() {
   const [clickedFilter, setClickedFilter] = useState("");
 
   const handleSelectType = (name: string) => {
-    clickedFilter === "order" ? setOrder(name) : setState(name);
+    if (clickedFilter === "정렬") setOrder(name);
+    else if (clickedFilter === "진행 상태") setState(name);
     setShowSelectBar(false);
   };
 
   const getBtnList = () => {
-    return clickedFilter === "order" ? orderBtns : stateBtns;
+    if (clickedFilter === "정렬") return orderBtns;
+    else if (clickedFilter === "진행 상태") return stateBtns;
+    else return stateBtns;
   };
+
+  const handleResetFIlter = () => {};
 
   const handleFilter = (type: string) => {
     setShowSelectBar(true);
@@ -35,60 +42,72 @@ export default function FilterBar() {
   };
 
   return (
-    <div className="flex items-center justify-around h-16 p-4 text-sm font-medium select-none">
-      <div
-        className="px-[0.9rem] py-[0.4rem] cursor-pointer bg-gray rounded-3xl"
-        onClick={() => handleFilter("all")}
-      >
-        F
-      </div>
-      <div
-        className="flex gap-1 px-[0.9rem] py-[0.4rem] cursor-pointer bg-gray rounded-3xl"
-        onClick={() => handleFilter("order")}
-      >
-        {order}
-        <img alt="▽" src={icn_down} />
-      </div>
-      <div
-        className="flex gap-1 px-[0.9rem] py-[0.4rem] cursor-pointer bg-gray rounded-3xl"
-        onClick={() => handleFilter("state")}
-      >
-        {state}
-        <img alt="▽" src={icn_down} />
-      </div>
-      <div className="w-[0.06rem] h-6 bg-gray mx-1" />
-      <div
-        className={`px-[0.9rem] py-[0.4rem] cursor-pointer rounded-3xl ${free ? "bg-black text-white" : "bg-gray"}`}
-        onClick={() => setFree(!free)}
-      >
-        무료
-      </div>
-      <div
-        className={`px-[0.9rem] py-[0.4rem] cursor-pointer rounded-3xl ${discount ? "bg-black text-white" : "bg-gray"}`}
-        onClick={() => setDiscount(!discount)}
-      >
-        할인
+    <div className="w-full ">
+      <div className="flex items-center gap-2 min-w-full h-[3.75rem] p-3 text-sm font-medium whitespace-nowrap overflow-x-scroll">
+        <button
+          className="outline-none flex items-center justify-center min-w-9 h-9 mr-1 bg-gray100 rounded-3xl"
+          onClick={() => handleResetFIlter()}
+        >
+          <img className="p-[0.37rem]" src={icn_reset} />
+        </button>
+        <button
+          className={`min-w-fit outline-none flex items-center justify-center h-9 px-[0.88rem] py-[0.38rem] rounded-3xl border ${free ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "bg-gray100 border-gray100"}`}
+          onClick={() => setFree(!free)}
+        >
+          무료
+        </button>
+        <button
+          className={`min-w-fit outline-none flex items-center justify-center h-9 px-[0.88rem] py-[0.38rem] rounded-3xl border ${discount ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "bg-gray100 border-gray100"}`}
+          onClick={() => setDiscount(!discount)}
+        >
+          할인
+        </button>
+        <img src={icn_line} />
+        <button
+          className="min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.88rem] py-[0.38rem] bg-gray100 rounded-3xl"
+          onClick={() => handleFilter("정렬")}
+        >
+          {order}
+          <img alt="▽" src={icn_down} />
+        </button>
+        <button
+          className="min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.9rem] py-[0.4rem] bg-gray100 rounded-3xl"
+          onClick={() => handleFilter("진행 상태")}
+        >
+          {state}
+          <img alt="▽" src={icn_down} />
+        </button>
+        <button
+          className="min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.9rem] py-[0.4rem] bg-gray100 rounded-3xl"
+          onClick={() => handleFilter("지역")}
+        >
+          지역
+          <img alt="▽" src={icn_down} />
+        </button>
+        <button
+          className="min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.9rem] py-[0.4rem] bg-gray100 rounded-3xl"
+          onClick={() => handleFilter("촬영 종류")}
+        >
+          촬영 종류
+          <img alt="▽" src={icn_down} />
+        </button>
       </div>
       {showSelectBar && (
-        <div className="fixed bottom-0 flex items-end h-full w-96">
+        <div className="fixed bottom-0 flex items-end h-full w-full max-w-[426px]">
           <div
-            className="absolute z-10 w-full h-full bg-[rgba(0,0,0,0.4)]"
+            className="absolute z-20 w-full h-full bg-black bg-opacity-40"
             onClick={() => setShowSelectBar(false)}
-          ></div>
+          />
           <div
-            className={`z-20 w-full ${showSelectBar ? "animate-slideUp" : "hidden"}`}
+            className={`z-30 w-full ${showSelectBar ? "animate-slideUp" : "hidden"}`}
           >
-            {clickedFilter === "all" ? (
-              <FilterItem />
-            ) : (
-              <FilterType
-                title={clickedFilter === "order" ? "정렬" : "이벤트 상태"}
-                child={getBtnList()}
-                handleSelectType={handleSelectType}
-                order={order}
-                state={state}
-              />
-            )}
+            <FilterType
+              title={clickedFilter}
+              child={getBtnList()}
+              handleSelectType={handleSelectType}
+              order={order}
+              state={state}
+            />
           </div>
         </div>
       )}

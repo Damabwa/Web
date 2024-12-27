@@ -1,4 +1,4 @@
-import icn_check from "../../../assets/svgs/icn_check.svg";
+import icn_check from "../../../assets/svgs/icn_filterCheck.svg";
 
 interface Props {
   title: string;
@@ -16,20 +16,17 @@ export default function FilterType({
   handleSelectType,
 }: Props) {
   return (
-    <div
-      className={`flex flex-col gap-5 pt-8 pb-12 bg-white px-7 rounded-t-xl`}
-    >
-      <div className="mb-2 text-xl">{title}</div>
+    <div className={`flex flex-col bg-white px-4 pt-3 pb-10 rounded-t-3xl`}>
+      <div className="p-[0.62rem] font-semibold text-center">{title}</div>
       {child.map((item) => (
-        <div key={item.id} className="flex justify-between">
-          <span
-            className="text-base cursor-pointer"
-            onClick={() => handleSelectType(item.name)}
-          >
-            {item.full}
-          </span>
+        <div
+          key={item.id}
+          onClick={() => handleSelectType(item.name)}
+          className="cursor-pointer flex justify-between w-full border-t border-gray100 py-4 font-medium"
+        >
+          <span>{item.name}</span>
           {(item.name === order || item.name === state) && (
-            <img alt="✓" src={icn_check} />
+            <img className="px-2" alt="✓" src={icn_check} />
           )}
         </div>
       ))}

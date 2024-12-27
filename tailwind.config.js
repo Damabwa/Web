@@ -78,6 +78,7 @@ module.exports = {
       lineRegular: "#E5E5EC",
       lineLight: "#F1F1F5",
       gray: "#E0E0E0",
+      gray100: "#ECEDEF",
       lightgray: "#F3F5F7",
       textgray: "#555",
       buttonfalse: "#A7A8AA",
