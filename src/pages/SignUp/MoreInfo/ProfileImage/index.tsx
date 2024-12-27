@@ -12,18 +12,18 @@ export default function ProfileImage({ photo, setPhoto }: Props) {
 
   const handleImageClick = () => {
     if (fileInputRef.current) {
-      fileInputRef.current.click(); // 파일 입력 요소를 클릭
+      fileInputRef.current.click();
     }
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; // 선택된 파일 가져오기
+    const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader(); // FileReader를 사용해 파일 읽기
+      const reader = new FileReader();
       reader.onloadend = () => {
-        setPhoto(reader.result as string); // 이미지 데이터를 상태에 저장
+        setPhoto(reader.result as string);
       };
-      reader.readAsDataURL(file); // 파일을 Base64 URL로 변환
+      reader.readAsDataURL(file);
     }
   };
 
@@ -46,7 +46,7 @@ export default function ProfileImage({ photo, setPhoto }: Props) {
       >
         {photo ? (
           <img
-            className="object-contain w-[5.25rem] h-[5.25rem] rounded-full border border-black border-opacity-15"
+            className="object-contain w-[5.25rem] h-[5.25rem] rounded-full border-2 border-[#A7A8AA]"
             src={photo}
           />
         ) : (
