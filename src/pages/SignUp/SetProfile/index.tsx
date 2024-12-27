@@ -39,6 +39,16 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
     }
   };
 
+  const handleIdInput = (e: any) => {
+    let { value } = e.target;
+    value = value.toLowerCase();
+    value = value.replace(/[^0-9a-z._]/g, "");
+    if (value.length > 30) {
+      value = value.slice(0, 30);
+    }
+    setInstagramId(value);
+  };
+
   const checkIsDuplicated = async () => {
     if (!isValidName) return;
     // if (role === "user") {
@@ -61,10 +71,6 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
     //       else setIsDuplicated("false");
     //     });
     // }
-  };
-
-  const handleIdInput = (e: any) => {
-    setInstagramId(e.target.value);
   };
 
   const checkValidFunc = () => {
@@ -149,6 +155,7 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
               className="flex-1 py-3 pr-4 border-none outline-none rounded-r-xl bg-lightgray"
               placeholder="인스타그램 ID를 입력해주세요."
               onChange={handleIdInput}
+              value={instagramId}
             />
           </div>
         </div>
