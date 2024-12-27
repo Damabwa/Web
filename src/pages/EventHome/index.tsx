@@ -8,39 +8,53 @@ import ContentBox from "../../components/ContentBox";
 function EventHome() {
   const mockdata = [
     {
+      id: 0,
       images: ["", "", "", ""],
       title: "이벤트1",
       name: "사진 업체 상호",
       tags: ["서울", "개인", "올림픽 공원"],
-      period: "08.29 - 08.30",
-      location: "경기도 수원시 영통구 월드컵로 206",
+      endDate: "2024-12-30",
+      location: ["서울 강동구", "서울 강서구", "서울 강북구"],
       clipCount: 100,
     },
     {
+      id: 1,
       images: ["", "", "", ""],
       title: "이벤트2",
       name: "사진 업체 상호",
       tags: ["서울", "개인", "올림픽 공원"],
-      period: "08.29 - 08.30",
-      location: "경기도 수원시 영통구 월드컵로 206",
-      clipCount: 30,
+      endDate: "2024-12-27",
+      location: ["서울 강동구", "서울 강서구", "서울 강북구"],
+      clipCount: 40,
     },
     {
+      id: 2,
       images: ["", "", "", ""],
       title: "이벤트3",
       name: "사진 업체 상호",
       tags: ["서울", "개인", "올림픽 공원"],
-      period: "08.29 - 08.30",
-      location: "경기도 수원시 영통구 월드컵로 206",
-      clipCount: 20,
+      endDate: "2024-12-28",
+      location: ["서울 강동구", "서울 강서구", "서울 강북구"],
+      clipCount: 30,
     },
     {
+      id: 3,
       images: ["", "", "", ""],
       title: "이벤트4",
       name: "사진 업체 상호",
       tags: ["서울", "개인", "올림픽 공원"],
-      period: "08.29 - 08.30",
-      location: "경기도 수원시 영통구 월드컵로 206",
+      endDate: "2024-12-29",
+      location: ["서울 강동구", "서울 강서구", "서울 강북구"],
+      clipCount: 20,
+    },
+    {
+      id: 4,
+      images: ["", "", "", ""],
+      title: "이벤트5",
+      name: "사진 업체 상호",
+      tags: ["서울", "개인", "올림픽 공원"],
+      endDate: "2024-12-30",
+      location: ["서울 강동구", "서울 강서구", "서울 강북구"],
       clipCount: 10,
     },
   ];
@@ -68,12 +82,13 @@ function EventHome() {
       <div className="border-b-[0.375rem] border-lightgray">
         <FilterBar />
       </div>
-      <div className="flex flex-col gap-1 mt-28 bg-lightgray">
+      <div className="flex flex-col gap-1 bg-lightgray">
         {mockdata.map((item) => (
-          <div key={item.title} className="bg-white">
+          <div key={item.id} className="bg-white">
             <ContentBox data={item} />
           </div>
         ))}
+        <div className="w-full h-20 bg-white" />
       </div>
     </div>
   );
