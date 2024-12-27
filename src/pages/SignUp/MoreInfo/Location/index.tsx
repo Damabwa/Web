@@ -38,8 +38,11 @@ export default function Location({ locs, setLocs }: Props) {
   }, [locList]);
 
   const handleAddRegion = (item: string) => {
-    if (locs.length >= 5) return;
-    if (!locs.includes(item)) setLocs([...locs, item]);
+    if (locs.includes(item)) setLocs(locs.filter((l) => l !== item));
+    else {
+      if (locs.length >= 5) return;
+      setLocs([...locs, item]);
+    }
   };
 
   return (
