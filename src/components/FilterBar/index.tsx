@@ -1,8 +1,10 @@
-import { useState } from "react";
-import FilterType from "./FIlterType";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import icn_down from "../../assets/svgs/icn_down.svg";
+import icn_down_purple from "../../assets/svgs/icn_down_purple.svg";
 import icn_reset from "../../assets/svgs/icn_reset.svg";
 import icn_line from "../../assets/svgs/icn_filterLine.svg";
+import FilterType from "./FIlterType";
 
 export default function FilterBar() {
   const orderBtns = [
@@ -15,26 +17,47 @@ export default function FilterBar() {
     { id: "ongoing", name: "진행중", full: "진행 중인 이벤트" },
     { id: "end", name: "마감", full: "마감된 이벤트" },
   ];
-  const [order, setOrder] = useState("최신순");
-  const [state, setState] = useState("진행중");
+  const typeBtns = ["스냅", "프로필", "컨셉", "증명", "셀프"];
   const [free, setFree] = useState(false);
   const [discount, setDiscount] = useState(false);
+  const [order, setOrder] = useState("최신순");
+  const [state, setState] = useState("진행중");
+  const [isModifiedOrder, setIsModifiedOrder] = useState(false);
+  const [isModifiedState, setIsModifiedState] = useState(false);
+  const [locList, setLocList] = useState([]);
+  const [locations, setLocations] = useState<string[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
   const [showSelectBar, setShowSelectBar] = useState(false);
   const [clickedFilter, setClickedFilter] = useState("");
 
-  const handleSelectType = (name: string) => {
-    if (clickedFilter === "정렬") setOrder(name);
-    else if (clickedFilter === "진행 상태") setState(name);
-    setShowSelectBar(false);
+  useEffect(() => {
+    getLocationList();
+  }, []);
+
+  const getLocationList = async () => {
+    axios
+      .get(`https://api-dev.damaba.me/api/v1/regions/categories`)
+      .then((res) => setLocList(res.data.categories));
   };
 
   const getBtnList = () => {
     if (clickedFilter === "정렬") return orderBtns;
     else if (clickedFilter === "진행 상태") return stateBtns;
-    else return stateBtns;
+    else if (clickedFilter === "지역") return locList;
+    else if (clickedFilter === "촬영 종류") return typeBtns;
+    else return [];
   };
 
-  const handleResetFIlter = () => {};
+  const handleResetFIlter = () => {
+    setFree(false);
+    setDiscount(false);
+    setOrder("최신순");
+    setState("진행중");
+    setIsModifiedOrder(false);
+    setIsModifiedState(false);
+    setLocations([]);
+    setTypes([]);
+  };
 
   const handleFilter = (type: string) => {
     setShowSelectBar(true);
@@ -64,32 +87,35 @@ export default function FilterBar() {
         </button>
         <img src={icn_line} />
         <button
-          className="min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.88rem] py-[0.38rem] bg-gray100 rounded-3xl"
+          className={`min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.88rem] py-[0.38rem] bg-gray100 rounded-3xl border ${isModifiedOrder ? "border-violet400 bg-violet400 bg-opacity-15 text-violet400" : "border-gray100"}`}
           onClick={() => handleFilter("정렬")}
         >
           {order}
-          <img alt="▽" src={icn_down} />
+          <img alt="▽" src={isModifiedOrder ? icn_down_purple : icn_down} />
         </button>
         <button
-          className="min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.9rem] py-[0.4rem] bg-gray100 rounded-3xl"
+          className={`min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.9rem] py-[0.4rem] bg-gray100 rounded-3xl border ${isModifiedState ? "border-violet400 bg-violet400 bg-opacity-15 text-violet400" : "border-gray100"}`}
           onClick={() => handleFilter("진행 상태")}
         >
           {state}
-          <img alt="▽" src={icn_down} />
+          <img alt="▽" src={isModifiedState ? icn_down_purple : icn_down} />
         </button>
         <button
-          className="min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.9rem] py-[0.4rem] bg-gray100 rounded-3xl"
+          className={`min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.9rem] py-[0.4rem] bg-gray100 rounded-3xl border ${locations.length > 0 ? "border-violet400 bg-violet400 bg-opacity-15 text-violet400" : "border-gray100"}`}
           onClick={() => handleFilter("지역")}
         >
           지역
-          <img alt="▽" src={icn_down} />
+          <img
+            alt="▽"
+            src={locations.length > 0 ? icn_down_purple : icn_down}
+          />
         </button>
         <button
-          className="min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.9rem] py-[0.4rem] bg-gray100 rounded-3xl"
+          className={`min-w-fit outline-none flex items-center justify-center h-9 gap-1 px-[0.9rem] py-[0.4rem] bg-gray100 rounded-3xl border ${types.length > 0 ? "border-violet400 bg-violet400 bg-opacity-15 text-violet400" : "border-gray100"}`}
           onClick={() => handleFilter("촬영 종류")}
         >
           촬영 종류
-          <img alt="▽" src={icn_down} />
+          <img alt="▽" src={types.length > 0 ? icn_down_purple : icn_down} />
         </button>
       </div>
       {showSelectBar && (
@@ -104,9 +130,17 @@ export default function FilterBar() {
             <FilterType
               title={clickedFilter}
               child={getBtnList()}
-              handleSelectType={handleSelectType}
               order={order}
+              setOrder={setOrder}
+              setIsModifiedOrder={setIsModifiedOrder}
               state={state}
+              setState={setState}
+              setIsModifiedState={setIsModifiedState}
+              locations={locations}
+              setLocations={setLocations}
+              types={types}
+              setTypes={setTypes}
+              setShowSelectBar={setShowSelectBar}
             />
           </div>
         </div>
