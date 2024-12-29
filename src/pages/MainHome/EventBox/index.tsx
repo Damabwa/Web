@@ -49,7 +49,7 @@ export default function EventBox() {
         className="flex flex-col px-4 pb-5 cursor-pointer"
         onClick={() => navigateEvent()}
       >
-        <span className="text-lg font-bold">Event로담아봐!</span>
+        <span className="text-lg font-bold">Event로 담아봐!</span>
         <div className="flex justify-between items-center text-sm">
           <span>현재 진행 중인 사진 이벤트</span>
           <div className="flex text-xs">
