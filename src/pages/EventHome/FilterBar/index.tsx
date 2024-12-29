@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import icn_down from "../../assets/svgs/icn_down.svg";
-import icn_down_purple from "../../assets/svgs/icn_down_purple.svg";
-import icn_reset from "../../assets/svgs/icn_reset.svg";
-import icn_line from "../../assets/svgs/icn_filterLine.svg";
+import icn_down from "../../../assets/svgs/icn_down.svg";
+import icn_down_purple from "../../../assets/svgs/icn_down_purple.svg";
+import icn_reset from "../../../assets/svgs/icn_reset.svg";
+import icn_line from "../../../assets/svgs/icn_filterLine.svg";
 import FilterType from "./FIlterType";
 
 export default function FilterBar() {

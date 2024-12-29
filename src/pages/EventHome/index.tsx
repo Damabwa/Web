@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import Header from "../../components/Header";
-import FilterBar from "../../components/FilterBar";
+import FilterBar from "./FilterBar";
 import ContentBox from "./ContentBox";
 
 function EventHome() {

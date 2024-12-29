@@ -1,6 +1,6 @@
 import { useState } from "react";
-import icn_check from "../../../assets/svgs/icn_filterCheck.svg";
-import icn_reset from "../../../assets/svgs/icn_reset.svg";
+import icn_check from "../../../../assets/svgs/icn_filterCheck.svg";
+import icn_reset from "../../../../assets/svgs/icn_reset.svg";
 
 interface Props {
   title: string;
