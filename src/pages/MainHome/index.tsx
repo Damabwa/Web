@@ -1,42 +1,24 @@
 import Header from "../../components/Header";
-import SearchBar from "../../components/SearchBar";
 import EventBox from "./EventBox";
-// import Posts from "./Posts";
+import logo_header from "../../assets/imgs/img_mainhome_header_logo.png";
+import icn_mypage from "../../assets/svgs/icn_mainhome_mypage.svg";
 
 function MainHome() {
   return (
     <div className="w-full">
       <div className="h-12">
-        <Header title="Damaba" left={null} right={null} />
+        <Header
+          main={<img className="w-[5.5rem]" src={logo_header} />}
+          left={null}
+          right={<img className="px-2" src={icn_mypage} />}
+        />
       </div>
       <div className="flex flex-col w-full">
-        {/* <div className="px-4 pt-3 mb-3">
-          <SearchBar />
-        </div> */}
-        <div className="h-24 cursor-pointer bg-gray mb-7"></div>
+        <div className="h-32 cursor-pointer bg-lightgray"></div>
       </div>
-      <div className="flex flex-col min-w-full">
-        <div className="mb-9">
-          <EventBox
-            title="Event로 담아봐!"
-            subTitle="현재 진행 중인 사진 이벤트"
-          />
-        </div>
-        <div className="mb-9">
-          <EventBox title="Model이 되어봐!" subTitle="상호 무페이 작업들" />
-        </div>
+      <div className="border-b-8 border-lightgray">
+        <EventBox />
       </div>
-      {/* <div className="flex flex-col w-full px-4">
-        <div className="mb-9">
-          <Posts
-            title="Hot 인기 게시글"
-            subTitle="현재 진행 중인 사진 이벤트"
-          />
-        </div>
-        <div className="mb-9">
-          <Posts title="최신 게시글" subTitle="상호 무페이 작업들" />
-        </div>
-      </div> */}
     </div>
   );
 }

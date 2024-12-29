@@ -65,10 +65,14 @@ function EventHome() {
     <div className="w-full">
       <div className="h-12">
         <Header
-          title="Event로 담아봐"
+          main={
+            <div className="font-semibold text-white cursor-pointer">
+              Event로 담아봐
+            </div>
+          }
           left={
             <img
-              className="cursor-pointer"
+              className="px-4 cursor-pointer"
               alt="<"
               src={icn_back}
               onClick={() => {

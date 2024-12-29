@@ -65,7 +65,11 @@ export default function EventDetail() {
     <div className="w-full text-sm">
       <div className="h-12">
         <Header
-          title={mockdata.event_name}
+          main={
+            <div className="font-semibold text-white cursor-pointer">
+              {mockdata.event_name}
+            </div>
+          }
           left={
             <img
               className="cursor-pointer"
