@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import icn_clipOff from "../../assets/svgs/icn_clip.svg";
-import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
-import icn_time from "../../assets/svgs/icn_time.svg";
-import icn_location from "../../assets/svgs/icn_location.svg";
+import icn_clipOff from "../../../assets/svgs/icn_clip.svg";
+import icn_clipOn from "../../../assets/svgs/icn_clipOn.svg";
+import icn_time from "../../../assets/svgs/icn_time.svg";
+import icn_location from "../../../assets/svgs/icn_location.svg";
 
 interface postData {
   id: number;
