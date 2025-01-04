@@ -41,8 +41,8 @@ export default function PhotographerBox() {
         className="flex flex-col px-4 pb-5 cursor-pointer"
         onClick={() => navigatePhotographers()}
       >
-        <span className="text-lg font-bold">작가님을 담아봐!</span>
-        <div className="flex justify-between items-center text-sm">
+        <span className="text-lg font-bold">작가님을 만나봐!</span>
+        <div className="flex items-center justify-between text-sm">
           <span>지역의 사진관, 스냅 작가</span>
           <div className="flex text-xs">
             <button>전체보기</button>
@@ -54,11 +54,11 @@ export default function PhotographerBox() {
         {mockdata.map((item) => (
           <div
             key={item.name}
-            className="flex flex-col cursor-pointer justify-end bg-gray rounded-xl h-48 text-white"
+            className="flex flex-col justify-end h-48 text-white cursor-pointer bg-gray rounded-xl"
           >
             <div className="p-3">
               <div className="font-semibold">{handleTextLength(item.name)}</div>
-              <div className="flex gap-1 items-center text-xs">
+              <div className="flex items-center gap-1 text-xs">
                 {item.types.map((type, index) => (
                   <div key={index}>
                     {type}
