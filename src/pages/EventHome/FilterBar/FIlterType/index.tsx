@@ -74,7 +74,7 @@ export default function FilterType({
           <div
             key={item.id}
             onClick={() => handleChildClick(item.name)}
-            className="cursor-pointer flex justify-between w-full border-t border-gray100 py-4 font-medium"
+            className="flex justify-between w-full py-4 font-medium border-t cursor-pointer border-gray100"
           >
             <span>{item.name}</span>
             {(item.name === order || item.name === state) && (
@@ -85,12 +85,12 @@ export default function FilterType({
       {(title === "지역" || title === "촬영 종류") && (
         <div>
           <div
-            className={`grid grid-cols-5 w-full border-t border-gray100 pb-4 ${title === "촬영 종류" ? "pt-4" : "pt-2"}`}
+            className={`grid grid-cols-5 w-full border-t border-gray100 ${title === "촬영 종류" ? "pt-4 pb-2" : "pt-2 pb-3"}`}
           >
             {child.map((item) => (
               <div
                 key={item}
-                className="flex justify-center"
+                className="flex justify-center pb-1"
                 onClick={() => handleChildClick(item)}
               >
                 <div
@@ -103,14 +103,14 @@ export default function FilterType({
           </div>
           <div className="flex gap-2 text-sm">
             <button
-              className="flex items-center justify-center gap-1 bg-lightgray px-6 h-12 rounded-xl"
+              className="flex items-center justify-center h-12 gap-1 px-6 bg-lightgray rounded-xl"
               onClick={() => handleResetBtn()}
             >
               <img src={icn_reset} />
               재설정
             </button>
             <button
-              className="h-12 rounded-xl bg-violet300 text-white text-center flex-1"
+              className="flex-1 h-12 text-center text-white rounded-xl bg-violet300"
               onClick={() => handleSave()}
             >
               확인
