@@ -9,14 +9,14 @@ import "./App.css";
 import PhotographersHome from "./pages/PhotographersHome/PhotographersHome";
 function App() {
   return (
-    <div className="text-black App select-none">
+    <div className="text-black select-none App">
       <Routes>
         <Route path="/" element={<MainHome />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
         <Route path="/events" element={<EventHome />} />
         <Route path="/photographers" element={<PhotographersHome />} />
-        <Route path="/event" element={<EventDetail />} />
+        <Route path="/event/:id" element={<EventDetail />} />
         <Route path="/auth" element={<Auth />} />
       </Routes>
     </div>

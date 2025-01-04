@@ -1,10 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import icn_back from "../../assets/svgs/icn_back.svg";
-import icn_next from "../../assets/svgs/icn_next.svg";
-import icn_back_w from "../../assets/svgs/icn_back_white.svg";
-import icn_clip from "../../assets/svgs/icn_clip_white.svg";
+import { useState } from "react";
+import icn_clip from "../../assets/svgs/icn_clip.svg";
 import icn_time from "../../assets/svgs/icn_time.svg";
 import icn_loc from "../../assets/svgs/icn_location.svg";
 import icn_insta from "../../assets/svgs/icn_instagram.svg";
@@ -12,186 +7,143 @@ import icn_insta from "../../assets/svgs/icn_instagram.svg";
 export default function EventDetail() {
   const mockdata = {
     id: 0,
-    event_name: "이벤트 이름",
-    name: "사진 업체 상호",
-    clip_count: 100,
-    images: [
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo0gWBNWbbcHj95yiemGhcE4c9lkjvJxoLQg&s",
-      "https://image.dongascience.com/Photo/2019/12/15751948028007.jpg",
-      "https://i.pinimg.com/236x/b5/35/90/b53590a25445742b56c2bffb68987e11.jpg",
-    ],
-    tags: ["서울", "개인", "올림픽공원"],
-    time: "00.00.00 - 00.00.00",
-    location: ["수원시", "화성시"],
-    address: "경기도 수원시 영통구 월드컵로 206",
+    authorId: 0,
+    type: "EVENT",
+    eventType: "FREE",
+    title: "꽃 컨셉 늦여름 촬영 이벤트",
     content:
       "콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다.",
-    insta_id: "instagramid",
-    insta_url: "https://www.instagram.com/",
+    address: {
+      sido: "경기",
+      sigungu: "성남시 분당구",
+      roadAddress: "경기 성남시 분당구 판교역로 166",
+      jibunAddress: "경기 성남시 분당구 백현동 532",
+    },
+    externalLink: "https://promotion-instagram-post",
+    startedAt: "2025-01-04",
+    endedAt: "2025-01-04",
+    photographerName: "담아사진",
+    photographerInstagramId: "dama.photo",
+    images: [
+      "https://i.pinimg.com/236x/b5/35/90/b53590a25445742b56c2bffb68987e11.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo0gWBNWbbcHj95yiemGhcE4c9lkjvJxoLQg&s",
+      "https://image.dongascience.com/Photo/2019/12/15751948028007.jpg",
+    ],
+    hashtags: ["서울", "개인", "올림픽공원"],
+    activeRegions: [
+      {
+        category: "서울",
+        name: "강남구",
+      },
+      {
+        category: "서울",
+        name: "강남구",
+      },
+    ],
   };
 
-  const navigation = useNavigate();
-
-  const scrollRef = useRef<HTMLInputElement>(null);
-  const [isPC, setIsPC] = useState(true);
   const [current, setCurrent] = useState(0);
 
-  const handleResize = () => {
-    setIsPC(window.innerWidth > 768);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const handleBack = () => {
-    if (isPC && scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -384, behavior: "smooth" });
-    }
-    setCurrent(current - 1);
-  };
-
-  const handleNext = () => {
-    if (isPC && scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 384, behavior: "smooth" });
-    }
-    setCurrent(current + 1);
-  };
-
   return (
-    <div className="w-full text-sm">
-      <div className="h-12">
-        <Header
-          main={
-            <div className="font-semibold text-white cursor-pointer">
-              {mockdata.event_name}
-            </div>
-          }
-          left={
-            <img
-              className="cursor-pointer"
-              alt="<"
-              src={icn_back_w}
-              onClick={() => {
-                navigation(-1);
-              }}
-            />
-          }
-          right={
-            <div className="flex flex-col items-center text-[0.65rem] text-white">
-              {mockdata.clip_count > 99 ? "99+" : mockdata.clip_count}
-              <img
-                className="w-[1.125rem] cursor-pointer mt-[-0.25rem]"
-                alt="clip"
-                src={icn_clip}
-              />
-            </div>
-          }
-        />
-      </div>
+    <div className="w-full">
       <div className="relative">
-        <div className="flex w-full overflow-auto bg-gray h-96" ref={scrollRef}>
+        <div className="flex w-full overflow-auto bg-lightgray h-96">
           {mockdata.images.map((image) => (
             <img
               key={image}
-              className="object-cover min-w-96 min-h-96"
+              className="object-cover min-w-full min-h-96"
               alt="event_image"
               src={image}
             />
           ))}
         </div>
-        {mockdata.images.length > 1 && (
-          <div className="absolute z-10 flex justify-center w-full bottom-4">
-            <div className="flex gap-2">
-              {mockdata.images.map((item, index) => (
-                <div
-                  className={`w-2 h-2 rounded-xl bg-black ${index !== current && "opacity-50"}`}
-                />
-              ))}
-            </div>
+        {(mockdata.eventType === "FREE" ||
+          mockdata.eventType === "DISCOUNT") && (
+          <div className="absolute z-10 px-2 py-[0.38rem] text-sm font-semibold text-center text-white rounded-lg top-4 left-4 bg-violet300">
+            {mockdata.eventType === "FREE" ? "무료" : "할인"} 이벤트
           </div>
         )}
-        {isPC && (
-          <div>
-            {current + 1 < mockdata.images.length && (
-              <div className="flex top-0 absolute items-center h-96 w-12 from-[rgba(255,255,255,0)] to-[rgba(255,255,255,0.5)] bg-gradient-to-r justify-end right-0">
-                <img
-                  className="pr-2 cursor-pointer"
-                  alt=">"
-                  src={icn_next}
-                  onClick={() => handleNext()}
-                />
-              </div>
-            )}
-            {current !== 0 && (
-              <div className="flex top-0 absolute items-center h-96 w-12 from-[rgba(255,255,255,0)] to-[rgba(255,255,255,0.5)] bg-gradient-to-l justify-start left-0">
-                <img
-                  className="pl-2 cursor-pointer"
-                  alt="<"
-                  src={icn_back}
-                  onClick={() => handleBack()}
-                />
-              </div>
-            )}
+        {mockdata.images.length > 1 && (
+          <div className="absolute z-10 right-4 bottom-3 bg-[rgb(85,85,85)] bg-opacity-80 flex items-center h-7 px-[0.88rem] text-white rounded-2xl text-xs">
+            1/{mockdata.images.length}
           </div>
         )}
       </div>
-      <div className="flex flex-col w-full gap-1 bg-gray">
-        <div className="flex flex-col w-full gap-1 p-4 bg-white">
-          <div className="text-xl font-semibold">{mockdata.event_name}</div>
-          <div>{mockdata.name}</div>
-          <div className="flex gap-1">
-            {mockdata.tags.map((tag) => (
-              <div className="px-2 py-1 select-none bg-violet100 rounded-xl">
+      <div className="flex flex-col w-full bg-lightgray">
+        <div className="flex flex-col w-full py-5 bg-white border-b-8 border-gray50">
+          <div className="px-4 text-sm font-semibold text-black04">
+            스냅, 컨셉
+          </div>
+          <div className="px-4 pb-4 text-xl font-bold ">{mockdata.title}</div>
+          <div className="flex flex-col gap-2 px-3 text-sm font-medium text-black02">
+            <div className="flex items-center gap-1">
+              <img className="p-[0.35rem]" src={icn_time} />
+              <div>
+                {mockdata.startedAt.replace(/-/g, ".")}
+                {" ~ "}
+                {mockdata.endedAt.replace(/-/g, ".")}
+              </div>
+            </div>
+            <div className="flex items-center gap-1">
+              <img className="w-6" src={icn_loc} />
+              <div className="flex w-full gap-1">
+                {mockdata.activeRegions.map((loc, index) => (
+                  <div className="flex gap-1" key={index}>
+                    <p>{loc.category}</p>
+                    <p>
+                      {loc.name}
+                      {mockdata.activeRegions.length > index + 1 && <>,</>}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center gap-1">
+              <img className="p-[0.35rem]" src={icn_insta} />
+              <div
+                className="cursor-pointer text-[#0068C3]"
+                onClick={() =>
+                  window.open(
+                    `https://www.instagram.com/${mockdata.photographerInstagramId}`
+                  )
+                }
+              >
+                {mockdata.photographerInstagramId}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col px-4 py-6 bg-white">
+          <div className="pb-3 font-bold">촬영 작가</div>
+          <div className="flex items-center gap-2 pb-6">
+            <img
+              className="w-10 h-10 rounded-full"
+              src="https://i.pinimg.com/236x/b5/35/90/b53590a25445742b56c2bffb68987e11.jpg"
+            />
+            <div>{mockdata.photographerName}</div>
+          </div>
+          <div className="pb-3 font-bold">상세 설명</div>
+          <div className="pb-5 text-sm font-medium text-black02">
+            {mockdata.content}
+          </div>
+          <div className="flex gap-2 text-sm font-medium pb-36 text-black02">
+            {mockdata.hashtags.map((tag) => (
+              <div
+                key={tag}
+                className="px-3 py-1 rounded-2xl bg-violet400 bg-opacity-15 text-violet400"
+              >
                 #{tag}
               </div>
             ))}
           </div>
         </div>
-        <div className="flex flex-col w-full gap-1 p-4 bg-white">
-          <div className="flex gap-1">
-            <img className="w-4" alt="" src={icn_time} />
-            {mockdata.time}
+        <div className="fixed bottom-0 z-20 flex items-center w-full max-w-[426px] gap-2 pt-2 px-4 pb-8 bg-white">
+          <div className="cursor-pointer flex flex-col items-center justify-center w-12 h-12 rounded-md bg-gray50 text-black03 text-[0.625rem] font-medium">
+            <img className="w-5" src={icn_clip} />
+            <div>0</div>
           </div>
-          <div className="flex gap-1">
-            <img className="w-4" alt="" src={icn_loc} />
-            {mockdata.location.map((item, index) => (
-              <div key={index}>
-                {item}
-                {mockdata.location.length > 1 &&
-                  index + 1 !== mockdata.location.length &&
-                  ", "}
-              </div>
-            ))}
-          </div>
-          <div className="ml-[1.25rem] flex justify-between">
-            {mockdata.address}
-            <div
-              className="px-2 border cursor-pointer rounded-xl"
-              onClick={() =>
-                navigator.clipboard.writeText(mockdata.address).then(() => {
-                  alert("복사되었습니다.");
-                })
-              }
-            >
-              복사
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col p-4 bg-white">
-          <div className="mb-4">{mockdata.content}</div>
-          <div className="flex gap-1 mb-1">
-            <img className="w-4" alt="" src={icn_insta} />
-            <div>@{mockdata.insta_id}</div>
-          </div>
-          <div className="mb-12 ml-5 cursor-pointer">{mockdata.insta_url}</div>
-          <div className="flex justify-center mb-8">
-            <button className="px-12 py-1 text-lg text-white rounded-md bg-violet600">
-              신청하기
-            </button>
+          <div className="flex-1 cursor-pointer rounded-[0.63rem] bg-violet300 justify-center text-white h-12 flex items-center font-semibold">
+            신청하러 가기
           </div>
         </div>
       </div>
