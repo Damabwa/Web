@@ -55,7 +55,7 @@ export default function PhotographersHome() {
         <Header
           main={
             <div className="font-semibold text-white cursor-pointer">
-              작가님을 담아봐
+              작가님을 만나봐
             </div>
           }
           left={
