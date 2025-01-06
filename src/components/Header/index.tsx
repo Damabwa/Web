@@ -6,10 +6,10 @@ interface Props {
 
 export default function Header({ main, left, right }: Props) {
   return (
-    <div className="fixed top-0 z-50 flex items-center justify-center h-12 px-4 w-full max-w-[426px] bg-violet600">
-      <div className="absolute cursor-pointer left-0">{left}</div>
+    <div className="fixed top-0 z-50 flex items-center justify-center h-12 px-4 w-full max-w-[430px] bg-violet600">
+      <div className="absolute left-0 cursor-pointer">{left}</div>
       <div>{main}</div>
-      <div className="absolute cursor-pointer right-0 ">{right}</div>
+      <div className="absolute right-0 cursor-pointer ">{right}</div>
     </div>
   );
 }

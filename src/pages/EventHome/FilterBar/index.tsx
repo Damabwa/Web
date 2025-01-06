@@ -68,7 +68,7 @@ export default function FilterBar() {
     <div className="w-full ">
       <div className="flex items-center gap-2 min-w-full h-[3.75rem] p-3 text-sm font-medium whitespace-nowrap overflow-x-scroll">
         <button
-          className="outline-none flex items-center justify-center min-w-9 h-9 mr-1 bg-gray100 rounded-3xl"
+          className="flex items-center justify-center mr-1 outline-none min-w-9 h-9 bg-gray100 rounded-3xl"
           onClick={() => handleResetFIlter()}
         >
           <img className="p-[0.37rem]" src={icn_reset} />
@@ -119,7 +119,7 @@ export default function FilterBar() {
         </button>
       </div>
       {showSelectBar && (
-        <div className="fixed bottom-0 flex items-end h-full w-full max-w-[426px]">
+        <div className="fixed bottom-0 flex items-end h-full w-full max-w-[430px]">
           <div
             className="absolute z-20 w-full h-full bg-black bg-opacity-40"
             onClick={() => setShowSelectBar(false)}

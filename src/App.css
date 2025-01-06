@@ -15,8 +15,8 @@
 ::-webkit-scrollbar-track {
   background: #f0f0f0;
 }
-@media (min-width: 426px) {
+@media (min-width: 430px) {
   .App {
-    width: 426px;
+    width: 430px;
   }
 }
