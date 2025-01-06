@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import icn_next from "../../assets/svgs/icn_imageNext.svg";
+import icn_back from "../../assets/svgs/icn_imageBack.svg";
 import icn_clip from "../../assets/svgs/icn_clip.svg";
 import icn_time from "../../assets/svgs/icn_time.svg";
 import icn_loc from "../../assets/svgs/icn_location.svg";
@@ -42,20 +44,70 @@ export default function EventDetail() {
     ],
   };
 
-  const [current, setCurrent] = useState(0);
+  const [isPC, setIsPC] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndexPC, setCurrentIndexPC] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleResize = () => {
+    setIsPC(window.innerWidth > 768);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isPC) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Number(entry.target.getAttribute("data-index"));
+            setCurrentIndex(index);
+          }
+        });
+      },
+      {
+        root: container,
+        threshold: 0.5,
+      }
+    );
+
+    const slides = container.querySelectorAll(".slide-item");
+    slides.forEach((slide) => observer.observe(slide));
+
+    return () => {
+      slides.forEach((slide) => observer.unobserve(slide));
+    };
+  }, [isPC]);
 
   return (
     <div className="w-full">
       <div className="relative">
-        <div className="flex w-full overflow-auto bg-lightgray h-96">
-          {mockdata.images.map((image) => (
-            <img
-              key={image}
-              className="object-cover min-w-full min-h-96"
-              alt="event_image"
-              src={image}
-            />
-          ))}
+        <div
+          className="overflow-x-auto overflow-y-hidden h-96 snap-x snap-mandatory"
+          ref={containerRef}
+        >
+          <div
+            className={`${isPC ? `flex transition-transform duration-500 ease-in-out translate-x-[-${currentIndexPC * 100}%]` : "flex"}`}
+          >
+            {mockdata.images.map((image, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-full slide-item snap-center"
+                data-index={index}
+              >
+                <img src={image} className="object-cover min-w-full h-96" />
+              </div>
+            ))}
+          </div>
         </div>
         {(mockdata.eventType === "FREE" ||
           mockdata.eventType === "DISCOUNT") && (
@@ -65,7 +117,28 @@ export default function EventDetail() {
         )}
         {mockdata.images.length > 1 && (
           <div className="absolute z-10 right-4 bottom-3 bg-[rgb(85,85,85)] bg-opacity-80 flex items-center h-7 px-[0.88rem] text-white rounded-2xl text-xs">
-            1/{mockdata.images.length}
+            {isPC ? currentIndexPC + 1 : currentIndex + 1}/
+            {mockdata.images.length}
+          </div>
+        )}
+        {isPC && (
+          <div className="absolute top-0 z-10 flex items-center w-full h-96">
+            <div className="relative w-full">
+              {currentIndexPC > 0 && (
+                <img
+                  className="absolute w-5 bg-white bg-opacity-50 rounded-full cursor-pointer left-2"
+                  src={icn_back}
+                  onClick={() => setCurrentIndexPC(currentIndexPC - 1)}
+                />
+              )}
+              {currentIndexPC + 1 < mockdata.images.length && (
+                <img
+                  className="absolute w-5 bg-white bg-opacity-50 rounded-full cursor-pointer right-2"
+                  src={icn_next}
+                  onClick={() => setCurrentIndexPC(currentIndexPC + 1)}
+                />
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -137,10 +210,10 @@ export default function EventDetail() {
             ))}
           </div>
         </div>
-        <div className="fixed bottom-0 z-20 flex items-center w-full max-w-[426px] gap-2 pt-2 px-4 pb-8 bg-white">
+        <div className="fixed bottom-0 z-20 flex items-center w-full max-w-[430px] gap-2 pt-2 px-4 pb-8 bg-white">
           <div className="cursor-pointer flex flex-col items-center justify-center w-12 h-12 rounded-md bg-gray50 text-black03 text-[0.625rem] font-medium">
-            <img className="w-5" src={icn_clip} />
-            <div>0</div>
+            <img className="w-5 ml-[-0.725px]" src={icn_clip} />
+            <div className="w-5 text-center">0</div>
           </div>
           <div className="flex-1 cursor-pointer rounded-[0.63rem] bg-violet300 justify-center text-white h-12 flex items-center font-semibold">
             신청하러 가기
