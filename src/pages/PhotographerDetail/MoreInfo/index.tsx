@@ -1,0 +1,35 @@
+interface Item {
+  name: string;
+  url: string;
+}
+interface Props {
+  portfolio: Item[];
+  address: string;
+  description: string;
+}
+export default function MoreInfo({ portfolio, address, description }: Props) {
+  return (
+    <div className="flex flex-col min-w-full px-4 pt-6 pb-32 font-bold bg-white gap-7">
+      <div className="flex flex-col w-full gap-2">
+        <div>포트폴리오</div>
+        <div className="flex w-full gap-2 overflow-x-scroll">
+          {portfolio.map((image, index) => (
+            <div key={index}>
+              <div className="w-[7.5rem] h-[7.5rem]">
+                <img className="object-cover w-full h-full" src={image.url} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <div>상세 주소</div>
+        <div className="text-sm font-medium text-black02">{address}</div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <div>작가님 인사말</div>
+        <div className="text-sm font-medium text-black02">{description}</div>
+      </div>
+    </div>
+  );
+}

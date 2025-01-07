@@ -7,41 +7,49 @@ import FilterBar from "./FilterBar";
 export default function PhotographersHome() {
   const mockdata = [
     {
+      id: 0,
       image: "",
       name: "담아봐작가담아봐작가담아봐작가",
       types: ["프로필"],
     },
     {
+      id: 1,
       image: "",
       name: "담아봐작가2",
       types: ["프로필", "컨셉"],
     },
     {
+      id: 2,
       image: "",
       name: "담아봐작가3",
       types: ["스냅", "프로필"],
     },
     {
+      id: 3,
       image: "",
       name: "담아봐작가4",
       types: ["스냅", "프로필"],
     },
     {
+      id: 4,
       image: "",
       name: "담아봐작가5",
       types: ["프로필"],
     },
     {
+      id: 5,
       image: "",
       name: "담아봐작가6",
       types: ["프로필", "컨셉"],
     },
     {
+      id: 6,
       image: "",
       name: "담아봐작가7",
       types: ["스냅", "프로필"],
     },
     {
+      id: 7,
       image: "",
       name: "담아봐작가8",
       types: ["스냅", "프로필"],

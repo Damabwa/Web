@@ -5,8 +5,10 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import EventHome from "./pages/EventHome";
 import EventDetail from "./pages/EventDetail";
+import PhotographersHome from "./pages/PhotographersHome";
+import PhotographerDetail from "./pages/PhotographerDetail";
 import "./App.css";
-import PhotographersHome from "./pages/PhotographersHome/PhotographersHome";
+
 function App() {
   return (
     <div className="text-black select-none App">
@@ -15,8 +17,9 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
         <Route path="/events" element={<EventHome />} />
-        <Route path="/photographers" element={<PhotographersHome />} />
         <Route path="/event/:id" element={<EventDetail />} />
+        <Route path="/photographers" element={<PhotographersHome />} />
+        <Route path="/photographer/:id" element={<PhotographerDetail />} />
         <Route path="/auth" element={<Auth />} />
       </Routes>
     </div>
