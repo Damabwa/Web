@@ -50,7 +50,7 @@ export default function EventBox() {
         onClick={() => navigateEvent()}
       >
         <span className="text-lg font-bold">Event로 담아봐!</span>
-        <div className="flex justify-between items-center text-sm">
+        <div className="flex items-center justify-between text-sm">
           <span>현재 진행 중인 사진 이벤트</span>
           <div className="flex text-xs">
             <button>전체보기</button>
@@ -66,11 +66,11 @@ export default function EventBox() {
               <div className="mb-1 text-sm font-semibold text-black">
                 {item.name}
               </div>
-              <div className="flex items-center">
-                <div className=" flex items-center justify-center w-4 h-4">
+              <div className="flex items-center pb-[0.1rem]">
+                <div className="flex items-center justify-center w-4 h-4 ">
                   <img src={icn_camera} />
                 </div>
-                <div className="flex gap-1 items-center">
+                <div className="flex gap-1">
                   {item.types.map((type, index) => (
                     <div key={index}>
                       {type}
@@ -80,7 +80,7 @@ export default function EventBox() {
                 </div>
               </div>
               <div className="flex items-center">
-                <div className=" flex items-center justify-center w-4 h-4">
+                <div className="flex items-center justify-center w-4 h-4">
                   <img src={icn_clock} />
                 </div>
                 마감까지 D-3
