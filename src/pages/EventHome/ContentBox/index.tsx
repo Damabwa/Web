@@ -32,12 +32,12 @@ export default function ContentBox({ data }: Props) {
 
   return (
     <div
-      className="flex flex-col pl-4 pt-5 pb-6 cursor-pointer"
+      className="flex flex-col pt-5 pb-6 pl-4 cursor-pointer"
       onClick={() => navigation(`/event/${data.id}`)}
     >
-      <div className="flex justify-between items-start pr-4">
+      <div className="flex items-start justify-between pr-4">
         <div className="flex flex-col">
-          <span className="text-lg font-semibold mb-1">{data.title}</span>
+          <span className="mb-1 text-lg font-semibold">{data.title}</span>
           <div className="flex items-center gap-[0.38rem] text-sm text-black02">
             <span>{data.name}</span>
             <span>|</span>
@@ -47,7 +47,7 @@ export default function ContentBox({ data }: Props) {
           </div>
         </div>
         <div className="flex items-center cursor-pointer">
-          <span className="w-6 text-end text-xs text-black03">{clipCount}</span>
+          <span className="w-6 text-xs text-end text-black03">{clipCount}</span>
           <img
             alt="clip"
             src={isClipped ? icn_clipOn : icn_clipOff}
@@ -55,7 +55,7 @@ export default function ContentBox({ data }: Props) {
           />
         </div>
       </div>
-      <div className="flex w-full gap-3 pr-4 overflow-x-auto py-3">
+      <div className="flex w-full gap-3 py-3 pr-4 overflow-x-auto">
         {data.images.map((image, index) => (
           <div key={index} className="gap-[0.62rem]">
             <div className="w-[7.5rem] h-[7.5rem] rounded-lg bg-lightgray">
@@ -65,11 +65,11 @@ export default function ContentBox({ data }: Props) {
         ))}
       </div>
       <div className="flex flex-col gap-1 text-xs text-black03">
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <img src={icn_time} />
           <span>{getDDay()}</span>
         </div>
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <img src={icn_location} />
           {data.location.map((loc, index) => (
             <div key={index} className="gap-[0.62rem]">

@@ -76,7 +76,7 @@ export default function FilterType({
             onClick={() => handleChildClick(item.name)}
             className="flex justify-between w-full py-4 font-medium border-t cursor-pointer border-gray100"
           >
-            <span>{item.name}</span>
+            <span>{item.full}</span>
             {(item.name === order || item.name === state) && (
               <img className="px-2" alt="✓" src={icn_check} />
             )}

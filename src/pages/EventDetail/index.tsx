@@ -144,7 +144,7 @@ export default function EventDetail() {
       </div>
       <div className="flex flex-col w-full bg-lightgray">
         <div className="flex flex-col w-full py-5 bg-white border-b-8 border-gray50">
-          <div className="px-4 text-sm font-semibold text-black04">
+          <div className="px-4 text-sm font-semibold text-black04 pb-[2px]">
             스냅, 컨셉
           </div>
           <div className="px-4 pb-4 text-xl font-bold ">{mockdata.title}</div>
@@ -171,19 +171,21 @@ export default function EventDetail() {
                 ))}
               </div>
             </div>
-            <div className="flex items-center gap-1">
-              <img className="p-[0.35rem]" src={icn_insta} />
-              <div
-                className="cursor-pointer text-[#0068C3]"
-                onClick={() =>
-                  window.open(
-                    `https://www.instagram.com/${mockdata.photographerInstagramId}`
-                  )
-                }
-              >
-                {mockdata.photographerInstagramId}
+            {mockdata.photographerInstagramId && (
+              <div className="flex items-center gap-1">
+                <img className="p-[0.35rem]" src={icn_insta} />
+                <div
+                  className="cursor-pointer text-[#0068C3]"
+                  onClick={() =>
+                    window.open(
+                      `https://www.instagram.com/${mockdata.photographerInstagramId}`
+                    )
+                  }
+                >
+                  {mockdata.photographerInstagramId}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         <div className="flex flex-col px-4 py-6 bg-white">
