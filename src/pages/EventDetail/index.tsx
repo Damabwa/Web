@@ -5,6 +5,7 @@ import icn_clip from "../../assets/svgs/icn_clip.svg";
 import icn_time from "../../assets/svgs/icn_time.svg";
 import icn_loc from "../../assets/svgs/icn_location.svg";
 import icn_insta from "../../assets/svgs/icn_instagram.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function EventDetail() {
   const mockdata = {
@@ -43,6 +44,8 @@ export default function EventDetail() {
       },
     ],
   };
+
+  const navigation = useNavigate();
 
   const [isPC, setIsPC] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -192,10 +195,16 @@ export default function EventDetail() {
           <div className="pb-3 font-bold">촬영 작가</div>
           <div className="flex items-center gap-2 pb-6">
             <img
-              className="w-10 h-10 rounded-full"
+              className="w-10 h-10 rounded-full cursor-pointer"
               src="https://i.pinimg.com/236x/b5/35/90/b53590a25445742b56c2bffb68987e11.jpg"
+              onClick={() => navigation(`/photographer/0`)}
             />
-            <div>{mockdata.photographerName}</div>
+            <div
+              className="cursor-pointer"
+              onClick={() => navigation(`/photographer/0`)}
+            >
+              {mockdata.photographerName}
+            </div>
           </div>
           <div className="pb-3 font-bold">상세 설명</div>
           <div className="pb-5 text-sm font-medium text-black02">
