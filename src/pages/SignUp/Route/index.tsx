@@ -67,7 +67,7 @@ export default function Route({ setNextFunc }: Props) {
         ))}
       </div>
       <button
-        className={`absolute bottom-0 w-full py-3 mb-4 text-white outline-none rounded-xl font-semibold ${isValid ? "bg-violet400" : "bg-buttonfalse"}`}
+        className={`absolute bottom-0 w-full h-[3.25rem] mb-4 text-white outline-none rounded-xl font-semibold ${isValid ? "bg-violet400" : "bg-buttonfalse"}`}
         onClick={() => {
           if (isValid) setNextFunc();
         }}

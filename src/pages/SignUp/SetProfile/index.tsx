@@ -97,12 +97,12 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
           </div>
           <div className="flex items-center w-full gap-2">
             <input
-              className="flex-1 px-4 py-3 border-none outline-none rounded-xl bg-lightgray"
+              className="flex-1 h-12 px-4 border-none outline-none rounded-xl bg-lightgray"
               placeholder={`${role === "user" ? "닉네임" : "상호/활동명"}을 입력해주세요.`}
               onChange={handleNameInput}
             />
             <button
-              className={`px-4 py-3 font-semibold ${isValidName ? "bg-violet300 text-white" : "cursor-default text-textgray border"} rounded-xl  whitespace-nowrap`}
+              className={`px-4 h-12 font-semibold outline-none ${isValidName && isDuplicated !== "false" ? "bg-violet300 text-white" : "cursor-default text-textgray border"} rounded-xl  whitespace-nowrap`}
               onClick={() => checkIsDuplicated()}
             >
               중복 확인
@@ -129,13 +129,13 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
           </div>
           <div className="flex items-center w-full gap-2">
             <button
-              className={`flex-1 py-3 rounded-xl border font-semibold ${gender === "male" ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "bg-lightgray border-lightgray"}`}
+              className={`flex-1 h-12 rounded-xl border font-semibold ${gender === "male" ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "bg-lightgray border-lightgray"}`}
               onClick={() => setGender("male")}
             >
               남성
             </button>
             <button
-              className={`flex-1 py-3 rounded-xl border font-semibold ${gender === "female" ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "bg-lightgray border-lightgray"}`}
+              className={`flex-1 h-12 rounded-xl border font-semibold ${gender === "female" ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "bg-lightgray border-lightgray"}`}
               onClick={() => setGender("female")}
             >
               여성
@@ -152,7 +152,7 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
           <div className="flex items-center w-full">
             <div className="py-3 pl-4 pr-1 bg-lightgray rounded-l-xl">@</div>
             <input
-              className="flex-1 py-3 pr-4 border-none outline-none rounded-r-xl bg-lightgray"
+              className="flex-1 h-12 pr-4 border-none outline-none rounded-r-xl bg-lightgray"
               placeholder="인스타그램 ID를 입력해주세요."
               onChange={handleIdInput}
               value={instagramId}
@@ -161,7 +161,7 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
         </div>
       </div>
       <button
-        className={`absolute bottom-0 w-full py-3 mb-4 text-white outline-none rounded-xl font-semibold ${isValid ? "bg-violet400" : "bg-buttonfalse"}`}
+        className={`absolute bottom-0 w-full h-[3.25rem] mb-4 text-white outline-none rounded-xl font-semibold ${isValid ? "bg-violet400" : "bg-buttonfalse"}`}
         onClick={() => handleNextBtn()}
       >
         다음
