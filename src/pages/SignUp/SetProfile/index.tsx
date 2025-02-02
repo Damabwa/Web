@@ -150,7 +150,9 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
             <span>인스타그램 ID</span>
           </div>
           <div className="flex items-center w-full">
-            <div className="py-3 pl-4 pr-1 bg-lightgray rounded-l-xl">@</div>
+            <div className="flex items-center pl-4 pr-1 h-12 bg-lightgray rounded-l-[0.63rem]">
+              <p>@</p>
+            </div>
             <input
               className="flex-1 h-12 pr-4 border-none outline-none rounded-r-xl bg-lightgray"
               placeholder="인스타그램 ID를 입력해주세요."
@@ -161,7 +163,7 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
         </div>
       </div>
       <button
-        className={`absolute bottom-0 w-full h-[3.25rem] mb-4 text-white outline-none rounded-xl font-semibold ${isValid ? "bg-violet400" : "bg-buttonfalse"}`}
+        className={`absolute bottom-0 w-full h-[3.25rem] mb-4 text-white outline-none rounded-xl font-semibold ${isValid ? "bg-violet400" : "bg-buttonfalse cursor-default"}`}
         onClick={() => handleNextBtn()}
       >
         다음
