@@ -1,3 +1,6 @@
+import { useState } from "react";
+import EnlargeImage from "./EnlargeImage";
+
 interface Item {
   name: string;
   url: string;
@@ -8,6 +11,17 @@ interface Props {
   description: string;
 }
 export default function MoreInfo({ portfolio, address, description }: Props) {
+  const [selectedImage, setSelectedImage] = useState("");
+
+  if (selectedImage)
+    return (
+      <div className="absolute top-0 left-0 w-full h-screen">
+        <EnlargeImage
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+        />
+      </div>
+    );
   return (
     <div className="flex flex-col min-w-full px-4 pt-6 pb-32 font-bold bg-white gap-7">
       <div className="flex flex-col w-full gap-2">
@@ -16,7 +30,11 @@ export default function MoreInfo({ portfolio, address, description }: Props) {
           {portfolio.map((image, index) => (
             <div key={index}>
               <div className="w-[7.5rem] h-[7.5rem]">
-                <img className="object-cover w-full h-full" src={image.url} />
+                <img
+                  className="object-cover w-full h-full cursor-pointer"
+                  onClick={() => setSelectedImage(image.url)}
+                  src={image.url}
+                />
               </div>
             </div>
           ))}

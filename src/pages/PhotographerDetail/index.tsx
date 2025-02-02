@@ -73,7 +73,7 @@ export default function PhotographerDetail() {
   };
 
   return (
-    <div className="w-full">
+    <div className="relative w-full">
       <div className="w-full h-40 bg-violet400" />
       <PhotographerInfo
         profileImage={mockdata.profileImage.url}
