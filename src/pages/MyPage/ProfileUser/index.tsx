@@ -1,4 +1,4 @@
-export default function Profile() {
+export default function ProfileUser() {
   const mockdata = {
     image:
       "https://mblogthumb-phinf.pstatic.net/MjAyNDA4MzBfMTQy/MDAxNzI0OTk1NjM4OTQ5.t5XZIoRPnTy61YVa7afLlac6kgF8RMY3fOPzEvLHI88g.PXk4LOpx-RsO2dia9jNsI1OaUCc2iEtZRAa_6EiWSokg.PNG/%EC%95%84%EC%9D%B4%ED%8C%A8%EB%93%9C.png?type=w800",
