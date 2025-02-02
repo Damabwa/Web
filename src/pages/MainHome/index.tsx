@@ -19,7 +19,13 @@ function MainHome() {
             />
           }
           left={null}
-          right={<img className="px-2" src={icn_mypage} />}
+          right={
+            <img
+              className="px-2"
+              src={icn_mypage}
+              onClick={() => navigation(`/mypage`)}
+            />
+          }
         />
       </div>
       <div className="flex flex-col w-full">

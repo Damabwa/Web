@@ -80,6 +80,7 @@ module.exports = {
       gray: "#E0E0E0",
       gray50: "#F3F5F7",
       gray100: "#ECEDEF",
+      gray900: "#222",
       lightgray: "#F3F5F7",
       textgray: "#555",
       buttonfalse: "#A7A8AA",

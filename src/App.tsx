@@ -3,6 +3,7 @@ import Auth from "./auth";
 import MainHome from "./pages/MainHome";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import MyPage from "./pages/MyPage";
 import EventHome from "./pages/EventHome";
 import EventDetail from "./pages/EventDetail";
 import PhotographersHome from "./pages/PhotographersHome";
@@ -14,8 +15,9 @@ function App() {
     <div className="text-black select-none App">
       <Routes>
         <Route path="/" element={<MainHome />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="/events" element={<EventHome />} />
         <Route path="/event/:id" element={<EventDetail />} />
         <Route path="/photographers" element={<PhotographersHome />} />
