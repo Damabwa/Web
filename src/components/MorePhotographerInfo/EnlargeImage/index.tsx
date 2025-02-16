@@ -1,4 +1,4 @@
-import icn_close from "../../../../assets/svgs/icn_close_white.svg";
+import icn_close from "../../../assets/svgs/icn_close_white.svg";
 
 interface Props {
   selectedImage: string;

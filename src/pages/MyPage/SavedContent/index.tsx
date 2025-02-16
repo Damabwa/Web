@@ -1,6 +1,6 @@
 export default function SavedContent() {
   return (
-    <div className="flex py-6 border cursor-pointer rounded-xl border-gray100">
+    <div className="flex px-4 py-6 border cursor-pointer rounded-xl border-gray100">
       <div className="flex flex-col items-center justify-center w-1/2 gap-1 text-sm font-medium">
         <div>저장한 이벤트</div>
         <div>1</div>

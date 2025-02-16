@@ -1,5 +1,5 @@
-import PhotographerInfo from "./PhotographerInfo";
-import MoreInfo from "./MoreInfo";
+import PhotographerInfo from "../../components/PhotographerInfo";
+import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 
 export default function PhotographerDetail() {
   const mockdata = {
@@ -73,16 +73,17 @@ export default function PhotographerDetail() {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full mb-24">
       <div className="w-full h-40 bg-violet400" />
       <PhotographerInfo
+        isMypage={false}
         profileImage={mockdata.profileImage.url}
         nickname={mockdata.nickname}
         activeRegions={mockdata.activeRegions}
         instagramId={mockdata.instagramId}
         contactLink={mockdata.contactLink}
       />
-      <MoreInfo
+      <MorePhotographerInfo
         portfolio={mockdata.portfolio}
         address={mockdata.address.roadAddress}
         description={mockdata.description}

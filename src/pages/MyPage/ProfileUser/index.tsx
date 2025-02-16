@@ -10,7 +10,7 @@ export default function ProfileUser() {
   const navigation = useNavigate();
 
   return (
-    <div className="flex flex-col gap-6 pt-7">
+    <div className="flex flex-col gap-6 px-4 pt-7">
       <div className="flex items-center gap-4">
         <img
           className="object-cover w-[5.8125rem] h-[5.8125rem] rounded-full border-2 border-lineRegular"

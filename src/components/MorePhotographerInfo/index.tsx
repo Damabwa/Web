@@ -10,7 +10,11 @@ interface Props {
   address: string;
   description: string;
 }
-export default function MoreInfo({ portfolio, address, description }: Props) {
+export default function MorePhotographerInfo({
+  portfolio,
+  address,
+  description,
+}: Props) {
   const [selectedImage, setSelectedImage] = useState("");
 
   if (selectedImage)
@@ -23,7 +27,7 @@ export default function MoreInfo({ portfolio, address, description }: Props) {
       </div>
     );
   return (
-    <div className="flex flex-col min-w-full px-4 pt-6 pb-32 font-bold bg-white gap-7">
+    <div className="flex flex-col min-w-full px-4 py-6 font-bold bg-white gap-7">
       <div className="flex flex-col w-full gap-2">
         <div>포트폴리오</div>
         <div className="flex w-full gap-2 overflow-x-scroll">
