@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import logo_damaba from "../../../assets/imgs/logo_damaba.png";
+import InputButtonBox from "../../../components/InputButtonBox";
+import InputSelctBox from "../../../components/InputSelectBox";
+import InputIDBox from "../../../components/InputIDBox";
+import ButtonActive from "../../../components/ButtonActive";
 
 interface Props {
   role: string;
@@ -94,24 +98,17 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
         회원 정보를 입력해주세요
       </div>
       <div className="flex flex-col w-full mb-12 text-sm gap-7">
-        <div className="flex flex-col w-full gap-2">
-          <div className="pb-1 font-medium">
-            <span className="text-red">*</span>
-            <span>{role === "user" ? "닉네임" : "상호/활동명"}</span>
-          </div>
-          <div className="flex items-center w-full gap-2">
-            <input
-              className="flex-1 h-12 px-4 border-none outline-none rounded-xl bg-lightgray"
-              placeholder={`${role === "user" ? "닉네임" : "상호/활동명"}을 입력해주세요.`}
-              onChange={handleNameInput}
-            />
-            <button
-              className={`px-4 h-12 font-semibold outline-none ${isValidName && isDuplicated !== "false" ? "bg-violet300 text-white" : "cursor-default text-black02 border-black03 border"} rounded-xl  whitespace-nowrap`}
-              onClick={() => checkIsDuplicated()}
-            >
-              중복 확인
-            </button>
-          </div>
+        <div className="flex flex-col gap-[0.31rem]">
+          <InputButtonBox
+            isRequired={true}
+            title={role === "user" ? "닉네임" : "상호활동명"}
+            description=""
+            placeholder={`${role === "user" ? "닉네임" : "상호/활동명"}을 입력해주세요.`}
+            onChange={handleNameInput}
+            onClick={() => checkIsDuplicated()}
+            activation={isValidName && isDuplicated !== "false"}
+            buttonTitle="중복 확인"
+          />
           <div className="flex flex-col">
             <div className="text-xs text-textgray">
               한글, 영어, 숫자 조합 {role === "user" ? "2-7자" : "15자 이내"}
@@ -127,51 +124,35 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
             )}
           </div>
         </div>
-        <div className="flex flex-col w-full gap-2">
-          <div className="pb-1 font-medium">
-            <span className="text-red">*</span> <span>성별</span>
-          </div>
-          <div className="flex items-center w-full gap-2">
-            <button
-              className={`flex-1 h-12 rounded-xl border font-semibold ${gender === "male" ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "bg-lightgray border-lightgray"}`}
-              onClick={() => setGender("male")}
-            >
-              남성
-            </button>
-            <button
-              className={`flex-1 h-12 rounded-xl border font-semibold ${gender === "female" ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "bg-lightgray border-lightgray"}`}
-              onClick={() => setGender("female")}
-            >
-              여성
-            </button>
-          </div>
+        <div className="flex flex-col gap-[0.31rem]">
+          <InputSelctBox
+            isRequired={true}
+            title="성별"
+            onClickA={() => setGender("male")}
+            onClickB={() => setGender("female")}
+            activationA={gender === "male"}
+            activationB={gender === "female"}
+            titleA="남성"
+            titleB="여성"
+          />
           <div className="text-xs text-textgray">
             더 적합한 추천 필터링을 제공합니다!
           </div>
         </div>
-        <div className="flex flex-col w-full gap-2">
-          <div className="pb-1 font-medium">
-            <span>인스타그램 ID</span>
-          </div>
-          <div className="flex items-center w-full">
-            <div className="flex items-center pl-4 pr-1 h-12 bg-lightgray rounded-l-[0.63rem]">
-              <p>@</p>
-            </div>
-            <input
-              className="flex-1 h-12 pr-4 border-none outline-none rounded-r-xl bg-lightgray"
-              placeholder="인스타그램 ID를 입력해주세요."
-              onChange={handleIdInput}
-              value={instagramId}
-            />
-          </div>
-        </div>
+        <InputIDBox
+          title="인스타그램 ID"
+          placeholder="인스타그램 ID를 입력해주세요."
+          onChange={handleIdInput}
+          value={instagramId}
+        />
       </div>
-      <button
-        className={`absolute bottom-0 w-full h-[3.25rem] mb-4 text-white outline-none rounded-xl font-semibold ${isValid ? "bg-violet400" : "bg-buttonfalse cursor-default"}`}
-        onClick={() => handleNextBtn()}
-      >
-        다음
-      </button>
+      <div className="absolute bottom-0 w-full">
+        <ButtonActive
+          activation={isValid}
+          onClick={() => handleNextBtn()}
+          text="다음"
+        />
+      </div>
     </div>
   );
 }

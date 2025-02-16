@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import logo_damaba from "../../../assets/imgs/logo_damaba.png";
 import img_complete from "../../../assets/svgs/img_completeSignup.svg";
+import ButtonActive from "../../../components/ButtonActive";
 
 interface Props {
   username: string;
@@ -70,12 +71,11 @@ export default function Complete({ username, role }: Props) {
             작가 프로필 입력하러 바로가기
           </button>
         )}
-        <button
-          className="w-full mb-4 h-[3.25rem] font-semibold text-white outline-none rounded-xl bg-violet400"
+        <ButtonActive
+          activation={true}
           onClick={() => navigation("/")}
-        >
-          홈으로 이동하기
-        </button>
+          text="홈으로 이동하기"
+        />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import logo_damaba from "../../../assets/imgs/logo_damaba.png";
+import ButtonActive from "../../../components/ButtonActive";
 
 interface Props {
   setNextFunc: () => void;
@@ -70,14 +71,15 @@ export default function Route({ setNextFunc }: Props) {
           </button>
         ))}
       </div>
-      <button
-        className={`absolute bottom-0 w-full h-[3.25rem] mb-4 text-white outline-none rounded-xl font-semibold ${isValid ? "bg-violet400" : "bg-buttonfalse"}`}
-        onClick={() => {
-          if (isValid) setNextFunc();
-        }}
-      >
-        다음
-      </button>
+      <div className="absolute bottom-0 w-full">
+        <ButtonActive
+          activation={isValid}
+          onClick={() => {
+            if (isValid) setNextFunc();
+          }}
+          text="다음"
+        />
+      </div>
     </div>
   );
 }

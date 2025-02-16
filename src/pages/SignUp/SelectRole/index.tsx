@@ -3,6 +3,7 @@ import icn_user_on from "../../../assets/svgs/icn_onboarding_model_on.svg";
 import icn_user_off from "../../../assets/svgs/icn_onboarding_model_off.svg";
 import icn_photographer_on from "../../../assets/svgs/icn_onboarding_photographer_on.svg";
 import icn_photographer_off from "../../../assets/svgs/icn_onboarding_photographer_off.svg";
+import ButtonActive from "../../../components/ButtonActive";
 
 interface Props {
   setRoleFunc: (name: string) => void;
@@ -61,12 +62,14 @@ export default function SelectRole({ setRoleFunc }: Props) {
           </div>
         </div>
       </div>
-      <button
-        className={`absolute bottom-0 w-full h-[3.25rem] mb-4 text-white outline-none rounded-xl font-semibold ${role !== "" ? "bg-violet400" : "bg-buttonfalse cursor-default"}`}
-        onClick={() => setRoleFunc(role)}
-      >
-        다음
-      </button>
+
+      <div className="absolute bottom-0 w-full">
+        <ButtonActive
+          activation={role !== ""}
+          onClick={() => setRoleFunc(role)}
+          text="다음"
+        />
+      </div>
     </div>
   );
 }
