@@ -106,7 +106,7 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
               onChange={handleNameInput}
             />
             <button
-              className={`px-4 h-12 font-semibold outline-none ${isValidName && isDuplicated !== "false" ? "bg-violet300 text-white" : "cursor-default text-textgray border"} rounded-xl  whitespace-nowrap`}
+              className={`px-4 h-12 font-semibold outline-none ${isValidName && isDuplicated !== "false" ? "bg-violet300 text-white" : "cursor-default text-black03 border-black02"} rounded-xl  whitespace-nowrap`}
               onClick={() => checkIsDuplicated()}
             >
               중복 확인
