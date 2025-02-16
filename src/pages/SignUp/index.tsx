@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import logo_damaba from "../../assets/imgs/logo_damaba.png";
 import SelectRole from "./SelectRole";
 import SetProfile from "./SetProfile";
 import Route from "./Route";
@@ -35,10 +33,7 @@ export default function SignUp() {
 
   return (
     <div className="flex flex-col w-full h-full min-h-screen p-4">
-      <div className="w-full pb-7 h-fit">
-        <img className="w-28" src={logo_damaba} />
-      </div>
-      <div className="relative flex-1 w-full pt-2">
+      <div className="relative flex-1 w-full h-full">
         {step === 0 && <SelectRole setRoleFunc={setRoleFunc} />}
         {step === 1 && (
           <SetProfile
