@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import MyPage from "./pages/MyPage";
 import EditUserProfile from "./pages/EditUserProfile";
+import EditPhotographerProfile from "./pages/EditPhotographerProfile";
 import EventHome from "./pages/EventHome";
 import EventDetail from "./pages/EventDetail";
 import PhotographersHome from "./pages/PhotographersHome";
@@ -20,6 +21,10 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/edit/user" element={<EditUserProfile />} />
+        <Route
+          path="/edit/photographer"
+          element={<EditPhotographerProfile />}
+        />
         <Route path="/events" element={<EventHome />} />
         <Route path="/event/:id" element={<EventDetail />} />
         <Route path="/photographers" element={<PhotographersHome />} />

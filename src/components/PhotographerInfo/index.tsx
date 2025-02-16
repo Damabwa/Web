@@ -2,6 +2,7 @@ import icn_clip from "../../assets/svgs/icn_clip.svg";
 import icn_web from "../../assets/svgs/icn_web.svg";
 import icn_loc from "../../assets/svgs/icn_location.svg";
 import icn_insta from "../../assets/svgs/icn_instagram.svg";
+import { useNavigate } from "react-router-dom";
 
 interface Item {
   category: string;
@@ -25,6 +26,8 @@ export default function PhotographerInfo({
   instagramId,
   contactLink,
 }: Props) {
+  const navigation = useNavigate();
+
   return (
     <div className="relative w-full bg-white border-b-8 border-gray50 pt-[4.25rem] px-4 pb-5">
       <div className="absolute top-[-3rem] left-0 flex items-end justify-between w-full px-4">
@@ -78,7 +81,10 @@ export default function PhotographerInfo({
       </div>
       {isMypage && (
         <div className="flex items-center w-full gap-2 mt-4">
-          <button className="flex-1 h-10 text-sm font-medium text-white rounded-md outline-none bg-violet300">
+          <button
+            className="flex-1 h-10 text-sm font-medium text-white rounded-md outline-none bg-violet300"
+            onClick={() => navigation(`/edit/photographer`)}
+          >
             프로필 수정
           </button>
           <button className="flex-1 h-10 text-sm font-medium text-white rounded-md outline-none bg-violet300">

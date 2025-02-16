@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import icn_close from "../../../../assets/svgs/icn_closeRegion.svg";
+import icn_close from "../../../assets/svgs/icn_closeRegion.svg";
 
 interface Props {
   locs: string[];
