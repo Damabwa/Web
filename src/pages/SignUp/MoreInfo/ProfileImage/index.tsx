@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import icn_profile from "../../../../assets/svgs/icn_profile.svg";
 import icn_camera from "../../../../assets/svgs/icn_profile_camera.svg";
+import logo_damaba from "../../../assets/imgs/logo_damaba.png";
 
 interface Props {
   photo: any;

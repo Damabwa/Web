@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import logo_damaba from "../../../assets/imgs/logo_damaba.png";
 
 interface Props {
   role: string;
@@ -86,6 +87,9 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
 
   return (
     <div className="flex flex-col w-full ">
+      <div className="w-full pb-7 h-fit">
+        <img className="w-28" src={logo_damaba} />
+      </div>
       <div className="w-full pb-8 text-xl font-bold">
         회원 정보를 입력해주세요
       </div>

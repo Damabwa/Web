@@ -33,7 +33,7 @@ export default function SignUp() {
 
   return (
     <div className="flex flex-col w-full h-full min-h-screen p-4">
-      <div className="relative flex-1 w-full h-full">
+      <div className="relative flex flex-1 w-full h-full">
         {step === 0 && <SelectRole setRoleFunc={setRoleFunc} />}
         {step === 1 && (
           <SetProfile
@@ -51,7 +51,7 @@ export default function SignUp() {
         )}
         {((step === 3 && userinfo.role === "user") ||
           (step === 4 && userinfo.role === "photographer")) && (
-          <Complete username={userinfo.username} />
+          <Complete username={userinfo.username} role={userinfo.role} />
         )}
       </div>
     </div>

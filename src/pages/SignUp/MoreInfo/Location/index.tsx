@@ -47,7 +47,7 @@ export default function Location({ locs, setLocs }: Props) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="text-sm font-medium ">
+      <div className="text-sm font-medium">
         <span className="text-red">*</span>
         <span>활동 지역</span>
         <span className="pl-1 text-xs text-textgray">
@@ -71,7 +71,7 @@ export default function Location({ locs, setLocs }: Props) {
         </div>
       )}
       {regions.length > 0 && (
-        <div className="grid gap-4 grid-cols-4 bg-[#E8EBEF] p-4 rounded-xl text-sm">
+        <div className="grid gap-4 grid-cols-4 bg-[#E8EBEF] p-4 rounded-xl text-sm font-medium">
           {regions.map((item: any, index) => (
             <button
               className={`py-[0.6rem] rounded-lg border outline-none ${locs.includes(item) ? "text-violet400 border-violet400 bg-[#EAE0F6]" : " border-white bg-white"}`}
