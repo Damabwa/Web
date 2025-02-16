@@ -140,7 +140,7 @@ export default function EditUserProfile() {
                 value={username}
               />
               <button
-                className={`px-4 h-12 font-semibold outline-none ${isValidName && isChangedName && isDuplicated !== "false" ? "bg-violet300 text-white" : "cursor-default text-black02 border-black03"} rounded-xl  whitespace-nowrap`}
+                className={`px-4 h-12 font-semibold outline-none ${isValidName && isChangedName && isDuplicated !== "false" ? "bg-violet300 text-white" : "cursor-default text-black02 border border-black03"} rounded-xl  whitespace-nowrap`}
                 onClick={() => checkIsDuplicated()}
               >
                 중복 확인
