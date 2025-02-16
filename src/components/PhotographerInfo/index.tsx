@@ -87,7 +87,10 @@ export default function PhotographerInfo({
           >
             프로필 수정
           </button>
-          <button className="flex-1 h-10 text-sm font-medium text-white rounded-md outline-none bg-violet300">
+          <button
+            className="flex-1 h-10 text-sm font-medium text-white rounded-md outline-none bg-violet300"
+            onClick={() => navigation(`/edit/photographer/detail`)}
+          >
             작가 페이지 수정
           </button>
         </div>

@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import icn_back from "../../assets/svgs/icn_back.svg";
-import icn_camera from "../../assets/svgs/icn_profile_camera.svg";
+import icn_camera from "../../assets/svgs/icn_profile_camera_white.svg";
 import icn_profile from "../../assets/svgs/icn_profile.svg";
 
 export default function EditUserProfile() {

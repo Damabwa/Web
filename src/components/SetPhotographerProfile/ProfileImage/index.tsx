@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import icn_profile from "../../../assets/svgs/icn_profile.svg";
-import icn_camera from "../../../assets/svgs/icn_profile_camera.svg";
+import icn_camera from "../../../assets/svgs/icn_profile_camera_white.svg";
 
 interface Props {
   photo: any;
