@@ -125,7 +125,7 @@ export default function EditUserProfile() {
             프로필 사진 삭제하기
           </div>
         </div>
-        <div className="flex flex-col w-full mb-12 text-sm gap-7">
+        <div className="flex flex-col w-full gap-8 mb-12 text-sm">
           <div className="flex flex-col">
             <InputButtonBox
               isRequired={false}
