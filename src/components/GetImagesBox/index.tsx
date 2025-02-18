@@ -7,6 +7,8 @@ interface Props {
   title: string;
   description: string;
   maxLength: number;
+  images: string[];
+  setImages: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export default function GetImagesBox({
@@ -14,12 +16,14 @@ export default function GetImagesBox({
   title,
   description,
   maxLength,
+  images,
+  setImages,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [photos, setPhotos] = useState<string[]>([]);
 
   const handleImageClick = () => {
-    if (photos.length === 10) return;
+    if (images.length === 10) return;
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -30,7 +34,7 @@ export default function GetImagesBox({
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPhotos((prevItem) => [reader.result as string, ...prevItem]);
+        setImages((prevItem) => [reader.result as string, ...prevItem]);
       };
       reader.readAsDataURL(file);
     }
@@ -65,18 +69,19 @@ export default function GetImagesBox({
             >
               <img className="w-[1.8125rem] h-[1.8125rem]" src={icn_camera} />
               <div className="">
-                {photos.length}/{maxLength}
+                {images.length}/{maxLength}
               </div>
             </div>
-            {photos.map((item, index) => (
+            {images.map((item, index) => (
               <div
-                className={`relative min-w-fit ${index === photos.length - 1 && "mr-6"}`}
+                key={item}
+                className={`relative min-w-fit ${index === images.length - 1 && "mr-6"}`}
               >
                 <img
                   className="absolute right-[-0.75rem] top-[-0.75rem] cursor-pointer z-50"
                   src={icn_delete}
                   onClick={() =>
-                    setPhotos((prev) => prev.filter((photo) => photo !== item))
+                    setImages((prev) => prev.filter((image) => image !== item))
                   }
                 />
                 <img

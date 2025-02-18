@@ -1,37 +1,64 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputBox from "../../components/InputBox";
 import SubHeader from "../../components/SubHeader";
 import GetImagesBox from "../../components/GetImagesBox";
+import Types from "../../components/Types";
+import Location from "../../components/Location";
+import EventType from "./EventType";
+import Keywords from "./Keywords";
+import InputLongformBox from "../../components/InputLongformBox/tndex";
+import ButtonActive from "../../components/ButtonActive";
+import { useNavigate } from "react-router-dom";
+
+interface Item {
+  id: number;
+  name: string;
+  isSelected: boolean;
+}
 
 export default function NewEvent() {
+  const navigation = useNavigate();
+
   const [title, setTitle] = useState("");
-  const [name, setName] = useState("");
-  const [types, setTypes] = useState([""]);
-  const [locs, setLocs] = useState([""]);
+  const [tradename, setTradename] = useState("");
+  const [types, setTypes] = useState<Item[]>([]);
+  const [locs, setLocs] = useState<string[]>([]);
   const [eventType, setEventType] = useState("");
   const [url, setUrl] = useState("");
-  const [images, setImages] = useState([""]);
-  const [keywords, setKeywords] = useState([""]);
+  const [images, setImages] = useState<string[]>([]);
+  const [keywords, setKeywords] = useState<string[]>([]);
   const [detail, setDetail] = useState("");
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    let count = 0;
+    types.map((item) => {
+      if (item.isSelected) count += 1;
+    });
+    setIsValid(
+      title.length *
+        tradename.length *
+        count *
+        locs.length *
+        eventType.length *
+        url.length *
+        images.length *
+        keywords.length *
+        detail.length >
+        0
+    );
+  }, [title, tradename, types, locs, eventType, url, images, keywords, detail]);
 
   const handleTitleInput = (e: any) => {
     setTitle(e.target.value);
   };
 
   const handleNameInput = (e: any) => {
-    setName(e.target.value);
-  };
-
-  const handleEventTypeInput = (e: any) => {
-    setName(e.target.value);
+    setTradename(e.target.value);
   };
 
   const handleUrlInput = (e: any) => {
-    setName(e.target.value);
-  };
-
-  const handleDetailInput = (e: any) => {
-    setName(e.target.value);
+    setUrl(e.target.value);
   };
 
   return (
@@ -58,6 +85,9 @@ export default function NewEvent() {
           onChange={handleNameInput}
           bottomText=""
         />
+        <Types types={types} setTypes={setTypes} maxNum={2} />
+        <Location locs={locs} setLocs={setLocs} maxNum={3} />
+        <EventType eventType={eventType} setEventType={setEventType} />
         <InputBox
           isRequired={true}
           title="이벤트 게시물 링크"
@@ -73,6 +103,27 @@ export default function NewEvent() {
           title="배너 사진"
           description="첫 번째 사진이 메인에 보이는 사진입니다"
           maxLength={10}
+          images={images}
+          setImages={setImages}
+        />
+      </div>
+      <div className="flex flex-col gap-10 px-4 mb-12">
+        <Keywords keywords={keywords} setKeywords={setKeywords} />
+        <InputLongformBox
+          isRequired={true}
+          title="상세 소개"
+          minHeight="10.5rem"
+          maxLength={500}
+          setValue={setDetail}
+        />
+      </div>
+      <div className="px-4 pb-4">
+        <ButtonActive
+          activation={isValid}
+          onClick={() => {
+            navigation(`/events`);
+          }}
+          text="등록"
         />
       </div>
     </div>

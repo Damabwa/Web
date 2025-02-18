@@ -11,6 +11,7 @@ import InputLongformBox from "../../components/InputLongformBox/tndex";
 export default function EditPhotographerPage() {
   const navigation = useNavigate();
 
+  const [images, setImages] = useState<string[]>([]);
   const [address, setAddress] = useState("");
   const [instagramId, setInstagramId] = useState("");
   const [url, setUrl] = useState("");
@@ -63,9 +64,11 @@ export default function EditPhotographerPage() {
             title="포트폴리오"
             description=""
             maxLength={10}
+            images={images}
+            setImages={setImages}
           />
         </div>
-        <div className="flex flex-col gap-8 px-4">
+        <div className="flex flex-col gap-8 px-4 mb-9">
           <InputButtonBox
             isRequired={false}
             title="상세 주소"
