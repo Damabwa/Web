@@ -1,9 +1,9 @@
 import { useState } from "react";
-import SetPhotopgrapherProfile from "../../components/SetPhotographerProfile";
 import SelectRole from "./SelectRole";
 import SetProfile from "./SetProfile";
 import Route from "./Route";
 import Complete from "./Complete";
+import MoreInfo from "./MoreInfo";
 
 export default function SignUp() {
   const [step, setStep] = useState(0);
@@ -43,7 +43,7 @@ export default function SignUp() {
           />
         )}
         {step === 2 && userinfo.role === "photographer" && (
-          <SetPhotopgrapherProfile isEdit={false} onClickFunc={setNextFunc} />
+          <MoreInfo onClickFunc={setNextFunc} />
         )}
         {((step === 2 && userinfo.role === "user") ||
           (step === 3 && userinfo.role === "photographer")) && (

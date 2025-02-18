@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import icn_close from "../../../assets/svgs/icn_closeRegion.svg";
+import icn_close from "../../assets/svgs/icn_closeRegion.svg";
 
 interface Props {
   locs: string[];
@@ -58,7 +58,7 @@ export default function Location({ locs, setLocs }: Props) {
         <div className="grid grid-cols-5 mb-2">
           {locList.map((item: any, index) => (
             <button
-              className={`py-2 mx-1 text-sm font-semibold border rounded-3xl ${selectedIndex === index ? "border-black" : "border-white"}`}
+              className={`py-2 mx-1 text-sm font-medium border rounded-3xl ${selectedIndex === index ? "border-black" : "border-white"}`}
               key={item.category}
               onClick={() => {
                 setSelectedIndex(index);
