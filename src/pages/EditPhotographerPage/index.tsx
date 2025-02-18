@@ -7,6 +7,7 @@ import InputButtonBox from "../../components/InputButtonBox";
 import ButtonActive from "../../components/ButtonActive";
 import GetImagesBox from "../../components/GetImagesBox";
 import InputLongformBox from "../../components/InputLongformBox/tndex";
+import ModalComfirm from "../../components/ModalComfirm";
 
 export default function EditPhotographerPage() {
   const navigation = useNavigate();
@@ -22,6 +23,8 @@ export default function EditPhotographerPage() {
   const [isChangedInstaId, setIsChangedInstaId] = useState(false);
   const [isValidName, setIsValidName] = useState(true);
   const [isDuplicated, setIsDuplicated] = useState("");
+
+  const [showImageModal, setShowImageModal] = useState(false);
 
   // useEffect(() => {
   //   checkValidFunc();
@@ -66,6 +69,7 @@ export default function EditPhotographerPage() {
             maxLength={10}
             images={images}
             setImages={setImages}
+            setShowModal={setShowImageModal}
           />
         </div>
         <div className="flex flex-col gap-8 px-4 mb-9">
@@ -113,6 +117,13 @@ export default function EditPhotographerPage() {
           text="등록"
         />
       </div>
+
+      {showImageModal && (
+        <ModalComfirm
+          content={["포트폴리오 이미지는", "최대 10장까지 첨부할 수 있어요"]}
+          setShowModal={setShowImageModal}
+        />
+      )}
     </div>
   );
 }

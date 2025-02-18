@@ -9,6 +9,7 @@ interface Props {
   maxLength: number;
   images: string[];
   setImages: React.Dispatch<React.SetStateAction<string[]>>;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function GetImagesBox({
@@ -18,12 +19,16 @@ export default function GetImagesBox({
   maxLength,
   images,
   setImages,
+  setShowModal,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [photos, setPhotos] = useState<string[]>([]);
 
   const handleImageClick = () => {
-    if (images.length === 10) return;
+    if (images.length === 10) {
+      setShowModal(true);
+      return;
+    }
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -78,7 +83,7 @@ export default function GetImagesBox({
                 className={`relative min-w-fit ${index === images.length - 1 && "mr-6"}`}
               >
                 <img
-                  className="absolute right-[-0.75rem] top-[-0.75rem] cursor-pointer z-50"
+                  className="absolute right-[-0.75rem] top-[-0.75rem] cursor-pointer"
                   src={icn_delete}
                   onClick={() =>
                     setImages((prev) => prev.filter((image) => image !== item))

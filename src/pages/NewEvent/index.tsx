@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import InputBox from "../../components/InputBox";
 import SubHeader from "../../components/SubHeader";
 import GetImagesBox from "../../components/GetImagesBox";
 import Types from "../../components/Types";
 import Location from "../../components/Location";
-import EventType from "./EventType";
-import Keywords from "./Keywords";
 import InputLongformBox from "../../components/InputLongformBox/tndex";
 import ButtonActive from "../../components/ButtonActive";
-import { useNavigate } from "react-router-dom";
+import ModalComfirm from "../../components/ModalComfirm";
+import EventType from "./EventType";
+import Keywords from "./Keywords";
 
 interface Item {
   id: number;
@@ -29,6 +30,9 @@ export default function NewEvent() {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [detail, setDetail] = useState("");
   const [isValid, setIsValid] = useState(false);
+
+  const [showKeywordModal, setShowKeywordModal] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
 
   useEffect(() => {
     let count = 0;
@@ -105,10 +109,15 @@ export default function NewEvent() {
           maxLength={10}
           images={images}
           setImages={setImages}
+          setShowModal={setShowImageModal}
         />
       </div>
       <div className="flex flex-col gap-10 px-4 mb-12">
-        <Keywords keywords={keywords} setKeywords={setKeywords} />
+        <Keywords
+          keywords={keywords}
+          setKeywords={setKeywords}
+          setShowModal={setShowKeywordModal}
+        />
         <InputLongformBox
           isRequired={true}
           title="상세 소개"
@@ -126,6 +135,18 @@ export default function NewEvent() {
           text="등록"
         />
       </div>
+      {showKeywordModal && (
+        <ModalComfirm
+          content={["대표 키워드는", "최대 3개까지 입력할 수 있어요"]}
+          setShowModal={setShowKeywordModal}
+        />
+      )}
+      {showImageModal && (
+        <ModalComfirm
+          content={["배너 사진은", "최대 10장까지 첨부할 수 있어요"]}
+          setShowModal={setShowImageModal}
+        />
+      )}
     </div>
   );
 }

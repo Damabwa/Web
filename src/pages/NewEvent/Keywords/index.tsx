@@ -4,9 +4,14 @@ import icn_delete from "../../../assets/svgs/btn_keyword_delete.svg";
 interface Props {
   keywords: string[];
   setKeywords: React.Dispatch<React.SetStateAction<string[]>>;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Keywords({ keywords, setKeywords }: Props) {
+export default function Keywords({
+  keywords,
+  setKeywords,
+  setShowModal,
+}: Props) {
   const [item, setItem] = useState("");
 
   const handleInput = (e: any) => {
@@ -14,7 +19,10 @@ export default function Keywords({ keywords, setKeywords }: Props) {
   };
 
   const addKeyword = () => {
-    if (keywords.length === 3 || item.length === 0) return;
+    if (keywords.length === 3 || item.length === 0) {
+      setShowModal(true);
+      return;
+    }
     let hasSame = false;
     keywords.map((k) => {
       if (k === item) hasSame = true;
