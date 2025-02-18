@@ -6,6 +6,7 @@ import InputIDBox from "../../components/InputIDBox";
 import InputButtonBox from "../../components/InputButtonBox";
 import ButtonActive from "../../components/ButtonActive";
 import GetImagesBox from "../../components/GetImagesBox";
+import InputLongformBox from "../../components/InputLongformBox/tndex";
 
 export default function EditPhotographerPage() {
   const navigation = useNavigate();
@@ -26,8 +27,7 @@ export default function EditPhotographerPage() {
   // }, [address, isDuplicated, instagramId]);
 
   const handleInput = (e: any) => {
-    if (e.target.id === "url") setUrl(e.target.value);
-    else if (e.target.id === "intro") setIntro(e.target.value);
+    setUrl(e.target.value);
   };
 
   const handleIdInput = (e: any) => {
@@ -92,25 +92,13 @@ export default function EditPhotographerPage() {
             onChange={handleInput}
             bottomText=""
           />
-          <div className="flex flex-col w-full gap-2 text-sm">
-            <div className="pb-1 font-medium">
-              <span className="text-red">*</span>
-              <span>작가님 소개</span>
-            </div>
-            <div className="flex flex-col w-full mb-9">
-              <textarea
-                className="flex-1 min-h-[10.5rem] p-4 border-none outline-none rounded-[0.63rem] bg-lightgray resize-none"
-                placeholder="인사말, 작가님 소개, 작업 스타일, 예약 방법, 영업 일시 등을 작성해주세요."
-                id="intro"
-                onChange={handleInput}
-                value={intro}
-                maxLength={499}
-              />
-              <div className="w-full pt-2 text-sm text-end text-black02">
-                {intro.length}/500
-              </div>
-            </div>
-          </div>
+          <InputLongformBox
+            isRequired={true}
+            title="상세 소개"
+            minHeight="10.5rem"
+            maxLength={500}
+            setValue={setIntro}
+          />
         </div>
       </div>
       <div className="px-4 pb-4">
