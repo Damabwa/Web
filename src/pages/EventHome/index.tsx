@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
+import icn_pencil from "../../assets/svgs/icn_eventhome_pencil.svg";
 import Header from "../../components/Header";
 import FilterBar from "./FilterBar";
 import ContentBox from "./ContentBox";
@@ -61,7 +62,7 @@ function EventHome() {
   const navigation = useNavigate();
 
   return (
-    <div className="w-full">
+    <div className="relative w-full">
       <div className="h-12">
         <Header
           main={
@@ -92,6 +93,15 @@ function EventHome() {
           </div>
         ))}
         <div className="w-full h-20 bg-white" />
+      </div>
+      <div className="fixed w-full max-w-[430px] bottom-0">
+        <button
+          className="outline-none absolute right-4 bottom-3 rounded-3xl bg-violet500 text-white px-4 py-[0.81rem] shadow-btn-shadow flex gap-[0.31rem] font-semibold text-[0.9375rem]"
+          onClick={() => navigation(`/new/event`)}
+        >
+          <img src={icn_pencil} />
+          <div>이벤트 게시</div>
+        </button>
       </div>
     </div>
   );
