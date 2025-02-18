@@ -30,7 +30,7 @@ export default function InputSelctBox({
   };
   return (
     <div className="flex flex-col w-full gap-2">
-      <div className="pb-1 font-medium">
+      <div className="font-medium">
         {isRequired && <span className="text-red mr-[0.12rem]">*</span>}
         <span>{title}</span>
       </div>

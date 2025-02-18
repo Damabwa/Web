@@ -17,7 +17,7 @@ export default function InputBox({
 }: Props) {
   return (
     <div className="flex flex-col w-full text-sm">
-      <div className="pb-1 font-medium mb-[0.62rem]">
+      <div className="font-medium mb-[0.62rem]">
         {isRequired && <span className="text-red mr-[0.12rem]">*</span>}
         <span>{title}</span>
         {description !== "" && (
