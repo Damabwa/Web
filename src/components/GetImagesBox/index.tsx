@@ -49,8 +49,8 @@ export default function GetImagesBox({
       </div>
       <div className="flex flex-col w-full gap-8 text-sm font-medium">
         <div className="flex flex-col w-full">
-          <div className="px-4 font-medium">
-            {isRequired && <span className="text-red">*</span>}
+          <div className="font-medium">
+            {isRequired && <span className="text-red mr-[0.12rem]">*</span>}
             <span>{title}</span>
             {description !== "" && (
               <span className="text-xs text-black03 pl-[0.38rem]">
@@ -58,9 +58,9 @@ export default function GetImagesBox({
               </span>
             )}
           </div>
-          <div className="flex gap-3 pt-3 pr-6 overflow-scroll w-fit">
+          <div className="flex gap-3 pt-3 overflow-scroll w-fit">
             <div
-              className="cursor-pointer  min-w-[4.75rem] min-h-[4.75rem] border-black04 rounded-[0.63rem] border  items-center justify-center  flex flex-col text-black03 text-xs ml-4"
+              className="cursor-pointer  min-w-[4.75rem] min-h-[4.75rem] border-black04 rounded-[0.63rem] border  items-center justify-center  flex flex-col text-black03 text-xs"
               onClick={() => handleImageClick()}
             >
               <img className="w-[1.8125rem] h-[1.8125rem]" src={icn_camera} />
@@ -68,8 +68,10 @@ export default function GetImagesBox({
                 {photos.length}/{maxLength}
               </div>
             </div>
-            {photos.map((item) => (
-              <div className="relative min-w-fit">
+            {photos.map((item, index) => (
+              <div
+                className={`relative min-w-fit ${index === photos.length - 1 && "mr-6"}`}
+              >
                 <img
                   className="absolute right-[-0.75rem] top-[-0.75rem] cursor-pointer z-50"
                   src={icn_delete}

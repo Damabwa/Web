@@ -35,7 +35,7 @@ function App() {
         <Route path="/event/:id" element={<EventDetail />} />
         <Route path="/photographers" element={<PhotographersHome />} />
         <Route path="/photographer/:id" element={<PhotographerDetail />} />
-        <Route path="/new-event" element={<NewEvent />} />
+        <Route path="/new/event" element={<NewEvent />} />
         <Route path="/auth" element={<Auth />} />
       </Routes>
     </div>
