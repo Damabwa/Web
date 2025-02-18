@@ -17,12 +17,12 @@ export default function Bottom() {
   };
 
   return (
-    <div className="flex flex-col gap-1 px-4 text-sm font-medium text-black02 mb-28">
-      <div className="flex items-center justify-between h-12 ">
+    <div className="flex flex-col gap-1 text-sm font-medium text-black02 mb-28">
+      <div className="flex items-center justify-between h-12 px-4 ">
         <div className="cursor-pointer">문의하기</div>
         <img className="cursor-pointer" src={icn_next} />
       </div>
-      <div className="flex items-center justify-between h-12">
+      <div className="flex items-center justify-between h-12 px-4 ">
         <div
           className="cursor-pointer"
           onClick={() => setShowLogoutModal(true)}
@@ -35,7 +35,7 @@ export default function Bottom() {
           src={icn_next}
         />
       </div>
-      <div className="flex items-center justify-between h-12">
+      <div className="flex items-center justify-between h-12 px-4 ">
         <div
           className="cursor-pointer"
           onClick={() => setShowWithdrawalModal(true)}
@@ -49,26 +49,25 @@ export default function Bottom() {
         />
       </div>
       {showLogoutModal && (
-        <div className="flex items-center justify-center w-full h-screen left-0  top-0 absolute bg-[#000] bg-opacity-40">
-          <ModalCheck
-            title="로그아웃 하시겠습니까?"
-            content=""
-            align="center"
-            setShowModal={setShowLogoutModal}
-            onClick={onClickLogout}
-          />
-        </div>
+        <ModalCheck
+          title="로그아웃 하시겠습니까?"
+          content={[]}
+          align="center"
+          setShowModal={setShowLogoutModal}
+          onClick={onClickLogout}
+        />
       )}
       {showWithdrawalModal && (
-        <div className="flex items-center justify-center w-full h-screen left-0  top-0 absolute bg-[#000] bg-opacity-40">
-          <ModalCheck
-            title="정말 탈퇴하시겠습니까?"
-            content="회원 탈퇴 시, 회원님의 정보와 데이터가 전부 삭제되어 복원되지 않습니다."
-            align="start"
-            setShowModal={setShowWithdrawalModal}
-            onClick={onClickWithdrawal}
-          />
-        </div>
+        <ModalCheck
+          title="정말 탈퇴하시겠습니까?"
+          content={[
+            "회원 탈퇴 시, 지금까지 저장된 정보와",
+            "데이터가 삭제되어 복원되지 않습니다.",
+          ]}
+          align="start"
+          setShowModal={setShowWithdrawalModal}
+          onClick={onClickWithdrawal}
+        />
       )}
     </div>
   );
