@@ -116,8 +116,8 @@ export default function EditPhotographerProfile() {
             </div>
           )}
         </div>
-        <Types types={types} setTypes={setTypes} />
-        <Location locs={locs} setLocs={setLocs} />
+        <Types types={types} setTypes={setTypes} maxNum={3} />
+        <Location locs={locs} setLocs={setLocs} maxNum={5} />
       </div>
       <ButtonActive
         activation={isValid}

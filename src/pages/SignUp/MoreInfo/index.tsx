@@ -44,8 +44,8 @@ export default function MoreInfo({ onClickFunc }: Props) {
       </div>
       <div className="flex flex-col gap-8 mb-20">
         <ProfileImage photo={photo} setPhoto={setPhoto} />
-        <Types types={types} setTypes={setTypes} />
-        <Location locs={locs} setLocs={setLocs} />
+        <Types types={types} setTypes={setTypes} maxNum={3} />
+        <Location locs={locs} setLocs={setLocs} maxNum={5} />
       </div>
       <ButtonActive
         activation={isValid}

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 interface Props {
   types: Item[];
   setTypes: React.Dispatch<React.SetStateAction<Item[]>>;
+  maxNum: number;
 }
 
 interface Item {
@@ -11,7 +12,7 @@ interface Item {
   isSelected: boolean;
 }
 
-export default function Types({ types, setTypes }: Props) {
+export default function Types({ types, setTypes, maxNum }: Props) {
   useEffect(() => {
     setTypes([
       {
@@ -47,7 +48,7 @@ export default function Types({ types, setTypes }: Props) {
     types.map((item) => {
       if (item.isSelected) count += 1;
     });
-    if (count === 3 && !types[id].isSelected) return;
+    if (count === maxNum && !types[id].isSelected) return;
     setTypes((prevTypes) =>
       prevTypes.map((t) =>
         t.id === id ? { ...t, isSelected: !t.isSelected } : t
@@ -61,7 +62,7 @@ export default function Types({ types, setTypes }: Props) {
         <span className="text-red mr-[0.12rem]">*</span>
         <span>촬영 종류</span>
         <span className="pl-1 text-xs text-textgray">
-          (최대 3개까지 선택 가능해요)
+          (최대 {maxNum}개까지 선택 가능해요)
         </span>
       </div>
       <div className="flex w-full gap-2">

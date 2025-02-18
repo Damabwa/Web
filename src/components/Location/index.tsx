@@ -5,6 +5,7 @@ import icn_close from "../../assets/svgs/icn_closeRegion.svg";
 interface Props {
   locs: string[];
   setLocs: React.Dispatch<React.SetStateAction<string[]>>;
+  maxNum: number;
 }
 
 interface Loc {
@@ -12,7 +13,7 @@ interface Loc {
   regions: string[];
 }
 
-export default function Location({ locs, setLocs }: Props) {
+export default function Location({ locs, setLocs, maxNum }: Props) {
   const [locList, setLocList] = useState<Loc[]>([]);
   const [regions, setRegions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -40,7 +41,7 @@ export default function Location({ locs, setLocs }: Props) {
   const handleAddRegion = (item: string) => {
     if (locs.includes(item)) setLocs(locs.filter((l) => l !== item));
     else {
-      if (locs.length >= 5) return;
+      if (locs.length >= maxNum) return;
       setLocs([...locs, item]);
     }
   };
@@ -51,7 +52,7 @@ export default function Location({ locs, setLocs }: Props) {
         <span className="text-red">*</span>
         <span>활동 지역</span>
         <span className="pl-1 text-xs text-textgray">
-          (최대 5개까지 선택 가능해요)
+          (최대 {maxNum}개까지 선택 가능해요)
         </span>
       </div>
       {locList.length > 0 && (
