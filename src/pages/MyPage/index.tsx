@@ -75,7 +75,7 @@ export default function MyPage() {
     ],
   };
 
-  let role = "user";
+  let role = "photographer";
 
   return (
     <div className="relative flex flex-col gap-4">

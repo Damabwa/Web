@@ -1,19 +1,15 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import icn_back from "../../assets/svgs/icn_back.svg";
-import icn_camera from "../../assets/svgs/icn_profile_camera.svg";
-import icn_delete from "../../assets/svgs/btn_delete_porfolio_ellipse.svg";
 import SubHeader from "../../components/SubHeader";
 import InputBox from "../../components/InputBox";
 import InputIDBox from "../../components/InputIDBox";
 import InputButtonBox from "../../components/InputButtonBox";
 import ButtonActive from "../../components/ButtonActive";
+import GetImagesBox from "../../components/GetImagesBox";
 
 export default function EditPhotographerPage() {
   const navigation = useNavigate();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [photos, setPhotos] = useState<string[]>([]);
   const [address, setAddress] = useState("");
   const [instagramId, setInstagramId] = useState("");
   const [url, setUrl] = useState("");
@@ -28,24 +24,6 @@ export default function EditPhotographerPage() {
   // useEffect(() => {
   //   checkValidFunc();
   // }, [address, isDuplicated, instagramId]);
-
-  const handleImageClick = () => {
-    if (photos.length === 10) return;
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhotos((prevItem) => [reader.result as string, ...prevItem]);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleInput = (e: any) => {
     if (e.target.id === "url") setUrl(e.target.value);
@@ -70,7 +48,7 @@ export default function EditPhotographerPage() {
   // };
 
   return (
-    <div className="relative flex flex-col justify-between min-h-screen">
+    <div className="relative flex flex-col min-h-screen">
       <div>
         <div className="px-4">
           <SubHeader title="작가 페이지 수정" />
@@ -79,52 +57,13 @@ export default function EditPhotographerPage() {
           이 페이지를 완성하시면, <br />
           '작가님을 만나봐' 페이지에 작가 소개 글이 등록됩니다!
         </div>
-        <div>
-          <div className="flex justify-center">
-            <input
-              className="hidden"
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              ref={fileInputRef}
-            />
-          </div>
-          <div className="flex flex-col w-full gap-8 mb-12 text-sm font-medium">
-            <div className="flex flex-col w-full">
-              <div className="px-4 font-medium">
-                <span className="text-red">*</span>
-                <span>포트폴리오</span>
-              </div>
-              <div className="flex gap-3 pt-3 pr-6 overflow-scroll w-fit">
-                <div
-                  className="cursor-pointer w-[4.75rem] border-black04 rounded-[0.63rem] border flex flex-col text-black03 text-xs ml-4"
-                  onClick={handleImageClick}
-                >
-                  <div className="flex flex-col px-6 py-4">
-                    <img className="w-7" src={icn_camera} />
-                    <div>{photos.length}/10</div>
-                  </div>
-                </div>
-                {photos.map((item) => (
-                  <div className="relative min-w-fit">
-                    <img
-                      className="absolute right-[-0.75rem] top-[-0.75rem] cursor-pointer z-50"
-                      src={icn_delete}
-                      onClick={() =>
-                        setPhotos((prev) =>
-                          prev.filter((photo) => photo !== item)
-                        )
-                      }
-                    />
-                    <img
-                      className="object-cover w-[4.75rem] h-[4.75rem] border-black04 rounded-[0.63rem] border"
-                      src={item}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        <div className="mb-12">
+          <GetImagesBox
+            isRequired={true}
+            title="포트폴리오"
+            description=""
+            maxLength={10}
+          />
         </div>
         <div className="flex flex-col gap-8 px-4">
           <InputButtonBox
