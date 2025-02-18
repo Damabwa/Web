@@ -80,7 +80,7 @@ export default function GetImagesBox({
                   }
                 />
                 <img
-                  className="object-cover w-[4.75rem] h-[4.75rem] border-black04 rounded-[0.63rem] border"
+                  className="object-cover w-[4.75rem] h-[4.75rem] border-lineRegular rounded-[0.63rem] border"
                   src={item}
                 />
               </div>
