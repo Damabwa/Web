@@ -98,7 +98,7 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
         회원 정보를 입력해주세요
       </div>
       <div className="flex flex-col w-full mb-12 text-sm gap-7">
-        <div className="flex flex-col gap-[0.31rem]">
+        <div className="flex flex-col">
           <InputButtonBox
             isRequired={true}
             title={role === "user" ? "닉네임" : "상호활동명"}
@@ -108,23 +108,20 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
             onClick={() => checkIsDuplicated()}
             activation={isValidName && isDuplicated !== "false"}
             buttonTitle="중복 확인"
+            bottomText={`한글, 영어, 숫자 조합 ${role === "user" ? "2-7자" : "15자 이내"}`}
+            value={username}
           />
-          <div className="flex flex-col">
-            <div className="text-xs text-textgray">
-              한글, 영어, 숫자 조합 {role === "user" ? "2-7자" : "15자 이내"}
+          {isDuplicated !== "" && (
+            <div
+              className={`text-xs ${isDuplicated === "true" ? "text-red" : "text-violet500"}`}
+            >
+              {isDuplicated === "true"
+                ? "중복된 닉네임입니다"
+                : "사용 가능한 닉네임입니다."}
             </div>
-            {isDuplicated !== "" && (
-              <div
-                className={`text-xs ${isDuplicated === "true" ? "text-red" : "text-violet500"}`}
-              >
-                {isDuplicated === "true"
-                  ? "중복된 닉네임입니다"
-                  : "사용 가능한 닉네임입니다."}
-              </div>
-            )}
-          </div>
+          )}
         </div>
-        <div className="flex flex-col gap-[0.31rem]">
+        <div className="flex flex-col gap-[0.38rem]">
           <InputSelctBox
             isRequired={true}
             title="성별"
@@ -134,14 +131,15 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
             activationB={gender === "female"}
             titleA="남성"
             titleB="여성"
+            isReadonly={false}
           />
           <div className="text-xs text-textgray">
             더 적합한 추천 필터링을 제공합니다!
           </div>
         </div>
         <InputIDBox
-          title="인스타그램 ID"
-          placeholder="인스타그램 ID를 입력해주세요."
+          title="인스타그램 아이디"
+          placeholder="인스타그램 아이디를 입력해주세요."
           onChange={handleIdInput}
           value={instagramId}
         />

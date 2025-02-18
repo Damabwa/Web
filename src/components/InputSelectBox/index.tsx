@@ -7,6 +7,7 @@ interface Props {
   activationB: boolean;
   titleA: string;
   titleB: string;
+  isReadonly: boolean;
 }
 
 export default function InputSelctBox({
@@ -18,7 +19,15 @@ export default function InputSelctBox({
   activationB,
   titleA,
   titleB,
+  isReadonly,
 }: Props) {
+  const getBtnStyle = (activation: boolean) => {
+    if (isReadonly && activation)
+      return "bg-[#767676] bg-opacity-30 border-black02 text-black02";
+    else if (activation)
+      return "bg-violet400 bg-opacity-15 border-violet400 text-violet400";
+    else return "bg-lightgray border-lightgray";
+  };
   return (
     <div className="flex flex-col w-full gap-2">
       <div className="pb-1 font-medium">
@@ -27,13 +36,13 @@ export default function InputSelctBox({
       </div>
       <div className="flex items-center w-full gap-2">
         <button
-          className={`flex-1 h-12 rounded-xl border font-semibold ${activationA ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "bg-lightgray border-lightgray"}`}
+          className={`flex-1 h-12 rounded-xl border font-semibold ${getBtnStyle(activationA)}`}
           onClick={() => onClickA()}
         >
           {titleA}
         </button>
         <button
-          className={`flex-1 h-12 rounded-xl border font-semibold ${activationB ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "bg-lightgray border-lightgray"}`}
+          className={`flex-1 h-12 rounded-xl border font-semibold ${getBtnStyle(activationB)}`}
           onClick={() => onClickB()}
         >
           {titleB}

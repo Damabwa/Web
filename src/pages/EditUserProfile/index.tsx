@@ -1,9 +1,13 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import icn_back from "../../assets/svgs/icn_back.svg";
 import icn_camera from "../../assets/svgs/icn_profile_camera_white.svg";
 import icn_profile from "../../assets/svgs/icn_profile.svg";
+import SubHeader from "../../components/SubHeader";
+import InputButtonBox from "../../components/InputButtonBox";
+import InputSelctBox from "../../components/InputSelectBox";
+import InputIDBox from "../../components/InputIDBox";
+import ButtonActive from "../../components/ButtonActive";
 
 export default function EditUserProfile() {
   const navigation = useNavigate();
@@ -11,7 +15,7 @@ export default function EditUserProfile() {
 
   const [photo, setPhoto] = useState("");
   const [username, setUsername] = useState("김송이");
-  const [instagramId, setInstagramId] = useState("");
+  const [instagramId, setInstagramId] = useState("instaid");
   let gender = "female";
 
   const [isValid, setIsValid] = useState(false);
@@ -87,15 +91,7 @@ export default function EditUserProfile() {
   return (
     <div className="relative flex flex-col justify-between min-h-screen px-4">
       <div>
-        <div className="relative flex items-center justify-center h-12 font-semibold bg-white">
-          <img
-            className="absolute left-0 w-6 h-6 cursor-pointer"
-            src={icn_back}
-            onClick={() => navigation(-1)}
-          />
-          <div>프로필 수정</div>
-          <div />
-        </div>
+        <SubHeader title="프로필 수정" />
         <div className="flex justify-center pt-[0.8rem]">
           <input
             className="hidden"
@@ -129,32 +125,30 @@ export default function EditUserProfile() {
             프로필 사진 삭제하기
           </div>
         </div>
-        <div className="flex flex-col w-full gap-8 mb-12 text-sm font-medium">
-          <div className="flex flex-col w-full gap-2">
-            <div>닉네임</div>
-            <div className="flex items-center w-full gap-2">
-              <input
-                className="flex-1 h-12 px-4 border-none outline-none rounded-[0.63rem] bg-lightgray"
-                placeholder="닉네임을 입력해주세요."
-                onChange={handleNameInput}
-                value={username}
-              />
-              <button
-                className={`px-4 h-12 font-semibold outline-none ${isValidName && isChangedName && isDuplicated !== "false" ? "bg-violet300 text-white" : "cursor-default text-black02 border border-black03"} rounded-xl  whitespace-nowrap`}
-                onClick={() => checkIsDuplicated()}
-              >
-                중복 확인
-              </button>
-            </div>
-            {username === "" && (
-              <div className="text-xs text-red">닉네임을 입력해주세요.</div>
-            )}
-            {!isValidName && username.length > 0 && (
+        <div className="flex flex-col w-full mb-12 text-sm gap-7">
+          <div className="flex flex-col">
+            <InputButtonBox
+              isRequired={false}
+              title="닉네임"
+              description=""
+              placeholder="닉네임을 입력해주세요."
+              onChange={handleNameInput}
+              onClick={() => checkIsDuplicated()}
+              activation={
+                isValidName && isChangedName && isDuplicated !== "false"
+              }
+              buttonTitle="중복 확인"
+              bottomText=""
+              value={username}
+            />
+            {isDuplicated === "" ? (
               <div className="text-xs text-red">
-                한글, 영어, 숫자 조합 2-7자만 가능해요.
+                {!isValidName &&
+                  username.length > 0 &&
+                  "한글, 영어, 숫자 조합 2-7자만 가능해요."}
+                {username.length === 0 && "닉네임을 입력해주세요."}
               </div>
-            )}
-            {isDuplicated !== "" && (
+            ) : (
               <div
                 className={`text-xs ${isDuplicated === "true" ? "text-red" : "text-violet500"}`}
               >
@@ -164,47 +158,36 @@ export default function EditUserProfile() {
               </div>
             )}
           </div>
-          <div className="flex flex-col w-full gap-2">
-            <div>성별</div>
-            <div className="flex items-center w-full gap-2">
-              <button
-                className={`cursor-default flex-1 h-12 rounded-[0.63rem] border font-semibold ${gender === "male" ? "bg-[#767676] bg-opacity-30 border-black02 text-black02" : "bg-lightgray border-lightgray"}`}
-              >
-                남성
-              </button>
-              <button
-                className={`cursor-default flex-1 h-12 rounded-[0.63rem] border font-semibold ${gender === "female" ? "bg-[#767676] bg-opacity-30 border-black02 text-black02" : "bg-lightgray border-lightgray"}`}
-              >
-                여성
-              </button>
-            </div>
+          <div className="flex flex-col gap-[0.38rem]">
+            <InputSelctBox
+              isRequired={false}
+              title="성별"
+              onClickA={() => {}}
+              onClickB={() => {}}
+              activationA={gender === "male"}
+              activationB={gender === "female"}
+              titleA="남성"
+              titleB="여성"
+              isReadonly={true}
+            />
           </div>
-          <div className="flex flex-col w-full gap-2">
-            <div className="pb-1 font-medium">
-              <span>인스타그램 ID</span>
-            </div>
-            <div className="flex items-center w-full">
-              <div className="flex items-center pl-4 pr-1 h-12 bg-lightgray rounded-l-[0.63rem]">
-                <p>@</p>
-              </div>
-              <input
-                className="flex-1 h-12 pr-4 border-none outline-none rounded-r-[0.63rem] bg-lightgray"
-                placeholder="인스타그램 ID를 입력해주세요."
-                onChange={handleIdInput}
-                value={instagramId}
-              />
-            </div>
-          </div>
+          <InputIDBox
+            title="인스타그램 아이디"
+            placeholder="인스타그램 아이디를 입력해주세요."
+            onChange={handleIdInput}
+            value={instagramId}
+          />
         </div>
       </div>
-      <button
-        className={`w-full h-[3.25rem] mb-8 text-white outline-none rounded-xl font-semibold ${isValid ? "bg-violet400" : "bg-buttonfalse cursor-default"}`}
-        onClick={() => {
-          if (isValid) navigation(`/mypage`);
-        }}
-      >
-        확인
-      </button>
+      <div className="mb-4">
+        <ButtonActive
+          activation={isValid}
+          onClick={() => {
+            if (isValid) navigation(`/mypage`);
+          }}
+          text="확인"
+        />
+      </div>
     </div>
   );
 }

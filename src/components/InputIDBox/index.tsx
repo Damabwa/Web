@@ -12,7 +12,7 @@ export default function InputIDBox({
   value,
 }: Props) {
   return (
-    <div className="flex flex-col w-full gap-2">
+    <div className="flex flex-col w-full gap-2 text-sm">
       <div className="pb-1 font-medium">
         <span>{title}</span>
       </div>
