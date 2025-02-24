@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { checkUserExistence } from "../../api/user";
 import icn_camera from "../../assets/svgs/icn_profile_camera_white.svg";
 import icn_profile from "../../assets/svgs/icn_profile.svg";
 import SubHeader from "../../components/SubHeader";
@@ -69,20 +69,18 @@ export default function EditUserProfile() {
     setInstagramId(value);
   };
 
-  const checkIsDuplicated = async () => {
+  const checkExistenceFunc = async () => {
     if (!isValidName) return;
-    await axios
-      .get(
-        `https://api-dev.damaba.me/api/v1/users/nicknames/existence?nickname=${username}`
-      )
-      .then((res) => {
-        if (res.data.exists) setIsDuplicated("true");
-        else setIsDuplicated("false");
-      });
+    try {
+      const res = await checkUserExistence(username);
+      if (res.exists) setIsDuplicated("true");
+      else setIsDuplicated("false");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const checkValidFunc = () => {
-    console.log(isChangedInstaId);
     if (isChangedInstaId || (isChangedName && isDuplicated === "false"))
       setIsValid(true);
     else setIsValid(false);
@@ -133,7 +131,7 @@ export default function EditUserProfile() {
               description=""
               placeholder="닉네임을 입력해주세요."
               onChange={handleNameInput}
-              onClick={() => checkIsDuplicated()}
+              onClick={() => checkExistenceFunc()}
               activation={
                 isValidName && isChangedName && isDuplicated !== "false"
               }

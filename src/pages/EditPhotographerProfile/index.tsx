@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { checkPhotographerExistence } from "../../api/photographer";
 import SubHeader from "../../components/SubHeader";
 import ProfileImage from "../../components/ProfileImage";
 import Types from "../../components/Types";
@@ -20,17 +20,12 @@ export default function EditPhotographerProfile() {
   const [types, setTypes] = useState<Item[]>([]);
   const [locs, setLocs] = useState<string[]>([]);
   const [isValid, setIsValid] = useState(false);
-
-  useEffect(() => {
-    checkValidFunc();
-  }, [photo, types, locs]);
-
   const [isValidName, setIsValidName] = useState(false);
   const [isDuplicated, setIsDuplicated] = useState("");
 
   useEffect(() => {
     checkValidFunc();
-  }, [tradename, isDuplicated]);
+  }, [tradename, isDuplicated, photo, types, locs]);
 
   const handleNameInput = (e: any) => {
     setIsDuplicated("");
@@ -44,30 +39,6 @@ export default function EditPhotographerProfile() {
     );
   };
 
-  const checkIsDuplicated = async () => {
-    if (!isValidName) return;
-    // if (role === "user") {
-    await axios
-      .get(
-        `https://api-dev.damaba.me/api/v1/users/nicknames/existence?nickname=${tradename}`
-      )
-      .then((res) => {
-        if (res.data.exists) setIsDuplicated("true");
-        else setIsDuplicated("false");
-      });
-    // }
-    // else if (role === "photographer") {
-    //   await axios
-    //     .get(
-    //       `https://api-dev.damaba.me/api/v1/users/nicknames/existence?nickname=${username}`
-    //     )
-    //     .then((res) => {
-    //       if (res.data.exists) setIsDuplicated("true");
-    //       else setIsDuplicated("false");
-    //     });
-    // }
-  };
-
   const checkValidFunc = () => {
     let count = 0;
     types.map((item) => {
@@ -76,6 +47,17 @@ export default function EditPhotographerProfile() {
     if (isDuplicated === "false" && count > 0 && locs.length > 0)
       setIsValid(true);
     else setIsValid(false);
+  };
+
+  const checkExistenceFunc = async () => {
+    if (!isValidName) return;
+    try {
+      const res = await checkPhotographerExistence(tradename);
+      if (res.exists) setIsDuplicated("true");
+      else setIsDuplicated("false");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const onClickFunc = () => {
@@ -94,7 +76,7 @@ export default function EditPhotographerProfile() {
             description=""
             placeholder="상호명을 입력해주세요."
             onChange={handleNameInput}
-            onClick={() => checkIsDuplicated()}
+            onClick={() => checkExistenceFunc()}
             activation={isValidName}
             buttonTitle="중복 확인"
             bottomText="한글, 영어, 숫자 조합 15자 이내"

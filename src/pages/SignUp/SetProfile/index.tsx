@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { checkUserExistence } from "../../../api/user";
+import { checkPhotographerExistence } from "../../../api/photographer";
 import logo_damaba from "../../../assets/imgs/logo_damaba.png";
 import InputButtonBox from "../../../components/InputButtonBox";
 import InputSelctBox from "../../../components/InputSelectBox";
@@ -54,28 +55,21 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
     setInstagramId(value);
   };
 
-  const checkIsDuplicated = async () => {
+  const checkExistenceFunc = async () => {
     if (!isValidName) return;
-    // if (role === "user") {
-    await axios
-      .get(
-        `https://api-dev.damaba.me/api/v1/users/nicknames/existence?nickname=${username}`
-      )
-      .then((res) => {
-        if (res.data.exists) setIsDuplicated("true");
+    try {
+      if (role === "user") {
+        const res = await checkUserExistence(username);
+        if (res.exists) setIsDuplicated("true");
         else setIsDuplicated("false");
-      });
-    // }
-    // else if (role === "photographer") {
-    //   await axios
-    //     .get(
-    //       `https://api-dev.damaba.me/api/v1/users/nicknames/existence?nickname=${username}`
-    //     )
-    //     .then((res) => {
-    //       if (res.data.exists) setIsDuplicated("true");
-    //       else setIsDuplicated("false");
-    //     });
-    // }
+      } else if (role === "photographer") {
+        const res = await checkPhotographerExistence(username);
+        if (res.exists) setIsDuplicated("true");
+        else setIsDuplicated("false");
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const checkValidFunc = () => {
@@ -105,7 +99,7 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
             description=""
             placeholder={`${role === "user" ? "닉네임" : "상호/활동명"}을 입력해주세요.`}
             onChange={handleNameInput}
-            onClick={() => checkIsDuplicated()}
+            onClick={() => checkExistenceFunc()}
             activation={isValidName && isDuplicated !== "false"}
             buttonTitle="중복 확인"
             bottomText={`한글, 영어, 숫자 조합 ${role === "user" ? "2-7자" : "15자 이내"}`}

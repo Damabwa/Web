@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { getRegionList } from "../../api/region";
 import icn_close from "../../assets/svgs/icn_closeRegion.svg";
 
 interface Props {
@@ -16,22 +16,26 @@ interface Loc {
 export default function Location({ locs, setLocs, maxNum }: Props) {
   const [locList, setLocList] = useState<Loc[]>([]);
   const [regions, setRegions] = useState<string[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState<any>();
+
+  const getRegionFunc = async () => {
+    try {
+      const res = await getRegionList();
+      setLocList(
+        res.regionGroups.map((item: any) => ({
+          ...item,
+          regions: item.regions.map(
+            (region: string) => `${item.category} ${region.trim()}`
+          ),
+        }))
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
-    axios
-      .get("https://api-dev.damaba.me/api/v1/regions/groups")
-      .then((res: any) => {
-        setLocList(
-          res.data.regionGroups.map((item: any) => ({
-            ...item,
-            regions: item.regions.map(
-              (region: string) => `${item.category} ${region.trim()}`
-            ),
-          }))
-        );
-      })
-      .catch((err) => console.log(err));
+    getRegionFunc();
   }, []);
 
   useEffect(() => {
