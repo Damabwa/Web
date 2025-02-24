@@ -11,18 +11,12 @@ import ModalComfirm from "../../components/ModalComfirm";
 import EventType from "./EventType";
 import Keywords from "./Keywords";
 
-interface Item {
-  id: number;
-  name: string;
-  isSelected: boolean;
-}
-
 export default function NewEvent() {
   const navigation = useNavigate();
 
   const [title, setTitle] = useState("");
   const [tradename, setTradename] = useState("");
-  const [types, setTypes] = useState<Item[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
   const [locs, setLocs] = useState<string[]>([]);
   const [eventType, setEventType] = useState("");
   const [url, setUrl] = useState("");
@@ -35,14 +29,10 @@ export default function NewEvent() {
   const [showImageModal, setShowImageModal] = useState(false);
 
   useEffect(() => {
-    let count = 0;
-    types.map((item) => {
-      if (item.isSelected) count += 1;
-    });
     setIsValid(
       title.length *
         tradename.length *
-        count *
+        types.length *
         locs.length *
         eventType.length *
         url.length *

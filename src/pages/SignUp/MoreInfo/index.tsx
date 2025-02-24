@@ -9,15 +9,9 @@ interface Props {
   onClickFunc: () => void;
 }
 
-interface Item {
-  id: number;
-  name: string;
-  isSelected: boolean;
-}
-
 export default function MoreInfo({ onClickFunc }: Props) {
   const [photo, setPhoto] = useState();
-  const [types, setTypes] = useState<Item[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
   const [locs, setLocs] = useState<string[]>([]);
   const [isValid, setIsValid] = useState(false);
 
@@ -26,11 +20,7 @@ export default function MoreInfo({ onClickFunc }: Props) {
   }, [photo, types, locs]);
 
   const checkValidFunc = () => {
-    let count = 0;
-    types.map((item) => {
-      if (item.isSelected) count += 1;
-    });
-    if (photo && count > 0 && locs.length > 0) setIsValid(true);
+    if (photo && types.length > 0 && locs.length > 0) setIsValid(true);
     else setIsValid(false);
   };
 

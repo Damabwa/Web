@@ -8,16 +8,11 @@ import Location from "../../components/Location";
 import ButtonActive from "../../components/ButtonActive";
 import InputButtonBox from "../../components/InputButtonBox";
 
-interface Item {
-  id: number;
-  name: string;
-  isSelected: boolean;
-}
 export default function EditPhotographerProfile() {
   const navigation = useNavigate();
   const [photo, setPhoto] = useState();
   const [tradename, setTradename] = useState("");
-  const [types, setTypes] = useState<Item[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
   const [locs, setLocs] = useState<string[]>([]);
   const [isValid, setIsValid] = useState(false);
   const [isValidName, setIsValidName] = useState(false);
@@ -40,11 +35,7 @@ export default function EditPhotographerProfile() {
   };
 
   const checkValidFunc = () => {
-    let count = 0;
-    types.map((item) => {
-      if (item.isSelected) count += 1;
-    });
-    if (isDuplicated === "false" && count > 0 && locs.length > 0)
+    if (isDuplicated === "false" && types.length > 0 && locs.length > 0)
       setIsValid(true);
     else setIsValid(false);
   };

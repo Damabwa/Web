@@ -1,59 +1,15 @@
-import { useEffect } from "react";
-
 interface Props {
-  types: Item[];
-  setTypes: React.Dispatch<React.SetStateAction<Item[]>>;
+  types: string[];
+  setTypes: React.Dispatch<React.SetStateAction<string[]>>;
   maxNum: number;
 }
 
-interface Item {
-  id: number;
-  name: string;
-  isSelected: boolean;
-}
+const typeList = ["스냅", "프로필", "컨셉", "증명", "셀프"];
 
 export default function Types({ types, setTypes, maxNum }: Props) {
-  useEffect(() => {
-    setTypes([
-      {
-        id: 0,
-        name: "스냅",
-        isSelected: false,
-      },
-      {
-        id: 1,
-        name: "프로필",
-        isSelected: false,
-      },
-      {
-        id: 2,
-        name: "컨셉",
-        isSelected: false,
-      },
-      {
-        id: 3,
-        name: "증명",
-        isSelected: false,
-      },
-      {
-        id: 4,
-        name: "셀프",
-        isSelected: false,
-      },
-    ]);
-  }, []);
-
-  const handleSelectTypes = (id: number) => {
-    let count = 0;
-    types.map((item) => {
-      if (item.isSelected) count += 1;
-    });
-    if (count === maxNum && !types[id].isSelected) return;
-    setTypes((prevTypes) =>
-      prevTypes.map((t) =>
-        t.id === id ? { ...t, isSelected: !t.isSelected } : t
-      )
-    );
+  const handleSelectTypes = (item: string) => {
+    if (types.includes(item)) setTypes(types.filter((t) => t !== item));
+    else if (types.length < maxNum) setTypes([...types, item]);
   };
 
   return (
@@ -66,13 +22,13 @@ export default function Types({ types, setTypes, maxNum }: Props) {
         </span>
       </div>
       <div className="flex w-full gap-2">
-        {types.map((item) => (
+        {types.map((item, index) => (
           <button
-            className={`flex-1 outline-none py-[0.6rem] text-sm font-medium border ${item.isSelected ? "text-violet400 border-violet400 bg-violet400 bg-opacity-15" : "border-black border-opacity-10"} rounded-3xl`}
-            key={item.id}
-            onClick={() => handleSelectTypes(item.id)}
+            className={`flex-1 outline-none py-[0.6rem] text-sm font-medium border ${types.includes(item) ? "text-violet400 border-violet400 bg-violet400 bg-opacity-15" : "border-black border-opacity-10"} rounded-3xl`}
+            key={index}
+            onClick={() => handleSelectTypes(item)}
           >
-            {item.name}
+            {item}
           </button>
         ))}
       </div>
