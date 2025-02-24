@@ -2,7 +2,8 @@ import { useNavigate } from "react-router-dom";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import icn_pencil from "../../assets/svgs/icn_eventhome_pencil.svg";
 import Header from "../../components/Header";
-import FilterBar from "./FilterBar";
+import FilterBar from "../../components/FilterBar";
+// import FilterBar from "./FilterBar";
 import ContentBox from "./ContentBox";
 
 function EventHome() {
@@ -84,7 +85,7 @@ function EventHome() {
         />
       </div>
       <div className="border-b-[0.375rem] border-lightgray">
-        <FilterBar />
+        <FilterBar isEvent={true} />
       </div>
       <div className="flex flex-col gap-1 bg-lightgray">
         {mockdata.map((item) => (

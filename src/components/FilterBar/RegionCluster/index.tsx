@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getRegionList } from "../../api/region";
-import icn_close from "../../assets/svgs/icn_closeRegion.svg";
+import { getRegionCluster } from "../../../api/region";
+import icn_close from "../../../assets/svgs/icn_closeRegion.svg";
 
 interface Props {
   locs: string[];
@@ -10,25 +10,18 @@ interface Props {
 
 interface Loc {
   category: string;
-  regions: string[];
+  clusters: string[];
 }
 
-export default function Location({ locs, setLocs, maxNum }: Props) {
+export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
   const [locList, setLocList] = useState<Loc[]>([]);
-  const [regions, setRegions] = useState<string[]>([]);
+  const [clusters, setClusters] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const getRegionFunc = async () => {
     try {
-      const res = await getRegionList();
-      setLocList(
-        res.regionGroups.map((item: any) => ({
-          ...item,
-          regions: item.regions.map(
-            (region: string) => `${item.category} ${region.trim()}`
-          ),
-        }))
-      );
+      const res = await getRegionCluster();
+      setLocList(res.regionClusters);
     } catch (e) {
       console.log(e);
     }
@@ -39,7 +32,7 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
   }, []);
 
   useEffect(() => {
-    if (locList.length > 0) setRegions(locList[0].regions);
+    if (locList.length > 0) setClusters(locList[0].clusters);
   }, [locList]);
 
   const handleAddRegion = (item: string) => {
@@ -51,23 +44,16 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="text-sm font-medium">
-        <span className="text-red">*</span>
-        <span>활동 지역</span>
-        <span className="pl-1 text-xs text-textgray">
-          (최대 {maxNum}개까지 선택 가능해요)
-        </span>
-      </div>
+    <div className="flex flex-col gap-2 py-2">
       {locList.length > 0 && (
-        <div className="grid grid-cols-5 mb-2">
+        <div className="grid grid-cols-5 mb-2 gap-y-1 gap-x-2">
           {locList.map((item: any, index) => (
             <button
-              className={`py-2 mx-1 text-sm font-medium border rounded-3xl ${selectedIndex === index ? "border-black" : "border-white"}`}
+              className={`py-[0.44rem] text-sm font-medium border rounded-3xl whitespace-nowrap ${selectedIndex === index ? "border-black" : "border-white"}`}
               key={item.category}
               onClick={() => {
                 setSelectedIndex(index);
-                setRegions(item.regions);
+                setClusters(item.clusters);
               }}
             >
               {item.category}
@@ -75,21 +61,21 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
           ))}
         </div>
       )}
-      {regions.length > 0 && (
-        <div className="grid gap-4 grid-cols-4 bg-[#E8EBEF] p-4 rounded-xl text-sm font-medium">
-          {regions.map((item: any, index) => (
+      {clusters.length > 0 && (
+        <div className="bg-[#E8EBEF] p-4 rounded-xl text-sm font-medium flex flex-wrap gap-2">
+          {clusters.map((item: any, index) => (
             <button
-              className={`py-[0.6rem] rounded-lg border outline-none ${locs.includes(item) ? "text-violet400 border-violet400 bg-[#EAE0F6]" : " border-white bg-white"}`}
+              className={`py-[0.6rem] px-4 whitespace-nowrap rounded-lg border outline-none ${locs.includes(item) ? "text-violet400 border-violet400 bg-[#EAE0F6]" : " border-white bg-white"}`}
               key={index}
               onClick={() => handleAddRegion(item)}
             >
-              {item.split(" ")[1]}
+              {item}
             </button>
           ))}
         </div>
       )}
       {locs.length !== 0 && (
-        <div className="flex flex-wrap gap-2 bg-[#E8EBEF] p-4 rounded-xl text-xs ">
+        <div className="flex gap-2 bg-[#E8EBEF] p-4 rounded-xl text-xs overflow-x-scroll">
           {locs.map((item: any, index) => (
             <div
               className="flex items-center py-1 pl-2 border rounded-lg outline-none min-w-fit whitespace-nowrap text-violet400 border-violet400 bg-[#EAE0F6]"

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import Header from "../../components/Header";
 import ContentBox from "./ContentBox";
-import FilterBar from "./FilterBar";
+import FilterBar from "../../components/FilterBar";
 
 export default function PhotographersHome() {
   const mockdata = [
@@ -80,7 +80,7 @@ export default function PhotographersHome() {
         />
       </div>
       <div className="border-b-[0.375rem] border-lightgray">
-        <FilterBar />
+        <FilterBar isEvent={false} />
       </div>
       <div className="grid grid-cols-2 gap-5 p-4">
         {mockdata.map((item) => (
