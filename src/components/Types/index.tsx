@@ -22,7 +22,7 @@ export default function Types({ types, setTypes, maxNum }: Props) {
         </span>
       </div>
       <div className="flex w-full gap-2">
-        {types.map((item, index) => (
+        {typeList.map((item, index) => (
           <button
             className={`flex-1 outline-none py-[0.6rem] text-sm font-medium border ${types.includes(item) ? "text-violet400 border-violet400 bg-violet400 bg-opacity-15" : "border-black border-opacity-10"} rounded-3xl`}
             key={index}
