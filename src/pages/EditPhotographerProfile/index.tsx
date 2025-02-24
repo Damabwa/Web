@@ -72,6 +72,7 @@ export default function EditPhotographerProfile() {
             buttonTitle="중복 확인"
             bottomText="한글, 영어, 숫자 조합 15자 이내"
             value={tradename}
+            isReadOnly={false}
           />
           {isDuplicated === "" ? (
             <div className="text-xs text-red">

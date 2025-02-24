@@ -138,6 +138,7 @@ export default function EditUserProfile() {
               buttonTitle="중복 확인"
               bottomText=""
               value={username}
+              isReadOnly={false}
             />
             {isDuplicated === "" ? (
               <div className="text-xs text-red">

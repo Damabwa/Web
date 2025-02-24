@@ -9,6 +9,12 @@ import GetImagesBox from "../../components/GetImagesBox";
 import InputLongformBox from "../../components/InputLongformBox/tndex";
 import ModalComfirm from "../../components/ModalComfirm";
 
+declare global {
+  interface Window {
+    daum: any;
+  }
+}
+
 export default function EditPhotographerPage() {
   const navigation = useNavigate();
 
@@ -29,6 +35,14 @@ export default function EditPhotographerPage() {
   // useEffect(() => {
   //   checkValidFunc();
   // }, [address, isDuplicated, instagramId]);
+
+  const handleAddressSearch = () => {
+    new window.daum.Postcode({
+      oncomplete: function (data: any) {
+        setAddress(data.address);
+      },
+    }).open();
+  };
 
   const handleInput = (e: any) => {
     setUrl(e.target.value);
@@ -79,11 +93,12 @@ export default function EditPhotographerPage() {
             description="(오프라인 사업장이 있는 경우)"
             placeholder="주소를 검색해주세요."
             onChange={() => {}}
-            onClick={() => {}}
+            onClick={() => handleAddressSearch()}
             activation={false}
             buttonTitle="주소 검색"
             bottomText=""
             value={address}
+            isReadOnly={true}
           />
           <InputIDBox
             title="인스타그램 아이디"

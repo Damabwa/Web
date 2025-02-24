@@ -104,6 +104,7 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
             buttonTitle="중복 확인"
             bottomText={`한글, 영어, 숫자 조합 ${role === "user" ? "2-7자" : "15자 이내"}`}
             value={username}
+            isReadOnly={false}
           />
           {isDuplicated !== "" && (
             <div
