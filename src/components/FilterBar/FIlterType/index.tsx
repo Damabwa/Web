@@ -4,9 +4,19 @@ import icn_reset from "../../../assets/svgs/icn_reset.svg";
 import Types from "../Types";
 import RegionCluster from "../RegionCluster";
 
+const orderBtns = [
+  { id: "latest", name: "최신순", full: "최신순" },
+  { id: "popularity", name: "인기순", full: "인기순" },
+];
+const stateBtns = [
+  { id: "all", name: "전체", full: "전체" },
+  { id: "scheduled", name: "예정", full: "예정된 이벤트" },
+  { id: "ongoing", name: "진행중", full: "진행 중인 이벤트" },
+  { id: "end", name: "마감", full: "마감된 이벤트" },
+];
+
 interface Props {
   title: string;
-  child: any[];
   order: string;
   state: string;
   locs: string[];
@@ -22,7 +32,6 @@ interface Props {
 
 export default function FilterType({
   title,
-  child,
   order,
   setOrder,
   setIsModifiedOrder,
@@ -50,6 +59,11 @@ export default function FilterType({
     }
   };
 
+  const getChild = () => {
+    if (title === "정렬") return orderBtns;
+    else return stateBtns;
+  };
+
   const handleResetBtn = () => {
     if (title === "지역") setSelectedLocs([]);
     else if (title === "촬영 종류") setSelectedTypes([]);
@@ -67,7 +81,7 @@ export default function FilterType({
         {title}
       </div>
       {(title === "정렬" || title === "진행 상태") &&
-        child.map((item) => (
+        getChild().map((item) => (
           <div
             key={item.id}
             onClick={() => handleChildClick(item.name)}

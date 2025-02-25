@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import icn_reset from "../../assets/svgs/icn_reset.svg";
 import icn_line from "../../assets/svgs/icn_filterLine.svg";
 import FilterType from "./FIlterType";
@@ -10,18 +9,6 @@ interface Props {
   isEvent: boolean;
 }
 
-const orderBtns = [
-  { id: "latest", name: "최신순", full: "최신순" },
-  { id: "popularity", name: "인기순", full: "인기순" },
-];
-const stateBtns = [
-  { id: "all", name: "전체", full: "전체" },
-  { id: "scheduled", name: "예정", full: "예정된 이벤트" },
-  { id: "ongoing", name: "진행중", full: "진행 중인 이벤트" },
-  { id: "end", name: "마감", full: "마감된 이벤트" },
-];
-const typeBtns = ["스냅", "프로필", "컨셉", "증명", "셀프"];
-
 export default function FilterBar({ isEvent }: Props) {
   const [free, setFree] = useState(false);
   const [discount, setDiscount] = useState(false);
@@ -31,29 +18,10 @@ export default function FilterBar({ isEvent }: Props) {
   const [isModifiedOrder, setIsModifiedOrder] = useState(false);
   const [isModifiedState, setIsModifiedState] = useState(false);
 
-  const [locList, setLocList] = useState([]);
-  const [locations, setLocations] = useState<string[]>([]);
+  const [locs, setLocs] = useState<string[]>([]);
   const [types, setTypes] = useState<string[]>([]);
   const [showSelectBar, setShowSelectBar] = useState(false);
   const [clickedFilter, setClickedFilter] = useState("");
-
-  useEffect(() => {
-    getLocationList();
-  }, []);
-
-  const getLocationList = async () => {
-    axios
-      .get(`https://api-dev.damaba.me/api/v1/regions/categories`)
-      .then((res) => setLocList(res.data.categories));
-  };
-
-  const getBtnList = () => {
-    if (clickedFilter === "정렬") return orderBtns;
-    else if (clickedFilter === "진행 상태") return stateBtns;
-    else if (clickedFilter === "지역") return locList;
-    else if (clickedFilter === "촬영 종류") return typeBtns;
-    else return [];
-  };
 
   const handleResetFIlter = () => {
     setFree(false);
@@ -62,7 +30,7 @@ export default function FilterBar({ isEvent }: Props) {
     setState("진행중");
     setIsModifiedOrder(false);
     setIsModifiedState(false);
-    setLocations([]);
+    setLocs([]);
     setTypes([]);
   };
 
@@ -102,7 +70,7 @@ export default function FilterBar({ isEvent }: Props) {
           />
         )}
         <BtnChip
-          activation={locations.length > 0}
+          activation={locs.length > 0}
           onClick={handleFilter}
           setFilterName="지역"
           title="지역"
@@ -125,15 +93,14 @@ export default function FilterBar({ isEvent }: Props) {
           >
             <FilterType
               title={clickedFilter}
-              child={getBtnList()}
               order={order}
               setOrder={setOrder}
               setIsModifiedOrder={setIsModifiedOrder}
               state={state}
               setState={setState}
               setIsModifiedState={setIsModifiedState}
-              locs={locations}
-              setLocs={setLocations}
+              locs={locs}
+              setLocs={setLocs}
               types={types}
               setTypes={setTypes}
               setShowSelectBar={setShowSelectBar}
