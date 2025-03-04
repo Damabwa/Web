@@ -3,27 +3,18 @@ import axios from "axios";
 const fetchWrap = async ({ method, url, body, auth }) => {
   const baseURL = "https://api-dev.damaba.me/api/v1";
   try {
-    // const config = {
-    //   baseURL: "https://api-dev.damaba.me/api/v1",
-    //   withCredentials: true,
-    // };
-
-    // if (auth === true) {
-    //   if (url === "/refresh-token")
-    //     config.headers = {
-    //       "REFRESH-TOKEN": `Bearer ${localStorage.getItem("refreshToken")}`,
-    //     };
-    //   else
-    //     config.headers = {
-    //       "ACCESS-TOKEN": `Bearer ${localStorage.getItem("accessToken")}`,
-    //     };
-    // }
+    const headers = auth
+      ? { Authorization: `Bearer ${localStorage.getItem("accessToken")}` }
+      : {};
 
     const { data } =
-      (method === "get" && (await axios.get(baseURL + url))) ||
-      (method === "post" && (await axios.post(baseURL + url, body))) ||
-      (method === "put" && (await axios.put(baseURL + url, body))) ||
-      (method === "delete" && (await axios.delete(baseURL + url))) ||
+      (method === "get" && (await axios.get(baseURL + url, { headers }))) ||
+      (method === "post" &&
+        (await axios.post(baseURL + url, body, { headers }))) ||
+      (method === "put" &&
+        (await axios.put(baseURL + url, body, { headers }))) ||
+      (method === "delete" &&
+        (await axios.delete(baseURL + url, { headers }))) ||
       {};
 
     return data;

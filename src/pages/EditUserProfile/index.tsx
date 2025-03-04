@@ -16,7 +16,7 @@ export default function EditUserProfile() {
   const [photo, setPhoto] = useState("");
   const [username, setUsername] = useState("김송이");
   const [instagramId, setInstagramId] = useState("instaid");
-  let gender = "female";
+  let gender = "FEMALE";
 
   const [isValid, setIsValid] = useState(false);
   const [isChangedName, setIsChangedName] = useState(false);
@@ -163,8 +163,8 @@ export default function EditUserProfile() {
               title="성별"
               onClickA={() => {}}
               onClickB={() => {}}
-              activationA={gender === "male"}
-              activationB={gender === "female"}
+              activationA={gender === "MALE"}
+              activationB={gender === "FEMALE"}
               titleA="남성"
               titleB="여성"
               isReadonly={true}

@@ -27,20 +27,30 @@ function Auth() {
     getToken()
       .then((res) => {
         if (res) {
-          axios
-            .post("https://api-dev.damaba.me/api/v1/auth/login", {
-              loginType: "KAKAO",
-              authKey: JSON.stringify(res.data.access_token).slice(1, -1),
-            })
-            .then((r) => {
-              if (r.status === 200 && r.data.isRegistrationCompleted)
-                navigate("/");
-              else navigate("/signup");
-            });
+          authLoginFunc(res.data.access_token);
         }
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const authLoginFunc = async (token: string) => {
+    try {
+      const res = await axios.post(
+        "https://api-dev.damaba.me/api/v1/auth/login",
+        {
+          loginType: "KAKAO",
+          authKey: JSON.stringify(token).slice(1, -1),
+        }
+      );
+      localStorage.setItem("accessToken", res.data.accessToken.value);
+      localStorage.setItem("refreshToken", res.data.refreshToken.value);
+
+      if (res.status === 200 && res.data.isRegistrationCompleted) navigate("/");
+      else navigate("/signup");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return <></>;
 }

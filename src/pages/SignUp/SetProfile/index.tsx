@@ -8,12 +8,16 @@ import InputIDBox from "../../../components/InputIDBox";
 import ButtonActive from "../../../components/ButtonActive";
 
 interface Props {
-  role: string;
+  userInfo: any;
+  setUserInfo: React.Dispatch<React.SetStateAction<any>>;
   setNextFunc: () => void;
-  setInfoFunc: (username: string, gender: string, instagramId: string) => void;
 }
 
-export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
+export default function SetProfile({
+  userInfo,
+  setNextFunc,
+  setUserInfo,
+}: Props) {
   const [isValid, setIsValid] = useState(false);
   const [username, setUsername] = useState("");
   const [isValidName, setIsValidName] = useState(false);
@@ -30,13 +34,13 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
     setUsername(e.target.value);
 
     const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
-    if (role === "user") {
+    if (userInfo.role === "user") {
       setIsValidName(
         e.target.value.length > 1 &&
           e.target.value.length < 8 &&
           nicknameRegex.test(e.target.value)
       );
-    } else if (role === "photographer") {
+    } else if (userInfo.role === "photographer") {
       setIsValidName(
         e.target.value.length > 1 &&
           e.target.value.length < 16 &&
@@ -58,11 +62,11 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
   const checkExistenceFunc = async () => {
     if (!isValidName) return;
     try {
-      if (role === "user") {
+      if (userInfo.role === "user") {
         const res = await checkUserExistence(username);
         if (res.exists) setIsDuplicated("true");
         else setIsDuplicated("false");
-      } else if (role === "photographer") {
+      } else if (userInfo.role === "photographer") {
         const res = await checkPhotographerExistence(username);
         if (res.exists) setIsDuplicated("true");
         else setIsDuplicated("false");
@@ -79,7 +83,7 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
 
   const handleNextBtn = () => {
     if (!isValid) return;
-    setInfoFunc(username, gender, instagramId);
+    setUserInfo({ ...userInfo, username, gender, instagramId });
     setNextFunc();
   };
 
@@ -95,14 +99,14 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
         <div className="flex flex-col">
           <InputButtonBox
             isRequired={true}
-            title={role === "user" ? "닉네임" : "상호활동명"}
+            title={userInfo.role === "user" ? "닉네임" : "상호활동명"}
             description=""
-            placeholder={`${role === "user" ? "닉네임" : "상호/활동명"}을 입력해주세요.`}
+            placeholder={`${userInfo.role === "user" ? "닉네임" : "상호/활동명"}을 입력해주세요.`}
             onChange={handleNameInput}
             onClick={() => checkExistenceFunc()}
             activation={isValidName && isDuplicated !== "false"}
             buttonTitle="중복 확인"
-            bottomText={`한글, 영어, 숫자 조합 ${role === "user" ? "2-7자" : "15자 이내"}`}
+            bottomText={`한글, 영어, 숫자 조합 ${userInfo.role === "user" ? "2-7자" : "15자 이내"}`}
             value={username}
             isReadOnly={false}
           />
@@ -120,10 +124,10 @@ export default function SetProfile({ role, setNextFunc, setInfoFunc }: Props) {
           <InputSelctBox
             isRequired={true}
             title="성별"
-            onClickA={() => setGender("male")}
-            onClickB={() => setGender("female")}
-            activationA={gender === "male"}
-            activationB={gender === "female"}
+            onClickA={() => setGender("MALE")}
+            onClickB={() => setGender("FEMALE")}
+            activationA={gender === "MALE"}
+            activationB={gender === "FEMALE"}
             titleA="남성"
             titleB="여성"
             isReadonly={false}

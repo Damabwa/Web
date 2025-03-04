@@ -1,34 +1,76 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { userRegistration } from "../../api/user";
+import { photographerRegistration } from "../../api/photographer";
 import SelectRole from "./SelectRole";
 import SetProfile from "./SetProfile";
 import Route from "./Route";
-import Complete from "./Complete";
 import MoreInfo from "./MoreInfo";
 
 export default function SignUp() {
+  const navigation = useNavigate();
+
   const [step, setStep] = useState(0);
-  const [userinfo, setUserInfo] = useState({
+  const [userInfo, setUserInfo] = useState({
     role: "",
     username: "",
     gender: "",
     instagramId: "",
+    profileImage: { name: "", url: "" },
+    mainPhotographyTypes: [""],
+    activeRegions: [],
   });
 
   const setRoleFunc = (selectedRole: string) => {
-    setUserInfo({ ...userinfo, role: selectedRole });
+    setUserInfo({ ...userInfo, role: selectedRole });
     setStep(step + 1);
-  };
-
-  const setInfoFunc = (
-    username: string,
-    gender: string,
-    instagramId: string
-  ) => {
-    setUserInfo({ ...userinfo, username, gender, instagramId });
   };
 
   const setNextFunc = () => {
     setStep(step + 1);
+  };
+
+  const signUpFunc = () => {
+    userInfo.role === "user" ? userSignUpFunc() : photographerSignUpFunc();
+  };
+
+  const userSignUpFunc = async () => {
+    if (userInfo.role === "photographer") return;
+    try {
+      userRegistration({
+        nickname: userInfo.username,
+        gender: userInfo.gender,
+        instagramId: userInfo.instagramId,
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      navigation("/success/signup", {
+        state: { userinfo: userInfo },
+        replace: true,
+      });
+    }
+  };
+
+  const photographerSignUpFunc = async () => {
+    if (userInfo.role === "user") return;
+    try {
+      photographerRegistration({
+        nickname: userInfo.username,
+        gender: userInfo.gender,
+        instagramId: userInfo.instagramId,
+        profileImage: userInfo.profileImage,
+        mainPhotographyTypes: userInfo.mainPhotographyTypes,
+        activeRegions: userInfo.activeRegions,
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      navigation("/success/signup", {
+        state: { userinfo: userInfo },
+        replace: true,
+      });
+    }
   };
 
   return (
@@ -37,22 +79,26 @@ export default function SignUp() {
         {step === 0 && <SelectRole setRoleFunc={setRoleFunc} />}
         {step === 1 && (
           <SetProfile
-            role={userinfo.role}
+            userInfo={userInfo}
+            setUserInfo={setUserInfo}
             setNextFunc={setNextFunc}
-            setInfoFunc={setInfoFunc}
           />
         )}
-        {step === 2 && userinfo.role === "photographer" && (
-          <MoreInfo onClickFunc={setNextFunc} />
+        {step === 2 && userInfo.role === "photographer" && (
+          <MoreInfo
+            userInfo={userInfo}
+            setUserInfo={setUserInfo}
+            onClickFunc={setNextFunc}
+          />
         )}
-        {((step === 2 && userinfo.role === "user") ||
-          (step === 3 && userinfo.role === "photographer")) && (
-          <Route setNextFunc={setNextFunc} />
+        {((step === 2 && userInfo.role === "user") ||
+          (step === 3 && userInfo.role === "photographer")) && (
+          <Route setNextFunc={signUpFunc} />
         )}
-        {((step === 3 && userinfo.role === "user") ||
-          (step === 4 && userinfo.role === "photographer")) && (
-          <Complete username={userinfo.username} role={userinfo.role} />
-        )}
+        {/* {((step === 3 && userInfo.role === "user") ||
+          (step === 4 && userInfo.role === "photographer")) && (
+          <Complete username={userInfo.username} role={userInfo.role} />
+        )} */}
       </div>
     </div>
   );

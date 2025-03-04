@@ -3,6 +3,7 @@ import Auth from "./auth";
 import MainHome from "./pages/MainHome";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import CompleteSignUp from "./pages/CompleteSignUp";
 import MyPage from "./pages/MyPage";
 import EditUserProfile from "./pages/EditUserProfile";
 import EditPhotographerProfile from "./pages/EditPhotographerProfile";
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<MainHome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/success/signup" element={<CompleteSignUp />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/edit/user" element={<EditUserProfile />} />
         <Route
