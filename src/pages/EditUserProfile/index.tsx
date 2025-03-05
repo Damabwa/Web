@@ -54,6 +54,7 @@ export default function EditUserProfile() {
     setIsDuplicated("");
     setIsChangedName(true);
     setUserInfo({ ...userInfo, nickname: e.target.value });
+    if (location.state.nickname === e.target.value) setIsChangedName(false);
 
     const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
     setIsValidName(
@@ -65,6 +66,8 @@ export default function EditUserProfile() {
 
   const handleIdInput = (e: any) => {
     setIsChangedInstaId(true);
+    if (location.state.instagramId === e.target.value)
+      setIsChangedInstaId(false);
     let { value } = e.target;
     value = value.toLowerCase();
     value = value.replace(/[^0-9a-z._]/g, "");

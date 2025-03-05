@@ -27,7 +27,7 @@ export default function MorePhotographerInfo({
       </div>
     );
   return (
-    <div className="flex flex-col min-w-full py-6 font-bold bg-white gap-7">
+    <div className="flex flex-col min-w-full py-6 font-bold bg-white border-b-8 gap-7 border-gray50">
       <div className="flex flex-col w-full gap-2 pl-4">
         <div>포트폴리오</div>
         <div className="flex w-full gap-2 overflow-x-scroll">

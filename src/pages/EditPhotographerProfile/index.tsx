@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { checkPhotographerExistence } from "../../api/photographer";
+import { modifyProfile } from "../../api/user";
 import SubHeader from "../../components/SubHeader";
 import ProfileImage from "../../components/ProfileImage";
 import Types from "../../components/Types";
@@ -10,21 +11,37 @@ import InputButtonBox from "../../components/InputButtonBox";
 
 export default function EditPhotographerProfile() {
   const navigation = useNavigate();
-  const [photo, setPhoto] = useState();
-  const [tradename, setTradename] = useState("");
-  const [types, setTypes] = useState<string[]>([]);
+  const location = useLocation();
+
+  const [userInfo, setUserInfo] = useState<any>();
+
+  const [profileImage, setProfileImage] = useState();
+  const [mainPhotographyTypes, setMainPhotographyTypes] = useState<string[]>(
+    []
+  );
   const [locs, setLocs] = useState<string[]>([]);
+
   const [isValid, setIsValid] = useState(false);
-  const [isValidName, setIsValidName] = useState(false);
+  const [isChangedName, setIsChangedName] = useState(false);
+  const [isValidName, setIsValidName] = useState(true);
   const [isDuplicated, setIsDuplicated] = useState("");
 
   useEffect(() => {
+    setUserInfo(location.state);
+    setProfileImage(location.state.profileImage.url);
+    setMainPhotographyTypes(location.state.mainPhotographyTypes);
+    setLocs(location.state.activeRegions);
+  }, []);
+
+  useEffect(() => {
     checkValidFunc();
-  }, [tradename, isDuplicated, photo, types, locs]);
+  }, [isDuplicated, userInfo]);
 
   const handleNameInput = (e: any) => {
     setIsDuplicated("");
-    setTradename(e.target.value);
+    setIsChangedName(true);
+    if (location.state.nickname === e.target.value) setIsChangedName(false);
+    setUserInfo({ ...userInfo, nickname: e.target.value });
 
     const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
     setIsValidName(
@@ -35,7 +52,11 @@ export default function EditPhotographerProfile() {
   };
 
   const checkValidFunc = () => {
-    if (isDuplicated === "false" && types.length > 0 && locs.length > 0)
+    if (
+      isDuplicated !== "true" &&
+      mainPhotographyTypes.length > 0 &&
+      locs.length > 0
+    )
       setIsValid(true);
     else setIsValid(false);
   };
@@ -43,7 +64,7 @@ export default function EditPhotographerProfile() {
   const checkExistenceFunc = async () => {
     if (!isValidName) return;
     try {
-      const res = await checkPhotographerExistence(tradename);
+      const res = await checkPhotographerExistence(userInfo.nickname);
       if (res.exists) setIsDuplicated("true");
       else setIsDuplicated("false");
     } catch (e) {
@@ -51,15 +72,23 @@ export default function EditPhotographerProfile() {
     }
   };
 
-  const onClickFunc = () => {
+  const onClickSave = async () => {
+    // const { nickname, instagramId, profileImage } = userInfo;
+    // try {
+    //   await modifyProfile({ nickname, instagramId, profileImage });
+    // } catch (e) {
+    //   console.log(e);
+    // } finally {
     navigation(`/mypage`);
+    // }
   };
 
+  if (!userInfo) return <></>;
   return (
     <div className="relative flex flex-col gap-6 px-4">
       <SubHeader title="프로필 수정" />
       <div className="flex flex-col gap-8 mb-20">
-        <ProfileImage photo={photo} setPhoto={setPhoto} />
+        <ProfileImage photo={profileImage} setPhoto={setProfileImage} />
         <div>
           <InputButtonBox
             isRequired={true}
@@ -68,16 +97,18 @@ export default function EditPhotographerProfile() {
             placeholder="상호명을 입력해주세요."
             onChange={handleNameInput}
             onClick={() => checkExistenceFunc()}
-            activation={isValidName}
+            activation={
+              isValidName && isChangedName && isDuplicated !== "false"
+            }
             buttonTitle="중복 확인"
             bottomText="한글, 영어, 숫자 조합 15자 이내"
-            value={tradename}
+            value={userInfo.nickname}
             isReadOnly={false}
           />
           {isDuplicated === "" ? (
             <div className="text-xs text-red">
               {!isValidName &&
-                tradename.length > 0 &&
+                userInfo.nickname.length > 0 &&
                 "한글, 영어, 숫자 조합 2-7자만 가능해요."}
             </div>
           ) : (
@@ -90,14 +121,16 @@ export default function EditPhotographerProfile() {
             </div>
           )}
         </div>
-        <Types types={types} setTypes={setTypes} maxNum={3} />
+        <Types
+          types={mainPhotographyTypes}
+          setTypes={setMainPhotographyTypes}
+          maxNum={3}
+        />
         <Location locs={locs} setLocs={setLocs} maxNum={5} />
       </div>
       <ButtonActive
         activation={isValid}
-        onClick={() => {
-          if (isValid) onClickFunc();
-        }}
+        onClick={() => onClickSave()}
         text="확인"
       />
     </div>

@@ -3,7 +3,7 @@ import { getRegionList } from "../../api/region";
 import icn_close from "../../assets/svgs/icn_closeRegion.svg";
 
 interface Props {
-  locs: string[];
+  locs: any[];
   setLocs: React.Dispatch<React.SetStateAction<string[]>>;
   maxNum: number;
 }
@@ -43,11 +43,19 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
   }, [locList]);
 
   const handleAddRegion = (item: string) => {
-    if (locs.includes(item)) setLocs(locs.filter((l) => l !== item));
-    else {
-      if (locs.length >= maxNum) return;
-      setLocs([...locs, item]);
-    }
+    let exist = false;
+    locs.map((loc: any) => {
+      if (`${loc.category} ${loc.name}` === item) {
+        setLocs(locs.filter((i) => i !== loc));
+        exist = true;
+        return;
+      }
+    });
+    if (locs.length >= maxNum || exist) return;
+    setLocs([
+      ...locs,
+      { category: item.split(" ")[0], name: item.split(" ")[1] },
+    ]);
   };
 
   return (
@@ -79,7 +87,15 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
         <div className="grid gap-4 grid-cols-4 bg-[#E8EBEF] p-4 rounded-xl text-sm font-medium">
           {regions.map((item: any, index) => (
             <button
-              className={`py-[0.6rem] rounded-lg border outline-none ${locs.includes(item) ? "text-violet400 border-violet400 bg-[#EAE0F6]" : " border-white bg-white"}`}
+              className={`py-[0.6rem] rounded-lg border outline-none ${
+                locs.some(
+                  (loc) =>
+                    loc.category === item.split(" ")[0] &&
+                    loc.name === item.split(" ")[1]
+                )
+                  ? "text-violet400 border-violet400 bg-[#EAE0F6]"
+                  : " border-white bg-white"
+              }`}
               key={index}
               onClick={() => handleAddRegion(item)}
             >
@@ -95,7 +111,8 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
               className="flex items-center py-1 pl-2 border rounded-lg outline-none min-w-fit whitespace-nowrap text-violet400 border-violet400 bg-[#EAE0F6]"
               key={index}
             >
-              {item}
+              {`${item.category} 
+               ${item.name}`}
               <img
                 className="cursor-pointer"
                 src={icn_close}

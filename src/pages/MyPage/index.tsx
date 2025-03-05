@@ -46,21 +46,16 @@ export default function MyPage() {
           <SavedContent />
         </>
       ) : (
-        <div className="border-b-8 border-gray50">
+        <div className="border-gray50">
           <div className="w-full h-40 bg-violet400" />
-          <PhotographerInfo
-            isMypage={true}
-            profileImage={userInfo.profileImage.url}
-            nickname={userInfo.nickname}
-            activeRegions={userInfo.activeRegions}
-            instagramId={userInfo.instagramId}
-            contactLink={userInfo.contactLink}
-          />
-          <MorePhotographerInfo
-            portfolio={userInfo.portfolio}
-            address={userInfo.address.roadAddress}
-            description={userInfo.description}
-          />
+          <PhotographerInfo isMypage={true} userInfo={userInfo} />
+          {userInfo.portfolio.length > 0 && (
+            <MorePhotographerInfo
+              portfolio={userInfo.portfolio}
+              address={userInfo.address.roadAddress}
+              description={userInfo.description}
+            />
+          )}
         </div>
       )}
       <Bottom />

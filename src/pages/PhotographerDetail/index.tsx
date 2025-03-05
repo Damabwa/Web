@@ -75,14 +75,7 @@ export default function PhotographerDetail() {
   return (
     <div className="relative w-full mb-24">
       <div className="w-full h-40 bg-violet400" />
-      <PhotographerInfo
-        isMypage={false}
-        profileImage={mockdata.profileImage.url}
-        nickname={mockdata.nickname}
-        activeRegions={mockdata.activeRegions}
-        instagramId={mockdata.instagramId}
-        contactLink={mockdata.contactLink}
-      />
+      <PhotographerInfo isMypage={false} userInfo={mockdata} />
       <MorePhotographerInfo
         portfolio={mockdata.portfolio}
         address={mockdata.address.roadAddress}
