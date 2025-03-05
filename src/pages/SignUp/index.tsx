@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userRegistration } from "../../api/user";
 import { photographerRegistration } from "../../api/photographer";
@@ -36,34 +36,16 @@ export default function SignUp() {
 
   const userSignUpFunc = async () => {
     if (userInfo.role === "photographer") return;
+    let success = false;
     try {
       userRegistration({
         nickname: userInfo.username,
         gender: userInfo.gender,
         instagramId: userInfo.instagramId,
       });
+      success = true;
     } catch (e) {
-      console.log(e);
-    } finally {
-      navigation("/success/signup", {
-        state: { userinfo: userInfo },
-        replace: true,
-      });
-    }
-  };
-
-  const photographerSignUpFunc = async () => {
-    if (userInfo.role === "user") return;
-    try {
-      photographerRegistration({
-        nickname: userInfo.username,
-        gender: userInfo.gender,
-        instagramId: userInfo.instagramId,
-        profileImage: userInfo.profileImage,
-        mainPhotographyTypes: userInfo.mainPhotographyTypes,
-        activeRegions: userInfo.activeRegions,
-      });
-    } catch (e) {
+      success = false;
       console.log(e);
     } finally {
       navigation("/success/signup", {
@@ -72,6 +54,36 @@ export default function SignUp() {
       });
     }
   };
+
+  const photographerSignUpFunc = async () => {
+    if (userInfo.role === "user") return;
+    let success = false;
+    try {
+      photographerRegistration({
+        nickname: userInfo.username,
+        gender: userInfo.gender,
+        instagramId: userInfo.instagramId,
+        profileImage: userInfo.profileImage,
+        // mainPhotographyTypes: userInfo.mainPhotographyTypes,
+        mainPhotographyTypes: ["SNAP"],
+        activeRegions: userInfo.activeRegions,
+      });
+      success = true;
+    } catch (e) {
+      success = false;
+      console.log(e);
+    } finally {
+      if (success)
+        navigation("/success/signup", {
+          state: { userInfo },
+          replace: true,
+        });
+    }
+  };
+
+  useEffect(() => {
+    console.log(userInfo);
+  }, [userInfo]);
 
   return (
     <div className="flex flex-col w-full h-full min-h-screen p-4">
