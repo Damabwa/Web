@@ -67,7 +67,7 @@ export default function SignUp() {
       console.log(e);
     } finally {
       navigation("/success/signup", {
-        state: { userinfo: userInfo },
+        state: { userInfo },
         replace: true,
       });
     }
@@ -95,10 +95,6 @@ export default function SignUp() {
           (step === 3 && userInfo.role === "photographer")) && (
           <Route setNextFunc={signUpFunc} />
         )}
-        {/* {((step === 3 && userInfo.role === "user") ||
-          (step === 4 && userInfo.role === "photographer")) && (
-          <Complete username={userInfo.username} role={userInfo.role} />
-        )} */}
       </div>
     </div>
   );

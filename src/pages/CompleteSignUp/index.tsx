@@ -12,8 +12,8 @@ export default function CompleteSignUp() {
   const [role, setRole] = useState("");
 
   useEffect(() => {
-    setUsername(location.state.username);
-    setRole(location.state.role);
+    setUsername(location.state.userInfo.username);
+    setRole(location.state.userInfo.role);
   }, []);
 
   const getPhotographerName = (name: string) => {
@@ -57,11 +57,11 @@ export default function CompleteSignUp() {
   };
 
   return (
-    <div className="flex flex-col w-full">
-      <div className="w-full pb-7 h-fit">
+    <div className="relative flex flex-col w-full min-h-screen py-4">
+      <div className="w-full px-4 pb-7 h-fit">
         <img className="w-28" src={logo_damaba} />
       </div>
-      <div className="flex flex-col items-center justify-center h-[80%] w-full gap-6">
+      <div className="flex flex-col items-center justify-center flex-1 w-full gap-6">
         <div className="text-2xl font-bold">
           {getPhotographerName(username)}
           {role === "photographer" && " 작가"}님,
@@ -71,7 +71,7 @@ export default function CompleteSignUp() {
         {getMessage(role === "user")}
       </div>
       <div className="flex-grow" />
-      <div className="absolute bottom-0 flex flex-col items-center w-full">
+      <div className="absolute bottom-0 flex flex-col items-center w-full p-4">
         {role === "photographer" && (
           <button className="mb-3 text-sm border-b text-black02 border-black02">
             작가 프로필 입력하러 바로가기
