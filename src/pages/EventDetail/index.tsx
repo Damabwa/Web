@@ -101,8 +101,12 @@ export default function EventDetail() {
   // }, [isPC]);
 
   const getPromotionFunc = async () => {
-    const res = await getPromotionDetail(Number(id));
-    setPromotionData(res);
+    try {
+      const res = await getPromotionDetail(Number(id));
+      setPromotionData(res);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   if (!promotionData) return <></>;
