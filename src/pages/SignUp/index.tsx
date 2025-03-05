@@ -81,10 +81,6 @@ export default function SignUp() {
     }
   };
 
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
-
   return (
     <div className="flex flex-col w-full h-full min-h-screen p-4">
       <div className="relative flex flex-1 w-full h-full">
