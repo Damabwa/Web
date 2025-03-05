@@ -46,6 +46,7 @@ export default function InputButtonBox({
             className="flex-1 h-12 px-4 border-none outline-none rounded-xl bg-lightgray"
             placeholder={placeholder}
             onChange={onChange}
+            value={value}
           />
         )}
         <button

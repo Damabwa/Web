@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { checkUserExistence } from "../../api/user";
+import { useLocation, useNavigate } from "react-router-dom";
+import { checkUserExistence, modifyProfile } from "../../api/user";
 import icn_camera from "../../assets/svgs/icn_profile_camera_white.svg";
 import icn_profile from "../../assets/svgs/icn_profile.svg";
 import SubHeader from "../../components/SubHeader";
@@ -11,12 +11,10 @@ import ButtonActive from "../../components/ButtonActive";
 
 export default function EditUserProfile() {
   const navigation = useNavigate();
+  const location = useLocation();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [photo, setPhoto] = useState("");
-  const [username, setUsername] = useState("김송이");
-  const [instagramId, setInstagramId] = useState("instaid");
-  let gender = "FEMALE";
+  const [userInfo, setUserInfo] = useState<any>();
 
   const [isValid, setIsValid] = useState(false);
   const [isChangedName, setIsChangedName] = useState(false);
@@ -25,8 +23,12 @@ export default function EditUserProfile() {
   const [isDuplicated, setIsDuplicated] = useState("");
 
   useEffect(() => {
+    setUserInfo(location.state);
+  }, []);
+
+  useEffect(() => {
     checkValidFunc();
-  }, [username, isDuplicated, instagramId]);
+  }, [userInfo, isDuplicated]);
 
   const handleImageClick = () => {
     if (fileInputRef.current) {
@@ -37,18 +39,21 @@ export default function EditUserProfile() {
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhoto(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      const objectURL = URL.createObjectURL(file);
+      setUserInfo({
+        ...userInfo,
+        profileImage: {
+          name: file.name,
+          url: objectURL,
+        },
+      });
     }
   };
 
   const handleNameInput = (e: any) => {
     setIsDuplicated("");
     setIsChangedName(true);
-    setUsername(e.target.value);
+    setUserInfo({ ...userInfo, nickname: e.target.value });
 
     const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
     setIsValidName(
@@ -66,13 +71,13 @@ export default function EditUserProfile() {
     if (value.length > 30) {
       value = value.slice(0, 30);
     }
-    setInstagramId(value);
+    setUserInfo({ ...userInfo, instagramId: value });
   };
 
   const checkExistenceFunc = async () => {
     if (!isValidName) return;
     try {
-      const res = await checkUserExistence(username);
+      const res = await checkUserExistence(userInfo.nickname);
       if (res.exists) setIsDuplicated("true");
       else setIsDuplicated("false");
     } catch (e) {
@@ -86,6 +91,18 @@ export default function EditUserProfile() {
     else setIsValid(false);
   };
 
+  const onClickSave = async () => {
+    const { nickname, instagramId, profileImage } = userInfo;
+    try {
+      await modifyProfile({ nickname, instagramId, profileImage });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      navigation(`/mypage`);
+    }
+  };
+
+  if (!userInfo) return <></>;
   return (
     <div className="relative flex flex-col justify-between min-h-screen px-4">
       <div>
@@ -99,18 +116,21 @@ export default function EditUserProfile() {
             ref={fileInputRef}
           />
           <div
-            className="relative cursor-pointer w-fit "
+            className="relative cursor-pointer w-fit"
             onClick={handleImageClick}
           >
-            {photo ? (
+            {userInfo.profileImage && userInfo.profileImage.url ? (
               <img
-                className="object-contain w-24 h-24 rounded-full"
-                src={photo}
+                className="object-contain w-24 h-24 border rounded-full border-darkgray border-opacity-30"
+                src={userInfo.profileImage.url}
               />
             ) : (
-              <img className="w-24 h-24 rounded-full" src={icn_profile} />
+              <img
+                className="w-24 h-24 border border-white rounded-full"
+                src={icn_profile}
+              />
             )}
-            <div className="bg-[#A7A8AA] w-fit p-1 rounded-full absolute bottom-0 right-0 border-2 border-white">
+            <div className="absolute bottom-0 right-0 p-1 border-2 border-white rounded-full bg-darkgray w-fit">
               <img src={icn_camera} />
             </div>
           </div>
@@ -118,7 +138,15 @@ export default function EditUserProfile() {
         <div className="flex justify-center w-full py-2 text-xs text-black04">
           <div
             className="border-b cursor-pointer border-black04 w-fit"
-            onClick={() => setPhoto("")}
+            onClick={() =>
+              setUserInfo({
+                ...userInfo,
+                profileImage: {
+                  name: "",
+                  url: "",
+                },
+              })
+            }
           >
             프로필 사진 삭제하기
           </div>
@@ -137,15 +165,18 @@ export default function EditUserProfile() {
               }
               buttonTitle="중복 확인"
               bottomText=""
-              value={username}
+              value={userInfo.nickname}
               isReadOnly={false}
             />
             {isDuplicated === "" ? (
               <div className="text-xs text-red">
                 {!isValidName &&
-                  username.length > 0 &&
+                  userInfo.ninkname &&
+                  userInfo.nickname.length > 0 &&
                   "한글, 영어, 숫자 조합 2-7자만 가능해요."}
-                {username.length === 0 && "닉네임을 입력해주세요."}
+                {userInfo.ninkname &&
+                  userInfo.nickname.length === 0 &&
+                  "닉네임을 입력해주세요."}
               </div>
             ) : (
               <div
@@ -163,8 +194,8 @@ export default function EditUserProfile() {
               title="성별"
               onClickA={() => {}}
               onClickB={() => {}}
-              activationA={gender === "MALE"}
-              activationB={gender === "FEMALE"}
+              activationA={userInfo.gender === "MALE"}
+              activationB={userInfo.gender === "FEMALE"}
               titleA="남성"
               titleB="여성"
               isReadonly={true}
@@ -174,7 +205,7 @@ export default function EditUserProfile() {
             title="인스타그램 아이디"
             placeholder="인스타그램 아이디를 입력해주세요."
             onChange={handleIdInput}
-            value={instagramId}
+            value={userInfo.instagramId}
           />
         </div>
       </div>
@@ -182,7 +213,7 @@ export default function EditUserProfile() {
         <ButtonActive
           activation={isValid}
           onClick={() => {
-            if (isValid) navigation(`/mypage`);
+            if (isValid) onClickSave();
           }}
           text="확인"
         />

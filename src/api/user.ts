@@ -7,3 +7,8 @@ export const checkUserExistence = async (nickname: string) =>
 
 export const userRegistration = async (body: any) =>
   await POST(`/users/me/registration`, body, true);
+
+export const getUserInfo = async () => await GET(`/users/me`, true);
+
+export const modifyProfile = async (body: any) =>
+  await PUT(`/users/me/profile`, body, true);

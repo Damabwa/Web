@@ -46,13 +46,13 @@ export default function ProfileImage({ photo, setPhoto }: Props) {
       >
         {photo ? (
           <img
-            className="object-contain w-[5.25rem] h-[5.25rem] rounded-full border-2 border-[#A7A8AA]"
+            className="object-contain w-[5.25rem] h-[5.25rem] rounded-full border-2 border-darkgray"
             src={photo}
           />
         ) : (
           <img src={icn_profile} />
         )}
-        <div className="bg-[#A7A8AA] w-fit p-1 rounded-full absolute bottom-0 right-0">
+        <div className="absolute bottom-0 right-0 p-1 rounded-full bg-darkgray w-fit">
           <img src={icn_camera} />
         </div>
       </div>

@@ -84,7 +84,7 @@ module.exports = {
       gray900: "#222",
       lightgray: "#F3F5F7",
       textgray: "#555",
-      buttonfalse: "#A7A8AA",
+      darkgray: "#A7A8AA",
     },
   },
   plugins: [require("tailwind-scrollbar-hide")],

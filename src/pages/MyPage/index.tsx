@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getUserInfo } from "../../api/user";
 import Bottom from "./Bottom";
 import ProfileUser from "./ProfileUser";
 import SavedContent from "./SavedContent";
@@ -5,6 +8,25 @@ import PhotographerInfo from "../../components/PhotographerInfo";
 import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 
 export default function MyPage() {
+  const navigation = useNavigate();
+
+  const [userInfo, setUserInfo] = useState<any>();
+
+  useEffect(() => {
+    getUserInfoFunc();
+  }, []);
+
+  const getUserInfoFunc = async () => {
+    try {
+      const res = await getUserInfo();
+      setUserInfo(res);
+      console.log(res);
+    } catch (e: any) {
+      if (e.response.status === 401) navigation(`/login`);
+      console.log(e);
+    }
+  };
+
   const mockdata = {
     id: 0,
     type: "USER",
@@ -75,13 +97,12 @@ export default function MyPage() {
     ],
   };
 
-  let role = "photographer";
-
+  if (!userInfo) return <></>;
   return (
     <div className="relative flex flex-col gap-4">
-      {role === "user" ? (
+      {userInfo.type === "USER" ? (
         <>
-          <ProfileUser />
+          <ProfileUser userInfo={userInfo} />
           <SavedContent />
         </>
       ) : (
