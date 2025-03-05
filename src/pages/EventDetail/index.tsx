@@ -5,7 +5,8 @@ import icn_clip from "../../assets/svgs/icn_clip.svg";
 import icn_time from "../../assets/svgs/icn_time.svg";
 import icn_loc from "../../assets/svgs/icn_location.svg";
 import icn_insta from "../../assets/svgs/icn_instagram.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { getPromotionDetail } from "../../api/promotion";
 
 export default function EventDetail() {
   const mockdata = {
@@ -46,25 +47,32 @@ export default function EventDetail() {
   };
 
   const navigation = useNavigate();
+  const [promotionData, setPromotionData] = useState<any>();
+  const { id } = useParams();
 
-  const [isPC, setIsPC] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentIndexPC, setCurrentIndexPC] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleResize = () => {
-    setIsPC(window.innerWidth > 768);
-  };
+  // const [isPC, setIsPC] = useState(true);
+  // const [currentIndexPC, setCurrentIndexPC] = useState(0);
+
+  // const handleResize = () => {
+  //   setIsPC(window.innerWidth > 768);
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    getPromotionFunc();
   }, []);
 
   useEffect(() => {
-    if (isPC) return;
+    // if (isPC) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -89,8 +97,15 @@ export default function EventDetail() {
     return () => {
       slides.forEach((slide) => observer.unobserve(slide));
     };
-  }, [isPC]);
+  }, [promotionData]);
+  // }, [isPC]);
 
+  const getPromotionFunc = async () => {
+    const res = await getPromotionDetail(Number(id));
+    setPromotionData(res);
+  };
+
+  if (!promotionData) return <></>;
   return (
     <div className="w-full">
       <div className="relative">
@@ -99,32 +114,33 @@ export default function EventDetail() {
           ref={containerRef}
         >
           <div
-            className={`${isPC ? `flex transition-transform duration-500 ease-in-out translate-x-[-${currentIndexPC * 100}%]` : "flex"}`}
+            // className={`${isPC ? `flex transition-transform duration-500 ease-in-out translate-x-[-${currentIndexPC * 100}%]` : "flex"}`}
+            className="flex"
           >
-            {mockdata.images.map((image, index) => (
+            {promotionData.images.map((image: any, index: number) => (
               <div
                 key={index}
                 className="flex-shrink-0 w-full slide-item snap-center"
                 data-index={index}
               >
-                <img src={image} className="object-cover min-w-full h-96" />
+                <img src={image.url} className="object-cover min-w-full h-96" />
               </div>
             ))}
           </div>
         </div>
-        {(mockdata.eventType === "FREE" ||
-          mockdata.eventType === "DISCOUNT") && (
+        {(promotionData.promotionType === "FREE" ||
+          promotionData.promotionType === "DISCOUNT") && (
           <div className="absolute z-10 px-2 py-[0.38rem] text-sm font-semibold text-center text-white rounded-lg top-4 left-4 bg-violet300">
-            {mockdata.eventType === "FREE" ? "무료" : "할인"} 이벤트
+            {promotionData.promotionType === "FREE" ? "무료" : "할인"} 이벤트
           </div>
         )}
-        {mockdata.images.length > 1 && (
+        {promotionData.images.length > 1 && (
           <div className="absolute z-10 right-4 bottom-3 bg-[rgb(85,85,85)] bg-opacity-80 flex items-center h-7 px-[0.88rem] text-white rounded-2xl text-xs">
-            {isPC ? currentIndexPC + 1 : currentIndex + 1}/
-            {mockdata.images.length}
+            {/* {isPC ? currentIndexPC + 1 : currentIndex + 1}/ */}
+            {currentIndex + 1}/{promotionData.images.length}
           </div>
         )}
-        {isPC && (
+        {/* {isPC && (
           <div className="absolute top-0 z-10 flex items-center w-full h-96">
             <div className="relative w-full">
               {currentIndexPC > 0 && (
@@ -143,49 +159,61 @@ export default function EventDetail() {
               )}
             </div>
           </div>
-        )}
+        )} */}
       </div>
       <div className="flex flex-col w-full bg-lightgray">
         <div className="flex flex-col w-full py-5 bg-white border-b-8 border-gray50">
-          <div className="px-4 text-sm font-semibold text-black04 pb-[2px]">
-            스냅, 컨셉
+          <div className="px-4 text-sm font-medium text-black04 pb-[2px] flex gap-1">
+            {promotionData.photographyTypes.map(
+              (type: string, index: number) => (
+                <div className="flex gap-1" key={index}>
+                  {type}
+                  {promotionData.activeRegions.length > index + 1 && <>,</>}
+                </div>
+              )
+            )}
           </div>
-          <div className="px-4 pb-4 text-xl font-bold ">{mockdata.title}</div>
+          <div className="px-4 pb-4 text-xl font-bold ">
+            {promotionData.title}
+          </div>
           <div className="flex flex-col gap-2 px-3 text-sm font-medium text-black02">
-            <div className="flex items-center gap-1">
-              <img className="p-[0.35rem]" src={icn_time} />
-              <div>
-                {mockdata.startedAt.replace(/-/g, ".")}
-                {" ~ "}
-                {mockdata.endedAt.replace(/-/g, ".")}
+            {promotionData.startAt && promotionData.endedAt && (
+              <div className="flex items-center gap-1">
+                <img className="p-[0.35rem]" src={icn_time} /> (
+                <div>
+                  {promotionData.startedAt.replace(/-/g, ".")}
+                  {" ~ "}
+                  {promotionData.endedAt.replace(/-/g, ".")}
+                </div>
+                )
               </div>
-            </div>
+            )}
             <div className="flex items-center gap-1">
               <img className="w-6" src={icn_loc} />
               <div className="flex w-full gap-1">
-                {mockdata.activeRegions.map((loc, index) => (
+                {promotionData.activeRegions.map((loc: any, index: number) => (
                   <div className="flex gap-1" key={index}>
                     <p>{loc.category}</p>
                     <p>
                       {loc.name}
-                      {mockdata.activeRegions.length > index + 1 && <>,</>}
+                      {promotionData.activeRegions.length > index + 1 && <>,</>}
                     </p>
                   </div>
                 ))}
               </div>
             </div>
-            {mockdata.photographerInstagramId && (
+            {promotionData.author.instagramId && (
               <div className="flex items-center gap-1">
                 <img className="p-[0.35rem]" src={icn_insta} />
                 <div
                   className="cursor-pointer text-[#0068C3]"
                   onClick={() =>
                     window.open(
-                      `https://www.instagram.com/${mockdata.photographerInstagramId}`
+                      `https://www.instagram.com/${promotionData.author.instagramId}`
                     )
                   }
                 >
-                  {mockdata.photographerInstagramId}
+                  {promotionData.author.instagramId}
                 </div>
               </div>
             )}
@@ -196,22 +224,26 @@ export default function EventDetail() {
           <div className="flex items-center gap-2 pb-6">
             <img
               className="w-10 h-10 rounded-full cursor-pointer"
-              src="https://i.pinimg.com/236x/b5/35/90/b53590a25445742b56c2bffb68987e11.jpg"
-              onClick={() => navigation(`/photographer/0`)}
+              src={promotionData.author.profileImage.url}
+              onClick={() =>
+                navigation(`/photographer/${promotionData.author.id}`)
+              }
             />
             <div
               className="cursor-pointer"
-              onClick={() => navigation(`/photographer/0`)}
+              onClick={() =>
+                navigation(`/photographer/${promotionData.author.id}`)
+              }
             >
-              {mockdata.photographerName}
+              {promotionData.author.nickname}
             </div>
           </div>
           <div className="pb-3 font-bold">상세 설명</div>
           <div className="pb-5 text-sm font-medium text-black02">
-            {mockdata.content}
+            {promotionData.content}
           </div>
           <div className="flex gap-2 text-sm font-medium pb-36 text-black02">
-            {mockdata.hashtags.map((tag) => (
+            {promotionData.hashtags.map((tag: string) => (
               <div
                 key={tag}
                 className="px-3 py-1 rounded-2xl bg-violet400 bg-opacity-15 text-violet400"
