@@ -1,6 +1,7 @@
 interface Props {
   title: string;
   content: string[];
+  btnMsg: string;
   align: string;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   onClick: () => void;
@@ -9,6 +10,7 @@ interface Props {
 export default function ModalCheck({
   title,
   content,
+  btnMsg,
   align,
   setShowModal,
   onClick,
@@ -18,7 +20,7 @@ export default function ModalCheck({
       <div
         className={`flex flex-col w-[17.125rem] rounded-[1.25rem] bg-white text-${align}`}
       >
-        <div className="flex flex-col gap-[0.44rem] p-6 pb-4 min-h-24 justify-center text-gray900">
+        <div className="flex flex-col gap-[0.44rem] p-6 pb-4 min-h-24 justify-center text-gray900 text-nowrap">
           <div className="font-semibold">{title}</div>
           {content && (
             <div className="flex flex-col text-sm">
@@ -42,7 +44,7 @@ export default function ModalCheck({
               setShowModal(false);
             }}
           >
-            확인
+            {btnMsg}
           </div>
         </div>
       </div>

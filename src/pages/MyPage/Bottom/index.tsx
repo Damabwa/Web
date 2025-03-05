@@ -52,6 +52,7 @@ export default function Bottom() {
         <ModalCheck
           title="로그아웃 하시겠습니까?"
           content={[]}
+          btnMsg="확인"
           align="center"
           setShowModal={setShowLogoutModal}
           onClick={onClickLogout}
@@ -64,6 +65,7 @@ export default function Bottom() {
             "회원 탈퇴 시, 지금까지 저장된 정보와",
             "데이터가 삭제되어 복원되지 않습니다.",
           ]}
+          btnMsg="확인"
           align="start"
           setShowModal={setShowWithdrawalModal}
           onClick={onClickWithdrawal}

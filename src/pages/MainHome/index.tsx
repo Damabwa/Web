@@ -1,12 +1,21 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
+import ModalCheck from "../../components/ModalCheck";
 import EventBox from "./EventBox";
 import PhotographerBox from "./PhotographerBox";
 import logo_header from "../../assets/imgs/img_mainhome_header_logo.png";
 import icn_mypage from "../../assets/svgs/icn_mainhome_mypage.svg";
-import { useNavigate } from "react-router-dom";
 
 function MainHome() {
   const navigation = useNavigate();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const onClickMyPage = () => {
+    if (!localStorage.getItem("accessToken")) setShowLoginModal(true);
+    else navigation(`/mypage`);
+  };
+
   return (
     <div className="w-full">
       <div className="h-12">
@@ -23,7 +32,7 @@ function MainHome() {
             <img
               className="px-2"
               src={icn_mypage}
-              onClick={() => navigation(`/mypage`)}
+              onClick={() => onClickMyPage()}
             />
           }
         />
@@ -36,6 +45,19 @@ function MainHome() {
       </div>
       <PhotographerBox />
       <div className="w-full bg-lightgray h-28" />
+      {showLoginModal && (
+        <ModalCheck
+          title="로그인이 필요한 서비스입니다."
+          content={[
+            "이 기능은 로그인 후 이용하실 수 있습니다.",
+            "로그인 페이지로 이동하시겠습니까?",
+          ]}
+          btnMsg="로그인 하기"
+          align="start"
+          setShowModal={setShowLoginModal}
+          onClick={() => navigation(`/login`)}
+        />
+      )}
     </div>
   );
 }
