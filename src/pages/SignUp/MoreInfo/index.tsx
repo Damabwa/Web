@@ -16,7 +16,6 @@ export default function MoreInfo({
   setUserInfo,
   onClickFunc,
 }: Props) {
-  const [profileImage, setProfileImage] = useState();
   const [mainPhotographyTypes, setMainPhotographyTypes] = useState<string[]>(
     []
   );
@@ -25,42 +24,26 @@ export default function MoreInfo({
 
   useEffect(() => {
     checkValidFunc();
-  }, [profileImage, mainPhotographyTypes, locs]);
+  }, [userInfo, mainPhotographyTypes, locs]);
 
   const checkValidFunc = () => {
-    if (profileImage && mainPhotographyTypes.length > 0 && locs.length > 0)
+    if (
+      userInfo.profileImage.url &&
+      mainPhotographyTypes.length > 0 &&
+      locs.length > 0
+    )
       setIsValid(true);
     else setIsValid(false);
   };
 
   const onClickHandler = () => {
-    const regions = locs.map((l) => {
-      const [category, name] = l.split(" ");
-      return { category, name };
-    });
     setUserInfo({
       ...userInfo,
-      profileImage: { name: "apple.jpg", url: base64ToBlobUrl(profileImage) },
       mainPhotographyTypes,
-      activeRegions: regions,
+      activeRegions: locs,
     });
     onClickFunc();
   };
-
-  function base64ToBlobUrl(base64: any) {
-    const parts = base64.split(",");
-    const mimeType = parts[0].match(/:(.*?);/)[1];
-    const byteCharacters = atob(parts[1]);
-
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: mimeType });
-
-    return URL.createObjectURL(blob).slice(5);
-  }
 
   return (
     <div className="flex flex-col w-full">
@@ -71,7 +54,7 @@ export default function MoreInfo({
         작가 정보를 입력해주세요
       </div>
       <div className="flex flex-col gap-8 mb-20">
-        <ProfileImage photo={profileImage} setPhoto={setProfileImage} />
+        <ProfileImage userInfo={userInfo} setUserInfo={setUserInfo} />
         <Types
           types={mainPhotographyTypes}
           setTypes={setMainPhotographyTypes}

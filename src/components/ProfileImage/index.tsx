@@ -1,13 +1,14 @@
 import { useRef } from "react";
+import { upLoadFile } from "../../api/file";
 import icn_profile from "../../assets/svgs/icn_profile.svg";
 import icn_camera from "../../assets/svgs/icn_profile_camera_white.svg";
 
 interface Props {
-  photo: any;
-  setPhoto: React.Dispatch<React.SetStateAction<any>>;
+  userInfo: any;
+  setUserInfo: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export default function ProfileImage({ photo, setPhoto }: Props) {
+export default function ProfileImage({ userInfo, setUserInfo }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleImageClick = () => {
@@ -16,14 +17,28 @@ export default function ProfileImage({ photo, setPhoto }: Props) {
     }
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhoto(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      const image = await uploadFileFunc(file);
+      setUserInfo({
+        ...userInfo,
+        profileImage: image,
+      });
+    }
+  };
+
+  const uploadFileFunc = async (file: any) => {
+    const formData = new FormData();
+    formData.append("fileType", "USER_PROFILE_IMAGE");
+    formData.append("files", file);
+    try {
+      const res = await upLoadFile(formData);
+      return res.files[0];
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -44,10 +59,10 @@ export default function ProfileImage({ photo, setPhoto }: Props) {
         className="relative cursor-pointer w-fit "
         onClick={handleImageClick}
       >
-        {photo ? (
+        {userInfo.profileImage.url ? (
           <img
             className="object-contain w-[5.25rem] h-[5.25rem] rounded-full border-2 border-darkgray"
-            src={photo}
+            src={userInfo.profileImage.url}
           />
         ) : (
           <img src={icn_profile} />

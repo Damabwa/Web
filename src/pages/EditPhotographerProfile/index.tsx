@@ -14,8 +14,6 @@ export default function EditPhotographerProfile() {
   const location = useLocation();
 
   const [userInfo, setUserInfo] = useState<any>();
-
-  const [profileImage, setProfileImage] = useState();
   const [mainPhotographyTypes, setMainPhotographyTypes] = useState<string[]>(
     []
   );
@@ -28,7 +26,6 @@ export default function EditPhotographerProfile() {
 
   useEffect(() => {
     setUserInfo(location.state);
-    setProfileImage(location.state.profileImage.url);
     setMainPhotographyTypes(location.state.mainPhotographyTypes);
     setLocs(location.state.activeRegions);
   }, []);
@@ -88,7 +85,7 @@ export default function EditPhotographerProfile() {
     <div className="relative flex flex-col gap-6 px-4">
       <SubHeader title="프로필 수정" />
       <div className="flex flex-col gap-8 mb-20">
-        <ProfileImage photo={profileImage} setPhoto={setProfileImage} />
+        <ProfileImage userInfo={userInfo} setUserInfo={setUserInfo} />
         <div>
           <InputButtonBox
             isRequired={true}
