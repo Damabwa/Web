@@ -37,19 +37,6 @@ export default function EditUserProfile() {
     }
   };
 
-  // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0];
-  //   if (file) {
-  //     const objectURL = URL.createObjectURL(file);
-  //     setUserInfo({
-  //       ...userInfo,
-  //       profileImage: {
-  //         name: file.name,
-  //         url: objectURL,
-  //       },
-  //     });
-  //   }
-  // };
   const handleImageChange = async (event: any) => {
     if (!event) {
       if (userInfo.profileImage.url !== "") setIsChangeImage(true);
@@ -72,6 +59,7 @@ export default function EditUserProfile() {
       });
     }
   };
+
   const uploadFileFunc = async (file: any) => {
     const formData = new FormData();
     formData.append("fileType", "USER_PROFILE_IMAGE");
