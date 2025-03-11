@@ -9,43 +9,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getPromotionDetail } from "../../api/promotion";
 
 export default function EventDetail() {
-  const mockdata = {
-    id: 0,
-    authorId: 0,
-    type: "EVENT",
-    eventType: "FREE",
-    title: "꽃 컨셉 늦여름 촬영 이벤트",
-    content:
-      "콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다. 콘텐츠 내용입니다.",
-    address: {
-      sido: "경기",
-      sigungu: "성남시 분당구",
-      roadAddress: "경기 성남시 분당구 판교역로 166",
-      jibunAddress: "경기 성남시 분당구 백현동 532",
-    },
-    externalLink: "https://promotion-instagram-post",
-    startedAt: "2025-01-04",
-    endedAt: "2025-01-04",
-    photographerName: "담아사진",
-    photographerInstagramId: "dama.photo",
-    images: [
-      "https://i.pinimg.com/236x/b5/35/90/b53590a25445742b56c2bffb68987e11.jpg",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo0gWBNWbbcHj95yiemGhcE4c9lkjvJxoLQg&s",
-      "https://image.dongascience.com/Photo/2019/12/15751948028007.jpg",
-    ],
-    hashtags: ["서울", "개인", "올림픽공원"],
-    activeRegions: [
-      {
-        category: "서울",
-        name: "강남구",
-      },
-      {
-        category: "서울",
-        name: "강남구",
-      },
-    ],
-  };
-
   const navigation = useNavigate();
   const [promotionData, setPromotionData] = useState<any>();
   const { id } = useParams();

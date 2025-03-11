@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import icn_next from "../../../assets/svgs/icn_next.svg";
+import { useEffect, useState } from "react";
+import { getPhotographerList } from "../../../api/photographer";
+import ProfileImage from "../../../components/ProfileImage";
 
 export default function PhotographerBox() {
   const navigation = useNavigate();
@@ -26,6 +29,22 @@ export default function PhotographerBox() {
     },
   ];
 
+  const [photographers, setPhotographers] = useState<any>([]);
+
+  useEffect(() => {
+    getPhotographerListFunc();
+  }, []);
+
+  const getPhotographerListFunc = async () => {
+    try {
+      const res = await getPhotographerList();
+      setPhotographers(res.items.slice(0, 5));
+      console.log(res.items.slice(0, 5));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const navigatePhotographers = () => {
     navigation("/photographers");
   };
@@ -33,6 +52,10 @@ export default function PhotographerBox() {
   const handleTextLength = (name: string) => {
     if (name.length < 8) return name;
     return `${name.slice(0, 8)}...`;
+  };
+
+  const onClickPhotographer = (id: number) => {
+    navigation(`/photographer/${id}`);
   };
 
   return (
@@ -51,20 +74,37 @@ export default function PhotographerBox() {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-5 px-4">
-        {mockdata.map((item) => (
+        {photographers.map((item: any) => (
           <div
-            key={item.name}
-            className="flex flex-col justify-end h-48 text-white cursor-pointer bg-gray rounded-xl"
+            key={item.nickname}
+            className="relative flex flex-col justify-end h-48 overflow-hidden text-white cursor-pointer bg-gray rounded-xl"
           >
-            <div className="p-3">
-              <div className="font-semibold">{handleTextLength(item.name)}</div>
+            <div
+              className="absolute top-0 left-0 z-0"
+              onClick={() => onClickPhotographer(item.id)}
+            >
+              <div className="relative inline-block w-48 h-48 overflow-hidden rounded-xl">
+                <img
+                  src={item.profileImage.url}
+                  alt={item.profileImage.name}
+                  className="block object-cover w-full h-full"
+                />
+                <div className="absolute bottom-0 left-0 w-full h-[40%] bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.25)] pointer-events-none" />
+              </div>
+            </div>
+            <div className="z-10 p-3">
+              <div className="font-semibold">
+                {handleTextLength(item.nickname)}
+              </div>
               <div className="flex items-center gap-1 text-xs">
-                {item.types.map((type, index) => (
-                  <div key={index}>
-                    {type}
-                    {index + 1 !== item.types.length && <>,</>}
-                  </div>
-                ))}
+                {item.mainPhotographyTypes.map(
+                  (type: string, index: number) => (
+                    <div key={index}>
+                      {type}
+                      {index + 1 !== item.mainPhotographyTypes.length && <>,</>}
+                    </div>
+                  )
+                )}
               </div>
             </div>
           </div>
