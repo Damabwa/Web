@@ -127,7 +127,7 @@ export default function EditUserProfile() {
     } catch (e) {
       console.log(e);
     } finally {
-      navigation(`/mypage`);
+      navigation(`/mypage`, { replace: true });
     }
   };
 
