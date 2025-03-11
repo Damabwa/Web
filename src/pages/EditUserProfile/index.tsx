@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { upLoadFile } from "../../api/file";
 import { checkUserExistence, modifyProfile } from "../../api/user";
 import icn_camera from "../../assets/svgs/icn_profile_camera_white.svg";
 import icn_profile from "../../assets/svgs/icn_profile.svg";
@@ -15,8 +16,8 @@ export default function EditUserProfile() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [userInfo, setUserInfo] = useState<any>();
-
   const [isValid, setIsValid] = useState(false);
+  const [isChangeImage, setIsChangeImage] = useState(false);
   const [isChangedName, setIsChangedName] = useState(false);
   const [isChangedInstaId, setIsChangedInstaId] = useState(false);
   const [isValidName, setIsValidName] = useState(true);
@@ -36,17 +37,50 @@ export default function EditUserProfile() {
     }
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const objectURL = URL.createObjectURL(file);
+  // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   if (file) {
+  //     const objectURL = URL.createObjectURL(file);
+  //     setUserInfo({
+  //       ...userInfo,
+  //       profileImage: {
+  //         name: file.name,
+  //         url: objectURL,
+  //       },
+  //     });
+  //   }
+  // };
+  const handleImageChange = async (event: any) => {
+    if (!event) {
+      if (userInfo.profileImage.url !== "") setIsChangeImage(true);
       setUserInfo({
         ...userInfo,
         profileImage: {
-          name: file.name,
-          url: objectURL,
+          name: "",
+          url: "",
         },
       });
+      return;
+    }
+    const file = event.target.files?.[0];
+    if (file) {
+      const image = await uploadFileFunc(file);
+      setIsChangeImage(true);
+      setUserInfo({
+        ...userInfo,
+        profileImage: image,
+      });
+    }
+  };
+  const uploadFileFunc = async (file: any) => {
+    const formData = new FormData();
+    formData.append("fileType", "USER_PROFILE_IMAGE");
+    formData.append("files", file);
+    try {
+      const res = await upLoadFile(formData);
+      return res.files[0];
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -89,7 +123,11 @@ export default function EditUserProfile() {
   };
 
   const checkValidFunc = () => {
-    if (isChangedInstaId || (isChangedName && isDuplicated === "false"))
+    if (
+      isChangeImage ||
+      isChangedInstaId ||
+      (isChangedName && isDuplicated === "false")
+    )
       setIsValid(true);
     else setIsValid(false);
   };
@@ -141,15 +179,7 @@ export default function EditUserProfile() {
         <div className="flex justify-center w-full py-2 text-xs text-black04">
           <div
             className="border-b cursor-pointer border-black04 w-fit"
-            onClick={() =>
-              setUserInfo({
-                ...userInfo,
-                profileImage: {
-                  name: "",
-                  url: "",
-                },
-              })
-            }
+            onClick={() => handleImageChange(null)}
           >
             프로필 사진 삭제하기
           </div>
