@@ -38,9 +38,9 @@ export default function EditPhotographerPage() {
 
   useEffect(() => {
     setPortfolio(location.state.portfolio);
-    setInstagramId(location.state.instagramId);
-    setContactLink(location.state.contactLink);
-    setDescription(location.state.description);
+    setInstagramId(location.state.instagramId || "");
+    setContactLink(location.state.contactLink || "");
+    setDescription(location.state.description || "");
     if (location.state.address) setAddress(location.state.address);
   }, []);
 
