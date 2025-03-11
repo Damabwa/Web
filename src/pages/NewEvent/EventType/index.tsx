@@ -12,14 +12,14 @@ export default function EventType({ eventType, setEventType }: Props) {
       </div>
       <div className="flex items-center w-full gap-2">
         <button
-          className={`min-w-fit outline-none flex items-center justify-center h-10 w-[3.875rem] rounded-3xl border ${eventType === "free" ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "border-black border-opacity-10"}`}
-          onClick={() => setEventType("free")}
+          className={`min-w-fit outline-none flex items-center justify-center h-10 w-[3.875rem] rounded-3xl border ${eventType === "FREE" ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "border-black border-opacity-10"}`}
+          onClick={() => setEventType("FREE")}
         >
           무료
         </button>
         <button
-          className={`min-w-fit outline-none flex items-center justify-center h-10 w-[3.875rem] rounded-3xl border ${eventType === "discount" ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "border-black border-opacity-10"}`}
-          onClick={() => setEventType("discount")}
+          className={`min-w-fit outline-none flex items-center justify-center h-10 w-[3.875rem] rounded-3xl border ${eventType === "DISCOUNT" ? "bg-violet400 bg-opacity-15 border-violet400 text-violet400" : "border-black border-opacity-10"}`}
+          onClick={() => setEventType("DISCOUNT")}
         >
           할인
         </button>

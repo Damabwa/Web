@@ -9,7 +9,7 @@ export const getPromotion = async (promotionId: number) =>
   await GET(`/promotions/${promotionId}`);
 
 export const postPromotion = async (body: any) =>
-  await POST(`/promotions/`, body, true);
+  await POST(`/promotions`, body, true);
 
 export const savePromotion = async (promotionId: number) =>
   await POST(`/promotions/${promotionId}/save`, true);

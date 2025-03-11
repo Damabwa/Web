@@ -39,7 +39,6 @@ export default function PhotographerBox() {
     try {
       const res = await getPhotographerList();
       setPhotographers(res.items.slice(0, 5));
-      console.log(res.items.slice(0, 5));
     } catch (e) {
       console.log(e);
     }

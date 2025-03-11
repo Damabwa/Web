@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getUserInfo } from "../../api/user";
+import { postPromotion } from "../../api/promotion";
 import InputBox from "../../components/InputBox";
 import SubHeader from "../../components/SubHeader";
 import GetImagesBox from "../../components/GetImagesBox";
@@ -10,49 +12,120 @@ import ButtonActive from "../../components/ButtonActive";
 import ModalComfirm from "../../components/ModalComfirm";
 import EventType from "./EventType";
 import Keywords from "./Keywords";
+import EventPeriod from "./EventPeriod";
 
 export default function NewEvent() {
   const navigation = useNavigate();
 
-  const [title, setTitle] = useState("");
   const [tradename, setTradename] = useState("");
+  const [title, setTitle] = useState("");
   const [types, setTypes] = useState<string[]>([]);
   const [locs, setLocs] = useState<string[]>([]);
-  const [eventType, setEventType] = useState("");
-  const [url, setUrl] = useState("");
+  const [promotionType, setPromotionType] = useState("");
+  const [startedAt, setStartedAt] = useState("");
+  const [endedAt, setEndedAt] = useState("");
+  const [externalLink, setExternalLink] = useState("");
   const [images, setImages] = useState<string[]>([]);
-  const [keywords, setKeywords] = useState<string[]>([]);
-  const [detail, setDetail] = useState("");
+  const [hashtags, setHashtags] = useState<string[]>([]);
+  const [content, setContent] = useState("");
   const [isValid, setIsValid] = useState(false);
+  const [isValidDates, setIsValidDates] = useState(false);
 
   const [showKeywordModal, setShowKeywordModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
 
   useEffect(() => {
+    getUserInfoFunc();
+  }, []);
+
+  const getUserInfoFunc = async () => {
+    try {
+      const res = await getUserInfo();
+      console.log(res);
+      if (res.type !== "PHOTOGRAPHER") navigation(`/main`, { replace: true });
+      setTradename(res.nickname);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
     setIsValid(
       title.length *
-        tradename.length *
         types.length *
         locs.length *
-        eventType.length *
-        url.length *
+        promotionType.length *
+        externalLink.length *
         images.length *
-        keywords.length *
-        detail.length >
-        0
+        hashtags.length *
+        content.length >
+        0 && isValidDates
     );
-  }, [title, tradename, types, locs, eventType, url, images, keywords, detail]);
+  }, [
+    title,
+    types,
+    locs,
+    promotionType,
+    externalLink,
+    images,
+    hashtags,
+    content,
+    isValidDates,
+  ]);
 
   const handleTitleInput = (e: any) => {
     setTitle(e.target.value);
   };
 
-  const handleNameInput = (e: any) => {
-    setTradename(e.target.value);
+  const handleUrlInput = (e: any) => {
+    setExternalLink(e.target.value);
   };
 
-  const handleUrlInput = (e: any) => {
-    setUrl(e.target.value);
+  const onChangeStart = (e: any) => {
+    let { value } = e.target;
+    value = value.replace(/[^0-9-]/g, "");
+    if (value.length > 10) {
+      value = value.slice(0, 10);
+    }
+    setStartedAt(value);
+  };
+
+  const onChangeEnd = (e: any) => {
+    let { value } = e.target;
+    value = value.replace(/[^0-9-]/g, "");
+    if (value.length > 10) {
+      value = value.slice(0, 10);
+    }
+    setEndedAt(value);
+  };
+
+  const onClickSubmit = async () => {
+    const body = {
+      promotionType: promotionType,
+      title: title,
+      content: content,
+      address: {
+        sido: "경기",
+        sigungu: "성남시 분당구",
+        roadAddress: "경기 성남시 분당구 판교역로 166",
+        jibunAddress: "경기 성남시 분당구 백현동 532",
+      },
+      externalLink: externalLink,
+      startedAt: startedAt,
+      endedAt: endedAt,
+      photographyTypes: ["SNAP"],
+      images: images,
+      activeRegions: locs,
+      hashtags: hashtags,
+    };
+    try {
+      await postPromotion(body);
+      console.log(body);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      navigation(`/events`, { replace: true });
+    }
   };
 
   return (
@@ -77,13 +150,20 @@ export default function NewEvent() {
           title="상호/활동명"
           description=""
           placeholder="초록 스튜디오"
-          onChange={handleNameInput}
+          onChange={() => {}}
           bottomText=""
           value={tradename}
         />
         <Types types={types} setTypes={setTypes} maxNum={2} />
         <Location locs={locs} setLocs={setLocs} maxNum={3} />
-        <EventType eventType={eventType} setEventType={setEventType} />
+        <EventType eventType={promotionType} setEventType={setPromotionType} />
+        <EventPeriod
+          onChangeA={onChangeStart}
+          onChangeB={onChangeEnd}
+          valueA={startedAt}
+          valueB={endedAt}
+          setIsValidDates={setIsValidDates}
+        />
         <InputBox
           isRequired={true}
           title="이벤트 게시물 링크"
@@ -91,7 +171,7 @@ export default function NewEvent() {
           placeholder="게시물 링크를 입력해주세요."
           onChange={handleUrlInput}
           bottomText=""
-          value={url}
+          value={externalLink}
         />
       </div>
       <div className="py-10 pl-4">
@@ -108,8 +188,8 @@ export default function NewEvent() {
       </div>
       <div className="flex flex-col gap-10 px-4 mb-12">
         <Keywords
-          keywords={keywords}
-          setKeywords={setKeywords}
+          keywords={hashtags}
+          setKeywords={setHashtags}
           setShowModal={setShowKeywordModal}
         />
         <InputLongformBox
@@ -117,16 +197,14 @@ export default function NewEvent() {
           title="상세 소개"
           minHeight="10.5rem"
           maxLength={500}
-          setValue={setDetail}
-          value={detail}
+          setValue={setContent}
+          value={content}
         />
       </div>
       <div className="px-4 pb-4">
         <ButtonActive
           activation={isValid}
-          onClick={() => {
-            navigation(`/events`);
-          }}
+          onClick={() => onClickSubmit()}
           text="등록"
         />
       </div>
