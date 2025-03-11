@@ -49,7 +49,7 @@ export default function SignUp() {
       console.log(e);
     } finally {
       navigation("/success/signup", {
-        state: { userInfo },
+        state: userInfo,
         replace: true,
       });
     }
@@ -59,7 +59,7 @@ export default function SignUp() {
     if (userInfo.role === "user") return;
     let success = false;
     try {
-      photographerRegistration({
+      await photographerRegistration({
         nickname: userInfo.username,
         gender: userInfo.gender,
         instagramId: userInfo.instagramId,
@@ -75,7 +75,7 @@ export default function SignUp() {
     } finally {
       if (success)
         navigation("/success/signup", {
-          state: { userInfo },
+          state: userInfo,
           replace: true,
         });
     }

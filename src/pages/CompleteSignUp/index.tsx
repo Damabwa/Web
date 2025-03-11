@@ -12,8 +12,8 @@ export default function CompleteSignUp() {
   const [role, setRole] = useState("");
 
   useEffect(() => {
-    setUsername(location.state.userInfo.username);
-    setRole(location.state.userInfo.role);
+    setUsername(location.state.username);
+    setRole(location.state.role);
   }, []);
 
   const getPhotographerName = (name: string) => {

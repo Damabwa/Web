@@ -5,6 +5,7 @@ interface Props {
   placeholder: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   bottomText: string;
+  value: string;
 }
 
 export default function InputBox({
@@ -14,6 +15,7 @@ export default function InputBox({
   placeholder,
   onChange,
   bottomText,
+  value,
 }: Props) {
   return (
     <div className="flex flex-col w-full text-sm">
@@ -31,6 +33,7 @@ export default function InputBox({
           className="flex-1 h-12 px-4 border-none outline-none rounded-xl bg-lightgray"
           placeholder={placeholder}
           onChange={onChange}
+          value={value}
         />
       </div>
       {bottomText !== "" && (

@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { upLoadFile } from "../../api/file";
 import icn_camera from "../../assets/svgs/icn_profile_camera.svg";
 import icn_delete from "../../assets/svgs/btn_delete_porfolio_ellipse.svg";
 
@@ -7,8 +8,9 @@ interface Props {
   title: string;
   description: string;
   maxLength: number;
-  images: string[];
-  setImages: React.Dispatch<React.SetStateAction<string[]>>;
+  images: any[];
+  fileType: string;
+  setImages: React.Dispatch<React.SetStateAction<any[]>>;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -18,11 +20,11 @@ export default function GetImagesBox({
   description,
   maxLength,
   images,
+  fileType,
   setImages,
   setShowModal,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [photos, setPhotos] = useState<string[]>([]);
 
   const handleImageClick = () => {
     if (images.length === 10) {
@@ -34,14 +36,25 @@ export default function GetImagesBox({
     }
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImages((prevItem) => [reader.result as string, ...prevItem]);
-      };
-      reader.readAsDataURL(file);
+      const image = await uploadFileFunc(file);
+      setImages([...images, image]);
+    }
+  };
+
+  const uploadFileFunc = async (file: any) => {
+    const formData = new FormData();
+    formData.append("fileType", fileType);
+    formData.append("files", file);
+    try {
+      const res = await upLoadFile(formData);
+      return res.files[0];
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -79,19 +92,21 @@ export default function GetImagesBox({
             </div>
             {images.map((item, index) => (
               <div
-                key={item}
+                key={item.url}
                 className={`relative min-w-fit ${index === images.length - 1 && "mr-6"}`}
               >
                 <img
                   className="absolute right-[-0.75rem] top-[-0.75rem] cursor-pointer"
                   src={icn_delete}
                   onClick={() =>
-                    setImages((prev) => prev.filter((image) => image !== item))
+                    setImages((prev) =>
+                      prev.filter((image) => image.url !== item.url)
+                    )
                   }
                 />
                 <img
                   className="object-cover w-[4.75rem] h-[4.75rem] border-lineRegular rounded-[0.63rem] border"
-                  src={item}
+                  src={item.url}
                 />
               </div>
             ))}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { checkPhotographerExistence } from "../../api/photographer";
-import { modifyProfile } from "../../api/user";
+import { modifyPhotographerProfile } from "../../api/photographer";
 import SubHeader from "../../components/SubHeader";
 import ProfileImage from "../../components/ProfileImage";
 import Types from "../../components/Types";
@@ -17,7 +17,7 @@ export default function EditPhotographerProfile() {
   const [mainPhotographyTypes, setMainPhotographyTypes] = useState<string[]>(
     []
   );
-  const [locs, setLocs] = useState<string[]>([]);
+  const [activeRegions, setActiveRegions] = useState<string[]>([]);
 
   const [isValid, setIsValid] = useState(false);
   const [isChangedName, setIsChangedName] = useState(false);
@@ -27,7 +27,7 @@ export default function EditPhotographerProfile() {
   useEffect(() => {
     setUserInfo(location.state);
     setMainPhotographyTypes(location.state.mainPhotographyTypes);
-    setLocs(location.state.activeRegions);
+    setActiveRegions(location.state.activeRegions);
   }, []);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function EditPhotographerProfile() {
     if (
       isDuplicated !== "true" &&
       mainPhotographyTypes.length > 0 &&
-      locs.length > 0
+      activeRegions.length > 0
     )
       setIsValid(true);
     else setIsValid(false);
@@ -70,14 +70,19 @@ export default function EditPhotographerProfile() {
   };
 
   const onClickSave = async () => {
-    // const { nickname, instagramId, profileImage } = userInfo;
-    // try {
-    //   await modifyProfile({ nickname, instagramId, profileImage });
-    // } catch (e) {
-    //   console.log(e);
-    // } finally {
-    navigation(`/mypage`);
-    // }
+    const { nickname, profileImage } = userInfo;
+    try {
+      await modifyPhotographerProfile({
+        nickname,
+        profileImage,
+        mainPhotographyTypes,
+        activeRegions,
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      navigation(`/mypage`, { replace: true });
+    }
   };
 
   if (!userInfo) return <></>;
@@ -123,7 +128,7 @@ export default function EditPhotographerProfile() {
           setTypes={setMainPhotographyTypes}
           maxNum={3}
         />
-        <Location locs={locs} setLocs={setLocs} maxNum={5} />
+        <Location locs={activeRegions} setLocs={setActiveRegions} maxNum={5} />
       </div>
       <ButtonActive
         activation={isValid}

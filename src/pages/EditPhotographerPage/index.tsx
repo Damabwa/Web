@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { replace, useLocation, useNavigate } from "react-router-dom";
+import { putPhotographerPage } from "../../api/photographer";
 import SubHeader from "../../components/SubHeader";
 import InputBox from "../../components/InputBox";
 import InputIDBox from "../../components/InputIDBox";
@@ -17,35 +18,51 @@ declare global {
 
 export default function EditPhotographerPage() {
   const navigation = useNavigate();
+  const location = useLocation();
 
-  const [images, setImages] = useState<string[]>([]);
-  const [address, setAddress] = useState("");
+  const [portfolio, setPortfolio] = useState<any[]>([]);
+  const [address, setAddress] = useState({
+    sido: "",
+    sigungu: "",
+    roadAddress: "",
+    jibunAddress: "",
+  });
   const [instagramId, setInstagramId] = useState("");
-  const [url, setUrl] = useState("");
-  const [intro, setIntro] = useState("");
+  const [contactLink, setContactLink] = useState("");
+  const [description, setDescription] = useState("");
 
   const [isValid, setIsValid] = useState(false);
-  const [isChangedName, setIsChangedName] = useState(false);
   const [isChangedInstaId, setIsChangedInstaId] = useState(false);
-  const [isValidName, setIsValidName] = useState(true);
-  const [isDuplicated, setIsDuplicated] = useState("");
 
   const [showImageModal, setShowImageModal] = useState(false);
 
-  // useEffect(() => {
-  //   checkValidFunc();
-  // }, [address, isDuplicated, instagramId]);
+  useEffect(() => {
+    setPortfolio(location.state.portfolio);
+    setAddress(location.state.address);
+    setInstagramId(location.state.instagramId);
+    setContactLink(location.state.contactLink);
+    setDescription(location.state.description);
+  }, []);
+
+  useEffect(() => {
+    checkValidFunc();
+  }, [portfolio, address, instagramId, contactLink, description]);
 
   const handleAddressSearch = () => {
     new window.daum.Postcode({
       oncomplete: function (data: any) {
-        setAddress(data.address);
+        setAddress({
+          sido: data.sido,
+          sigungu: data.sigungu,
+          roadAddress: data.address,
+          jibunAddress: data.jibunAddress,
+        });
       },
     }).open();
   };
 
   const handleInput = (e: any) => {
-    setUrl(e.target.value);
+    setContactLink(e.target.value);
   };
 
   const handleIdInput = (e: any) => {
@@ -59,11 +76,29 @@ export default function EditPhotographerPage() {
     setInstagramId(value);
   };
 
-  // const checkValidFunc = () => {
-  //   if (isChangedInstaId || (isChangedName && isDuplicated === "false"))
-  //     setIsValid(true);
-  //   else setIsValid(false);
-  // };
+  const checkValidFunc = () => {
+    if (portfolio.length > 0 && address.roadAddress && description)
+      setIsValid(true);
+    else setIsValid(false);
+  };
+
+  const putPhotographerPageFunc = async () => {
+    try {
+      await putPhotographerPage({
+        portfolio,
+        address,
+        instagramId,
+        contactLink,
+        description,
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      navigation(`/mypage`, {
+        replace: true,
+      });
+    }
+  };
 
   return (
     <div className="relative flex flex-col min-h-screen">
@@ -81,14 +116,15 @@ export default function EditPhotographerPage() {
             title="포트폴리오"
             description=""
             maxLength={10}
-            images={images}
-            setImages={setImages}
+            images={portfolio}
+            fileType="PHOTOGRAPHER_PORTFOLIO_IMAGE"
+            setImages={setPortfolio}
             setShowModal={setShowImageModal}
           />
         </div>
         <div className="flex flex-col gap-8 px-4 mb-9">
           <InputButtonBox
-            isRequired={false}
+            isRequired={true}
             title="상세 주소"
             description="(오프라인 사업장이 있는 경우)"
             placeholder="주소를 검색해주세요."
@@ -97,7 +133,7 @@ export default function EditPhotographerPage() {
             activation={false}
             buttonTitle="주소 검색"
             bottomText=""
-            value={address}
+            value={address.roadAddress}
             isReadOnly={true}
           />
           <InputIDBox
@@ -113,13 +149,15 @@ export default function EditPhotographerPage() {
             placeholder="대표 링크를 입력해주세요."
             onChange={handleInput}
             bottomText=""
+            value={contactLink}
           />
           <InputLongformBox
             isRequired={true}
             title="상세 소개"
             minHeight="10.5rem"
             maxLength={500}
-            setValue={setIntro}
+            value={description}
+            setValue={setDescription}
           />
         </div>
       </div>
@@ -127,12 +165,11 @@ export default function EditPhotographerPage() {
         <ButtonActive
           activation={isValid}
           onClick={() => {
-            if (isValid) navigation(`/mypage`);
+            if (isValid) putPhotographerPageFunc();
           }}
           text="등록"
         />
       </div>
-
       {showImageModal && (
         <ModalComfirm
           content={["포트폴리오 이미지는", "최대 10장까지 첨부할 수 있어요"]}

@@ -23,7 +23,12 @@ export default function ProfileUser({ userInfo }: Props) {
       </div>
       <div
         className="w-full h-10 text-sm font-medium items-center flex justify-center bg-gray100 rounded-[0.63rem] cursor-pointer"
-        onClick={() => navigation(`/edit/user`, { state: userInfo })}
+        onClick={() =>
+          navigation(`/edit/user`, {
+            state: userInfo,
+            replace: true,
+          })
+        }
       >
         프로필 수정
       </div>

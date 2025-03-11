@@ -8,3 +8,9 @@ export const photographerRegistration = async (body: any) =>
 
 export const getPhotographerInfo = async (photographerId: number) =>
   await GET(`/photographers/${photographerId}`);
+
+export const putPhotographerPage = async (body: any) =>
+  await PUT(`/photographers/me/page`, body, true);
+
+export const modifyPhotographerProfile = async (body: any) =>
+  await PUT(`/photographers/me/profile`, body, true);

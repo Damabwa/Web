@@ -69,6 +69,7 @@ export default function NewEvent() {
             placeholder="이벤트 제목을 입력해주세요."
             onChange={handleTitleInput}
             bottomText="공백 포함 30자 이내"
+            value={title}
           />
         </div>
         <InputBox
@@ -78,6 +79,7 @@ export default function NewEvent() {
           placeholder="초록 스튜디오"
           onChange={handleNameInput}
           bottomText=""
+          value={tradename}
         />
         <Types types={types} setTypes={setTypes} maxNum={2} />
         <Location locs={locs} setLocs={setLocs} maxNum={3} />
@@ -89,6 +91,7 @@ export default function NewEvent() {
           placeholder="게시물 링크를 입력해주세요."
           onChange={handleUrlInput}
           bottomText=""
+          value={url}
         />
       </div>
       <div className="py-10 pl-4">
@@ -98,6 +101,7 @@ export default function NewEvent() {
           description="첫 번째 사진이 메인에 보이는 사진입니다"
           maxLength={10}
           images={images}
+          fileType="PROMOTION_IMAGE"
           setImages={setImages}
           setShowModal={setShowImageModal}
         />
@@ -114,6 +118,7 @@ export default function NewEvent() {
           minHeight="10.5rem"
           maxLength={500}
           setValue={setDetail}
+          value={detail}
         />
       </div>
       <div className="px-4 pb-4">

@@ -6,6 +6,7 @@ interface Props {
   minHeight: string;
   maxLength: number;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  value: string;
 }
 
 export default function InputLongformBox({
@@ -14,6 +15,7 @@ export default function InputLongformBox({
   minHeight,
   maxLength,
   setValue,
+  value,
 }: Props) {
   const [text, setText] = useState<string>("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -44,6 +46,7 @@ export default function InputLongformBox({
           onChange={handleChange}
           maxLength={maxLength}
           id="intro"
+          value={value}
           placeholder="인사말, 작가님 소개, 작업 스타일, 예약 방법, 영업 일시 등을 작성해주세요."
           className={`min-h-[10.5rem] p-4 border-none outline-none rounded-[0.63rem] bg-lightgray resize-none ${minHeight}`}
         />

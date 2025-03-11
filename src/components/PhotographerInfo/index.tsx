@@ -11,7 +11,6 @@ interface Props {
 
 export default function PhotographerInfo({ isMypage, userInfo }: Props) {
   const navigation = useNavigate();
-
   return (
     <div className="relative w-full bg-white border-b-8 border-gray50 pt-[4.25rem] px-4 pb-5">
       <div className="absolute top-[-3rem] left-0 flex items-end justify-between w-full px-4">
@@ -77,14 +76,22 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
           <button
             className="flex-1 h-10 text-sm font-medium text-white rounded-md outline-none bg-violet300"
             onClick={() =>
-              navigation(`/edit/photographer`, { state: userInfo })
+              navigation(`/edit/photographer`, {
+                state: userInfo,
+                replace: true,
+              })
             }
           >
             프로필 수정
           </button>
           <button
             className="flex-1 h-10 text-sm font-medium text-white rounded-md outline-none bg-violet300"
-            onClick={() => navigation(`/edit/photographer/detail`)}
+            onClick={() =>
+              navigation(`/edit/photographer/detail`, {
+                state: userInfo,
+                replace: true,
+              })
+            }
           >
             작가 페이지 수정
           </button>
