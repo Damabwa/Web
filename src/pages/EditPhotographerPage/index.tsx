@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { replace, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { putPhotographerPage } from "../../api/photographer";
 import SubHeader from "../../components/SubHeader";
 import InputBox from "../../components/InputBox";
@@ -21,7 +21,7 @@ export default function EditPhotographerPage() {
   const location = useLocation();
 
   const [portfolio, setPortfolio] = useState<any[]>([]);
-  const [address, setAddress] = useState({
+  const [address, setAddress] = useState<any>({
     sido: "",
     sigungu: "",
     roadAddress: "",
@@ -38,10 +38,10 @@ export default function EditPhotographerPage() {
 
   useEffect(() => {
     setPortfolio(location.state.portfolio);
-    setAddress(location.state.address);
     setInstagramId(location.state.instagramId);
     setContactLink(location.state.contactLink);
     setDescription(location.state.description);
+    if (location.state.address) setAddress(location.state.address);
   }, []);
 
   useEffect(() => {
