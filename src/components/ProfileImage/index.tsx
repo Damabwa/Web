@@ -61,7 +61,7 @@ export default function ProfileImage({ userInfo, setUserInfo }: Props) {
       >
         {userInfo.profileImage.url ? (
           <img
-            className="object-contain w-[5.25rem] h-[5.25rem] rounded-full border-2 border-darkgray"
+            className="object-cover w-[5.25rem] h-[5.25rem] rounded-full border-2 border-darkgray"
             src={userInfo.profileImage.url}
           />
         ) : (
