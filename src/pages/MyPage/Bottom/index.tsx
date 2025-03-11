@@ -9,6 +9,8 @@ export default function Bottom() {
   const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
 
   const onClickLogout = () => {
+    localStorage.setItem("accessToken", "");
+    localStorage.setItem("refreshToken", "");
     navigation(`/login`);
   };
 
