@@ -190,7 +190,7 @@ export default function EventDetail() {
           <div className="pb-3 font-bold">촬영 작가</div>
           <div className="flex items-center gap-2 pb-6">
             <img
-              className="w-10 h-10 rounded-full cursor-pointer"
+              className="object-cover w-10 h-10 rounded-full cursor-pointer"
               src={promotionData.author.profileImage.url}
               onClick={() =>
                 navigation(`/photographer/${promotionData.author.id}`)
