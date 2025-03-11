@@ -50,11 +50,7 @@ export default function MyPage() {
           <div className="w-full h-40 bg-violet400" />
           <PhotographerInfo isMypage={true} userInfo={userInfo} />
           {userInfo.portfolio.length > 0 && (
-            <MorePhotographerInfo
-              portfolio={userInfo.portfolio}
-              address={userInfo.address.roadAddress}
-              description={userInfo.description}
-            />
+            <MorePhotographerInfo userInfo={userInfo} />
           )}
         </div>
       )}
