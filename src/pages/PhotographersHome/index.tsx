@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getPhotographerList } from "../../api/photographer";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import Header from "../../components/Header";
 import ContentBox from "./ContentBox";
@@ -57,6 +59,23 @@ export default function PhotographersHome() {
   ];
   const navigation = useNavigate();
 
+  const [photographerList, setPhotographertList] = useState<any>([]);
+
+  useEffect(() => {
+    getPhotographerListFunc();
+  }, []);
+
+  const getPhotographerListFunc = async () => {
+    try {
+      const res = await getPhotographerList();
+      setPhotographertList(res.items);
+      console.log(res);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  if (!photographerList) return <></>;
   return (
     <div className="w-full">
       <div className="h-12">
@@ -83,8 +102,8 @@ export default function PhotographersHome() {
         <FilterBar isEvent={false} />
       </div>
       <div className="grid grid-cols-2 gap-5 p-4">
-        {mockdata.map((item) => (
-          <ContentBox key={item.name} data={item} />
+        {photographerList.map((item: any) => (
+          <ContentBox key={item.id} data={item} />
         ))}
         <div className="w-full h-20 bg-white" />
       </div>
