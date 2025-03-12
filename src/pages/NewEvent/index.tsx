@@ -20,7 +20,7 @@ export default function NewEvent() {
   const [tradename, setTradename] = useState("");
   const [title, setTitle] = useState("");
   const [types, setTypes] = useState<string[]>([]);
-  const [locs, setLocs] = useState<string[]>([]);
+  const [activeRegions, setActiveRegions] = useState<string[]>([]);
   const [promotionType, setPromotionType] = useState("");
   const [startedAt, setStartedAt] = useState("");
   const [endedAt, setEndedAt] = useState("");
@@ -53,7 +53,7 @@ export default function NewEvent() {
     setIsValid(
       title.length *
         types.length *
-        locs.length *
+        activeRegions.length *
         promotionType.length *
         externalLink.length *
         images.length *
@@ -64,7 +64,7 @@ export default function NewEvent() {
   }, [
     title,
     types,
-    locs,
+    activeRegions,
     promotionType,
     externalLink,
     images,
@@ -101,22 +101,16 @@ export default function NewEvent() {
 
   const onClickSubmit = async () => {
     const body = {
-      promotionType: promotionType,
-      title: title,
-      content: content,
-      address: {
-        sido: "경기",
-        sigungu: "성남시 분당구",
-        roadAddress: "경기 성남시 분당구 판교역로 166",
-        jibunAddress: "경기 성남시 분당구 백현동 532",
-      },
-      externalLink: externalLink,
-      startedAt: startedAt,
-      endedAt: endedAt,
+      promotionType,
+      title,
+      content,
+      externalLink,
+      startedAt,
+      endedAt,
       photographyTypes: ["SNAP"],
-      images: images,
-      activeRegions: locs,
-      hashtags: hashtags,
+      images,
+      activeRegions,
+      hashtags,
     };
     try {
       await postPromotion(body);
@@ -155,7 +149,7 @@ export default function NewEvent() {
           value={tradename}
         />
         <Types types={types} setTypes={setTypes} maxNum={2} />
-        <Location locs={locs} setLocs={setLocs} maxNum={3} />
+        <Location locs={activeRegions} setLocs={setActiveRegions} maxNum={3} />
         <EventType eventType={promotionType} setEventType={setPromotionType} />
         <EventPeriod
           onChangeA={onChangeStart}
