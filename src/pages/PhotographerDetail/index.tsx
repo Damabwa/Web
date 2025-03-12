@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import PhotographerInfo from "../../components/PhotographerInfo";
 import MorePhotographerInfo from "../../components/MorePhotographerInfo";
-import { useEffect, useState } from "react";
 import { getPhotographerInfo } from "../../api/photographer";
-import { useParams } from "react-router-dom";
 
 export default function PhotographerDetail() {
-  const [photographerData, setPhotographerData] = useState();
+  const [photographerData, setPhotographerData] = useState<any>();
 
   const { id } = useParams();
 
@@ -27,7 +27,9 @@ export default function PhotographerDetail() {
     <div className="relative w-full mb-24">
       <div className="w-full h-40 bg-violet400" />
       <PhotographerInfo isMypage={false} userInfo={photographerData} />
-      <MorePhotographerInfo userInfo={photographerData} />
+      {photographerData.roadAddress && (
+        <MorePhotographerInfo userInfo={photographerData} />
+      )}
     </div>
   );
 }
