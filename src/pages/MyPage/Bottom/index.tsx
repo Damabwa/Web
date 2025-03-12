@@ -19,7 +19,7 @@ export default function Bottom() {
   };
 
   return (
-    <div className="flex flex-col gap-1 text-sm font-medium text-black02 mb-28">
+    <div className="flex flex-col gap-1 pl-2 text-sm font-medium text-black02 mb-28">
       <div className="flex items-center justify-between h-12 px-4 ">
         <div className="cursor-pointer">문의하기</div>
         <img className="cursor-pointer" src={icn_next} />
