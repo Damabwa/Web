@@ -2,32 +2,9 @@ import { useNavigate } from "react-router-dom";
 import icn_next from "../../../assets/svgs/icn_next.svg";
 import { useEffect, useState } from "react";
 import { getPhotographerList } from "../../../api/photographer";
-import ProfileImage from "../../../components/ProfileImage";
 
 export default function PhotographerBox() {
   const navigation = useNavigate();
-  const mockdata = [
-    {
-      image: "",
-      name: "담아봐작가담아봐작가담아봐작가",
-      types: ["프로필"],
-    },
-    {
-      image: "",
-      name: "담아봐작가2",
-      types: ["프로필", "컨셉"],
-    },
-    {
-      image: "",
-      name: "담아봐작가3",
-      types: ["스냅", "프로필"],
-    },
-    {
-      image: "",
-      name: "담아봐작가4",
-      types: ["스냅", "프로필"],
-    },
-  ];
 
   const [photographers, setPhotographers] = useState<any>([]);
 
