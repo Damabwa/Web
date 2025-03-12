@@ -57,7 +57,7 @@ export default function SelectRole({ setRoleFunc }: Props) {
             <div
               className={`text-sm font-medium ${role === "photographer" ? "text-white" : "text-black04"}`}
             >
-              페이/무페이로 사진을 찍어주는 사진 작가예요
+              활동 중인 사진작가, 사진관 대표예요
             </div>
           </div>
         </div>
