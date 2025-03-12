@@ -27,7 +27,7 @@ export default function PhotographerDetail() {
     <div className="relative w-full mb-24">
       <div className="w-full h-40 bg-violet400" />
       <PhotographerInfo isMypage={false} userInfo={photographerData} />
-      {photographerData.roadAddress && (
+      {photographerData.description && (
         <MorePhotographerInfo userInfo={photographerData} />
       )}
     </div>
