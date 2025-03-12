@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import ModalCheck from "../../components/ModalCheck";
-import EventBox from "./EventBox";
-import PhotographerBox from "./PhotographerBox";
 import logo_header from "../../assets/imgs/img_mainhome_header_logo.png";
 import icn_mypage from "../../assets/svgs/icn_mainhome_mypage.svg";
+import BannerBox from "./BannerBox";
+import EventBox from "./EventBox";
+import PhotographerBox from "./PhotographerBox";
 
 function MainHome() {
   const navigation = useNavigate();
@@ -37,8 +38,8 @@ function MainHome() {
           }
         />
       </div>
-      <div className="flex flex-col w-full">
-        <div className="h-32 cursor-pointer bg-lightgray"></div>
+      <div className="w-full px-4 pt-3">
+        <BannerBox />
       </div>
       <div className="border-b-8 border-lightgray">
         <EventBox />
