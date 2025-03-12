@@ -10,12 +10,12 @@ import ContentBox from "./ContentBox";
 
 function EventHome() {
   const navigation = useNavigate();
-  const [role, setRole] = useState<string>();
+  const [role, setRole] = useState<string>("USER");
   const [promotionList, setPromotionList] = useState<any[]>([]);
 
   useEffect(() => {
     getPromotionListFunc();
-    getRole();
+    if (localStorage.getItem("accessToken")) getRole();
   }, []);
 
   const getPromotionListFunc = async () => {
@@ -63,11 +63,14 @@ function EventHome() {
         <FilterBar isEvent={true} />
       </div>
       <div className="flex flex-col gap-1 bg-lightgray">
-        {promotionList.map((item) => (
-          <div key={item.id} className="bg-white">
-            <ContentBox data={item} />
-          </div>
-        ))}
+        {promotionList.map(
+          (item) =>
+            item.author && (
+              <div key={item.id} className="bg-white">
+                <ContentBox data={item} />
+              </div>
+            )
+        )}
         <div className="w-full h-20 bg-white" />
       </div>
       {role === "PHOTOGRAPHER" && (
