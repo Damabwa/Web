@@ -38,14 +38,12 @@ export default function EditUserProfile() {
   };
 
   const handleImageChange = async (event: any) => {
+    if (!event && !userInfo.profileImage) return;
     if (!event) {
       if (userInfo.profileImage.url !== "") setIsChangeImage(true);
       setUserInfo({
         ...userInfo,
-        profileImage: {
-          name: "",
-          url: "",
-        },
+        profileImage: null,
       });
       return;
     }

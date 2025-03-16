@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import img_profile from "../../../assets/svgs/icn_profile.svg";
 
 interface Props {
   userInfo: any;
@@ -12,7 +13,7 @@ export default function ProfileUser({ userInfo }: Props) {
       <div className="flex items-center gap-4">
         <img
           className="object-cover w-[5.8125rem] h-[5.8125rem] rounded-full border-2 border-lineRegular"
-          src={userInfo.profileImage.url}
+          src={userInfo.profileImage ? userInfo.profileImage.url : img_profile}
         />
         <div className="flex flex-col gap-[0.12rem]">
           <div className="text-lg font-semibold">{userInfo.nickname}</div>
