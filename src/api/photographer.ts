@@ -9,6 +9,9 @@ export const getPhotographerList = async () =>
     localStorage.getItem("accessToken") ? true : false
   );
 
+export const getSavedPhotographerList = async () =>
+  await GET(`/photographers/saved`, true);
+
 export const getPhotographerInfo = async (photographerId: number) =>
   await GET(`/photographers/${photographerId}`);
 

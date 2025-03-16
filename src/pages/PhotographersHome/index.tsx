@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getPhotographerList } from "../../api/photographer";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import Header from "../../components/Header";
-import ContentBox from "./ContentBox";
+import PhotographerBox from "../../components/PhotographerBox";
 import FilterBar from "../../components/FilterBar";
 
 export default function PhotographersHome() {
@@ -52,7 +52,7 @@ export default function PhotographersHome() {
       </div>
       <div className="grid grid-cols-2 gap-5 p-4">
         {photographerList.map((item: any) => (
-          <ContentBox key={item.id} data={item} />
+          <PhotographerBox key={item.id} data={item} />
         ))}
         <div className="w-full h-20 bg-white" />
       </div>

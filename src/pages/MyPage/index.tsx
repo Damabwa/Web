@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../../api/user";
-import { getPhotographerInfo } from "../../api/photographer";
+import {
+  getPhotographerInfo,
+  getSavedPhotographerList,
+} from "../../api/photographer";
 import BottomBtns from "./BottomBtns";
 import ProfileUser from "./ProfileUser";
 import SavedContent from "./SavedContent";
 import PhotographerInfo from "../../components/PhotographerInfo";
 import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 import Bottom from "../../components/Bottom";
+import { getSavedPromotionList } from "../../api/promotion";
 
 export default function MyPage() {
   const navigation = useNavigate();
 
   const [userInfo, setUserInfo] = useState<any>();
+  const [savedPromotions, setSavedPromotions] = useState<any>([]);
+  const [savedPhotographers, setSavedPhotographer] = useState<any>([]);
 
   useEffect(() => {
     getUserInfoFunc();
@@ -22,7 +28,13 @@ export default function MyPage() {
     try {
       const res = await getUserInfo();
       if (res.type !== "USER") getPhotographerInfoFunc(res.id);
-      else setUserInfo(res);
+      else {
+        setUserInfo(res);
+        const promotions = await getSavedPromotionList();
+        const photographers = await getSavedPhotographerList();
+        setSavedPromotions(promotions.items);
+        setSavedPhotographer(photographers.items);
+      }
     } catch (e: any) {
       if (e.response.status === 401) navigation(`/login`);
       console.log(e);
@@ -44,7 +56,10 @@ export default function MyPage() {
       {userInfo.type === "USER" ? (
         <>
           <ProfileUser userInfo={userInfo} />
-          <SavedContent />
+          <SavedContent
+            savedPromotions={savedPromotions}
+            savedPhotographers={savedPhotographers}
+          />
         </>
       ) : (
         <div className="border-gray50">

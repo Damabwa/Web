@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import {
   savePhotographer,
   deleteSavedPhotographer,
-} from "../../../api/photographer";
-import icn_clipOff from "../../../assets/svgs/icn_clip.svg";
-import icn_clipOn from "../../../assets/svgs/icn_clipOn.svg";
-import ModalCheck from "../../../components/ModalCheck";
+} from "../../api/photographer";
+import icn_clipOff from "../../assets/svgs/icn_clip.svg";
+import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
+import ModalCheck from "../ModalCheck";
 
 interface postData {
   id: number;
@@ -20,7 +20,7 @@ interface Props {
   data: postData;
 }
 
-export default function ContentBox({ data }: Props) {
+export default function PhotographerBox({ data }: Props) {
   const navigation = useNavigate();
   const [isClipped, setIsClipped] = useState(data.isSaved);
   const [showLoginModal, setShowLoginModal] = useState(false);

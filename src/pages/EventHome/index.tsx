@@ -6,7 +6,7 @@ import icn_back from "../../assets/svgs/icn_back_white.svg";
 import icn_pencil from "../../assets/svgs/icn_eventhome_pencil.svg";
 import Header from "../../components/Header";
 import FilterBar from "../../components/FilterBar";
-import ContentBox from "./ContentBox";
+import PromotionBox from "../../components/PromotionBox";
 
 function EventHome() {
   const navigation = useNavigate();
@@ -67,7 +67,7 @@ function EventHome() {
           (item) =>
             item.author && (
               <div key={item.id} className="bg-white">
-                <ContentBox data={item} />
+                <PromotionBox data={item} />
               </div>
             )
         )}

@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import CompleteSignUp from "./pages/CompleteSignUp";
 import MyPage from "./pages/MyPage";
+import SavedContents from "./pages/SavedContents";
 import EditUserProfile from "./pages/EditUserProfile";
 import EditPhotographerProfile from "./pages/EditPhotographerProfile";
 import EditPhotographerPage from "./pages/EditPhotographerPage";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/success/signup" element={<CompleteSignUp />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/my/saved/:type" element={<SavedContents />} />
         <Route path="/edit/user" element={<EditUserProfile />} />
         <Route
           path="/edit/photographer"
