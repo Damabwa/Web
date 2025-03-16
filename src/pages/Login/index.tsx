@@ -7,6 +7,8 @@ export default function Login() {
   const handleLogin = () => {
     window.location.href = kakaoURL;
   };
+  const url1 = `https://obtainable-chocolate-d07.notion.site/1b53cdfe884080ef94bcf7e9f55f0bcb?pvs=4`;
+  const url2 = `https://obtainable-chocolate-d07.notion.site/1b53cdfe88408032b850cbba8f856532?pvs=4`;
   return (
     <div className="flex flex-col items-center w-full h-screen px-4 bg-violet300">
       <div className="flex flex-col justify-center flex-1 gap-3">
@@ -25,8 +27,8 @@ export default function Login() {
         />
       </div>
       <div className="flex justify-center gap-6 mb-10 text-sm text-white outline-none">
-        <button>개인정보처리방침</button>
-        <button>이용약관</button>
+        <button onClick={() => window.open(url1)}>개인정보처리방침</button>
+        <button onClick={() => window.open(url2)}>이용약관</button>
       </div>
     </div>
   );
