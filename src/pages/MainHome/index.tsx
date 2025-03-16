@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import ModalCheck from "../../components/ModalCheck";
+import Bottom from "../../components/Bottom";
 import logo_header from "../../assets/imgs/img_mainhome_header_logo.png";
 import icn_mypage from "../../assets/svgs/icn_mainhome_mypage.svg";
 import BannerBox from "./BannerBox";
@@ -45,7 +46,7 @@ function MainHome() {
         <EventBox />
       </div>
       <PhotographerBox />
-      <div className="w-full bg-lightgray h-28" />
+      <Bottom />
       {showLoginModal && (
         <ModalCheck
           title="로그인이 필요한 서비스입니다."

@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../../api/user";
 import { getPhotographerInfo } from "../../api/photographer";
-import Bottom from "./Bottom";
+import BottomBtns from "./BottomBtns";
 import ProfileUser from "./ProfileUser";
 import SavedContent from "./SavedContent";
 import PhotographerInfo from "../../components/PhotographerInfo";
 import MorePhotographerInfo from "../../components/MorePhotographerInfo";
+import Bottom from "../../components/Bottom";
 
 export default function MyPage() {
   const navigation = useNavigate();
@@ -39,7 +40,7 @@ export default function MyPage() {
 
   if (!userInfo) return <></>;
   return (
-    <div className="relative flex flex-col gap-4">
+    <div className="relative flex flex-col min-h-screen gap-4">
       {userInfo.type === "USER" ? (
         <>
           <ProfileUser userInfo={userInfo} />
@@ -54,6 +55,8 @@ export default function MyPage() {
           )}
         </div>
       )}
+      <BottomBtns />
+      <div className="flex-1" />
       <Bottom />
     </div>
   );

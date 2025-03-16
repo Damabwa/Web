@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import icn_next from "../../../assets/svgs/icn_next_gray.svg";
 import ModalCheck from "../../../components/ModalCheck";
 
-export default function Bottom() {
+export default function BottomBtns() {
   const navigation = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
