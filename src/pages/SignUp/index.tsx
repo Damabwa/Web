@@ -64,8 +64,7 @@ export default function SignUp() {
         gender: userInfo.gender,
         instagramId: userInfo.instagramId,
         profileImage: userInfo.profileImage,
-        // mainPhotographyTypes: userInfo.mainPhotographyTypes,
-        mainPhotographyTypes: ["SNAP"],
+        mainPhotographyTypes: userInfo.mainPhotographyTypes,
         activeRegions: userInfo.activeRegions,
       });
       success = true;

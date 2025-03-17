@@ -19,7 +19,7 @@ export default function NewEvent() {
 
   const [tradename, setTradename] = useState("");
   const [title, setTitle] = useState("");
-  const [types, setTypes] = useState<string[]>([]);
+  const [photographyTypes, setPhotographyTypes] = useState<string[]>([]);
   const [activeRegions, setActiveRegions] = useState<string[]>([]);
   const [promotionType, setPromotionType] = useState("");
   const [startedAt, setStartedAt] = useState("");
@@ -51,7 +51,7 @@ export default function NewEvent() {
   useEffect(() => {
     setIsValid(
       title.length *
-        types.length *
+        photographyTypes.length *
         activeRegions.length *
         promotionType.length *
         externalLink.length *
@@ -62,7 +62,7 @@ export default function NewEvent() {
     );
   }, [
     title,
-    types,
+    photographyTypes,
     activeRegions,
     promotionType,
     externalLink,
@@ -106,14 +106,13 @@ export default function NewEvent() {
       externalLink,
       startedAt,
       endedAt,
-      photographyTypes: ["SNAP"],
+      photographyTypes,
       images,
       activeRegions,
       hashtags,
     };
     try {
       await postPromotion(body);
-      console.log(body);
     } catch (e) {
       console.log(e);
     } finally {
@@ -147,7 +146,11 @@ export default function NewEvent() {
           bottomText=""
           value={tradename}
         />
-        <Types types={types} setTypes={setTypes} maxNum={2} />
+        <Types
+          types={photographyTypes}
+          setTypes={setPhotographyTypes}
+          maxNum={2}
+        />
         <Location locs={activeRegions} setLocs={setActiveRegions} maxNum={3} />
         <EventType eventType={promotionType} setEventType={setPromotionType} />
         <EventPeriod

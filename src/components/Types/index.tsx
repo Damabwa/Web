@@ -4,12 +4,29 @@ interface Props {
   maxNum: number;
 }
 
-const typeList = ["스냅", "프로필", "컨셉", "증명", "셀프"];
+const typeList = ["SNAP", "PROFILE", "CONCEPT", "ID_PHOTO", "SELF"];
 
 export default function Types({ types, setTypes, maxNum }: Props) {
   const handleSelectTypes = (item: string) => {
     if (types.includes(item)) setTypes(types.filter((t) => t !== item));
     else if (types.length < maxNum) setTypes([...types, item]);
+  };
+
+  const getKorean = (item: string) => {
+    switch (item) {
+      case "SNAP":
+        return "스냅";
+      case "PROFILE":
+        return "프로필";
+      case "CONCEPT":
+        return "컨셉";
+      case "ID_PHOTO":
+        return "증명";
+      case "SELF":
+        return "셀프";
+      default:
+        return item;
+    }
   };
 
   return (
@@ -28,7 +45,7 @@ export default function Types({ types, setTypes, maxNum }: Props) {
             key={index}
             onClick={() => handleSelectTypes(item)}
           >
-            {item}
+            {getKorean(item)}
           </button>
         ))}
       </div>
