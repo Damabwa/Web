@@ -23,10 +23,10 @@ export default function InputSelctBox({
 }: Props) {
   const getBtnStyle = (activation: boolean) => {
     if (isReadonly && activation)
-      return "bg-[#767676] bg-opacity-30 border-black02 text-black02";
+      return "bg-black03 bg-opacity-30 border-black02 text-black02";
     else if (activation)
       return "bg-violet400 bg-opacity-15 border-violet400 text-violet400";
-    else return "bg-lightgray border-lightgray";
+    else return "bg-gray50 border-gray50";
   };
   return (
     <div className="flex flex-col w-full gap-2">

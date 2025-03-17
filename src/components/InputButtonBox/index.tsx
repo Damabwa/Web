@@ -35,7 +35,7 @@ export default function InputButtonBox({
       <div className="flex items-center w-full gap-2 mb-[0.31rem]">
         {isReadOnly ? (
           <input
-            className={`flex-1 h-12 px-4 border-none outline-none rounded-xl bg-lightgray ${isReadOnly && "cursor-default"}`}
+            className={`flex-1 h-12 px-4 border-none outline-none rounded-xl bg-gray50 ${isReadOnly && "cursor-default"}`}
             placeholder={placeholder}
             onChange={onChange}
             value={value}
@@ -43,7 +43,7 @@ export default function InputButtonBox({
           />
         ) : (
           <input
-            className="flex-1 h-12 px-4 border-none outline-none rounded-xl bg-lightgray"
+            className="flex-1 h-12 px-4 border-none outline-none rounded-xl bg-gray50"
             placeholder={placeholder}
             onChange={onChange}
             value={value}

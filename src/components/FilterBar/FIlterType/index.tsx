@@ -128,7 +128,7 @@ export default function FilterType({
       {(title === "지역" || title === "촬영 종류") && (
         <div className="flex gap-2 pt-4 text-sm">
           <button
-            className="flex items-center justify-center h-12 gap-1 px-6 bg-lightgray rounded-xl"
+            className="flex items-center justify-center h-12 gap-1 px-6 bg-gray50 rounded-xl"
             onClick={() => handleResetBtn()}
           >
             <img src={icn_reset} />

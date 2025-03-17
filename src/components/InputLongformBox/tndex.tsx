@@ -48,7 +48,7 @@ export default function InputLongformBox({
           id="intro"
           value={value}
           placeholder="인사말, 작가님 소개, 작업 스타일, 예약 방법, 영업 일시 등을 작성해주세요."
-          className={`min-h-[10.5rem] p-4 border-none outline-none rounded-[0.63rem] bg-lightgray resize-none ${minHeight}`}
+          className={`min-h-[10.5rem] p-4 border-none outline-none rounded-[0.63rem] bg-gray50 resize-none ${minHeight}`}
         />
         <div className="w-full pt-2 text-sm text-end text-black02">
           {text.length}/{maxLength}

@@ -96,14 +96,14 @@ export default function EventPeriod({
       </div>
       <div className="flex items-center gap-2 mb-[0.31rem]">
         <input
-          className="w-1/2 h-12 px-4 border-none outline-none rounded-xl bg-lightgray"
+          className="w-1/2 h-12 px-4 border-none outline-none rounded-xl bg-gray50"
           placeholder={getDate()}
           onChange={onChangeA}
           value={valueA}
         />
         ~
         <input
-          className="w-1/2 h-12 px-4 border-none outline-none rounded-xl bg-lightgray"
+          className="w-1/2 h-12 px-4 border-none outline-none rounded-xl bg-gray50"
           placeholder={getDate()}
           onChange={onChangeB}
           value={valueB}

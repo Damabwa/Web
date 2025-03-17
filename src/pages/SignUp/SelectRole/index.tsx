@@ -20,7 +20,7 @@ export default function SelectRole({ setRoleFunc }: Props) {
           <br />한 가지를 선택해 주세요.
         </div>
         <div
-          className={`mb-5 w-full cursor-pointer rounded-[0.63rem] flex items-center py-7 px-2 ${role === "user" ? "bg-violet300" : "bg-[#F3F5F7] "}`}
+          className={`mb-5 w-full cursor-pointer rounded-[0.63rem] flex items-center py-7 px-2 ${role === "user" ? "bg-violet300" : "bg-gray50"}`}
           onClick={() => setRole("user")}
         >
           <img src={role === "user" ? icn_user_on : icn_user_off} />
@@ -38,7 +38,7 @@ export default function SelectRole({ setRoleFunc }: Props) {
           </div>
         </div>
         <div
-          className={`mb-5 w-full cursor-pointer rounded-[0.63rem] flex items-center py-7 px-2 ${role === "photographer" ? "bg-violet300" : "bg-[#F3F5F7] "}`}
+          className={`mb-5 w-full cursor-pointer rounded-[0.63rem] flex items-center py-7 px-2 ${role === "photographer" ? "bg-violet300" : "bg-gray50 "}`}
           onClick={() => setRole("photographer")}
         >
           <img

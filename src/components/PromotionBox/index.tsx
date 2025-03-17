@@ -100,7 +100,7 @@ export default function PromotionBox({ data }: Props) {
       >
         {data.images.map((image, index) => (
           <div key={index} className="gap-[0.62rem]">
-            <div className="w-[7.5rem] h-[7.5rem]  rounded-lg bg-lightgray">
+            <div className="w-[7.5rem] h-[7.5rem]  rounded-lg bg-gray50">
               <img className="object-cover w-full h-full" src={image.url} />
             </div>
           </div>

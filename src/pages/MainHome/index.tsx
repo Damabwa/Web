@@ -42,7 +42,7 @@ function MainHome() {
       <div className="w-full px-4 pt-3">
         <BannerBox />
       </div>
-      <div className="border-b-8 border-lightgray">
+      <div className="border-b-8 border-gray50">
         <EventBox />
       </div>
       <PhotographerBox />

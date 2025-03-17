@@ -49,7 +49,7 @@ export default function PhotographersHome() {
           right={null}
         />
       </div>
-      <div className="border-b-[0.375rem] border-lightgray">
+      <div className="border-b-[0.375rem] border-gray50">
         <FilterBar isEvent={false} setSearchParams={setSearchParams} />
       </div>
       <div className="grid grid-cols-2 gap-5 p-4">

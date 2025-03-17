@@ -128,7 +128,7 @@ export default function EventDetail() {
           </div>
         )} */}
       </div>
-      <div className="flex flex-col w-full bg-lightgray">
+      <div className="flex flex-col w-full bg-gray50">
         <div className="flex flex-col w-full py-5 bg-white border-b-8 border-gray50">
           <div className="px-4 text-sm font-medium text-black04 pb-[2px] flex gap-1">
             {promotionData.photographyTypes.map(

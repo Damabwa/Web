@@ -80,7 +80,7 @@ export default function EventBox() {
             className="flex flex-col gap-2 cursor-pointer"
             onClick={() => navigation(`/event/${item.id}`)}
           >
-            <div className="w-[7.5rem] h-[7.5rem] rounded-lg bg-lightgray">
+            <div className="w-[7.5rem] h-[7.5rem] rounded-lg bg-gray50">
               <img
                 className="object-cover w-full h-full rounded-lg"
                 src={item.images[0].url}

@@ -23,7 +23,7 @@ export default function SavedContents() {
         />
       </div>
       {type === "promotion" ? (
-        <div className="flex flex-col gap-1 pt-2 bg-lightgray">
+        <div className="flex flex-col gap-1 pt-2 bg-gray50">
           {data.map(
             (item) =>
               item.author && (
@@ -35,7 +35,7 @@ export default function SavedContents() {
           <div className="w-full h-20 bg-white" />
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-5 p-4 border-t-8 border-t-lightgray">
+        <div className="grid grid-cols-2 gap-5 p-4 border-t-8 border-t-gray50">
           {data.map((item: any) => (
             <PhotographerBox key={item.id} data={item} />
           ))}

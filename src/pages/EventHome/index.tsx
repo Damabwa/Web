@@ -64,10 +64,10 @@ function EventHome() {
           right={null}
         />
       </div>
-      <div className="border-b-[0.375rem] border-lightgray">
+      <div className="border-b-[0.375rem] border-gray50">
         <FilterBar isEvent={true} setSearchParams={setSearchParams} />
       </div>
-      <div className="flex flex-col gap-1 bg-lightgray">
+      <div className="flex flex-col gap-1 bg-gray50">
         {promotionList.map(
           (item) =>
             item.author && (

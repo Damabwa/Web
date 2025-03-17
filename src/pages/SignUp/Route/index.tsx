@@ -56,7 +56,7 @@ export default function Route({ setNextFunc }: Props) {
         {btns.map((item) => (
           <button
             key={item.id}
-            className={`outline-none w-full py-4 rounded-xl font-medium text-sm ${item.isSelected ? "bg-[#515151] text-white" : "bg-lightgray"}`}
+            className={`outline-none w-full py-4 rounded-xl font-medium text-sm ${item.isSelected ? "bg-[#515151] text-white" : "bg-gray50"}`}
             onClick={() =>
               setBtns((prevBtns) =>
                 prevBtns.map((btn) =>
