@@ -32,14 +32,17 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
   }, []);
 
   useEffect(() => {
-    if (locList.length > 0) setClusters(locList[0].clusters);
+    if (locList.length > 0)
+      setClusters([locList[0].category, ...locList[0].clusters]);
   }, [locList]);
 
-  const handleAddRegion = (item: string) => {
-    if (locs.includes(item)) setLocs(locs.filter((l) => l !== item));
+  const handleAddRegion = (category: string, item: string) => {
+    if (locs.includes(`${category} ${item}`))
+      setLocs(locs.filter((l) => l !== `${category} ${item}`));
     else {
       if (locs.length >= maxNum) return;
-      setLocs([...locs, item]);
+      else if (category == item) setLocs([...locs, `${category} 전체`]);
+      else setLocs([...locs, `${category} ${item}`]);
     }
   };
 
@@ -53,7 +56,7 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
               key={item.category}
               onClick={() => {
                 setSelectedIndex(index);
-                setClusters(item.clusters);
+                setClusters([`${item.category}`, ...item.clusters]);
               }}
             >
               {item.category}
@@ -61,19 +64,17 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
           ))}
         </div>
       )}
-      {clusters.length > 0 && (
-        <div className="bg-[#E8EBEF] p-4 rounded-xl text-sm font-medium flex flex-wrap gap-2">
-          {clusters.map((item: any, index) => (
-            <button
-              className={`py-[0.6rem] px-4 whitespace-nowrap rounded-lg border outline-none ${locs.includes(item) ? "text-violet400 border-violet400 bg-[#EAE0F6]" : " border-white bg-white"}`}
-              key={index}
-              onClick={() => handleAddRegion(item)}
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-      )}
+      <div className="bg-[#E8EBEF] p-4 rounded-xl text-sm font-medium flex flex-wrap gap-2">
+        {clusters.map((item: any, index) => (
+          <button
+            className={`py-[0.6rem] px-4 whitespace-nowrap rounded-lg border outline-none ${locs.includes(item) ? "text-violet400 border-violet400 bg-[#EAE0F6]" : " border-white bg-white"}`}
+            key={index}
+            onClick={() => handleAddRegion(clusters[0], item)}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
       {locs.length !== 0 && (
         <div className="flex gap-2 bg-[#E8EBEF] p-4 rounded-xl text-xs overflow-x-scroll">
           {locs.map((item: any, index) => (
@@ -81,7 +82,7 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
               className="flex items-center py-1 pl-2 border rounded-lg outline-none min-w-fit whitespace-nowrap text-violet400 border-violet400 bg-[#EAE0F6]"
               key={index}
             >
-              {item}
+              {item.split(" ")[1] !== "전체" ? item.split(" ")[1] : item}
               <img
                 className="cursor-pointer"
                 src={icn_close}

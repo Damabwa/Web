@@ -18,8 +18,10 @@ const stateBtns = [
 interface Props {
   filters: any;
   title: string;
+  selectedLocs: string[];
   isModifiedOrder: boolean;
   isModifiedState: boolean;
+  setSelectedLocs: React.Dispatch<React.SetStateAction<string[]>>;
   setIsModifiedOrder: React.Dispatch<React.SetStateAction<boolean>>;
   setIsModifiedState: React.Dispatch<React.SetStateAction<boolean>>;
   setIsModifiedRegion: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +33,8 @@ interface Props {
 export default function FilterType({
   filters,
   title,
+  selectedLocs,
+  setSelectedLocs,
   isModifiedOrder,
   isModifiedState,
   setIsModifiedOrder,
@@ -40,9 +44,6 @@ export default function FilterType({
   setShowSelectBar,
   handleFilterChange,
 }: Props) {
-  const [selectedLocs, setSelectedLocs] = useState<string[]>(
-    filters.regions || []
-  );
   const [selectedTypes, setSelectedTypes] = useState<string[]>(
     filters.photographerType || []
   );
@@ -70,13 +71,29 @@ export default function FilterType({
 
   const handleSave = () => {
     if (title === "지역") {
-      handleFilterChange("regions", selectedLocs);
+      const regions = getRegionName();
+      handleFilterChange("regions", regions);
       setIsModifiedRegion(selectedLocs.length > 0);
     } else if (title === "촬영 종류") {
       handleFilterChange("photographerType", selectedTypes);
       setIsModifiedTypes(selectedTypes.length > 0);
     }
     setShowSelectBar(false);
+  };
+
+  const getRegionName = () => {
+    const arr = [];
+    const newArr = new Array(...selectedLocs);
+    for (const region of newArr) {
+      const category = region.split(" ")[0];
+      const value = region.split(" ")[1];
+      if (value === "전체") arr.push(category);
+      else
+        value.split("/").map((e) => {
+          arr.push(`${category} ${e}`);
+        });
+    }
+    return arr;
   };
 
   return (

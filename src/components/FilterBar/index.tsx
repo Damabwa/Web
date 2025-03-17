@@ -30,6 +30,8 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
         }
   );
 
+  const [selectedLocs, setSelectedLocs] = useState<string[]>([]);
+
   const handleFilterChange = (key: string, value: any) => {
     setFilters((prevFilters: any) => ({ ...prevFilters, [key]: value }));
   };
@@ -127,6 +129,8 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
             <FilterType
               filters={filters}
               title={clickedFilter}
+              selectedLocs={selectedLocs}
+              setSelectedLocs={setSelectedLocs}
               isModifiedOrder={isModifiedOrder}
               isModifiedState={isModifiedState}
               setIsModifiedOrder={setIsModifiedOrder}
