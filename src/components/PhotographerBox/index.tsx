@@ -54,12 +54,12 @@ export default function PhotographerBox({ data }: Props) {
 
   if (!data) return <></>;
   return (
-    <div className="relative flex flex-col justify-between w-48 h-48 text-white cursor-pointer bg-gray rounded-xl">
+    <div className="relative flex flex-col justify-between w-full text-white cursor-pointer h-44 bg-gray rounded-xl">
       <div
-        className="absolute top-0 left-0 z-0"
+        className="absolute top-0 left-0 z-0 w-full h-full"
         onClick={() => onClickPhotographer()}
       >
-        <div className="relative inline-block w-48 h-48 overflow-hidden rounded-xl">
+        <div className="relative inline-block w-full h-full overflow-hidden rounded-xl">
           <img
             src={data.profileImage.url}
             alt={data.profileImage.name}

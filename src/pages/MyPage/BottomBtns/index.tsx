@@ -19,14 +19,14 @@ export default function BottomBtns() {
   };
 
   return (
-    <div className="flex flex-col gap-1 pl-2 text-sm font-medium text-black02 mb-28">
+    <div className="flex flex-col gap-1 text-sm font-medium text-black02 mb-28">
       <div className="flex items-center justify-between h-12 px-4 ">
-        <div className="cursor-pointer">문의하기</div>
+        <div className="pl-2 cursor-pointer">문의하기</div>
         <img className="cursor-pointer" src={icn_next} />
       </div>
       <div className="flex items-center justify-between h-12 px-4 ">
         <div
-          className="cursor-pointer"
+          className="pl-2 cursor-pointer"
           onClick={() => setShowLogoutModal(true)}
         >
           로그아웃
@@ -39,7 +39,7 @@ export default function BottomBtns() {
       </div>
       <div className="flex items-center justify-between h-12 px-4 ">
         <div
-          className="cursor-pointer"
+          className="pl-2 cursor-pointer"
           onClick={() => setShowWithdrawalModal(true)}
         >
           탈퇴하기
