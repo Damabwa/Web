@@ -3,9 +3,9 @@ import { GET, PUT, POST, DELETE } from "../utils/axios";
 export const checkPhotographerExistence = async (nickname: string) =>
   await GET(`/photographers/nicknames/existence?nickname=${nickname}`);
 
-export const getPhotographerList = async () =>
+export const getPhotographerList = async (params: string) =>
   await GET(
-    `/photographers/list`,
+    `/photographers/list?${params}`,
     localStorage.getItem("accessToken") ? true : false
   );
 

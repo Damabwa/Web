@@ -1,8 +1,8 @@
 import { GET, PUT, POST, DELETE } from "../utils/axios";
 
-export const getPromotionList = async () =>
+export const getPromotionList = async (params: string) =>
   await GET(
-    `/promotions/list`,
+    `/promotions/list?${params}`,
     localStorage.getItem("accessToken") ? true : false
   );
 

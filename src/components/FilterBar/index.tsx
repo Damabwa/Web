@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import icn_reset from "../../assets/svgs/icn_reset.svg";
 import icn_line from "../../assets/svgs/icn_filterLine.svg";
 import FilterType from "./FIlterType";
@@ -7,31 +7,54 @@ import BtnChip from "./BtnChip";
 
 interface Props {
   isEvent: boolean;
+  setSearchParams: React.Dispatch<React.SetStateAction<URLSearchParams>>;
 }
 
-export default function FilterBar({ isEvent }: Props) {
-  const [free, setFree] = useState(false);
-  const [discount, setDiscount] = useState(false);
-
-  const [order, setOrder] = useState("최신순");
-  const [state, setState] = useState("진행중");
+export default function FilterBar({ isEvent, setSearchParams }: Props) {
   const [isModifiedOrder, setIsModifiedOrder] = useState(false);
   const [isModifiedState, setIsModifiedState] = useState(false);
+  const [isModifiedRegion, setIsModifiedRegion] = useState(false);
+  const [isModifiedTypes, setIsModifiedTypes] = useState(false);
 
-  const [locs, setLocs] = useState<string[]>([]);
-  const [types, setTypes] = useState<string[]>([]);
   const [showSelectBar, setShowSelectBar] = useState(false);
   const [clickedFilter, setClickedFilter] = useState("");
 
+  const [filters, setFilters] = useState<any>(
+    isEvent
+      ? {
+          progressStatus: "ONGOING",
+          sortType: "LATEST",
+        }
+      : {
+          sortType: "LATEST",
+        }
+  );
+
+  const handleFilterChange = (key: string, value: any) => {
+    setFilters((prevFilters: any) => ({ ...prevFilters, [key]: value }));
+  };
+
+  useEffect(() => {
+    const newSearchParams = new URLSearchParams();
+
+    Object.entries(filters).forEach(([key, value]: any) => {
+      if (!value || value == "ALL" || value.length == 0)
+        newSearchParams.delete(key);
+      else newSearchParams.set(key, value);
+    });
+
+    setSearchParams(newSearchParams);
+  }, [filters, setSearchParams]);
+
   const handleResetFIlter = () => {
-    setFree(false);
-    setDiscount(false);
-    setOrder("최신순");
-    setState("진행중");
     setIsModifiedOrder(false);
     setIsModifiedState(false);
-    setLocs([]);
-    setTypes([]);
+    setIsModifiedRegion(false);
+    setIsModifiedTypes(false);
+    setFilters({
+      progressStatus: "ONGOING",
+      sortType: "LATEST",
+    });
   };
 
   const handleFilter = (type: string) => {
@@ -50,8 +73,18 @@ export default function FilterBar({ isEvent }: Props) {
         </button>
         {isEvent && (
           <div className="flex gap-2">
-            <BtnOnOff isOn={free} setIsOn={setFree} title="무료" />
-            <BtnOnOff isOn={discount} setIsOn={setDiscount} title="할인" />
+            <BtnOnOff
+              isOn={filters.type === "FREE"}
+              setOn={() => handleFilterChange("type", "FREE")}
+              setOff={() => handleFilterChange("type", "")}
+              title="무료"
+            />
+            <BtnOnOff
+              isOn={filters.type === "DISCOUNT"}
+              setOn={() => handleFilterChange("type", "DISCOUNT")}
+              setOff={() => handleFilterChange("type", "")}
+              title="할인"
+            />
             <img src={icn_line} />
           </div>
         )}
@@ -59,24 +92,24 @@ export default function FilterBar({ isEvent }: Props) {
           activation={isModifiedOrder}
           onClick={handleFilter}
           setFilterName="정렬"
-          title={order}
+          title={filters.sortType}
         />
         {isEvent && (
           <BtnChip
             activation={isModifiedState}
             onClick={handleFilter}
             setFilterName="진행 상태"
-            title={state}
+            title={filters.progressStatus}
           />
         )}
         <BtnChip
-          activation={locs.length > 0}
+          activation={isModifiedRegion}
           onClick={handleFilter}
           setFilterName="지역"
           title="지역"
         />
         <BtnChip
-          activation={types.length > 0}
+          activation={isModifiedTypes}
           onClick={handleFilter}
           setFilterName="촬영 종류"
           title="촬영 종류"
@@ -92,17 +125,15 @@ export default function FilterBar({ isEvent }: Props) {
             className={`w-full ${showSelectBar ? "animate-slideUp" : "hidden"}`}
           >
             <FilterType
+              filters={filters}
               title={clickedFilter}
-              order={order}
-              setOrder={setOrder}
+              isModifiedOrder={isModifiedOrder}
+              isModifiedState={isModifiedState}
               setIsModifiedOrder={setIsModifiedOrder}
-              state={state}
-              setState={setState}
               setIsModifiedState={setIsModifiedState}
-              locs={locs}
-              setLocs={setLocs}
-              types={types}
-              setTypes={setTypes}
+              setIsModifiedRegion={setIsModifiedRegion}
+              setIsModifiedTypes={setIsModifiedTypes}
+              handleFilterChange={handleFilterChange}
               setShowSelectBar={setShowSelectBar}
             />
           </div>

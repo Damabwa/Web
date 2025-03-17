@@ -14,7 +14,7 @@ export default function PhotographerBox() {
 
   const getPhotographerListFunc = async () => {
     try {
-      const res = await getPhotographerList();
+      const res = await getPhotographerList("");
       setPhotographers(res.items.slice(0, 5));
     } catch (e) {
       console.log(e);

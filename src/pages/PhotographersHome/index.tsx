@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getPhotographerList } from "../../api/photographer";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import Header from "../../components/Header";
@@ -8,16 +8,18 @@ import FilterBar from "../../components/FilterBar";
 
 export default function PhotographersHome() {
   const navigation = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [photographerList, setPhotographertList] = useState<any>([]);
 
   useEffect(() => {
     getPhotographerListFunc();
-  }, []);
+  }, [searchParams]);
 
   const getPhotographerListFunc = async () => {
+    const params = searchParams.toString();
     try {
-      const res = await getPhotographerList();
+      const res = await getPhotographerList(params);
       setPhotographertList(res.items);
     } catch (e) {
       console.log(e);
@@ -40,7 +42,7 @@ export default function PhotographersHome() {
               alt="<"
               src={icn_back}
               onClick={() => {
-                navigation(-1);
+                navigation(`/`);
               }}
             />
           }
@@ -48,7 +50,7 @@ export default function PhotographersHome() {
         />
       </div>
       <div className="border-b-[0.375rem] border-lightgray">
-        <FilterBar isEvent={false} />
+        <FilterBar isEvent={false} setSearchParams={setSearchParams} />
       </div>
       <div className="grid grid-cols-2 gap-5 p-4">
         {photographerList.map((item: any) => (

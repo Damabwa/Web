@@ -5,58 +5,57 @@ import Types from "../Types";
 import RegionCluster from "../RegionCluster";
 
 const orderBtns = [
-  { id: "latest", name: "최신순", full: "최신순" },
-  { id: "popularity", name: "인기순", full: "인기순" },
+  { id: "LATEST", full: "최신순" },
+  { id: "POPULAR", full: "인기순" },
 ];
 const stateBtns = [
-  { id: "all", name: "전체", full: "전체" },
-  { id: "scheduled", name: "예정", full: "예정된 이벤트" },
-  { id: "ongoing", name: "진행중", full: "진행 중인 이벤트" },
-  { id: "end", name: "마감", full: "마감된 이벤트" },
+  { id: "ALL", full: "전체" },
+  { id: "UPCOMING", full: "예정된 이벤트" },
+  { id: "ONGOING", full: "진행 중인 이벤트" },
+  { id: "ENDED", full: "마감된 이벤트" },
 ];
 
 interface Props {
+  filters: any;
   title: string;
-  order: string;
-  state: string;
-  locs: string[];
-  types: string[];
-  setOrder: React.Dispatch<React.SetStateAction<string>>;
-  setState: React.Dispatch<React.SetStateAction<string>>;
-  setLocs: React.Dispatch<React.SetStateAction<string[]>>;
-  setTypes: React.Dispatch<React.SetStateAction<string[]>>;
-  setShowSelectBar: React.Dispatch<React.SetStateAction<boolean>>;
+  isModifiedOrder: boolean;
+  isModifiedState: boolean;
   setIsModifiedOrder: React.Dispatch<React.SetStateAction<boolean>>;
   setIsModifiedState: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModifiedRegion: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModifiedTypes: React.Dispatch<React.SetStateAction<boolean>>;
+  handleFilterChange: (arg1: string, arg2: any) => void;
+  setShowSelectBar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function FilterType({
+  filters,
   title,
-  order,
-  setOrder,
+  isModifiedOrder,
+  isModifiedState,
   setIsModifiedOrder,
-  state,
-  setState,
+  setIsModifiedRegion,
+  setIsModifiedTypes,
   setIsModifiedState,
-  locs,
-  setLocs,
-  types,
-  setTypes,
   setShowSelectBar,
+  handleFilterChange,
 }: Props) {
-  const [selectedLocs, setSelectedLocs] = useState<string[]>(locs);
-  const [selectedTypes, setSelectedTypes] = useState<string[]>(types);
+  const [selectedLocs, setSelectedLocs] = useState<string[]>(
+    filters.regions || []
+  );
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(
+    filters.photographerType || []
+  );
 
   const handleChildClick = (item: string) => {
     if (title === "정렬") {
-      setOrder(item);
+      handleFilterChange("sortType", item);
       setIsModifiedOrder(true);
-      setShowSelectBar(false);
     } else if (title === "진행 상태") {
-      setState(item);
+      handleFilterChange("progressStatus", item);
       setIsModifiedState(true);
-      setShowSelectBar(false);
     }
+    setShowSelectBar(false);
   };
 
   const getChild = () => {
@@ -70,8 +69,13 @@ export default function FilterType({
   };
 
   const handleSave = () => {
-    if (title === "지역") setLocs(selectedLocs);
-    else if (title === "촬영 종류") setTypes(selectedTypes);
+    if (title === "지역") {
+      handleFilterChange("regions", selectedLocs);
+      setIsModifiedRegion(selectedLocs.length > 0);
+    } else if (title === "촬영 종류") {
+      handleFilterChange("photographerType", selectedTypes);
+      setIsModifiedTypes(selectedTypes.length > 0);
+    }
     setShowSelectBar(false);
   };
 
@@ -84,11 +88,12 @@ export default function FilterType({
         getChild().map((item) => (
           <div
             key={item.id}
-            onClick={() => handleChildClick(item.name)}
+            onClick={() => handleChildClick(item.id)}
             className="flex justify-between w-full py-4 font-medium cursor-pointer"
           >
             <span>{item.full}</span>
-            {(item.name === order || item.name === state) && (
+            {((item.id === filters.sortType && isModifiedOrder) ||
+              (item.id === filters.progressStatus && isModifiedState)) && (
               <img className="px-2" alt="✓" src={icn_check} />
             )}
           </div>

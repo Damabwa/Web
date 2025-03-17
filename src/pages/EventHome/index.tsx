@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getUserInfo } from "../../api/user";
 import { getPromotionList } from "../../api/promotion";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
@@ -10,17 +10,23 @@ import PromotionBox from "../../components/PromotionBox";
 
 function EventHome() {
   const navigation = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [role, setRole] = useState<string>("USER");
   const [promotionList, setPromotionList] = useState<any[]>([]);
 
   useEffect(() => {
-    getPromotionListFunc();
     if (localStorage.getItem("accessToken")) getRole();
   }, []);
 
+  useEffect(() => {
+    getPromotionListFunc();
+  }, [searchParams]);
+
   const getPromotionListFunc = async () => {
+    const params = searchParams.toString();
     try {
-      const res = await getPromotionList();
+      const res = await getPromotionList(params);
       setPromotionList(res.items);
     } catch (e) {
       console.log(e);
@@ -36,7 +42,6 @@ function EventHome() {
     }
   };
 
-  if (promotionList.length === 0) return <></>;
   return (
     <div className="relative w-full">
       <div className="h-12">
@@ -52,7 +57,7 @@ function EventHome() {
               alt="<"
               src={icn_back}
               onClick={() => {
-                navigation(-1);
+                navigation(`/`);
               }}
             />
           }
@@ -60,7 +65,7 @@ function EventHome() {
         />
       </div>
       <div className="border-b-[0.375rem] border-lightgray">
-        <FilterBar isEvent={true} />
+        <FilterBar isEvent={true} setSearchParams={setSearchParams} />
       </div>
       <div className="flex flex-col gap-1 bg-lightgray">
         {promotionList.map(
