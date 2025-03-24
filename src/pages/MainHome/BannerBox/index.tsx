@@ -67,20 +67,21 @@ export default function BannerBox() {
   }, []);
 
   useEffect(() => {
+    scrollToIndex(currentIndex);
     const container = containerRef.current;
     if (!container) return;
 
     if (currentIndex === 0) {
       setTimeout(() => {
-        scrollToIndex(realBanners.length, "auto");
+        scrollToIndex(realBanners.length, "smooth");
         setCurrentIndex(realBanners.length);
-      }, 10);
+      }, 500);
     } else if (currentIndex === banners.length - 1) {
       setTimeout(() => {
         scrollToIndex(1, "auto");
         setCurrentIndex(1);
-      }, 300);
-    } else scrollToIndex(currentIndex);
+      }, 500);
+    }
   }, [currentIndex]);
 
   return (
