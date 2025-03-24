@@ -19,7 +19,6 @@ export default function EventBox() {
       const res = await getPromotionList(
         "page=0&pageSize=5&progressStatus=ONGOING"
       );
-      console.log(res.items);
       setEvents(
         res.items.slice(0, 5).map((item: any) => ({
           ...item,
