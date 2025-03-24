@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userRegistration } from "../../api/user";
 import { photographerRegistration } from "../../api/photographer";
@@ -38,20 +38,23 @@ export default function SignUp() {
     if (userInfo.role === "photographer") return;
     let success = false;
     try {
-      userRegistration({
+      const res = await userRegistration({
         nickname: userInfo.username,
         gender: userInfo.gender,
         instagramId: userInfo.instagramId,
       });
+      localStorage.setItem("userRole", res.roles);
       success = true;
     } catch (e) {
       success = false;
       console.log(e);
     } finally {
-      navigation("/success/signup", {
-        state: userInfo,
-        replace: true,
-      });
+      if (success) {
+        navigation("/success/signup", {
+          state: userInfo,
+          replace: true,
+        });
+      }
     }
   };
 
@@ -59,7 +62,7 @@ export default function SignUp() {
     if (userInfo.role === "user") return;
     let success = false;
     try {
-      await photographerRegistration({
+      const res = await photographerRegistration({
         nickname: userInfo.username,
         gender: userInfo.gender,
         instagramId: userInfo.instagramId,
@@ -67,6 +70,7 @@ export default function SignUp() {
         mainPhotographyTypes: userInfo.mainPhotographyTypes,
         activeRegions: userInfo.activeRegions,
       });
+      localStorage.setItem("userRole", res.roles);
       success = true;
     } catch (e) {
       success = false;

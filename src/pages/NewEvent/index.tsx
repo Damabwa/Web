@@ -41,7 +41,6 @@ export default function NewEvent() {
   const getUserInfoFunc = async () => {
     try {
       const res = await getUserInfo();
-      if (res.type !== "PHOTOGRAPHER") navigation(`/main`, { replace: true });
       setTradename(res.nickname);
     } catch (e) {
       console.log(e);

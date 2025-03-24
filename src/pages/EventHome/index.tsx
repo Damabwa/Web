@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getUserInfo } from "../../api/user";
 import { getPromotionList } from "../../api/promotion";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import icn_pencil from "../../assets/svgs/icn_eventhome_pencil.svg";
@@ -16,7 +15,9 @@ function EventHome() {
   const [promotionList, setPromotionList] = useState<any[]>([]);
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) getRole();
+    const userRole = localStorage.getItem("userRole") || "";
+    if (localStorage.getItem("accessToken") && userRole)
+      setRole(userRole.split(",")[0]);
   }, []);
 
   useEffect(() => {
@@ -28,15 +29,6 @@ function EventHome() {
     try {
       const res = await getPromotionList(params);
       setPromotionList(res.items);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const getRole = async () => {
-    try {
-      const res = await getUserInfo();
-      setRole(res.type);
     } catch (e) {
       console.log(e);
     }
@@ -78,7 +70,7 @@ function EventHome() {
         )}
         <div className="w-full h-20 bg-white" />
       </div>
-      {role === "PHOTOGRAPHER" && (
+      {(role === "PHOTOGRAPHER" || role === "ADMIN") && (
         <div className="fixed w-full max-w-[430px] bottom-0">
           <button
             className="outline-none absolute right-4 bottom-3 rounded-3xl bg-violet500 text-white px-4 py-[0.81rem] shadow-btn-shadow flex gap-[0.31rem] font-semibold text-[0.9375rem]"

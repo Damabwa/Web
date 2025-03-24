@@ -1,67 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import icn_next from "../../assets/svgs/icn_imageNext.svg";
-import icn_back from "../../assets/svgs/icn_imageBack.svg";
-import icn_clip from "../../assets/svgs/icn_clip.svg";
-import icn_time from "../../assets/svgs/icn_time.svg";
-import icn_loc from "../../assets/svgs/icn_location.svg";
-import icn_insta from "../../assets/svgs/icn_instagram.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPromotionDetail } from "../../api/promotion";
+import icn_clip from "../../assets/svgs/icn_clip.svg";
+import ImageBox from "./ImageBox";
+import TopInfo from "./TopInfo";
+import BottomInfo from "./BottomInfo";
 
 export default function EventDetail() {
   const navigation = useNavigate();
-  const [promotionData, setPromotionData] = useState<any>();
   const { id } = useParams();
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // const [isPC, setIsPC] = useState(true);
-  // const [currentIndexPC, setCurrentIndexPC] = useState(0);
-
-  // const handleResize = () => {
-  //   setIsPC(window.innerWidth > 768);
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("resize", handleResize);
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
+  const [promotionData, setPromotionData] = useState<any>();
 
   useEffect(() => {
     getPromotionFunc();
   }, []);
-
-  useEffect(() => {
-    // if (isPC) return;
-    const container = containerRef.current;
-    if (!container) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = Number(entry.target.getAttribute("data-index"));
-            setCurrentIndex(index);
-          }
-        });
-      },
-      {
-        root: container,
-        threshold: 0.5,
-      }
-    );
-
-    const slides = container.querySelectorAll(".slide-item");
-    slides.forEach((slide) => observer.observe(slide));
-
-    return () => {
-      slides.forEach((slide) => observer.unobserve(slide));
-    };
-  }, [promotionData]);
-  // }, [isPC]);
 
   const getPromotionFunc = async () => {
     try {
@@ -71,161 +23,27 @@ export default function EventDetail() {
       console.log(e);
     }
   };
+  console.log(promotionData);
 
   if (!promotionData) return <></>;
   return (
     <div className="w-full">
-      <div className="relative">
-        <div
-          className="overflow-x-auto overflow-y-hidden h-96 snap-x snap-mandatory"
-          ref={containerRef}
-        >
-          <div
-            // className={`${isPC ? `flex transition-transform duration-500 ease-in-out translate-x-[-${currentIndexPC * 100}%]` : "flex"}`}
-            className="flex"
-          >
-            {promotionData.images.map((image: any, index: number) => (
-              <div
-                key={index}
-                className="flex-shrink-0 w-full slide-item snap-center"
-                data-index={index}
-              >
-                <img src={image.url} className="object-cover min-w-full h-96" />
-              </div>
-            ))}
-          </div>
-        </div>
-        {(promotionData.promotionType === "FREE" ||
-          promotionData.promotionType === "DISCOUNT") && (
-          <div className="absolute z-10 px-2 py-[0.38rem] text-sm font-semibold text-center text-white rounded-lg top-4 left-4 bg-violet300">
-            {promotionData.promotionType === "FREE" ? "무료" : "할인"} 이벤트
-          </div>
-        )}
-        {promotionData.images.length > 1 && (
-          <div className="absolute z-10 right-4 bottom-3 bg-[rgb(85,85,85)] bg-opacity-80 flex items-center h-7 px-[0.88rem] text-white rounded-2xl text-xs">
-            {/* {isPC ? currentIndexPC + 1 : currentIndex + 1}/ */}
-            {currentIndex + 1}/{promotionData.images.length}
-          </div>
-        )}
-        {/* {isPC && (
-          <div className="absolute top-0 z-10 flex items-center w-full h-96">
-            <div className="relative w-full">
-              {currentIndexPC > 0 && (
-                <img
-                  className="absolute w-5 bg-white bg-opacity-50 rounded-full cursor-pointer left-2"
-                  src={icn_back}
-                  onClick={() => setCurrentIndexPC(currentIndexPC - 1)}
-                />
-              )}
-              {currentIndexPC + 1 < mockdata.images.length && (
-                <img
-                  className="absolute w-5 bg-white bg-opacity-50 rounded-full cursor-pointer right-2"
-                  src={icn_next}
-                  onClick={() => setCurrentIndexPC(currentIndexPC + 1)}
-                />
-              )}
-            </div>
-          </div>
-        )} */}
-      </div>
+      <ImageBox
+        images={promotionData.images}
+        promotionType={promotionData.promotionType}
+      />
       <div className="flex flex-col w-full bg-gray50">
-        <div className="flex flex-col w-full py-5 bg-white border-b-8 border-gray50">
-          <div className="px-4 text-sm font-medium text-black04 pb-[2px] flex gap-1">
-            {promotionData.photographyTypes.map(
-              (type: string, index: number) => (
-                <div className="flex gap-1" key={index}>
-                  {type}
-                  {promotionData.activeRegions.length > index + 1 && <>,</>}
-                </div>
-              )
-            )}
-          </div>
-          <div className="px-4 pb-4 text-xl font-bold ">
-            {promotionData.title}
-          </div>
-          <div className="flex flex-col gap-2 px-3 text-sm font-medium text-black02">
-            {promotionData.startAt && promotionData.endedAt && (
-              <div className="flex items-center gap-1">
-                <img className="p-[0.35rem]" src={icn_time} /> (
-                <div>
-                  {promotionData.startedAt.replace(/-/g, ".")}
-                  {" ~ "}
-                  {promotionData.endedAt.replace(/-/g, ".")}
-                </div>
-                )
-              </div>
-            )}
-            <div className="flex items-center gap-1">
-              <img className="w-6" src={icn_loc} />
-              <div className="flex w-full gap-1">
-                {promotionData.activeRegions.map((loc: any, index: number) => (
-                  <div className="flex gap-1" key={index}>
-                    <p>{loc.category}</p>
-                    <p>
-                      {loc.name}
-                      {promotionData.activeRegions.length > index + 1 && <>,</>}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {promotionData.author.instagramId && (
-              <div className="flex items-center gap-1">
-                <img className="p-[0.35rem]" src={icn_insta} />
-                <div
-                  className="cursor-pointer text-[#0068C3]"
-                  onClick={() =>
-                    window.open(
-                      `https://www.instagram.com/${promotionData.author.instagramId}`
-                    )
-                  }
-                >
-                  {promotionData.author.instagramId}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="flex flex-col px-4 py-6 bg-white">
-          <div className="pb-3 font-bold">촬영 작가</div>
-          <div className="flex items-center gap-2 pb-6">
-            <img
-              className="object-cover w-10 h-10 rounded-full cursor-pointer"
-              src={promotionData.author.profileImage.url}
-              onClick={() =>
-                navigation(`/photographer/${promotionData.author.id}`)
-              }
-            />
-            <div
-              className="cursor-pointer"
-              onClick={() =>
-                navigation(`/photographer/${promotionData.author.id}`)
-              }
-            >
-              {promotionData.author.nickname}
-            </div>
-          </div>
-          <div className="pb-3 font-bold">상세 설명</div>
-          <div className="pb-5 text-sm font-medium text-black02">
-            {promotionData.content}
-          </div>
-          <div className="flex gap-2 text-sm font-medium pb-36 text-black02">
-            {promotionData.hashtags.map((tag: string) => (
-              <div
-                key={tag}
-                className="px-3 py-1 rounded-2xl bg-violet400 bg-opacity-15 text-violet400"
-              >
-                #{tag}
-              </div>
-            ))}
-          </div>
-        </div>
+        <TopInfo promotionData={promotionData} />
+        <BottomInfo promotionData={promotionData} />
         <div className="fixed bottom-0 z-20 flex items-center w-full max-w-[430px] gap-2 pt-2 px-4 pb-8 bg-white">
           <div className="cursor-pointer flex flex-col items-center justify-center w-12 h-12 rounded-md bg-gray50 text-black03 text-[0.625rem] font-medium">
             <img className="w-5 ml-[-0.725px]" src={icn_clip} />
             <div className="w-5 text-center">0</div>
           </div>
-          <div className="flex-1 cursor-pointer rounded-[0.63rem] bg-violet300 justify-center text-white h-12 flex items-center font-semibold">
+          <div
+            className="flex-1 cursor-pointer rounded-[0.63rem] bg-violet300 justify-center text-white h-12 flex items-center font-semibold"
+            onClick={() => navigation(promotionData.externalLink)}
+          >
             신청하러 가기
           </div>
         </div>
