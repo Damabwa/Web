@@ -36,7 +36,12 @@ export default function MyPage() {
         setSavedPhotographer(photographers.items);
       }
     } catch (e: any) {
-      if (e.response.status === 401) navigation(`/login`);
+      if (e.response.status === 401) {
+        localStorage.setItem("accessToken", "");
+        localStorage.setItem("refreshToken", "");
+        localStorage.setItem("userRole", "");
+        navigation(`/`);
+      }
       console.log(e);
     }
   };
