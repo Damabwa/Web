@@ -34,6 +34,23 @@ export default function PhotographerBox() {
     navigation(`/photographer/${id}`);
   };
 
+  const getKorean = (item: string) => {
+    switch (item) {
+      case "SNAP":
+        return "스냅";
+      case "PROFILE":
+        return "프로필";
+      case "CONCEPT":
+        return "컨셉";
+      case "ID_PHOTO":
+        return "증명";
+      case "SELF":
+        return "셀프";
+      default:
+        return item;
+    }
+  };
+
   return (
     <div className="flex flex-col pt-5 pb-10">
       <div
@@ -76,7 +93,7 @@ export default function PhotographerBox() {
                 {item.mainPhotographyTypes.map(
                   (type: string, index: number) => (
                     <div key={index}>
-                      {type}
+                      {getKorean(type)}
                       {index + 1 !== item.mainPhotographyTypes.length && <>,</>}
                     </div>
                   )

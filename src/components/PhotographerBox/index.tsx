@@ -52,6 +52,23 @@ export default function PhotographerBox({ data }: Props) {
     }
   };
 
+  const getKorean = (item: string) => {
+    switch (item) {
+      case "SNAP":
+        return "스냅";
+      case "PROFILE":
+        return "프로필";
+      case "CONCEPT":
+        return "컨셉";
+      case "ID_PHOTO":
+        return "증명";
+      case "SELF":
+        return "셀프";
+      default:
+        return item;
+    }
+  };
+
   if (!data) return <></>;
   return (
     <div className="relative flex flex-col justify-between w-full text-white cursor-pointer h-44 bg-gray rounded-xl">
@@ -82,7 +99,7 @@ export default function PhotographerBox({ data }: Props) {
         <div className="flex items-center gap-1 text-xs">
           {data.mainPhotographyTypes.map((type, index) => (
             <div key={index}>
-              {type}
+              {getKorean(type)}
               {index + 1 !== data.mainPhotographyTypes.length && <>,</>}
             </div>
           ))}
