@@ -19,20 +19,10 @@ export default function EventBox() {
       const res = await getPromotionList(
         "page=0&pageSize=5&progressStatus=ONGOING"
       );
-      setEvents(
-        res.items.slice(0, 5).map((item: any) => ({
-          ...item,
-          hashtags: item.hashtags.join(", "),
-        }))
-      );
+      setEvents(res.items);
     } catch (e) {
       console.log(e);
     }
-  };
-
-  const slicedText = (text: string) => {
-    if (text.length < 15) return text;
-    else return text.slice(0, text.slice(12) == "," ? 11 : 12) + "...";
   };
 
   const getDDay = (endedAt: string) => {
@@ -51,6 +41,23 @@ export default function EventBox() {
       return "오늘 마감되는 이벤트";
     } else {
       return `마감까지 D-${diffDays}`;
+    }
+  };
+
+  const getKorean = (item: string) => {
+    switch (item) {
+      case "SNAP":
+        return "스냅";
+      case "PROFILE":
+        return "프로필";
+      case "CONCEPT":
+        return "컨셉";
+      case "ID_PHOTO":
+        return "증명";
+      case "SELF":
+        return "셀프";
+      default:
+        return item;
     }
   };
 
@@ -95,15 +102,14 @@ export default function EventBox() {
                 <div className="flex items-center justify-center w-4 h-4 ">
                   <img src={icn_camera} />
                 </div>
-                {/* <div className="flex gap-1">
-                  {item.hashtags.map((hashtags: string, index: number) => (
+                <div className="flex gap-1">
+                  {item.photographyTypes.map((type: string, index: number) => (
                     <div key={index}>
-                      {hashtags}
-                      {index + 1 !== item.hashtags.length && <>,</>}
+                      {getKorean(type)}
+                      {index + 1 !== item.photographyTypes.length && <>,</>}
                     </div>
                   ))}
-                </div> */}
-                {slicedText(item.hashtags)}
+                </div>
               </div>
               <div className="flex items-center">
                 <div className="flex items-center justify-center w-4 h-4">
