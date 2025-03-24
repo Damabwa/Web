@@ -11,6 +11,7 @@ export default function BottomBtns() {
   const onClickLogout = () => {
     localStorage.setItem("accessToken", "");
     localStorage.setItem("refreshToken", "");
+    localStorage.setItem("userRole", "");
     navigation(`/login`);
   };
 
