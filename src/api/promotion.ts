@@ -10,7 +10,10 @@ export const getSavedPromotionList = async () =>
   await GET(`/promotions/saved`, true);
 
 export const getPromotionDetail = async (promotionId: number) =>
-  await GET(`/promotions/${promotionId}/details`);
+  await GET(
+    `/promotions/${promotionId}/details`,
+    localStorage.getItem("accessToken") ? true : false
+  );
 
 export const getPromotion = async (promotionId: number) =>
   await GET(`/promotions/${promotionId}`);
