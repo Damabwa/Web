@@ -1,8 +1,14 @@
-import icn_clip from "../../assets/svgs/icn_clip.svg";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  deleteSavedPhotographer,
+  savePhotographer,
+} from "../../api/photographer";
+import icn_clip_off from "../../assets/svgs/icn_clip.svg";
+import icn_clip_on from "../../assets/svgs/icn_clipOn.svg";
 import icn_web from "../../assets/svgs/icn_web.svg";
 import icn_loc from "../../assets/svgs/icn_location.svg";
 import icn_insta from "../../assets/svgs/icn_instagram.svg";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   isMypage: boolean;
@@ -11,6 +17,52 @@ interface Props {
 
 export default function PhotographerInfo({ isMypage, userInfo }: Props) {
   const navigation = useNavigate();
+
+  const [count, setCount] = useState(0);
+  const [isSavedPhotographer, setIsSavedPhotographer] = useState(false);
+
+  const handleSave = () => {
+    isSavedPhotographer ? deleteSavedPromotionFunc() : savePromotionFunc();
+  };
+
+  const savePromotionFunc = async () => {
+    setCount(count + 1);
+    setIsSavedPhotographer(true);
+    try {
+      await savePhotographer(userInfo.id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const deleteSavedPromotionFunc = async () => {
+    setCount(count - 1);
+    setIsSavedPhotographer(false);
+    try {
+      await deleteSavedPhotographer(userInfo.id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getKorean = (item: string) => {
+    switch (item) {
+      case "SNAP":
+        return "스냅";
+      case "PROFILE":
+        return "프로필";
+      case "CONCEPT":
+        return "컨셉";
+      case "ID_PHOTO":
+        return "증명";
+      case "SELF":
+        return "셀프";
+      default:
+        return item;
+    }
+  };
+
+  console.log(userInfo);
   return (
     <div className="relative w-full bg-white border-b-8 border-gray50 pt-[4.25rem] px-4 pb-5">
       <div className="absolute top-[-3rem] left-0 flex items-end justify-between w-full px-4">
@@ -19,16 +71,27 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
           src={userInfo.profileImage.url}
         />
         {!isMypage && (
-          <div className="cursor-pointer flex flex-col items-center justify-center w-12 h-12 rounded-md bg-gray50 text-black03 text-[0.625rem] font-medium">
-            <img className="w-5 ml-[-0.725px]" src={icn_clip} />
-            <div className="w-5 text-center">0</div>
+          <div
+            className="cursor-pointer flex flex-col items-center justify-center w-12 h-12 rounded-md bg-gray50 text-black03 text-[0.625rem] font-medium"
+            onClick={() => handleSave()}
+          >
+            <img
+              className="w-5 ml-[-0.725px]"
+              src={isSavedPhotographer ? icn_clip_on : icn_clip_off}
+            />
+            <div className="w-5 text-center">{count}</div>
           </div>
         )}
       </div>
       <div className="flex items-end gap-2 pb-3">
         <div className="text-xl font-bold">{userInfo.nickname}</div>
         <div className="text-sm font-medium text-black04 pb-[0.12rem]">
-          스냅, 컨셉
+          {userInfo.mainPhotographyTypes.map((type: string, index: number) => (
+            <div className="flex gap-1" key={index}>
+              {getKorean(type)}
+              {userInfo.mainPhotographyTypes.length > index + 1 && <>,</>}
+            </div>
+          ))}
         </div>
       </div>
       <div className="flex flex-col gap-2 pb-1 -ml-1 text-sm font-medium text-black02">

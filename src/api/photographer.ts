@@ -13,7 +13,10 @@ export const getSavedPhotographerList = async () =>
   await GET(`/photographers/saved`, true);
 
 export const getPhotographerInfo = async (photographerId: number) =>
-  await GET(`/photographers/${photographerId}`);
+  await GET(
+    `/photographers/${photographerId}`,
+    localStorage.getItem("accessToken") ? true : false
+  );
 
 export const photographerRegistration = async (body: any) =>
   await POST(`/photographers/me/registration`, body, true);
