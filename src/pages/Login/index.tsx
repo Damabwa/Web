@@ -1,5 +1,5 @@
-import img_logo from "../../assets/svgs/img_onboarding_logo.svg";
-import img_dialogue from "../../assets/svgs/img_onboarding_dialogue.svg";
+import img_logo from "../../assets/imgs/img_onboarding_logo.png";
+import img_dialogue from "../../assets/imgs/img_onboarding_dialogue.png";
 import img_kakao_login from "../../assets/imgs/img_login_kakao.png";
 
 export default function Login() {
@@ -11,14 +11,14 @@ export default function Login() {
   const url2 = `https://obtainable-chocolate-d07.notion.site/1b53cdfe88408032b850cbba8f856532?pvs=4`;
   return (
     <div className="flex flex-col items-center w-full h-screen px-4 bg-violet300">
-      <div className="flex flex-col justify-center flex-1 gap-3">
-        <img src={img_logo} />
+      <div className="flex flex-col justify-center flex-1 w-3/4 gap-3">
+        <img className="" src={img_logo} />
         <div className="font-semibold text-center text-white">
           여러분의 아름다운 '지금'을 담아보세요
         </div>
       </div>
       <div className="flex flex-col items-center w-full gap-3 mb-10">
-        <img src={img_dialogue} />
+        <img className="w-2/5" src={img_dialogue} />
         <img
           className="w-full cursor-pointer"
           src={img_kakao_login}
