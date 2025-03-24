@@ -26,7 +26,7 @@ export default function ImageBox({ images, promotionType }: Props) {
       },
       {
         root: container,
-        threshold: 0.5,
+        threshold: 0.25,
       }
     );
 
