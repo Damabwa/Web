@@ -54,7 +54,7 @@ export default function BannerBox() {
       },
       {
         root: container,
-        threshold: 0.5,
+        threshold: 1.0,
       }
     );
 
