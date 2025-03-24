@@ -11,13 +11,13 @@ function EventHome() {
   const navigation = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [role, setRole] = useState<string>("USER");
+  const [role, setRole] = useState<string[]>([]);
   const [promotionList, setPromotionList] = useState<any[]>([]);
 
   useEffect(() => {
     const userRole = localStorage.getItem("userRole") || "";
     if (localStorage.getItem("accessToken") && userRole)
-      setRole(userRole.split(",")[0]);
+      setRole(userRole.split(","));
   }, []);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ function EventHome() {
         )}
         <div className="w-full h-20 bg-white" />
       </div>
-      {(role === "PHOTOGRAPHER" || role === "ADMIN") && (
+      {(role.includes("PHOTOGRAPHER") || role.includes("ADMIN")) && (
         <div className="fixed w-full max-w-[430px] bottom-0">
           <button
             className="outline-none absolute right-4 bottom-3 rounded-3xl bg-violet500 text-white px-4 py-[0.81rem] shadow-btn-shadow flex gap-[0.31rem] font-semibold text-[0.9375rem]"
