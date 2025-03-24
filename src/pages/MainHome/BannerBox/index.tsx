@@ -54,7 +54,7 @@ export default function BannerBox() {
       },
       {
         root: container,
-        threshold: 1.0,
+        threshold: 0.75,
       }
     );
 
@@ -67,25 +67,20 @@ export default function BannerBox() {
   }, []);
 
   useEffect(() => {
-    scrollToIndex(currentIndex);
     const container = containerRef.current;
     if (!container) return;
 
-    const handleScrollEnd = () => {
-      if (currentIndex === 0) {
-        setTimeout(() => {
-          scrollToIndex(realBanners.length, "auto");
-          setCurrentIndex(realBanners.length);
-        }, 300);
-      } else if (currentIndex === banners.length - 1) {
-        setTimeout(() => {
-          scrollToIndex(1, "auto");
-          setCurrentIndex(1);
-        }, 300);
-      }
-    };
-
-    handleScrollEnd();
+    if (currentIndex === 0) {
+      setTimeout(() => {
+        scrollToIndex(realBanners.length, "auto");
+        setCurrentIndex(realBanners.length);
+      }, 10);
+    } else if (currentIndex === banners.length - 1) {
+      setTimeout(() => {
+        scrollToIndex(1, "auto");
+        setCurrentIndex(1);
+      }, 300);
+    } else scrollToIndex(currentIndex);
   }, [currentIndex]);
 
   return (
@@ -107,13 +102,10 @@ export default function BannerBox() {
           ))}
         </div>
       </div>
-
-      {realBanners.length > 1 && (
-        <div className="absolute z-10 flex items-center h-4 px-3 py-2 text-xs text-white bg-black left-3 bottom-2 bg-opacity-30 rounded-2xl">
-          {((currentIndex - 1 + realBanners.length) % realBanners.length) + 1}/
-          {realBanners.length}
-        </div>
-      )}
+      <div className="absolute z-10 flex items-center h-4 px-3 py-2 text-xs text-white bg-black left-3 bottom-2 bg-opacity-30 rounded-2xl">
+        {((currentIndex - 1 + realBanners.length) % realBanners.length) + 1}/
+        {realBanners.length}
+      </div>
     </div>
   );
 }
