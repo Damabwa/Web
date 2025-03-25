@@ -22,7 +22,6 @@ export default function EventDetail() {
       console.log(e);
     }
   };
-  console.log(promotionData);
 
   if (!promotionData) return <></>;
   return (

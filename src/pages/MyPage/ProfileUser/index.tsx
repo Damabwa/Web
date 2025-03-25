@@ -11,10 +11,14 @@ export default function ProfileUser({ userInfo }: Props) {
   return (
     <div className="flex flex-col gap-6 px-4 pt-7">
       <div className="flex items-center gap-4">
-        <img
-          className="object-cover w-[5.8125rem] h-[5.8125rem] rounded-full border-2 border-lineRegular"
-          src={userInfo.profileImage ? userInfo.profileImage.url : img_profile}
-        />
+        <div className="w-[5.8125rem] h-[5.8125rem] rounded-full border-2 border-lineRegular overflow-hidden">
+          <img
+            className="object-cover min-w-full min-h-full"
+            src={
+              userInfo.profileImage ? userInfo.profileImage.url : img_profile
+            }
+          />
+        </div>
         <div className="flex flex-col gap-[0.12rem]">
           <div className="text-lg font-semibold">{userInfo.nickname}</div>
           {userInfo.instagramId && (
