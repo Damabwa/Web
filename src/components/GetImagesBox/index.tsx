@@ -1,8 +1,7 @@
-import { useRef, useState } from "react";
-import { upLoadFile } from "../../api/file";
+import { useRef } from "react";
+import { onImageHandler } from "../../hooks/onImageHandler";
 import icn_camera from "../../assets/svgs/icn_profile_camera.svg";
 import icn_delete from "../../assets/svgs/btn_delete_porfolio_ellipse.svg";
-import ModalComfirm from "../ModalComfirm";
 
 interface Props {
   isRequired: boolean;
@@ -26,7 +25,6 @@ export default function GetImagesBox({
   setShowModal,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [showSizeModal, setShowSizeModal] = useState(false);
 
   const handleImageClick = () => {
     if (images.length === 10) {
@@ -43,23 +41,8 @@ export default function GetImagesBox({
   ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const image = await uploadFileFunc(file);
+      const image = await onImageHandler(file, fileType);
       if (image) setImages([...images, image]);
-    }
-  };
-
-  const uploadFileFunc = async (file: any) => {
-    const formData = new FormData();
-    formData.append("fileType", fileType);
-    formData.append("files", file);
-    try {
-      const res = await upLoadFile(formData);
-      return res.files[0];
-    } catch (e: any) {
-      console.log(e);
-      if (e.response.status === 413) {
-        setShowSizeModal(true);
-      }
     }
   };
 
@@ -97,7 +80,7 @@ export default function GetImagesBox({
             </div>
             {images.map((item, index) => (
               <div
-                key={item.url}
+                key={index}
                 className={`relative min-w-fit ${index === images.length - 1 && "mr-6"}`}
               >
                 <img
@@ -117,14 +100,6 @@ export default function GetImagesBox({
             ))}
           </div>
         </div>
-      </div>
-      <div className="ml-[-1rem]">
-        {showSizeModal && (
-          <ModalComfirm
-            content={["최대 3MB까지 등록 가능합니다."]}
-            setShowModal={setShowSizeModal}
-          />
-        )}
       </div>
     </div>
   );

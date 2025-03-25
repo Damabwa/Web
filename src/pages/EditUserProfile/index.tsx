@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { upLoadFile } from "../../api/file";
 import { checkUserExistence, modifyProfile } from "../../api/user";
+import { onImageHandler } from "../../hooks/onImageHandler";
 import icn_camera from "../../assets/svgs/icn_profile_camera_white.svg";
 import icn_profile from "../../assets/svgs/icn_profile.svg";
 import SubHeader from "../../components/SubHeader";
@@ -49,24 +49,14 @@ export default function EditUserProfile() {
     }
     const file = event.target.files?.[0];
     if (file) {
-      const image = await uploadFileFunc(file);
-      setIsChangeImage(true);
-      setUserInfo({
-        ...userInfo,
-        profileImage: image,
-      });
-    }
-  };
-
-  const uploadFileFunc = async (file: any) => {
-    const formData = new FormData();
-    formData.append("fileType", "USER_PROFILE_IMAGE");
-    formData.append("files", file);
-    try {
-      const res = await upLoadFile(formData);
-      return res.files[0];
-    } catch (e) {
-      console.log(e);
+      const image = await onImageHandler(file, "USER_PROFILE_IMAGE");
+      if (image) {
+        setIsChangeImage(true);
+        setUserInfo({
+          ...userInfo,
+          profileImage: image,
+        });
+      }
     }
   };
 
@@ -148,7 +138,7 @@ export default function EditUserProfile() {
           >
             {userInfo.profileImage && userInfo.profileImage.url ? (
               <img
-                className="object-contain w-24 h-24 border rounded-full border-darkgray border-opacity-30"
+                className="object-cover w-24 h-24 border rounded-full border-darkgray border-opacity-30"
                 src={userInfo.profileImage.url}
               />
             ) : (

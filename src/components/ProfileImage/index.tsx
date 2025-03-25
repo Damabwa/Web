@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { upLoadFile } from "../../api/file";
+import { onImageHandler } from "../../hooks/onImageHandler";
 import icn_profile from "../../assets/svgs/icn_profile.svg";
 import icn_camera from "../../assets/svgs/icn_profile_camera_white.svg";
 
@@ -22,23 +22,12 @@ export default function ProfileImage({ userInfo, setUserInfo }: Props) {
   ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const image = await uploadFileFunc(file);
-      setUserInfo({
-        ...userInfo,
-        profileImage: image,
-      });
-    }
-  };
-
-  const uploadFileFunc = async (file: any) => {
-    const formData = new FormData();
-    formData.append("fileType", "USER_PROFILE_IMAGE");
-    formData.append("files", file);
-    try {
-      const res = await upLoadFile(formData);
-      return res.files[0];
-    } catch (e) {
-      console.log(e);
+      const image = await onImageHandler(file, "USER_PROFILE_IMAGE");
+      if (image)
+        setUserInfo({
+          ...userInfo,
+          profileImage: image,
+        });
     }
   };
 
