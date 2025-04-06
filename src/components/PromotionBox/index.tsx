@@ -76,8 +76,12 @@ export default function PromotionBox({ data }: Props) {
         >
           <span className="mb-1 text-lg font-semibold">{data.title}</span>
           <div className="flex items-center gap-[0.38rem] text-sm text-black02">
-            <span>{data.author.nickname}</span>
-            <span>|</span>
+            {data.author && !data.author.isAdmin && (
+              <>
+                <span>{data.author.nickname}</span>
+                <span>|</span>
+              </>
+            )}
             {data.hashtags.map((tag, index) => (
               <span key={index}>#{tag}</span>
             ))}

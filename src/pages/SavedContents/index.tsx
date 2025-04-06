@@ -24,14 +24,11 @@ export default function SavedContents() {
       </div>
       {type === "promotion" ? (
         <div className="flex flex-col gap-1 pt-2 bg-gray50">
-          {data.map(
-            (item) =>
-              item.author && (
-                <div key={item.id} className="bg-white">
-                  <PromotionBox data={item} />
-                </div>
-              )
-          )}
+          {data.map((item) => (
+            <div key={item.id} className="bg-white">
+              <PromotionBox data={item} />
+            </div>
+          ))}
           <div className="w-full h-20 bg-white" />
         </div>
       ) : (

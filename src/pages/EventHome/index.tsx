@@ -63,14 +63,11 @@ function EventHome() {
       </div>
       {promotionList.length > 0 ? (
         <div className="flex flex-col gap-1 bg-gray50">
-          {promotionList.map(
-            (item) =>
-              item.author && (
-                <div key={item.id} className="bg-white">
-                  <PromotionBox data={item} />
-                </div>
-              )
-          )}
+          {promotionList.map((item) => (
+            <div key={item.id} className="bg-white">
+              <PromotionBox data={item} />
+            </div>
+          ))}
           <div className="w-full h-20 bg-white" />
         </div>
       ) : (
