@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 interface Props {
   title: string;
   content: string[];
@@ -15,6 +17,13 @@ export default function ModalCheck({
   setShowModal,
   onClick,
 }: Props) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   return (
     <div className="z-30 fixed top-0 w-screen max-w-[430px] h-screen bg-black bg-opacity-40 flex items-center justify-center">
       <div
