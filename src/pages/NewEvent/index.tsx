@@ -42,7 +42,13 @@ export default function NewEvent() {
     try {
       const res = await getUserInfo();
       setTradename(res.nickname);
-    } catch (e) {
+    } catch (e: any) {
+      if (e.response.status === 401) {
+        localStorage.setItem("accessToken", "");
+        localStorage.setItem("refreshToken", "");
+        localStorage.setItem("userRole", "");
+        navigation(`/`);
+      }
       console.log(e);
     }
   };
