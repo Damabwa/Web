@@ -22,7 +22,7 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
   const [filters, setFilters] = useState<any>(
     isEvent
       ? {
-          progressStatus: "ONGOING",
+          progressStatus: "ALL",
           sortType: "LATEST",
         }
       : {
