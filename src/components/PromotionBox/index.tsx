@@ -74,7 +74,7 @@ export default function PromotionBox({ data }: Props) {
     <div className="flex flex-col py-5 cursor-pointer">
       <div className="flex items-start justify-between px-4">
         <div
-          className="flex flex-col"
+          className="flex flex-col flex-1"
           onClick={() => navigation(`/event/${data.id}`)}
         >
           <span className="mb-1 text-lg font-semibold">{data.title}</span>
