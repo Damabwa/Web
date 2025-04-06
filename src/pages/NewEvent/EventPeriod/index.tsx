@@ -69,11 +69,11 @@ export default function EventPeriod({
     const endDate = new Date(endDateStr);
     endDate.setHours(0, 0, 0, 0);
 
-    if (startDate < today) {
-      setWrongMsg("시작 날짜는 오늘 이후여야 합니다.");
-      setIsValidDates(false);
-      return;
-    }
+    // if (startDate < today) {
+    //   setWrongMsg("시작 날짜는 오늘 이후여야 합니다.");
+    //   setIsValidDates(false);
+    //   return;
+    // }
     if (endDate < today) {
       setWrongMsg("종료 날짜는 오늘 이후여야 합니다.");
       setIsValidDates(false);

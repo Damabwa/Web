@@ -24,5 +24,11 @@ export const postPromotion = async (body: any) =>
 export const savePromotion = async (promotionId: number) =>
   await POST(`/promotions/${promotionId}/save`, {}, true);
 
+export const putPromotion = async (promotionId: number, body: any) =>
+  await PUT(`/promotions/${promotionId}`, body, true);
+
 export const deleteSavedPromotion = async (promotionId: number) =>
   await DELETE(`/promotions/${promotionId}/unsave`, true);
+
+export const deletePromotion = async (promotionId: number) =>
+  await DELETE(`/promotions/${promotionId}`, true);

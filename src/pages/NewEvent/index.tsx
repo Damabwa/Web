@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getUserInfo } from "../../api/user";
-import { postPromotion } from "../../api/promotion";
+import { postPromotion, putPromotion } from "../../api/promotion";
 import InputBox from "../../components/InputBox";
 import SubHeader from "../../components/SubHeader";
 import GetImagesBox from "../../components/GetImagesBox";
@@ -16,6 +16,7 @@ import EventPeriod from "./EventPeriod";
 
 export default function NewEvent() {
   const navigation = useNavigate();
+  const location = useLocation();
 
   const [tradename, setTradename] = useState("");
   const [title, setTitle] = useState("");
@@ -36,6 +37,19 @@ export default function NewEvent() {
 
   useEffect(() => {
     getUserInfoFunc();
+    if (location.state) {
+      setTradename(location.state.author.nickname);
+      setTitle(location.state.title);
+      setPhotographyTypes(location.state.photographyTypes);
+      setActiveRegions(location.state.activeRegions);
+      setPromotionType(location.state.promotionType);
+      setStartedAt(location.state.startedAt);
+      setEndedAt(location.state.endedAt);
+      setExternalLink(location.state.externalLink);
+      setImages(location.state.images);
+      setHashtags(location.state.hashtags);
+      setContent(location.state.content);
+    }
   }, []);
 
   const getUserInfoFunc = async () => {
@@ -117,8 +131,12 @@ export default function NewEvent() {
       activeRegions,
       hashtags,
     };
-    try {
+    if (location.state) {
+      await putPromotion(location.state.id, body);
+    } else {
       await postPromotion(body);
+    }
+    try {
     } catch (e) {
       console.log(e);
     } finally {

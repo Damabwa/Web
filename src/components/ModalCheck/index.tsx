@@ -16,7 +16,7 @@ export default function ModalCheck({
   onClick,
 }: Props) {
   return (
-    <div className="z-20 fixed top-0 w-screen max-w-[430px] h-screen bg-black bg-opacity-40 flex items-center justify-center">
+    <div className="z-30 fixed top-0 w-screen max-w-[430px] h-screen bg-black bg-opacity-40 flex items-center justify-center">
       <div
         className={`flex flex-col w-[17.125rem] rounded-[1.25rem] bg-white text-${align}`}
       >
