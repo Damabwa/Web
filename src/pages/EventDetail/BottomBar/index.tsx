@@ -41,7 +41,7 @@ export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
   return (
     <div className="fixed bottom-0 z-20 flex items-center w-full max-w-[430px] gap-2 pt-2 px-4 pb-8 bg-white">
       <div
-        className="cursor-pointer flex flex-col items-center justify-center w-12 h-12 rounded-md bg-gray50 text-black03 text-[0.625rem] font-medium"
+        className={`${isSavedPromotion ? "bg-violet100" : "bg-gray50"} cursor-pointer flex flex-col items-center justify-center w-12 h-12 rounded-md text-black03 text-[0.625rem] font-medium`}
         onClick={() => handleSave()}
       >
         <img
