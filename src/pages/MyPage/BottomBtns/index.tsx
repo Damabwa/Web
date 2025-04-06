@@ -12,6 +12,7 @@ export default function BottomBtns() {
     localStorage.setItem("accessToken", "");
     localStorage.setItem("refreshToken", "");
     localStorage.setItem("userRole", "");
+    localStorage.setItem("userId", "");
     navigation(`/login`);
   };
 

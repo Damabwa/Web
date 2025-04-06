@@ -47,6 +47,7 @@ export default function NewEvent() {
         localStorage.setItem("accessToken", "");
         localStorage.setItem("refreshToken", "");
         localStorage.setItem("userRole", "");
+        localStorage.setItem("userId", "");
         navigation(`/`);
       }
       console.log(e);

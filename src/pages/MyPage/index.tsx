@@ -40,6 +40,7 @@ export default function MyPage() {
         localStorage.setItem("accessToken", "");
         localStorage.setItem("refreshToken", "");
         localStorage.setItem("userRole", "");
+        localStorage.setItem("userId", "");
         navigation(`/`);
       }
       console.log(e);

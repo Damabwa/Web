@@ -46,6 +46,7 @@ function Auth() {
       localStorage.setItem("refreshToken", res.data.refreshToken.value);
       if (res.status === 200 && res.data.isRegistrationCompleted) {
         localStorage.setItem("userRole", res.data.user.roles);
+        localStorage.setItem("userId", res.data.user.id);
         navigate("/");
       } else navigate("/signup");
     } catch (e) {
