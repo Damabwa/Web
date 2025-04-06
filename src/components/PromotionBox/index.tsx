@@ -62,7 +62,14 @@ export default function PromotionBox({ data }: Props) {
       isClipped
         ? await deleteSavedPromotion(data.id)
         : await savePromotion(data.id);
-    } catch (e) {
+    } catch (e: any) {
+      if (e.response.status === 401) {
+        localStorage.setItem("accessToken", "");
+        localStorage.setItem("refreshToken", "");
+        localStorage.setItem("userRole", "");
+        localStorage.setItem("userId", "");
+      }
+      setIsClipped(!false);
       console.log(e);
     }
   };

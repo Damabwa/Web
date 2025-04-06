@@ -47,7 +47,14 @@ export default function PhotographerBox({ data }: Props) {
       isClipped
         ? await deleteSavedPhotographer(data.id)
         : await savePhotographer(data.id);
-    } catch (e) {
+    } catch (e: any) {
+      if (e.response.status === 401) {
+        localStorage.setItem("accessToken", "");
+        localStorage.setItem("refreshToken", "");
+        localStorage.setItem("userRole", "");
+        localStorage.setItem("userId", "");
+      }
+      setIsClipped(!false);
       console.log(e);
     }
   };
