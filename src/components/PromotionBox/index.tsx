@@ -69,7 +69,8 @@ export default function PromotionBox({ data }: Props) {
         localStorage.setItem("userRole", "");
         localStorage.setItem("userId", "");
       }
-      setIsClipped(!false);
+      setIsClipped(false);
+      setSaveCount(isClipped ? saveCount + 1 : saveCount - 1);
       setShowLoginModal(true);
       console.log(e);
     }

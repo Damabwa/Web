@@ -54,7 +54,7 @@ export default function PhotographerBox({ data }: Props) {
         localStorage.setItem("userRole", "");
         localStorage.setItem("userId", "");
       }
-      setIsClipped(!false);
+      setIsClipped(false);
       setShowLoginModal(true);
       console.log(e);
     }
