@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../../atom/atom";
 import { deletePromotion } from "../../../api/promotion";
 import icn_time from "../../../assets/svgs/icn_time.svg";
 import icn_loc from "../../../assets/svgs/icn_location.svg";
@@ -16,9 +18,8 @@ export default function TopInfo({ promotionData }: Props) {
   const navigation = useNavigate();
   const [showHandler, setShowHandler] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const isMyPost =
-    promotionData.author &&
-    promotionData.author.id.toString() === localStorage.getItem("userId");
+  const user = useRecoilValue(userState);
+  const isMyPost = promotionData.author && promotionData.author.id === user.id;
 
   const getKorean = (item: string) => {
     switch (item) {

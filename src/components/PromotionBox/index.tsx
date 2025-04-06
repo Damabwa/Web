@@ -63,12 +63,6 @@ export default function PromotionBox({ data }: Props) {
         ? await deleteSavedPromotion(data.id)
         : await savePromotion(data.id);
     } catch (e: any) {
-      if (e.response.status === 401) {
-        localStorage.setItem("accessToken", "");
-        localStorage.setItem("refreshToken", "");
-        localStorage.setItem("userRole", "");
-        localStorage.setItem("userId", "");
-      }
       setIsClipped(false);
       setSaveCount(isClipped ? saveCount + 1 : saveCount - 1);
       setShowLoginModal(true);

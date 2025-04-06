@@ -48,12 +48,6 @@ export default function PhotographerBox({ data }: Props) {
         ? await deleteSavedPhotographer(data.id)
         : await savePhotographer(data.id);
     } catch (e: any) {
-      if (e.response.status === 401) {
-        localStorage.setItem("accessToken", "");
-        localStorage.setItem("refreshToken", "");
-        localStorage.setItem("userRole", "");
-        localStorage.setItem("userId", "");
-      }
       setIsClipped(false);
       setShowLoginModal(true);
       console.log(e);

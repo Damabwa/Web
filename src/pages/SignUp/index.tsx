@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../../atom/atom";
 import { userRegistration } from "../../api/user";
 import { photographerRegistration } from "../../api/photographer";
 import SelectRole from "./SelectRole";
@@ -9,6 +11,7 @@ import MoreInfo from "./MoreInfo";
 
 export default function SignUp() {
   const navigation = useNavigate();
+  const setUser = useSetRecoilState(userState);
 
   const [step, setStep] = useState(0);
   const [userInfo, setUserInfo] = useState({
@@ -43,7 +46,10 @@ export default function SignUp() {
         gender: userInfo.gender,
         instagramId: userInfo.instagramId,
       });
-      localStorage.setItem("userRole", res.roles);
+      setUser({
+        id: -1,
+        roles: res.roles,
+      });
       success = true;
     } catch (e) {
       success = false;
@@ -70,7 +76,10 @@ export default function SignUp() {
         mainPhotographyTypes: userInfo.mainPhotographyTypes,
         activeRegions: userInfo.activeRegions,
       });
-      localStorage.setItem("userRole", res.roles);
+      setUser({
+        id: -1,
+        roles: res.roles,
+      });
       success = true;
     } catch (e) {
       success = false;

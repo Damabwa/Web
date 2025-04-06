@@ -57,13 +57,7 @@ export default function NewEvent() {
       const res = await getUserInfo();
       setTradename(res.nickname);
     } catch (e: any) {
-      if (e.response.status === 401) {
-        localStorage.setItem("accessToken", "");
-        localStorage.setItem("refreshToken", "");
-        localStorage.setItem("userRole", "");
-        localStorage.setItem("userId", "");
-        navigation(`/`);
-      }
+      navigation(`/`);
       console.log(e);
     }
   };

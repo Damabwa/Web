@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import icn_next from "../../../assets/svgs/icn_next_gray.svg";
 import ModalCheck from "../../../components/ModalCheck";
+import { logout } from "../../../hooks/logout";
 
 export default function BottomBtns() {
   const navigation = useNavigate();
@@ -9,15 +10,12 @@ export default function BottomBtns() {
   const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
 
   const onClickLogout = () => {
-    localStorage.setItem("accessToken", "");
-    localStorage.setItem("refreshToken", "");
-    localStorage.setItem("userRole", "");
-    localStorage.setItem("userId", "");
-    navigation(`/login`);
+    logout();
+    navigation(`/`);
   };
 
   const onClickWithdrawal = () => {
-    navigation(`/login`);
+    navigation(`/`);
   };
 
   return (

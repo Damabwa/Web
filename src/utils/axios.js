@@ -1,4 +1,5 @@
 import axios from "axios";
+import { logout } from "../hooks/logout";
 
 const fetchWrap = async ({ method, url, body, auth }) => {
   const baseURL = "https://api-dev.damaba.me/api/v1";
@@ -19,6 +20,7 @@ const fetchWrap = async ({ method, url, body, auth }) => {
 
     return data;
   } catch (error) {
+    if (error.response?.status === 401) logout();
     throw error;
   }
 };

@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import Auth from "./auth";
+import { RecoilRoot } from "recoil";
+import RecoilNexus from "recoil-nexus";
+import Auth from "./auth/login";
 import MainHome from "./pages/MainHome";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -20,30 +22,33 @@ import "./App.css";
 function App() {
   return (
     <div className="text-black select-none App">
-      <Routes>
-        <Route path="/" element={<MainHome />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/success/signup" element={<CompleteSignUp />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/my/saved/:type" element={<SavedContents />} />
-        <Route path="/edit/user" element={<EditUserProfile />} />
-        <Route
-          path="/edit/photographer"
-          element={<EditPhotographerProfile />}
-        />
-        <Route
-          path="/edit/photographer/detail"
-          element={<EditPhotographerPage />}
-        />
-        <Route path="/events" element={<EventHome />} />
-        <Route path="/event/:id" element={<EventDetail />} />
-        <Route path="/photographers" element={<PhotographersHome />} />
-        <Route path="/photographer/:id" element={<PhotographerDetail />} />
-        <Route path="/new/event" element={<NewEvent />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/*" element={<NotFoundPage />} />
-      </Routes>
+      <RecoilRoot>
+        <RecoilNexus />
+        <Routes>
+          <Route path="/" element={<MainHome />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/success/signup" element={<CompleteSignUp />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/my/saved/:type" element={<SavedContents />} />
+          <Route path="/edit/user" element={<EditUserProfile />} />
+          <Route
+            path="/edit/photographer"
+            element={<EditPhotographerProfile />}
+          />
+          <Route
+            path="/edit/photographer/detail"
+            element={<EditPhotographerPage />}
+          />
+          <Route path="/events" element={<EventHome />} />
+          <Route path="/event/:id" element={<EventDetail />} />
+          <Route path="/photographers" element={<PhotographersHome />} />
+          <Route path="/photographer/:id" element={<PhotographerDetail />} />
+          <Route path="/new/event" element={<NewEvent />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/*" element={<NotFoundPage />} />
+        </Routes>
+      </RecoilRoot>
     </div>
   );
 }

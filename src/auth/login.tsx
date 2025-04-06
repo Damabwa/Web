@@ -1,12 +1,26 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../atom/atom";
 
-function Auth() {
+export default function Auth() {
   const navigate = useNavigate();
+  const setUser = useSetRecoilState(userState);
+
+  useEffect(() => {
+    getToken()
+      .then((res) => {
+        if (res) {
+          authLoginFunc(res.data.access_token);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   const getToken = async () => {
     const token = new URL(window.location.href).searchParams.get("code");
-    const res = axios.post(
+    const res = await axios.post(
       "https://kauth.kakao.com/oauth/token",
       {
         grant_type: "authorization_code",
@@ -23,16 +37,6 @@ function Auth() {
     return res;
   };
 
-  useEffect(() => {
-    getToken()
-      .then((res) => {
-        if (res) {
-          authLoginFunc(res.data.access_token);
-        }
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
   const authLoginFunc = async (token: string) => {
     try {
       const res = await axios.post(
@@ -45,8 +49,7 @@ function Auth() {
       localStorage.setItem("accessToken", res.data.accessToken.value);
       localStorage.setItem("refreshToken", res.data.refreshToken.value);
       if (res.status === 200 && res.data.isRegistrationCompleted) {
-        localStorage.setItem("userRole", res.data.user.roles);
-        localStorage.setItem("userId", res.data.user.id);
+        setUser({ id: res.data.user.id, roles: res.data.user.roles });
         navigate("/");
       } else navigate("/signup");
     } catch (e) {
@@ -56,5 +59,3 @@ function Auth() {
 
   return <></>;
 }
-
-export default Auth;
