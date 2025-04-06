@@ -70,6 +70,7 @@ export default function PromotionBox({ data }: Props) {
         localStorage.setItem("userId", "");
       }
       setIsClipped(!false);
+      setShowLoginModal(true);
       console.log(e);
     }
   };
