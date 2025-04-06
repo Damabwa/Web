@@ -5,7 +5,6 @@ import PromotionBox from "../../components/PromotionBox";
 import PhotographerBox from "../../components/PhotographerBox";
 
 export default function SavedContents() {
-  const navigation = useNavigate();
   const location = useLocation();
   const { type } = useParams();
   const [data, setData] = useState<any[]>([]);

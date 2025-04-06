@@ -57,7 +57,6 @@ export default function NewEvent() {
       const res = await getUserInfo();
       setTradename(res.nickname);
     } catch (e: any) {
-      navigation(`/`);
       console.log(e);
     }
   };

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../../hooks/logout";
 import icn_next from "../../../assets/svgs/icn_next_gray.svg";
 import ModalCheck from "../../../components/ModalCheck";
-import { logout } from "../../../hooks/logout";
 
 export default function BottomBtns() {
   const navigation = useNavigate();
@@ -11,11 +11,10 @@ export default function BottomBtns() {
 
   const onClickLogout = () => {
     logout();
-    navigation(`/`);
   };
 
   const onClickWithdrawal = () => {
-    navigation(`/`);
+    logout();
   };
 
   return (
