@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { logout } from "../../../hooks/logout";
 import icn_next from "../../../assets/svgs/icn_next_gray.svg";
 import ModalCheck from "../../../components/ModalCheck";
 
 export default function BottomBtns() {
-  const navigation = useNavigate();
+  const url = process.env.REACT_APP_INQUIRY_URL;
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showWithdrawalModal, setShowWithdrawalModal] = useState(false);
 
@@ -20,7 +19,9 @@ export default function BottomBtns() {
   return (
     <div className="flex flex-col gap-1 text-sm font-medium text-black02 mb-28">
       <div className="flex items-center justify-between h-12 px-4 ">
-        <div className="pl-2 cursor-pointer">문의하기</div>
+        <div className="pl-2 cursor-pointer" onClick={() => window.open(url)}>
+          문의하기
+        </div>
         <img className="cursor-pointer" src={icn_next} />
       </div>
       <div className="flex items-center justify-between h-12 px-4 ">
