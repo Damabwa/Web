@@ -1,46 +1,29 @@
-# Getting Started with Create React App
+# 담아봐
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+2024.08 (창업 팀 프로젝트)
 
-## Available Scripts
+## 🔗 URL
 
-In the project directory, you can run:
+https://github.com/Damabwa
 
-### `npm start`
+## 📌 Summary
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+작가-고객 매칭 및 예약 서비스를 제공하는 사진 전문 플랫폼
+• 와이어프레임부터 UI/UX 디자인, 개발까지 참여
+• Recoil을 활용한 전역 변수 관리
+• 카카오톡 활용 소셜 로그인 구현
+주요기능: 전국 사진관·사진작가 검색, 이벤트 등록 및 신청, 커뮤니티 게시판, 개인 맞춤 사진관 추천
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🤔 Background
 
-### `npm test`
+이제는 연예인, 모델뿐만 아니라 일반인들도 전문가를 통해 바디프로필, 스냅 사진 등을 촬영하곤 합니다. 그러나 SNS 검색을 통해 원하는 사진 스타일을 촬영하는 작가를 찾기 힘들 뿐더러, 신뢰성을 보장할 수 없다는 단점이 있습니다. 그래서 사진관/사진작가 조회 및 예약이 가능한 플랫폼이 있다면 연령대와 세대 구분 없이 누구나 쉽고 믿을 수 있게 청춘을 기록할 수 있다고 생각했습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🔍 Meaning
 
-### `npm run build`
+창업팀에 합류하여 기획부터 와이어프레인 제작, UI/UX 디자인에 참여한 프로젝트로, 현재 MVP 개발을 마친 상태이고 계속해서 유지·보수 진행중입니다.
+다수의 자체 API를 보다 효율적으로 사용하기 위해 auth.js에서 메서드를 재정의하고 API 관리 폴더에서 일괄적으로 사용할 수 있도록 설계했습니다. 이를 통해 API 주소 및 형식을 보다 쉽게 관리할 수 있었습니다.
+또, 프로젝트 일정이 촉박했던 만큼, 디자인과 프론트엔드, 백엔드 개발이 동시에 진행되는 상황을 경험하게 되었습니다. 이에 따라 새로운 디자인이 반영될 때마다 빈번한 리팩토링이 필요했으며, 기존 와이어프레임과 달라진 항목을 효율적으로 관리하기 위해 반복적으로 사용되는 객체를 컴포넌트화하고, 데이터 구조를 변경해야 하는 어려움이 있었습니다.
+이 과정은 유지·보수에 용이한 코드를 설계하기 위해 한번 더 고민해보는 기회가 되었고, 백엔드 개발자와 데이터 형식 변경을 조율하기 위해 소통함으로써 커뮤니케이션 역량을 키울 수 있었습니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🔨 Technology Stacks
+React, TypeScript, Recoil, Tailwind CSS, Vercel
