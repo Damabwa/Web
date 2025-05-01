@@ -65,7 +65,6 @@ export default function EventBox() {
     navigation("/events");
   };
 
-  if (events.length === 0) return <></>;
   return (
     <div className="flex flex-col py-5">
       <div
