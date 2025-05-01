@@ -9,6 +9,7 @@ import icn_insta from "../../../assets/svgs/icn_instagram.svg";
 import icn_share from "../../../assets/svgs/icn_share.svg";
 import icn_more from "../../../assets/svgs/icn_more.svg";
 import ModalCheck from "../../../components/ModalCheck";
+import { getPhotoType } from "../../../hooks/getKorean";
 
 interface Props {
   promotionData: any;
@@ -20,23 +21,6 @@ export default function TopInfo({ promotionData }: Props) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const user = useRecoilValue(userState);
   const isMyPost = promotionData.author && promotionData.author.id === user.id;
-
-  const getKorean = (item: string) => {
-    switch (item) {
-      case "SNAP":
-        return "스냅";
-      case "PROFILE":
-        return "프로필";
-      case "CONCEPT":
-        return "컨셉";
-      case "ID_PHOTO":
-        return "증명";
-      case "SELF":
-        return "셀프";
-      default:
-        return item;
-    }
-  };
 
   const deleteHandler = async () => {
     try {
@@ -57,7 +41,7 @@ export default function TopInfo({ promotionData }: Props) {
       <div className="px-4 text-sm font-medium text-black04 pb-[2px] flex gap-1">
         {promotionData.photographyTypes.map((type: string, index: number) => (
           <div className="flex gap-1" key={index}>
-            {getKorean(type)}
+            {getPhotoType(type)}
             {promotionData.photographyTypes.length > index + 1 && <>,</>}
           </div>
         ))}

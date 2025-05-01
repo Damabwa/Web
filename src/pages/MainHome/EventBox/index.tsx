@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getPromotionList } from "../../../api/promotion";
+import { getPhotoType } from "../../../hooks/getKorean";
 import icn_next from "../../../assets/svgs/icn_next.svg";
 import icn_camera from "../../../assets/svgs/icn_camera.svg";
 import icn_clock from "../../../assets/svgs/icn_clock.svg";
@@ -41,23 +42,6 @@ export default function EventBox() {
       return "오늘 마감되는 이벤트";
     } else {
       return `마감까지 D-${diffDays}`;
-    }
-  };
-
-  const getKorean = (item: string) => {
-    switch (item) {
-      case "SNAP":
-        return "스냅";
-      case "PROFILE":
-        return "프로필";
-      case "CONCEPT":
-        return "컨셉";
-      case "ID_PHOTO":
-        return "증명";
-      case "SELF":
-        return "셀프";
-      default:
-        return item;
     }
   };
 
@@ -104,7 +88,7 @@ export default function EventBox() {
                 <div className="flex gap-1">
                   {item.photographyTypes.map((type: string, index: number) => (
                     <div key={index}>
-                      {getKorean(type)}
+                      {getPhotoType(type)}
                       {index + 1 !== item.photographyTypes.length && <>,</>}
                     </div>
                   ))}
