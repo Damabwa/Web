@@ -55,5 +55,6 @@
   "headwind.classRegex": {
     "css": "\\B@apply\\s+([_a-zA-Z0-9\\s\\-\\:\\/]+);",
     "postcss": "\\B@apply\\s+([_a-zA-Z0-9\\s\\-\\:\\/]+);"
-  }
+  },
+  "proxy": "https://api.damaba.me"
 }

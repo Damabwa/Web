@@ -18,7 +18,7 @@ export default function SignUp() {
     role: "",
     username: "",
     gender: "",
-    instagramId: "",
+    instagramId: null,
     profileImage: { name: "", url: "" },
     mainPhotographyTypes: [""],
     activeRegions: [],
