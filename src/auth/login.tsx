@@ -39,10 +39,13 @@ export default function Auth() {
 
   const authLoginFunc = async (token: string) => {
     try {
-      const res = await axios.post("https://api.damaba.me/api/v1/auth/login", {
-        loginType: "KAKAO",
-        authKey: JSON.stringify(token).slice(1, -1),
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/auth/login`,
+        {
+          loginType: "KAKAO",
+          authKey: JSON.stringify(token).slice(1, -1),
+        }
+      );
       localStorage.setItem("accessToken", res.data.accessToken.value);
       localStorage.setItem("refreshToken", res.data.refreshToken.value);
       if (res.status === 200 && res.data.isRegistrationCompleted) {

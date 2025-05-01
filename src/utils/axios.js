@@ -2,7 +2,7 @@ import axios from "axios";
 import { logout } from "../hooks/logout";
 
 const fetchWrap = async ({ method, url, body, auth }) => {
-  const baseURL = "https://api.damaba.me/api/v1";
+  const baseURL = `${process.env.REACT_APP_SERVER_URL}`;
   try {
     const headers = auth
       ? { Authorization: `Bearer ${localStorage.getItem("accessToken")}` }
