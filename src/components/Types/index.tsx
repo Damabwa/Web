@@ -1,3 +1,5 @@
+import { getPhotoType } from "../../hooks/getKorean";
+
 interface Props {
   types: string[];
   setTypes: React.Dispatch<React.SetStateAction<string[]>>;
@@ -10,23 +12,6 @@ export default function Types({ types, setTypes, maxNum }: Props) {
   const handleSelectTypes = (item: string) => {
     if (types.includes(item)) setTypes(types.filter((t) => t !== item));
     else if (types.length < maxNum) setTypes([...types, item]);
-  };
-
-  const getKorean = (item: string) => {
-    switch (item) {
-      case "SNAP":
-        return "스냅";
-      case "PROFILE":
-        return "프로필";
-      case "CONCEPT":
-        return "컨셉";
-      case "ID_PHOTO":
-        return "증명";
-      case "SELF":
-        return "셀프";
-      default:
-        return item;
-    }
   };
 
   return (
@@ -45,7 +30,7 @@ export default function Types({ types, setTypes, maxNum }: Props) {
             key={index}
             onClick={() => handleSelectTypes(item)}
           >
-            {getKorean(item)}
+            {getPhotoType(item)}
           </button>
         ))}
       </div>

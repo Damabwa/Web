@@ -4,6 +4,7 @@ import {
   deleteSavedPhotographer,
   savePhotographer,
 } from "../../api/photographer";
+import { getPhotoType } from "../../hooks/getKorean";
 import icn_clip_off from "../../assets/svgs/icn_clip.svg";
 import icn_clip_on from "../../assets/svgs/icn_clipOn.svg";
 import icn_web from "../../assets/svgs/icn_web.svg";
@@ -45,24 +46,6 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
     }
   };
 
-  const getKorean = (item: string) => {
-    switch (item) {
-      case "SNAP":
-        return "스냅";
-      case "PROFILE":
-        return "프로필";
-      case "CONCEPT":
-        return "컨셉";
-      case "ID_PHOTO":
-        return "증명";
-      case "SELF":
-        return "셀프";
-      default:
-        return item;
-    }
-  };
-
-  console.log(userInfo);
   return (
     <div className="relative w-full bg-white border-b-8 border-gray50 pt-[4.25rem] px-4 pb-5">
       <div className="absolute top-[-3rem] left-0 flex items-end justify-between w-full px-4">
@@ -88,7 +71,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
         <div className="text-sm font-medium text-black04 pb-[0.12rem]">
           {userInfo.mainPhotographyTypes.map((type: string, index: number) => (
             <div className="flex gap-1" key={index}>
-              {getKorean(type)}
+              {getPhotoType(type)}
               {userInfo.mainPhotographyTypes.length > index + 1 && <>,</>}
             </div>
           ))}
