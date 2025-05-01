@@ -83,7 +83,12 @@ export default function SetProfile({
 
   const handleNextBtn = () => {
     if (!isValid) return;
-    setUserInfo({ ...userInfo, username, gender, instagramId });
+    setUserInfo({
+      ...userInfo,
+      username,
+      gender,
+      instagramId: instagramId.length > 0 ? instagramId : null,
+    });
     setNextFunc();
   };
 
