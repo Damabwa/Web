@@ -51,7 +51,7 @@ export default function Auth() {
       if (res.status === 200 && res.data.isRegistrationCompleted) {
         setUser({ id: res.data.user.id, roles: res.data.user.roles });
         navigate("/");
-      } else navigate("/signup");
+      } else navigate("/signup", { replace: true });
     } catch (e) {
       console.log(e);
     }
