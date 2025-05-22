@@ -20,42 +20,42 @@ export default function SelectRole({ setRoleFunc }: Props) {
           <br />한 가지를 선택해 주세요.
         </div>
         <div
-          className={`mb-5 w-full cursor-pointer rounded-[0.63rem] flex items-center py-7 px-2 ${role === "user" ? "bg-violet300" : "bg-gray50"}`}
-          onClick={() => setRole("user")}
+          className={`mb-5 w-full cursor-pointer rounded-[0.63rem] flex items-center py-7 px-2 ${role === "USER" ? "bg-violet300" : "bg-gray50"}`}
+          onClick={() => setRole("USER")}
         >
-          <img src={role === "user" ? icn_user_on : icn_user_off} />
+          <img src={role === "USER" ? icn_user_on : icn_user_off} />
           <div className="flex flex-col gap-[1px]">
             <div
-              className={`text-lg font-bold ${role === "user" ? "text-white" : "text-black02"}`}
+              className={`text-lg font-bold ${role === "USER" ? "text-white" : "text-black02"}`}
             >
               모델로 시작하기
             </div>
             <div
-              className={`text-sm font-medium ${role === "user" ? "text-white" : "text-black04"}`}
+              className={`text-sm font-medium ${role === "USER" ? "text-white" : "text-black04"}`}
             >
               사진 찍는 걸 좋아하는 일반인/모델이에요
             </div>
           </div>
         </div>
         <div
-          className={`mb-5 w-full cursor-pointer rounded-[0.63rem] flex items-center py-7 px-2 ${role === "photographer" ? "bg-violet300" : "bg-gray50 "}`}
-          onClick={() => setRole("photographer")}
+          className={`mb-5 w-full cursor-pointer rounded-[0.63rem] flex items-center py-7 px-2 ${role === "PHOTOGRAPHER" ? "bg-violet300" : "bg-gray50 "}`}
+          onClick={() => setRole("PHOTOGRAPHER")}
         >
           <img
             src={
-              role === "photographer"
+              role === "PHOTOGRAPHER"
                 ? icn_photographer_on
                 : icn_photographer_off
             }
           />
           <div className="flex flex-col gap-[1px]">
             <div
-              className={`text-lg font-bold ${role === "photographer" ? "text-white" : "text-black02"}`}
+              className={`text-lg font-bold ${role === "PHOTOGRAPHER" ? "text-white" : "text-black02"}`}
             >
               작가로 시작하기
             </div>
             <div
-              className={`text-sm font-medium ${role === "photographer" ? "text-white" : "text-black04"}`}
+              className={`text-sm font-medium ${role === "PHOTOGRAPHER" ? "text-white" : "text-black04"}`}
             >
               활동 중인 사진작가, 사진관 대표예요
             </div>

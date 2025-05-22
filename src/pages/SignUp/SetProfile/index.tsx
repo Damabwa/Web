@@ -19,7 +19,7 @@ export default function SetProfile({
   setUserInfo,
 }: Props) {
   const [isValid, setIsValid] = useState(false);
-  const [username, setUsername] = useState("");
+  const [nickname, setNickname] = useState("");
   const [isValidName, setIsValidName] = useState(false);
   const [isDuplicated, setIsDuplicated] = useState("");
   const [gender, setGender] = useState("");
@@ -27,20 +27,20 @@ export default function SetProfile({
 
   useEffect(() => {
     checkValidFunc();
-  }, [username, isDuplicated, gender]);
+  }, [nickname, isDuplicated, gender]);
 
   const handleNameInput = (e: any) => {
     setIsDuplicated("");
-    setUsername(e.target.value);
+    setNickname(e.target.value);
 
     const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
-    if (userInfo.role === "user") {
+    if (userInfo.role === "USER") {
       setIsValidName(
         e.target.value.length > 1 &&
           e.target.value.length < 8 &&
           nicknameRegex.test(e.target.value)
       );
-    } else if (userInfo.role === "photographer") {
+    } else if (userInfo.role === "PHOTOGRAPHER") {
       setIsValidName(
         e.target.value.length > 1 &&
           e.target.value.length < 16 &&
@@ -62,12 +62,12 @@ export default function SetProfile({
   const checkExistenceFunc = async () => {
     if (!isValidName) return;
     try {
-      if (userInfo.role === "user") {
-        const res = await checkUserExistence(username);
+      if (userInfo.role === "USER") {
+        const res = await checkUserExistence(nickname);
         if (res.exists) setIsDuplicated("true");
         else setIsDuplicated("false");
-      } else if (userInfo.role === "photographer") {
-        const res = await checkPhotographerExistence(username);
+      } else if (userInfo.role === "PHOTOGRAPHER") {
+        const res = await checkPhotographerExistence(nickname);
         if (res.exists) setIsDuplicated("true");
         else setIsDuplicated("false");
       }
@@ -85,7 +85,7 @@ export default function SetProfile({
     if (!isValid) return;
     setUserInfo({
       ...userInfo,
-      username,
+      nickname,
       gender,
       instagramId: instagramId.length > 0 ? instagramId : null,
     });
@@ -104,15 +104,15 @@ export default function SetProfile({
         <div className="flex flex-col">
           <InputButtonBox
             isRequired={true}
-            title={userInfo.role === "user" ? "닉네임" : "상호활동명"}
+            title={userInfo.role === "USER" ? "닉네임" : "상호활동명"}
             description=""
-            placeholder={`${userInfo.role === "user" ? "닉네임" : "상호/활동명"}을 입력해주세요.`}
+            placeholder={`${userInfo.role === "USER" ? "닉네임" : "상호/활동명"}을 입력해주세요.`}
             onChange={handleNameInput}
             onClick={() => checkExistenceFunc()}
             activation={isValidName && isDuplicated !== "false"}
             buttonTitle="중복 확인"
-            bottomText={`한글, 영어, 숫자 조합 ${userInfo.role === "user" ? "2-7자" : "15자 이내"}`}
-            value={username}
+            bottomText={`한글, 영어, 숫자 조합 ${userInfo.role === "USER" ? "2-7자" : "15자 이내"}`}
+            value={nickname}
             isReadOnly={false}
           />
           {isDuplicated !== "" && (
