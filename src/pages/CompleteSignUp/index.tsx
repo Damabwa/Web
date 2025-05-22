@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../atom/atom";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo_damaba from "../../assets/imgs/logo_damaba.png";
 import img_complete from "../../assets/svgs/img_completeSignup.svg";
@@ -7,13 +9,15 @@ import ButtonActive from "../../components/ButtonActive";
 export default function CompleteSignUp() {
   const location = useLocation();
   const navigation = useNavigate();
+  const user = useRecoilValue(userState);
+  const role = user.roles.includes("PHOTOGRAPHER") ? "PHOTOGRAPHER" : "USER";
 
-  const [username, setUsername] = useState("");
-  const [role, setRole] = useState("");
+  const [userInfo, setUserInfo] = useState({
+    nickname: "",
+  });
 
   useEffect(() => {
-    setUsername(location.state.username);
-    setRole(location.state.role);
+    setUserInfo(location.state);
   }, []);
 
   const getPhotographerName = (name: string) => {
@@ -63,17 +67,25 @@ export default function CompleteSignUp() {
       </div>
       <div className="flex flex-col items-center justify-center flex-1 w-full gap-6">
         <div className="text-2xl font-bold">
-          {getPhotographerName(username)}
-          {role === "photographer" && " 작가"}님,
-          {username.length > 10 && <br />} 환영합니다!
+          {getPhotographerName(userInfo.nickname)}
+          {role === "PHOTOGRAPHER" && " 작가"}님,
+          {userInfo.nickname.length > 10 && <br />} 환영합니다!
         </div>
         <img src={img_complete} />
-        {getMessage(role === "user")}
+        {getMessage(role === "USER")}
       </div>
       <div className="flex-grow" />
       <div className="absolute bottom-0 flex flex-col items-center w-full p-4">
-        {role === "photographer" && (
-          <button className="mb-3 text-sm border-b text-black02 border-black02">
+        {role === "PHOTOGRAPHER" && (
+          <button
+            className="mb-3 text-sm border-b text-black02 border-black02"
+            onClick={() =>
+              navigation(`/edit/photographer/detail`, {
+                state: userInfo,
+                replace: true,
+              })
+            }
+          >
             작가 프로필 입력하러 바로가기
           </button>
         )}
