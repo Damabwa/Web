@@ -46,6 +46,7 @@ export default function SignUp() {
         gender: userInfo.gender,
         instagramId: userInfo.instagramId,
       });
+      setUserInfo(res);
       setUser({
         id: -1,
         roles: res.roles,
@@ -76,6 +77,7 @@ export default function SignUp() {
         mainPhotographyTypes: userInfo.mainPhotographyTypes,
         activeRegions: userInfo.activeRegions,
       });
+      setUserInfo(res);
       setUser({
         id: -1,
         roles: res.roles,
