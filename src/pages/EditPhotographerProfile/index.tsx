@@ -112,7 +112,7 @@ export default function EditPhotographerProfile() {
             <div className="text-xs text-red">
               {!isValidName &&
                 userInfo.nickname.length > 0 &&
-                "한글, 영어, 숫자 조합 2-7자만 가능해요."}
+                "한글, 영어, 숫자 조합 15자 이내"}
             </div>
           ) : (
             <div
