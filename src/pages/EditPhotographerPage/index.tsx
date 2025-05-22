@@ -77,8 +77,7 @@ export default function EditPhotographerPage() {
   };
 
   const checkValidFunc = () => {
-    if (portfolio.length > 0 && address.roadAddress && description)
-      setIsValid(true);
+    if (portfolio.length > 0 && description) setIsValid(true);
     else setIsValid(false);
   };
 
@@ -124,7 +123,7 @@ export default function EditPhotographerPage() {
         </div>
         <div className="flex flex-col gap-8 px-4 mb-9">
           <InputButtonBox
-            isRequired={true}
+            isRequired={false}
             title="상세 주소"
             description="(오프라인 사업장이 있는 경우)"
             placeholder="주소를 검색해주세요."
