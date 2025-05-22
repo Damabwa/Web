@@ -68,9 +68,9 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
       </div>
       <div className="flex items-end gap-2 pb-3">
         <div className="text-xl font-bold">{userInfo.nickname}</div>
-        <div className="text-sm font-medium text-black04 pb-[0.12rem]">
+        <div className="text-sm font-medium text-black04 pb-[0.12rem] flex flex-row gap-1">
           {userInfo.mainPhotographyTypes.map((type: string, index: number) => (
-            <div className="flex gap-1" key={index}>
+            <div key={index}>
               {getPhotoType(type)}
               {userInfo.mainPhotographyTypes.length > index + 1 && <>,</>}
             </div>
