@@ -9,6 +9,6 @@ export const userState = atom<User>({
   key: "userState",
   default: {
     id: -1,
-    roles: [],
+    roles: [""],
   },
 });
