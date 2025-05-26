@@ -55,7 +55,7 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
     setIsModifiedRegion(false);
     setIsModifiedTypes(false);
     setFilters({
-      progressStatus: "ONGOING",
+      progressStatus: "ALL",
       sortType: "LATEST",
     });
   };
