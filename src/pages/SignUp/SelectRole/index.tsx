@@ -28,7 +28,7 @@ export default function SelectRole({ setRoleFunc }: Props) {
             <div
               className={`text-lg font-bold ${role === "USER" ? "text-white" : "text-black02"}`}
             >
-              모델로 시작하기
+              일반 회원으로 시작하기
             </div>
             <div
               className={`text-sm font-medium ${role === "USER" ? "text-white" : "text-black04"}`}
