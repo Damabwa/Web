@@ -104,7 +104,7 @@ export default function SetProfile({
         <div className="flex flex-col">
           <InputButtonBox
             isRequired={true}
-            title={userInfo.role === "USER" ? "닉네임" : "상호활동명"}
+            title={userInfo.role === "USER" ? "닉네임" : "상호/활동명"}
             description=""
             placeholder={`${userInfo.role === "USER" ? "닉네임" : "상호/활동명"}을 입력해주세요.`}
             onChange={handleNameInput}
