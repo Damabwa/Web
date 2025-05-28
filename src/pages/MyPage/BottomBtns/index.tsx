@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { logout } from "../../../hooks/logout";
+import { deleteUser } from "../../../api/user";
 import icn_next from "../../../assets/svgs/icn_next_gray.svg";
 import ModalCheck from "../../../components/ModalCheck";
 
@@ -12,8 +13,13 @@ export default function BottomBtns() {
     logout();
   };
 
-  const onClickWithdrawal = () => {
-    logout();
+  const onClickWithdrawal = async () => {
+    try {
+      await deleteUser();
+      logout();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
