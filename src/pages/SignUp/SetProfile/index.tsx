@@ -43,7 +43,7 @@ export default function SetProfile({
     } else if (userInfo.role === "PHOTOGRAPHER") {
       setIsValidName(
         e.target.value.length > 1 &&
-          e.target.value.length < 16 &&
+          e.target.value.length <= 18 &&
           nicknameRegex.test(e.target.value)
       );
     }
@@ -111,7 +111,7 @@ export default function SetProfile({
             onClick={() => checkExistenceFunc()}
             activation={isValidName && isDuplicated !== "false"}
             buttonTitle="중복 확인"
-            bottomText={`한글, 영어, 숫자 조합 ${userInfo.role === "USER" ? "2-7자" : "15자 이내"}`}
+            bottomText={`한글, 영어, 숫자 조합 ${userInfo.role === "USER" ? "2-7자" : "18자 이내"}`}
             value={nickname}
             isReadOnly={false}
           />
