@@ -44,7 +44,7 @@ export default function EditPhotographerProfile() {
     const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
     setIsValidName(
       e.target.value.length > 1 &&
-        e.target.value.length < 16 &&
+        e.target.value.length <= 18 &&
         nicknameRegex.test(e.target.value)
     );
   };
@@ -104,15 +104,19 @@ export default function EditPhotographerProfile() {
               isValidName && isChangedName && isDuplicated !== "false"
             }
             buttonTitle="중복 확인"
-            bottomText="한글, 영어, 숫자 조합 15자 이내"
+            bottomText=""
             value={userInfo.nickname}
             isReadOnly={false}
           />
           {isDuplicated === "" ? (
-            <div className="text-xs text-red">
-              {!isValidName &&
-                userInfo.nickname.length > 0 &&
-                "한글, 영어, 숫자 조합 15자 이내"}
+            <div
+              className={`text-xs ${
+                isValidName && userInfo.nickname.length > 0
+                  ? "text-textgray"
+                  : "text-red"
+              }`}
+            >
+              {"한글, 영어, 숫자 조합 18자 이내"}
             </div>
           ) : (
             <div
