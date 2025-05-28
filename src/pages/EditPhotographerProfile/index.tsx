@@ -26,7 +26,6 @@ export default function EditPhotographerProfile() {
 
   useEffect(() => {
     setUserInfo(location.state);
-    console.log(location.state);
     setMainPhotographyTypes(location.state.mainPhotographyTypes);
     setActiveRegions(location.state.activeRegions);
   }, []);
