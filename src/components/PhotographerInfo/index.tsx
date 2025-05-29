@@ -10,6 +10,7 @@ import icn_clip_on from "../../assets/svgs/icn_clipOn.svg";
 import icn_web from "../../assets/svgs/icn_web.svg";
 import icn_loc from "../../assets/svgs/icn_location.svg";
 import icn_insta from "../../assets/svgs/icn_instagram.svg";
+import ModalCheck from "../ModalCheck";
 
 interface Props {
   isMypage: boolean;
@@ -21,27 +22,24 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
 
   const [count, setCount] = useState(0);
   const [isSavedPhotographer, setIsSavedPhotographer] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleSave = () => {
-    isSavedPhotographer ? deleteSavedPromotionFunc() : savePromotionFunc();
+    if (!localStorage.getItem("accessToken")) {
+      setShowLoginModal(true);
+      return;
+    } else savePromotionFunc();
   };
 
   const savePromotionFunc = async () => {
-    setCount(count + 1);
-    setIsSavedPhotographer(true);
+    setCount(isSavedPhotographer ? count - 1 : count + 1);
+    setIsSavedPhotographer(!isSavedPhotographer);
     try {
-      await savePhotographer(userInfo.id);
+      isSavedPhotographer
+        ? deleteSavedPhotographer(userInfo.id)
+        : await savePhotographer(userInfo.id);
     } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const deleteSavedPromotionFunc = async () => {
-    setCount(count - 1);
-    setIsSavedPhotographer(false);
-    try {
-      await deleteSavedPhotographer(userInfo.id);
-    } catch (e) {
+      setShowLoginModal(true);
       console.log(e);
     }
   };
@@ -151,6 +149,21 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
           </button>
         </div>
       )}
+      <div className="-mx-4">
+        {showLoginModal && (
+          <ModalCheck
+            title="로그인이 필요한 서비스입니다."
+            content={[
+              "이 기능은 로그인 후 이용하실 수 있습니다.",
+              "로그인 페이지로 이동하시겠습니까?",
+            ]}
+            btnMsg="로그인 하기"
+            align="start"
+            setShowModal={setShowLoginModal}
+            onClick={() => navigation(`/login`)}
+          />
+        )}
+      </div>
     </div>
   );
 }
