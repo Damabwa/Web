@@ -30,7 +30,6 @@ export default function NewEvent() {
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [content, setContent] = useState("");
   const [isValid, setIsValid] = useState(false);
-  const [isValidDates, setIsValidDates] = useState(false);
 
   const [showKeywordModal, setShowKeywordModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
@@ -70,8 +69,10 @@ export default function NewEvent() {
         externalLink.length *
         images.length *
         hashtags.length *
-        content.length >
-        0 && isValidDates
+        content.length *
+        startedAt.length *
+        endedAt.length >
+        0
     );
   }, [
     title,
@@ -82,7 +83,8 @@ export default function NewEvent() {
     images,
     hashtags,
     content,
-    isValidDates,
+    startedAt,
+    endedAt,
   ]);
 
   const handleTitleInput = (e: any) => {
@@ -93,22 +95,9 @@ export default function NewEvent() {
     setExternalLink(e.target.value);
   };
 
-  const onChangeStart = (e: any) => {
-    let { value } = e.target;
-    value = value.replace(/[^0-9-]/g, "");
-    if (value.length > 10) {
-      value = value.slice(0, 10);
-    }
-    setStartedAt(value);
-  };
-
-  const onChangeEnd = (e: any) => {
-    let { value } = e.target;
-    value = value.replace(/[^0-9-]/g, "");
-    if (value.length > 10) {
-      value = value.slice(0, 10);
-    }
-    setEndedAt(value);
+  const onChangeDate = (type: string, date: any) => {
+    const formatted = date.format("YYYY-MM-DD");
+    type === "START" ? setStartedAt(formatted) : setEndedAt(formatted);
   };
 
   const onClickSubmit = async () => {
@@ -170,13 +159,7 @@ export default function NewEvent() {
         />
         <Location locs={activeRegions} setLocs={setActiveRegions} maxNum={3} />
         <EventType eventType={promotionType} setEventType={setPromotionType} />
-        <EventPeriod
-          onChangeA={onChangeStart}
-          onChangeB={onChangeEnd}
-          valueA={startedAt}
-          valueB={endedAt}
-          setIsValidDates={setIsValidDates}
-        />
+        <EventPeriod onChangeDate={onChangeDate} />
         <InputBox
           isRequired={true}
           title="이벤트 게시물 링크"
