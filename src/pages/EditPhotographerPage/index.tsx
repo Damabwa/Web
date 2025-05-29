@@ -109,7 +109,7 @@ export default function EditPhotographerPage() {
           이 페이지를 완성하시면, <br />
           '작가님을 만나봐' 페이지에 작가 소개 글이 등록됩니다!
         </div>
-        <div className="pl-4 mb-8">
+        <div className="mb-8">
           <GetImagesBox
             isRequired={true}
             title="포트폴리오"
