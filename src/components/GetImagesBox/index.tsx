@@ -73,7 +73,7 @@ export default function GetImagesBox({
       </div>
       <div className="flex flex-col w-full gap-8 text-sm font-medium">
         <div className="flex flex-col w-full">
-          <div className="font-medium">
+          <div className="px-4 font-medium">
             {isRequired && <span className="text-red mr-[0.12rem]">*</span>}
             <span>{title}</span>
             {description !== "" && (
@@ -84,7 +84,7 @@ export default function GetImagesBox({
           </div>
           <div className="flex gap-3 pt-3 overflow-scroll w-fit">
             <div
-              className="cursor-pointer  min-w-[4.75rem] min-h-[4.75rem] border-black04 rounded-[0.63rem] border  items-center justify-center  flex flex-col text-black03 text-xs"
+              className="ml-4 cursor-pointer  min-w-[4.75rem] min-h-[4.75rem] border-black04 rounded-[0.63rem] border  items-center justify-center  flex flex-col text-black03 text-xs"
               onClick={() => handleImageClick()}
             >
               <img className="w-[1.8125rem] h-[1.8125rem]" src={icn_camera} />

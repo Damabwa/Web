@@ -170,7 +170,7 @@ export default function NewEvent() {
           value={externalLink}
         />
       </div>
-      <div className="py-10 pl-4">
+      <div className="py-10">
         <GetImagesBox
           isRequired={true}
           title="배너 사진"
