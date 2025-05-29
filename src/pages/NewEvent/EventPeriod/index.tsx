@@ -1,24 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import "dayjs/locale/ko";
 
 interface Props {
   onChangeDate: (
     type: string,
     date: React.ChangeEvent<HTMLInputElement>
   ) => void;
+  startedAt: string;
+  endedAt: string;
 }
 
-export default function EventPeriod({ onChangeDate }: Props) {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+export default function EventPeriod({
+  onChangeDate,
+  startedAt,
+  endedAt,
+}: Props) {
+  const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null);
+  const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(null);
 
   dayjs.extend(customParseFormat);
 
+  useEffect(() => {
+    if (startedAt && endedAt && !startDate && !endDate) {
+      setStartDate(dayjs(startedAt));
+      setEndDate(dayjs(endedAt));
+    }
+  }, [startedAt, endedAt]);
+
   const onChange = (type: string, date: any) => {
-    type === "START" ? setStartDate(date) : setEndDate(date);
+    if (type === "START") {
+      setStartDate(date);
+      setEndDate(null);
+    } else setEndDate(date);
+    if (!date) return;
     onChangeDate(type, date);
   };
 

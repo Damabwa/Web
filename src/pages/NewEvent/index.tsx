@@ -159,7 +159,11 @@ export default function NewEvent() {
         />
         <Location locs={activeRegions} setLocs={setActiveRegions} maxNum={3} />
         <EventType eventType={promotionType} setEventType={setPromotionType} />
-        <EventPeriod onChangeDate={onChangeDate} />
+        <EventPeriod
+          onChangeDate={onChangeDate}
+          startedAt={startedAt}
+          endedAt={endedAt}
+        />
         <InputBox
           isRequired={true}
           title="이벤트 게시물 링크"
