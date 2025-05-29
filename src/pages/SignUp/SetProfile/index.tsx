@@ -31,20 +31,22 @@ export default function SetProfile({
 
   const handleNameInput = (e: any) => {
     setIsDuplicated("");
-    setNickname(e.target.value);
 
-    const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
+    let value = e.target.value;
+    value = value.replace(/^\s+/, "").replace(/\s+/g, " ");
+
+    setNickname(value);
+
+    const userRegex = /^[가-힣a-zA-Z0-9]+$/;
+    const photographerRegex = /^[가-힣a-zA-Z0-9\s]+$/;
+
     if (userInfo.role === "USER") {
       setIsValidName(
-        e.target.value.length > 1 &&
-          e.target.value.length < 8 &&
-          nicknameRegex.test(e.target.value)
+        value.length > 1 && value.length <= 7 && userRegex.test(value)
       );
     } else if (userInfo.role === "PHOTOGRAPHER") {
       setIsValidName(
-        e.target.value.length > 1 &&
-          e.target.value.length <= 18 &&
-          nicknameRegex.test(e.target.value)
+        value.length > 1 && value.length <= 18 && photographerRegex.test(value)
       );
     }
   };
@@ -111,7 +113,7 @@ export default function SetProfile({
             onClick={() => checkExistenceFunc()}
             activation={isValidName && isDuplicated !== "false"}
             buttonTitle="중복 확인"
-            bottomText={`한글, 영어, 숫자 조합 ${userInfo.role === "USER" ? "2-7자" : "18자 이내"}`}
+            bottomText={`${userInfo.role === "USER" ? "한글, 영어, 숫자 조합 2-7자" : "한글, 영어, 숫자, 공백 조합 18자 이내"}`}
             value={nickname}
             isReadOnly={false}
           />

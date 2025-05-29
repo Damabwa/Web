@@ -37,14 +37,16 @@ export default function EditPhotographerProfile() {
   const handleNameInput = (e: any) => {
     setIsDuplicated("");
     setIsChangedName(true);
-    if (location.state.nickname === e.target.value) setIsChangedName(false);
-    setUserInfo({ ...userInfo, nickname: e.target.value });
 
-    const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
+    let value = e.target.value;
+    value = value.replace(/^\s+/, "").replace(/\s+/g, " ");
+
+    if (location.state.nickname === value) setIsChangedName(false);
+    setUserInfo({ ...userInfo, nickname: value });
+
+    const nicknameRegex = /^[가-힣a-zA-Z0-9\s]+$/;
     setIsValidName(
-      e.target.value.length > 1 &&
-        e.target.value.length <= 18 &&
-        nicknameRegex.test(e.target.value)
+      value.length > 1 && value.length <= 18 && nicknameRegex.test(value)
     );
   };
 
@@ -60,8 +62,10 @@ export default function EditPhotographerProfile() {
 
   const checkExistenceFunc = async () => {
     if (!isValidName) return;
+    let formatted = userInfo.nickname.replace(/\s+$/, "");
     try {
-      const res = await checkPhotographerExistence(userInfo.nickname);
+      setUserInfo({ ...userInfo, nickname: formatted });
+      const res = await checkPhotographerExistence(formatted);
       if (res.exists) setIsDuplicated("true");
       else setIsDuplicated("false");
     } catch (e) {
@@ -115,7 +119,7 @@ export default function EditPhotographerProfile() {
                   : "text-red"
               }`}
             >
-              {"한글, 영어, 숫자 조합 18자 이내"}
+              {"한글, 영어, 숫자, 공백 조합 18자 이내"}
             </div>
           ) : (
             <div
