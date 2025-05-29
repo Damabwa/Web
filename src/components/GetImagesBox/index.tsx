@@ -1,7 +1,8 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { onImageHandler } from "../../hooks/onImageHandler";
 import icn_camera from "../../assets/svgs/icn_profile_camera.svg";
 import icn_delete from "../../assets/svgs/btn_delete_porfolio_ellipse.svg";
+import Loading from "../Loading";
 
 interface Props {
   isRequired: boolean;
@@ -25,6 +26,7 @@ export default function GetImagesBox({
   setShowModal,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleImageClick = () => {
     if (images.length === 10) {
@@ -45,7 +47,7 @@ export default function GetImagesBox({
       setShowModal(true);
       return;
     }
-
+    setLoading(true);
     const newImages: string[] = [];
 
     for (let i = 0; i < files.length; i++) {
@@ -54,6 +56,7 @@ export default function GetImagesBox({
     }
 
     setImages([...images, ...newImages]);
+    setLoading(false);
   };
 
   return (
@@ -112,6 +115,7 @@ export default function GetImagesBox({
           </div>
         </div>
       </div>
+      <Loading isLoading={loading} />
     </div>
   );
 }
