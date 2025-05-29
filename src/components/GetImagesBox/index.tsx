@@ -39,11 +39,21 @@ export default function GetImagesBox({
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const image = await onImageHandler(file, fileType);
-      if (image) setImages([...images, image]);
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    else if (images.length + files.length > 10) {
+      setShowModal(true);
+      return;
     }
+
+    const newImages: string[] = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const image = await onImageHandler(files[i], fileType);
+      if (image) newImages.push(image);
+    }
+
+    setImages([...images, ...newImages]);
   };
 
   return (
@@ -53,6 +63,7 @@ export default function GetImagesBox({
           className="hidden"
           type="file"
           accept="image/*"
+          multiple
           onChange={handleImageChange}
           ref={fileInputRef}
         />
