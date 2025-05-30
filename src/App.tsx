@@ -16,6 +16,7 @@ import EventDetail from "./pages/EventDetail";
 import PhotographersHome from "./pages/PhotographersHome";
 import PhotographerDetail from "./pages/PhotographerDetail";
 import NewEvent from "./pages/NewEvent";
+import SearchPage from "./pages/SearchPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import "./App.css";
 
@@ -45,6 +46,7 @@ function App() {
           <Route path="/photographers" element={<PhotographersHome />} />
           <Route path="/photographer/:id" element={<PhotographerDetail />} />
           <Route path="/new/event" element={<NewEvent />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
