@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import SubHeader from "../../components/SubHeader";
 import PromotionBox from "../../components/PromotionBox";
 import PhotographerBox from "../../components/PhotographerBox";
@@ -31,7 +31,7 @@ export default function SavedContents() {
           <div className="w-full h-20 bg-white" />
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-5 p-4 border-t-8 border-t-gray50">
+        <div className="relative grid grid-cols-2 gap-5 m-4 border-t-8 border-t-gray50">
           {data.map((item: any) => (
             <PhotographerBox key={item.id} data={item} />
           ))}
