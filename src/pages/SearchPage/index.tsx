@@ -19,8 +19,8 @@ export default function SearchPage() {
 
   const onSubmit = (input: string) => {
     if (!input) return;
+    else if (state === "OVERVIEW") getListFunc(input);
     setSearchKeyword(input);
-    getListFunc(input);
   };
 
   const getListFunc = async (input: string) => {
