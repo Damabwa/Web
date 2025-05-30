@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   savePhotographer,
@@ -23,8 +23,12 @@ interface Props {
 
 export default function PhotographerBox({ data }: Props) {
   const navigation = useNavigate();
-  const [isClipped, setIsClipped] = useState(data.isSaved);
+  const [isClipped, setIsClipped] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => {
+    setIsClipped(data.isSaved);
+  }, [data]);
 
   const handleTextLength = () => {
     if (data.nickname.length < 8) return data.nickname;
@@ -32,7 +36,7 @@ export default function PhotographerBox({ data }: Props) {
   };
 
   const onClickPhotographer = () => {
-    navigation(`/photographer/${data.id}`);
+    window.open(`/photographer/${data.id}`);
   };
 
   const onClickSave = () => {

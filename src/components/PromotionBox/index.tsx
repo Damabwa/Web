@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { savePromotion, deleteSavedPromotion } from "../../api/promotion";
 import icn_clipOff from "../../assets/svgs/icn_clip.svg";
@@ -25,9 +25,14 @@ interface Props {
 
 export default function PromotionBox({ data }: Props) {
   const navigation = useNavigate();
-  const [isClipped, setIsClipped] = useState<boolean>(data.isSaved);
+  const [isClipped, setIsClipped] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [saveCount, setSaveCount] = useState(data.saveCount);
+  const [saveCount, setSaveCount] = useState(0);
+
+  useEffect(() => {
+    setIsClipped(data.isSaved);
+    setSaveCount(data.saveCount);
+  }, [data]);
 
   const getDDay = () => {
     const now = new Date();
@@ -75,7 +80,7 @@ export default function PromotionBox({ data }: Props) {
       <div className="flex items-start justify-between px-4">
         <div
           className="flex flex-col flex-1"
-          onClick={() => navigation(`/event/${data.id}`)}
+          onClick={() => window.open(`/event/${data.id}`)}
         >
           <span className="mb-1 text-lg font-semibold">{data.title}</span>
           <div className="flex items-center gap-[0.38rem] text-sm text-black02">
@@ -103,7 +108,7 @@ export default function PromotionBox({ data }: Props) {
       </div>
       <div
         className="flex w-full gap-3 py-3 pl-4 pr-4 overflow-x-auto "
-        onClick={() => navigation(`/event/${data.id}`)}
+        onClick={() => window.open(`/event/${data.id}`)}
       >
         {data.images.map((image, index) => (
           <div key={index} className="gap-[0.62rem]">
@@ -118,7 +123,7 @@ export default function PromotionBox({ data }: Props) {
       </div>
       <div
         className="flex flex-col gap-1 pl-4 text-xs text-black03 "
-        onClick={() => navigation(`/event/${data.id}`)}
+        onClick={() => window.open(`/event/${data.id}`)}
       >
         <div className="flex items-center gap-1">
           <img src={icn_time} />

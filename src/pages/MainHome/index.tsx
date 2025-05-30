@@ -5,6 +5,7 @@ import ModalCheck from "../../components/ModalCheck";
 import Bottom from "../../components/Bottom";
 import logo_header from "../../assets/imgs/img_mainhome_header_logo.png";
 import icn_mypage from "../../assets/svgs/icn_mainhome_mypage.svg";
+import icn_search from "../../assets/svgs/icn_search_white.svg";
 import BannerBox from "./BannerBox";
 import EventBox from "./EventBox";
 import PhotographerBox from "./PhotographerBox";
@@ -22,20 +23,23 @@ function MainHome() {
     <div className="w-full">
       <div className="h-12">
         <Header
-          main={
+          main={null}
+          left={
             <img
-              className="w-[5.5rem] cursor-pointer"
+              className="w-[4.75rem] cursor-pointer ml-4"
               onClick={() => navigation(`/`)}
               src={logo_header}
             />
           }
-          left={null}
           right={
-            <img
-              className="px-2"
-              src={icn_mypage}
-              onClick={() => onClickMyPage()}
-            />
+            <div className="flex items-center gap-2">
+              <img src={icn_search} onClick={() => navigation(`/search`)} />
+              <img
+                className="mr-4"
+                src={icn_mypage}
+                onClick={() => onClickMyPage()}
+              />
+            </div>
           }
         />
       </div>
