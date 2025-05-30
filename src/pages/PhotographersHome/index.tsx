@@ -55,7 +55,7 @@ export default function PhotographersHome() {
         <FilterBar isEvent={false} setSearchParams={setSearchParams} />
       </div>
       {photographerList.length > 0 ? (
-        <div className="grid grid-cols-2 gap-5 p-4">
+        <div className="relative grid grid-cols-2 gap-5 m-4">
           {photographerList.map((item: any) => (
             <PhotographerBox key={item.id} data={item} />
           ))}
