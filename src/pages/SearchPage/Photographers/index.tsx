@@ -16,7 +16,7 @@ export default function Photographers({ data, searchKeyword }: Props) {
 
   useEffect(() => {
     getPhotographerListFunc();
-  }, [searchParams]);
+  }, [searchParams, searchKeyword]);
 
   const getPhotographerListFunc = async () => {
     const params = searchParams.toString();

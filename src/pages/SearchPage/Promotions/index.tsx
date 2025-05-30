@@ -16,7 +16,7 @@ export default function Promotions({ data, searchKeyword }: Props) {
 
   useEffect(() => {
     getPromotionListFunc();
-  }, [searchParams]);
+  }, [searchParams, searchKeyword]);
 
   const getPromotionListFunc = async () => {
     const params = searchParams.toString();
@@ -29,6 +29,7 @@ export default function Promotions({ data, searchKeyword }: Props) {
       console.log(e);
     }
   };
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="border-b-[0.375rem] border-gray50">
