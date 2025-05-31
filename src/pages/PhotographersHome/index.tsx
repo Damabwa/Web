@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { getPhotographerList } from "../../api/photographer";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import icn_noList from "../../assets/svgs/icn_no_photogrpher.svg";
+import icn_search from "../../assets/svgs/icn_search_white.svg";
 import Header from "../../components/Header";
 import PhotographerBox from "../../components/PhotographerBox";
 import FilterBar from "../../components/FilterBar";
@@ -48,7 +49,13 @@ export default function PhotographersHome() {
               }}
             />
           }
-          right={null}
+          right={
+            <img
+              className="px-4 cursor-pointer"
+              src={icn_search}
+              onClick={() => navigation(`/search`)}
+            />
+          }
         />
       </div>
       <div className="border-b-[0.375rem] border-gray50">
