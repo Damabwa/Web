@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { toast, ToastContainer } from "react-toastify";
 import { userState } from "../../../atom/atom";
+import { getPhotoType } from "../../../hooks/getKorean";
 import { deletePromotion } from "../../../api/promotion";
 import icn_time from "../../../assets/svgs/icn_time.svg";
 import icn_loc from "../../../assets/svgs/icn_location.svg";
 import icn_insta from "../../../assets/svgs/icn_instagram.svg";
-import icn_share from "../../../assets/svgs/icn_share.svg";
+import icn_copy from "../../../assets/svgs/btn_url_copy.svg";
 import icn_more from "../../../assets/svgs/icn_more.svg";
 import ModalCheck from "../../../components/ModalCheck";
-import { getPhotoType } from "../../../hooks/getKorean";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Props {
   promotionData: any;
@@ -34,6 +36,15 @@ export default function TopInfo({ promotionData }: Props) {
 
   const modifyHandler = () => {
     navigation(`/new/event`, { state: promotionData });
+  };
+
+  const handleCopyUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success("URL이 복사되었어요!");
+    } catch (err) {
+      toast.error("복사에 실패했어요 😢");
+    }
   };
 
   return (
@@ -89,9 +100,14 @@ export default function TopInfo({ promotionData }: Props) {
         )}
       </div>
       <div className="absolute flex gap-2 top-6 right-4">
-        {/* <button>
-          <img src={icn_share} />
-        </button> */}
+        <div className="cursor-pointer">
+          <img src={icn_copy} onClick={handleCopyUrl} />
+          <ToastContainer
+            position="top-center"
+            autoClose={1000}
+            hideProgressBar
+          />
+        </div>
         {isMyPost && (
           <div
             className="relative -mr-1 cursor-pointer"
