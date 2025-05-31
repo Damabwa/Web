@@ -45,7 +45,7 @@ export default function FilterType({
   handleFilterChange,
 }: Props) {
   const [selectedTypes, setSelectedTypes] = useState<string[]>(
-    filters.photographerType || []
+    filters.photographyTypes || []
   );
 
   const handleChildClick = (item: string) => {
@@ -75,7 +75,7 @@ export default function FilterType({
       handleFilterChange("regions", regions);
       setIsModifiedRegion(selectedLocs.length > 0);
     } else if (title === "촬영 종류") {
-      handleFilterChange("photographerType", selectedTypes);
+      handleFilterChange("photographyTypes", selectedTypes);
       setIsModifiedTypes(selectedTypes.length > 0);
     }
     setShowSelectBar(false);
