@@ -6,6 +6,7 @@ import { getPromotionList } from "../../api/promotion";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import icn_pencil from "../../assets/svgs/icn_eventhome_pencil.svg";
 import icn_noList from "../../assets/svgs/icn_no_promotion.svg";
+import icn_search from "../../assets/svgs/icn_search_white.svg";
 import Header from "../../components/Header";
 import FilterBar from "../../components/FilterBar";
 import PromotionBox from "../../components/PromotionBox";
@@ -51,7 +52,13 @@ function EventHome() {
               }}
             />
           }
-          right={null}
+          right={
+            <img
+              className="px-4 cursor-pointer"
+              src={icn_search}
+              onClick={() => navigation(`/search`)}
+            />
+          }
         />
       </div>
       <div className="border-b-[0.375rem] border-gray50">
