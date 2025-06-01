@@ -42,12 +42,14 @@ export default function MorePhotographerInfo({ userInfo }: Props) {
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-2 px-4">
-        <div>상세 주소</div>
-        <div className="text-sm font-medium text-black02">
-          {userInfo.address.roadAddress}
+      {userInfo.address.roadAddress && (
+        <div className="flex flex-col gap-2 px-4">
+          <div>상세 주소</div>
+          <div className="text-sm font-medium text-black02">
+            {userInfo.address.roadAddress}
+          </div>
         </div>
-      </div>
+      )}
       <div className="flex flex-col gap-2 px-4">
         <div>작가님 인사말</div>
         <div className="text-sm font-medium text-black02">
