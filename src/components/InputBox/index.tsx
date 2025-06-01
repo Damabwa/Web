@@ -30,7 +30,7 @@ export default function InputBox({
       </div>
       <div className="flex items-center w-full gap-2 mb-[0.31rem]">
         <input
-          className="text-base scale-[0.875] origin-left flex-1 h-12 px-4 border-none outline-none rounded-xl bg-gray50"
+          className="flex-1 h-12 px-4 text-base border-none outline-none rounded-xl bg-gray50"
           placeholder={placeholder}
           onChange={onChange}
           value={value}

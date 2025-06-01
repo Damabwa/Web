@@ -22,7 +22,7 @@ export default function SearchBar({ onSubmit, state, setState }: Props) {
   };
 
   return (
-    <div className="flex items-center w-full h-16 px-2">
+    <div className="flex items-center w-full px-2 py-3">
       <div className="p-2">
         <img
           className="w-6 cursor-pointer"
@@ -33,7 +33,7 @@ export default function SearchBar({ onSubmit, state, setState }: Props) {
         />
       </div>
       <input
-        className="text-base scale-[0.875] origin-left flex-1 h-10 bg-gray50 rounded-[0.63rem] px-4 outline-none"
+        className="text-base flex-1 h-10 bg-gray50 rounded-[0.63rem] px-4 outline-none"
         placeholder="검색어를 입력해주세요."
         onChange={inputHandler}
         onKeyDown={keyDownHandler}

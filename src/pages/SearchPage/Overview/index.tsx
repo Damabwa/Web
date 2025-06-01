@@ -59,7 +59,7 @@ export default function Overview({
         />
         {photographerList.length > 0 ? (
           <div className="flex flex-col">
-            <div className="relative grid grid-cols-2 gap-5 m-4">
+            <div className="relative grid grid-cols-2 gap-5 mx-4 my-[0.62rem]">
               {photographerList.slice(0, 2).map((item: any) => (
                 <PhotographerBox key={item.id} data={item} />
               ))}
