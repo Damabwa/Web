@@ -33,7 +33,7 @@ export default function SearchBar({ onSubmit, state, setState }: Props) {
         />
       </div>
       <input
-        className="flex-1 h-10 bg-gray50 rounded-[0.63rem] px-4 text-sm outline-none"
+        className="text-base scale-[0.875] origin-left flex-1 h-10 bg-gray50 rounded-[0.63rem] px-4 outline-none"
         placeholder="검색어를 입력해주세요."
         onChange={inputHandler}
         onKeyDown={keyDownHandler}

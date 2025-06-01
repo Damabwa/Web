@@ -21,7 +21,7 @@ export default function InputIDBox({
           <p>@</p>
         </div>
         <input
-          className="flex-1 h-12 pr-4 border-none outline-none rounded-r-xl bg-gray50"
+          className="text-base scale-[0.875] origin-left flex-1 h-12 pr-4 border-none outline-none rounded-r-xl bg-gray50"
           placeholder={placeholder}
           onChange={onChange}
           value={value}

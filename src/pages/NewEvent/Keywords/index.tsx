@@ -51,7 +51,7 @@ export default function Keywords({
             <p>#</p>
           </div>
           <input
-            className="flex-1 h-12 pr-4 border-none outline-none rounded-r-xl bg-gray50"
+            className="text-base scale-[0.875] origin-left flex-1 h-12 pr-4 border-none outline-none rounded-r-xl bg-gray50"
             placeholder="스냅, 서울숲, 커플"
             value={item}
             onChange={handleInput}
