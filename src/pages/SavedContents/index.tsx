@@ -31,11 +31,13 @@ export default function SavedContents() {
           <div className="w-full h-20 bg-white" />
         </div>
       ) : (
-        <div className="relative grid grid-cols-2 gap-5 m-4 border-t-8 border-t-gray50">
-          {data.map((item: any) => (
-            <PhotographerBox key={item.id} data={item} />
-          ))}
-          <div className="w-full h-20 bg-white" />
+        <div className="flex flex-col border-t-8 border-t-gray50">
+          <div className="relative grid grid-cols-2 gap-5 m-4">
+            {data.map((item: any) => (
+              <PhotographerBox key={item.id} data={item} />
+            ))}
+            <div className="w-full h-20 bg-white" />
+          </div>
         </div>
       )}
     </div>
