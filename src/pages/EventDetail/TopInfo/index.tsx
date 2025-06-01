@@ -83,7 +83,7 @@ export default function TopInfo({ promotionData }: Props) {
             ))}
           </div>
         </div>
-        {promotionData.author.instagramId && (
+        {promotionData.author && promotionData.author.instagramId && (
           <div className="flex items-center gap-1">
             <img className="p-[0.35rem]" src={icn_insta} />
             <div
