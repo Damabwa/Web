@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../atom/atom";
+import { logout } from "../../hooks/logout";
 import { getUserInfo } from "../../api/user";
 import {
   getPhotographerInfo,
@@ -15,6 +17,7 @@ import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 import Bottom from "../../components/Bottom";
 
 export default function MyPage() {
+  const navigation = useNavigate();
   const [userInfo, setUserInfo] = useState<any>();
   const [savedPromotions, setSavedPromotions] = useState<any>([]);
   const [savedPhotographers, setSavedPhotographer] = useState<any>([]);
@@ -30,7 +33,7 @@ export default function MyPage() {
       const res =
         role === "USER"
           ? await getUserInfo()
-          : await getPhotographerInfo(user.id);
+          : await getPhotographerInfo(user.id, true);
       setUserInfo(res);
       if (role === "USER") {
         const promotions = await getSavedPromotionList();
@@ -39,6 +42,8 @@ export default function MyPage() {
         setSavedPhotographer(photographers.items);
       }
     } catch (e: any) {
+      navigation(`/`);
+      logout();
       console.log(e);
     }
   };

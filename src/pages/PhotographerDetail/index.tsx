@@ -15,7 +15,7 @@ export default function PhotographerDetail() {
 
   const getPhotographerInfoFunc = async () => {
     try {
-      const res = await getPhotographerInfo(Number(id));
+      const res = await getPhotographerInfo(Number(id), false);
       setPhotographerData(res);
     } catch (e: any) {
       console.log(e);
