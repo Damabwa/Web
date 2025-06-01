@@ -12,11 +12,10 @@ export const getPhotographerList = async (params: string) =>
 export const getSavedPhotographerList = async () =>
   await GET(`/photographers/saved`, true);
 
-export const getPhotographerInfo = async (photographerId: number) =>
-  await GET(
-    `/photographers/${photographerId}`,
-    localStorage.getItem("accessToken") ? true : false
-  );
+export const getPhotographerInfo = async (
+  photographerId: number,
+  isMyPage: boolean
+) => await GET(`/photographers/${photographerId}`, isMyPage);
 
 export const photographerRegistration = async (body: any) =>
   await POST(`/photographers/me/registration`, body, true);
