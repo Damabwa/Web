@@ -21,7 +21,7 @@ export default function BottomInfo({ promotionData }: Props) {
                 }
               />
               <div
-                className="cursor-pointer"
+                className="text-sm font-medium cursor-pointer"
                 onClick={() =>
                   navigation(`/photographer/${promotionData.author.id}`)
                 }
