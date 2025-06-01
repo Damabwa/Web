@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
+import ThemeColorSetter from "./components/common/ThemeColorSetter";
 import Auth from "./auth/login";
 import MainHome from "./pages/MainHome";
 import Login from "./pages/Login";
@@ -25,6 +26,7 @@ function App() {
     <div className="text-black select-none App">
       <RecoilRoot>
         <RecoilNexus />
+        <ThemeColorSetter />
         <Routes>
           <Route path="/" element={<MainHome />} />
           <Route path="/login" element={<Login />} />
