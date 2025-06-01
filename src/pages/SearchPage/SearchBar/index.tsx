@@ -22,7 +22,7 @@ export default function SearchBar({ onSubmit, state, setState }: Props) {
   };
 
   return (
-    <div className="flex items-center w-full px-2 h-11">
+    <div className="flex items-center w-full h-16 px-2">
       <div className="p-2">
         <img
           className="w-6 cursor-pointer"
