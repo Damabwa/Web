@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../atom/atom";
 import { getUserInfo } from "../../api/user";
 import {
   getPhotographerInfo,
   getSavedPhotographerList,
 } from "../../api/photographer";
+import { getSavedPromotionList } from "../../api/promotion";
 import BottomBtns from "./BottomBtns";
 import ProfileUser from "./ProfileUser";
 import SavedContent from "./SavedContent";
 import PhotographerInfo from "../../components/PhotographerInfo";
 import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 import Bottom from "../../components/Bottom";
-import { getSavedPromotionList } from "../../api/promotion";
 
 export default function MyPage() {
-  const navigation = useNavigate();
-
   const [userInfo, setUserInfo] = useState<any>();
   const [savedPromotions, setSavedPromotions] = useState<any>([]);
   const [savedPhotographers, setSavedPhotographer] = useState<any>([]);
+  const user = useRecoilValue(userState);
+  const role = user.roles.includes("PHOTOGRAPHER") ? "PHOTOGRAPHER" : "USER";
 
   useEffect(() => {
     getUserInfoFunc();
@@ -26,24 +27,17 @@ export default function MyPage() {
 
   const getUserInfoFunc = async () => {
     try {
-      const res = await getUserInfo();
-      if (res.type !== "USER") getPhotographerInfoFunc(res.id);
-      else {
-        setUserInfo(res);
+      const res =
+        role === "USER"
+          ? await getUserInfo()
+          : await getPhotographerInfo(user.id);
+      setUserInfo(res);
+      if (role === "USER") {
         const promotions = await getSavedPromotionList();
         const photographers = await getSavedPhotographerList();
         setSavedPromotions(promotions.items);
         setSavedPhotographer(photographers.items);
       }
-    } catch (e: any) {
-      console.log(e);
-    }
-  };
-
-  const getPhotographerInfoFunc = async (id: number) => {
-    try {
-      const res = await getPhotographerInfo(id);
-      setUserInfo(res);
     } catch (e: any) {
       console.log(e);
     }
