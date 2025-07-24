@@ -45,7 +45,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
   };
 
   return (
-    <div className="relative w-full bg-white border-b-8 border-gray50 pt-[4.25rem] px-4 pb-5">
+    <div className="relative w-full bg-white pt-[4.25rem] px-4 pb-5">
       <div className="absolute top-[-3rem] left-0 flex items-end justify-between w-full px-4">
         <img
           className="w-[6.5rem] h-[6.5rem] object-cover border-2 rounded-xl border-lineRegular bg-white"

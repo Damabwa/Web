@@ -35,12 +35,10 @@ export default function MyPage() {
           ? await getUserInfo()
           : await getPhotographerInfo(user.id, true);
       setUserInfo(res);
-      if (role === "USER") {
-        const promotions = await getSavedPromotionList();
-        const photographers = await getSavedPhotographerList();
-        setSavedPromotions(promotions.items);
-        setSavedPhotographer(photographers.items);
-      }
+      const promotions = await getSavedPromotionList();
+      const photographers = await getSavedPhotographerList();
+      setSavedPromotions(promotions.items);
+      setSavedPhotographer(photographers.items);
     } catch (e: any) {
       navigation(`/`);
       logout();
@@ -57,15 +55,23 @@ export default function MyPage() {
           <SavedContent
             savedPromotions={savedPromotions}
             savedPhotographers={savedPhotographers}
+            role={userInfo.type}
           />
         </>
       ) : (
-        <div className="border-gray50">
+        <div className="border-b-8 bg-gray50 border-gray50">
           <div className="w-full h-40 bg-violet400" />
-          <PhotographerInfo isMypage={true} userInfo={userInfo} />
-          {userInfo.portfolio.length > 0 && (
-            <MorePhotographerInfo userInfo={userInfo} />
-          )}
+          <div className="flex flex-col gap-2">
+            <PhotographerInfo isMypage={true} userInfo={userInfo} />
+            <SavedContent
+              savedPromotions={savedPromotions}
+              savedPhotographers={savedPhotographers}
+              role={userInfo.type}
+            />
+            {userInfo.portfolio.length > 0 && (
+              <MorePhotographerInfo userInfo={userInfo} />
+            )}
+          </div>
         </div>
       )}
       <BottomBtns />
