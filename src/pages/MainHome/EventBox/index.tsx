@@ -57,7 +57,7 @@ export default function EventBox() {
       >
         <span className="text-lg font-bold">Event로 담아봐!</span>
         <div className="flex items-center justify-between text-sm">
-          <span>현재 진행 중인 사진 이벤트</span>
+          <span>한 눈에 보는 사진 이벤트 모음</span>
           <div className="flex text-xs">
             <button>전체보기</button>
             <img className="w-4 h-4" alt=">" src={icn_next} />
