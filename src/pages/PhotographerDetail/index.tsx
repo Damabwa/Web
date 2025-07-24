@@ -26,10 +26,12 @@ export default function PhotographerDetail() {
   return (
     <div className="relative w-full mb-24">
       <div className="w-full h-40 bg-violet400" />
-      <PhotographerInfo isMypage={false} userInfo={photographerData} />
-      {photographerData.description && (
-        <MorePhotographerInfo userInfo={photographerData} />
-      )}
+      <div className="flex flex-col gap-2 bg-gray50">
+        <PhotographerInfo isMypage={false} userInfo={photographerData} />
+        {photographerData.description && (
+          <MorePhotographerInfo userInfo={photographerData} />
+        )}
+      </div>
     </div>
   );
 }
