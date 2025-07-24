@@ -7,6 +7,7 @@ import { photographerRegistration } from "../../api/photographer";
 import SelectRole from "./SelectRole";
 import SetProfile from "./SetProfile";
 import Route from "./Route";
+import Terms from "./Terms";
 import MoreInfo from "./MoreInfo";
 
 export default function SignUp() {
@@ -46,7 +47,7 @@ export default function SignUp() {
         instagramId: userInfo.instagramId,
       });
       setUser({
-        id: -1,
+        id: res.id,
         roles: res.roles,
       });
       navigation("/success/signup", { state: res, replace: true });
@@ -67,7 +68,7 @@ export default function SignUp() {
         activeRegions: userInfo.activeRegions,
       });
       setUser({
-        id: -1,
+        id: res.id,
         roles: res.roles,
       });
       navigation("/success/signup", { state: res, replace: true });
@@ -96,6 +97,10 @@ export default function SignUp() {
         )}
         {((step === 2 && userInfo.role === "USER") ||
           (step === 3 && userInfo.role === "PHOTOGRAPHER")) && (
+          <Terms setNextFunc={setNextFunc} role={userInfo.role} />
+        )}
+        {((step === 3 && userInfo.role === "USER") ||
+          (step === 4 && userInfo.role === "PHOTOGRAPHER")) && (
           <Route setNextFunc={signUpFunc} />
         )}
       </div>
