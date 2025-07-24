@@ -62,17 +62,17 @@ export default function NewEvent() {
 
   useEffect(() => {
     setIsValid(
-      title.length *
+      title.length >= 3 &&
         photographyTypes.length *
-        activeRegions.length *
-        promotionType.length *
-        externalLink.length *
-        images.length *
-        hashtags.length *
-        content.length *
-        startedAt.length *
-        endedAt.length >
-        0
+          activeRegions.length *
+          promotionType.length *
+          externalLink.length *
+          images.length *
+          hashtags.length *
+          content.length *
+          startedAt.length *
+          endedAt.length >
+          0
     );
   }, [
     title,
@@ -88,7 +88,7 @@ export default function NewEvent() {
   ]);
 
   const handleTitleInput = (e: any) => {
-    setTitle(e.target.value);
+    if (e.target.value.length <= 30) setTitle(e.target.value);
   };
 
   const handleUrlInput = (e: any) => {
@@ -139,7 +139,7 @@ export default function NewEvent() {
             description=""
             placeholder="이벤트 제목을 입력해주세요."
             onChange={handleTitleInput}
-            bottomText="공백 포함 30자 이내"
+            bottomText="공백 포함 3-30자"
             value={title}
           />
         </div>
@@ -167,7 +167,12 @@ export default function NewEvent() {
         <InputBox
           isRequired={true}
           title="이벤트 게시물 링크"
-          description="신청하기 버튼으로 바로 연결됩니다"
+          description={
+            <div className="px-1">
+              신청하기 버튼으로 바로 연결됩니다
+              <br /> (ex. 인스타 게시물, 카카오톡 채널 등)
+            </div>
+          }
           placeholder="게시물 링크를 입력해주세요."
           onChange={handleUrlInput}
           bottomText=""

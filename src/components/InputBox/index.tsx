@@ -1,7 +1,7 @@
 interface Props {
   isRequired: boolean;
   title: string;
-  description: string;
+  description: any;
   placeholder: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   bottomText: string;
@@ -19,13 +19,11 @@ export default function InputBox({
 }: Props) {
   return (
     <div className="flex flex-col w-full text-sm">
-      <div className="font-medium mb-[0.62rem]">
+      <div className="flex items-center font-medium mb-[0.62rem]">
         {isRequired && <span className="text-red mr-[0.12rem]">*</span>}
         <span>{title}</span>
         {description !== "" && (
-          <span className="text-xs text-black03 pl-[0.38rem]">
-            {description}
-          </span>
+          <div className="text-xs text-black03 pl-[0.38rem]">{description}</div>
         )}
       </div>
       <div className="flex items-center w-full gap-2 mb-[0.31rem]">
