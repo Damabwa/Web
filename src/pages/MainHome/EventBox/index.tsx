@@ -17,29 +17,39 @@ export default function EventBox() {
 
   const getPromotionListFunc = async () => {
     try {
-      const res = await getPromotionList(
-        "page=0&pageSize=5&progressStatus=ONGOING"
+      const [ongoingRes, upcomingRes] = await Promise.all([
+        getPromotionList("page=0&pageSize=5&progressStatus=ONGOING"),
+        getPromotionList("page=0&pageSize=5&progressStatus=UPCOMING"),
+      ]);
+
+      const mergedList = [...ongoingRes.items, ...upcomingRes.items].slice(
+        0,
+        5
       );
-      setEvents(res.items);
+
+      setEvents(mergedList);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const getDDay = (endedAt: string) => {
+  const getDDay = (startedAt: string, endedAt: string) => {
     const now = new Date();
     const koreaTimeOffset = 9 * 60 * 60 * 1000;
     const today = new Date(now.getTime() + koreaTimeOffset);
 
-    const targetDate = new Date(endedAt);
+    const startDate = new Date(startedAt).getTime() - today.getTime();
+    const endDate = new Date(endedAt);
 
-    const diffTime = targetDate.getTime() - today.getTime();
+    const diffTime = endDate.getTime() - today.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     if (diffDays < 0) {
       return "마감된 이벤트";
     } else if (diffDays === 0) {
       return "오늘 마감되는 이벤트";
+    } else if (startDate > 0) {
+      return "진행 전";
     } else {
       return `마감까지 D-${diffDays}`;
     }
@@ -98,7 +108,7 @@ export default function EventBox() {
                 <div className="flex items-center justify-center w-4 h-4">
                   <img src={icn_clock} />
                 </div>
-                {getDDay(item.endedAt)}
+                {getDDay(item.startedAt, item.endedAt)}
               </div>
             </div>
           </div>
