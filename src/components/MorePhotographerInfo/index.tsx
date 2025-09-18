@@ -53,7 +53,12 @@ export default function MorePhotographerInfo({ userInfo }: Props) {
       <div className="flex flex-col gap-2 px-4">
         <div>작가님 인사말</div>
         <div className="text-sm font-medium text-black02">
-          {userInfo.description}
+          {userInfo.description.split("\n").map((item: string) => (
+            <div className="leading-6">
+              {item}
+              <br />
+            </div>
+          ))}
         </div>
       </div>
     </div>
