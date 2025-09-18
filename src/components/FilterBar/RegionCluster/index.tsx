@@ -37,12 +37,13 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
   }, [locList]);
 
   const handleAddRegion = (category: string, item: string) => {
-    if (locs.includes(`${category} ${item}`))
-      setLocs(locs.filter((l) => l !== `${category} ${item}`));
+    const fullname =
+      category == item ? `${category} 전체` : `${category} ${item}`;
+    if (locs.includes(fullname)) setLocs(locs.filter((l) => l !== fullname));
     else {
       if (locs.length >= maxNum) return;
       else if (category == item) setLocs([...locs, `${category} 전체`]);
-      else setLocs([...locs, `${category} ${item}`]);
+      else setLocs([...locs, fullname]);
     }
   };
 
@@ -71,7 +72,7 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
             key={index}
             onClick={() => handleAddRegion(clusters[0], item)}
           >
-            {item}
+            {index > 0 ? item : `${item} 전체`}
           </button>
         ))}
       </div>
@@ -82,7 +83,7 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
               className="flex items-center py-1 pl-2 border rounded-lg outline-none min-w-fit whitespace-nowrap text-violet400 border-violet400 bg-[#EAE0F6]"
               key={index}
             >
-              {item.split(" ")[1] !== "전체" ? item.split(" ")[1] : item}
+              {item}
               <img
                 className="cursor-pointer"
                 src={icn_close}
