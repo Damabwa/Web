@@ -12,6 +12,7 @@ export default function SavedContent({
   role,
 }: Props) {
   const navigation = useNavigate();
+  if (!savedPromotions || !savedPhotographers) return;
   return (
     <div className="bg-white">
       <div

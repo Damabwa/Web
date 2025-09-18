@@ -68,7 +68,7 @@ export default function MyPage() {
               savedPhotographers={savedPhotographers}
               role={userInfo.type}
             />
-            {userInfo.portfolio.length > 0 && (
+            {userInfo.portfolio && userInfo.portfolio.length > 0 && (
               <MorePhotographerInfo userInfo={userInfo} />
             )}
           </div>
