@@ -57,10 +57,10 @@ export default function PhotographerBox() {
             className="relative flex flex-col justify-end h-48 overflow-hidden text-white cursor-pointer bg-gray rounded-xl"
           >
             <div
-              className="absolute top-0 left-0 z-0"
+              className="absolute top-0 left-0 z-0 w-full h-full"
               onClick={() => onClickPhotographer(item.id)}
             >
-              <div className="relative inline-block w-48 h-48 overflow-hidden rounded-xl">
+              <div className="relative inline-block w-full h-full overflow-hidden rounded-xl">
                 <img
                   src={item.profileImage.url}
                   alt={item.profileImage.name}
