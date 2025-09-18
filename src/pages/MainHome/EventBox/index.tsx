@@ -89,7 +89,9 @@ export default function EventBox() {
             </div>
             <div className="flex flex-col text-xs font-medium text-black02">
               <div className="mb-1 text-sm font-semibold text-black">
-                {item.title}
+                {item.title.length > 9
+                  ? `${item.title.slice(0, 8)}...`
+                  : item.title}
               </div>
               <div className="flex items-center pb-[0.1rem]">
                 <div className="flex items-center justify-center w-4 h-4 ">
