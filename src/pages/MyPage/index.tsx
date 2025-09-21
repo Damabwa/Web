@@ -33,7 +33,7 @@ export default function MyPage() {
       const res =
         role === "USER"
           ? await getUserInfo()
-          : await getPhotographerInfo(user.id, true);
+          : await getPhotographerInfo(user.id);
       setUserInfo(res);
       const promotions = await getSavedPromotionList();
       const photographers = await getSavedPhotographerList();

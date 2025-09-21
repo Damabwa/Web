@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   deleteSavedPhotographer,
@@ -23,6 +23,11 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
   const [count, setCount] = useState(0);
   const [isSavedPhotographer, setIsSavedPhotographer] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => {
+    setCount(userInfo.saveCount);
+    setIsSavedPhotographer(userInfo.isSaved);
+  }, [userInfo]);
 
   const handleSave = () => {
     if (!localStorage.getItem("accessToken")) {
@@ -51,7 +56,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
           className="w-[6.5rem] h-[6.5rem] object-cover border-2 rounded-xl border-lineRegular bg-white"
           src={userInfo.profileImage.url}
         />
-        {/* {!isMypage && (
+        {!isMypage && (
           <div
             className="cursor-pointer flex flex-col items-center justify-center w-12 h-12 rounded-md bg-gray50 text-black03 text-[0.625rem] font-medium"
             onClick={() => handleSave()}
@@ -62,7 +67,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
             />
             <div className="w-5 text-center">{count}</div>
           </div>
-        )} */}
+        )}
       </div>
       <div
         className={`flex items-end gap-2 pb-3 ${userInfo.nickname.length > 10 && "flex-col items-start"}`}
