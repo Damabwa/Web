@@ -4,5 +4,5 @@ import { userState } from "../atom/atom";
 export const logout = () => {
   setRecoil(userState, { id: -1, roles: [] });
   localStorage.removeItem("accessToken");
-  window.location.href = "/";
+  if (window.location.pathname !== "/") window.location.href = "/";
 };

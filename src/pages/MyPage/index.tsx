@@ -40,8 +40,6 @@ export default function MyPage() {
       setSavedPromotions(promotions.items);
       setSavedPhotographer(photographers.items);
     } catch (e: any) {
-      navigation(`/`);
-      logout();
       console.log(e);
     }
   };

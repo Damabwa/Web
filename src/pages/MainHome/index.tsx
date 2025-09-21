@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getUserInfo } from "../../api/user";
 import Header from "../../components/Header";
 import ModalCheck from "../../components/ModalCheck";
 import Bottom from "../../components/Bottom";
@@ -13,6 +14,16 @@ import PhotographerBox from "./PhotographerBox";
 function MainHome() {
   const navigation = useNavigate();
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => {
+    getUserInfoFunc();
+  }, []);
+
+  const getUserInfoFunc = async () => {
+    try {
+      await getUserInfo();
+    } catch (e: any) {}
+  };
 
   const onClickMyPage = () => {
     if (!localStorage.getItem("accessToken")) setShowLoginModal(true);
