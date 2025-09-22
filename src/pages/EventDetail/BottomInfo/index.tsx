@@ -34,12 +34,14 @@ export default function BottomInfo({ promotionData }: Props) {
       <div>
         <div className="pb-3 font-bold">상세 설명</div>
         <div className="pb-5 text-sm font-medium text-black02">
-          {promotionData.content.split("\n").map((item: string) => (
-            <div className="leading-6">
-              {item}
-              <br />
-            </div>
-          ))}
+          {promotionData.content
+            .split("\n")
+            .map((item: string, index: number) => (
+              <div key={index} className="leading-6">
+                {item}
+                <br />
+              </div>
+            ))}
         </div>
       </div>
       <div className="flex gap-2 text-sm font-medium pb-36 text-black02">
