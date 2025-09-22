@@ -166,14 +166,14 @@ export default function NewEvent() {
         />
         <InputBox
           isRequired={true}
-          title="이벤트 게시물 링크"
+          title="이벤트 신청 링크"
           description={
             <div className="px-1">
-              신청하기 버튼으로 바로 연결됩니다
+              '신청하기 버튼'으로 바로 연결됩니다
               <br /> (ex. 인스타 게시물, 카카오톡 채널 등)
             </div>
           }
-          placeholder="게시물 링크를 입력해주세요."
+          placeholder="신청 링크를 입력해주세요."
           onChange={handleUrlInput}
           bottomText=""
           value={externalLink}
