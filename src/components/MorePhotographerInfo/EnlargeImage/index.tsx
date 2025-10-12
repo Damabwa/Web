@@ -70,13 +70,13 @@ export default function EnlargeImage({
   };
 
   return (
-    <div className="w-full h-full bg-[#000] flex-col flex justify-center items-center">
+    <div className="w-full h-full max-h-screen bg-[#000] flex-col flex justify-center items-center">
       <div className="absolute top-0 flex items-center justify-center w-full p-4">
         <div className="z-10 text-white">
           {currentIndex + 1} / {images.length}
         </div>
         <img
-          className="absolute right-0 p-4 cursor-pointer"
+          className="absolute right-0 z-10 p-4 cursor-pointer"
           src={icn_close}
           onClick={() => setShowEnlargedImg(false)}
         />
