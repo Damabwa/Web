@@ -75,13 +75,16 @@ export default function PromotionBox({ data }: Props) {
     }
   };
 
+  const openDetailPage = () => {
+    sessionStorage.getItem("isMobile") === "true"
+      ? navigation(`/event/${data.id}`)
+      : window.open(`/event/${data.id}`);
+  };
+
   return (
     <div className="flex flex-col py-5 cursor-pointer">
       <div className="flex items-start justify-between px-4">
-        <div
-          className="flex flex-col flex-1"
-          onClick={() => window.open(`/event/${data.id}`)}
-        >
+        <div className="flex flex-col flex-1" onClick={() => openDetailPage()}>
           <span className="mb-1 text-lg font-semibold">{data.title}</span>
           <div className="flex items-center gap-[0.38rem] text-sm text-black02">
             {data.author && !data.author.isAdmin && (
@@ -108,7 +111,7 @@ export default function PromotionBox({ data }: Props) {
       </div>
       <div
         className="flex w-full gap-3 py-3 pl-4 pr-4 overflow-x-auto "
-        onClick={() => window.open(`/event/${data.id}`)}
+        onClick={() => openDetailPage()}
       >
         {data.images.map((image, index) => (
           <div key={index} className="gap-[0.62rem]">
@@ -123,7 +126,7 @@ export default function PromotionBox({ data }: Props) {
       </div>
       <div
         className="flex flex-col gap-1 pl-4 text-xs text-black03 "
-        onClick={() => window.open(`/event/${data.id}`)}
+        onClick={() => openDetailPage()}
       >
         <div className="flex items-center gap-1">
           <img src={icn_time} />
