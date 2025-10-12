@@ -13,7 +13,7 @@ import PhotographerBox from "./PhotographerBox";
 
 function MainHome() {
   const navigation = useNavigate();
-  // const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   useEffect(() => {
@@ -21,21 +21,30 @@ function MainHome() {
   }, []);
 
   const getUserInfoFunc = async () => {
-    if (!localStorage.getItem("accessToken")) {
-      setShowLoginPopup(true);
-      return;
+    if (showLoginPopupFunc()) return;
+    else if (localStorage.getItem("accessToken")) {
+      try {
+        await getUserInfo();
+      } catch (e: any) {
+      } finally {
+        showLoginPopupFunc();
+      }
     }
-    try {
-      await getUserInfo();
-    } catch (e: any) {
-    } finally {
-      if (!localStorage.getItem("accessToken")) setShowLoginPopup(true);
+  };
+
+  const showLoginPopupFunc = () => {
+    if (
+      !localStorage.getItem("accessToken") &&
+      !sessionStorage.getItem("hasVisited")
+    ) {
+      setShowLoginPopup(true);
+      sessionStorage.setItem("hasVisited", "true");
+      return true;
     }
   };
 
   const onClickMyPage = () => {
-    // if (!localStorage.getItem("accessToken")) setShowLoginModal(true);
-    if (!localStorage.getItem("accessToken")) navigation(`/login`);
+    if (!localStorage.getItem("accessToken")) setShowLoginModal(true);
     else navigation(`/mypage`);
   };
 
@@ -84,7 +93,7 @@ function MainHome() {
           onClick={() => navigation(`/login`)}
         />
       )}
-      {/* {showLoginModal && (
+      {showLoginModal && (
         <ModalCheck
           title={["로그인이 필요한 서비스입니다."]}
           content={[
@@ -96,7 +105,7 @@ function MainHome() {
           setShowModal={setShowLoginModal}
           onClick={() => navigation(`/login`)}
         />
-      )} */}
+      )}
     </div>
   );
 }
