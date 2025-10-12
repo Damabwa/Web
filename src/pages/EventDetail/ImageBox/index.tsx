@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import icn_back from "../../../assets/svgs/icn_back_white.svg";
 
 interface Props {
   images: any[];
@@ -7,7 +8,9 @@ interface Props {
 }
 
 export default function ImageBox({ images, promotionType }: Props) {
+  const isMobile = sessionStorage.getItem("isMobile") === "true";
   const containerRef = useRef<HTMLDivElement>(null);
+  const navigation = useNavigate();
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -40,6 +43,13 @@ export default function ImageBox({ images, promotionType }: Props) {
 
   return (
     <div className="relative">
+      {isMobile && (
+        <img
+          className="absolute z-10 w-6 h-6 cursor-pointer top-3 left-4"
+          onClick={() => navigation(-1)}
+          src={icn_back}
+        />
+      )}
       <div
         className="overflow-x-auto overflow-y-hidden h-96 snap-x snap-mandatory"
         ref={containerRef}
