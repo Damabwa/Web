@@ -48,16 +48,23 @@ export default function ImageBox({ images, promotionType }: Props) {
           {images.map((image: any, index: number) => (
             <div
               key={index}
-              className="flex-shrink-0 w-full slide-item snap-center"
+              className="relative flex-shrink-0 w-full slide-item snap-center"
               data-index={index}
             >
-              <img src={image.url} className="object-cover min-w-full h-96" />
+              <img src={image.url} className="object-cover min-w-full h-96 " />
+              <div
+                className="absolute top-0 left-0 w-full pointer-events-none h-28"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(0, 0, 0, 0.20) 0%, rgba(255, 255, 255, 0.00) 100%)",
+                }}
+              />
             </div>
           ))}
         </div>
       </div>
       {(promotionType === "FREE" || promotionType === "DISCOUNT") && (
-        <div className="absolute z-10 px-2 py-[0.38rem] text-sm font-semibold text-center text-white rounded-lg top-4 left-4 bg-violet300">
+        <div className="absolute z-10 px-2 py-[0.38rem] text-sm font-semibold text-center text-white rounded-lg bottom-4 left-4 bg-violet300">
           {promotionType === "FREE" ? "무료" : "할인"} 이벤트
         </div>
       )}
