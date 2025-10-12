@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../atom/atom";
-import { logout } from "../../hooks/logout";
 import { getUserInfo } from "../../api/user";
 import {
   getPhotographerInfo,
   getSavedPhotographerList,
 } from "../../api/photographer";
 import { getSavedPromotionList } from "../../api/promotion";
+import icn_back from "../../assets/svgs/icn_back.svg";
 import BottomBtns from "./BottomBtns";
 import ProfileUser from "./ProfileUser";
 import SavedContent from "./SavedContent";
@@ -17,6 +17,7 @@ import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 import Bottom from "../../components/Bottom";
 
 export default function MyPage() {
+  const isMobile = sessionStorage.getItem("isMobile") === "true";
   const navigation = useNavigate();
   const [userInfo, setUserInfo] = useState<any>();
   const [savedPromotions, setSavedPromotions] = useState<any>([]);
@@ -58,7 +59,15 @@ export default function MyPage() {
         </>
       ) : (
         <div className="border-b-8 bg-gray50 border-gray50">
-          <div className="w-full h-40 bg-violet400" />
+          <div className="relative w-full h-40 bg-violet400">
+            {isMobile && (
+              <img
+                className="absolute z-10 w-6 h-6 cursor-pointer top-3 left-4"
+                onClick={() => navigation(-1)}
+                src={icn_back}
+              />
+            )}
+          </div>
           <div className="flex flex-col gap-2">
             <PhotographerInfo isMypage={true} userInfo={userInfo} />
             <SavedContent

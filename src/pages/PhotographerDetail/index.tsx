@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { getPhotographerInfo } from "../../api/photographer";
 import icn_share from "../../assets/svgs/icn_share.svg";
+import icn_back from "../../assets/svgs/icn_back.svg";
 import PhotographerInfo from "../../components/PhotographerInfo";
 import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function PhotographerDetail() {
+  const isMobile = sessionStorage.getItem("isMobile") === "true";
+  const navigation = useNavigate();
   const [photographerData, setPhotographerData] = useState<any>();
 
   const { id } = useParams();
@@ -34,17 +37,27 @@ export default function PhotographerDetail() {
     }
   };
 
-
   if (!photographerData) return <></>;
   return (
     <div className="relative w-full mb-24">
       <div className="relative w-full h-40 bg-violet400">
-        <img className="absolute top-3 right-4 cursor-pointer" src={icn_share} onClick={handleCopyUrl} />
-          <ToastContainer
-            position="top-center"
-            autoClose={1000}
-            hideProgressBar
+        {isMobile && (
+          <img
+            className="absolute z-10 w-6 h-6 cursor-pointer top-3 left-4"
+            onClick={() => navigation(-1)}
+            src={icn_back}
           />
+        )}
+        <img
+          className="absolute cursor-pointer top-3 right-4"
+          src={icn_share}
+          onClick={handleCopyUrl}
+        />
+        <ToastContainer
+          position="top-center"
+          autoClose={1000}
+          hideProgressBar
+        />
       </div>
       <div className="flex flex-col gap-2 bg-gray50">
         <PhotographerInfo isMypage={false} userInfo={photographerData} />
