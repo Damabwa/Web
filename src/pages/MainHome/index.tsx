@@ -13,20 +13,29 @@ import PhotographerBox from "./PhotographerBox";
 
 function MainHome() {
   const navigation = useNavigate();
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  // const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   useEffect(() => {
     getUserInfoFunc();
   }, []);
 
   const getUserInfoFunc = async () => {
+    if (!localStorage.getItem("accessToken")) {
+      setShowLoginPopup(true);
+      return;
+    }
     try {
       await getUserInfo();
-    } catch (e: any) {}
+    } catch (e: any) {
+    } finally {
+      if (!localStorage.getItem("accessToken")) setShowLoginPopup(true);
+    }
   };
 
   const onClickMyPage = () => {
-    if (!localStorage.getItem("accessToken")) setShowLoginModal(true);
+    // if (!localStorage.getItem("accessToken")) setShowLoginModal(true);
+    if (!localStorage.getItem("accessToken")) navigation(`/login`);
     else navigation(`/mypage`);
   };
 
@@ -62,9 +71,22 @@ function MainHome() {
       </div>
       <PhotographerBox />
       <Bottom />
-      {showLoginModal && (
+      {showLoginPopup && (
         <ModalCheck
-          title="로그인이 필요한 서비스입니다."
+          title={[
+            "우측 상단 [마이페이지] 버튼을 통해",
+            "회원가입/로그인 하실 수 있습니다.",
+          ]}
+          content={[]}
+          btnMsg="회원가입/로그인"
+          align="start"
+          setShowModal={setShowLoginPopup}
+          onClick={() => navigation(`/login`)}
+        />
+      )}
+      {/* {showLoginModal && (
+        <ModalCheck
+          title={["로그인이 필요한 서비스입니다."]}
           content={[
             "이 기능은 로그인 후 이용하실 수 있습니다.",
             "로그인 페이지로 이동하시겠습니까?",
@@ -74,7 +96,7 @@ function MainHome() {
           setShowModal={setShowLoginModal}
           onClick={() => navigation(`/login`)}
         />
-      )}
+      )} */}
     </div>
   );
 }

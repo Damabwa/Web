@@ -157,7 +157,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
       <div className="-mx-4">
         {showLoginModal && (
           <ModalCheck
-            title="로그인이 필요한 서비스입니다."
+            title={["로그인이 필요한 서비스입니다."]}
             content={[
               "이 기능은 로그인 후 이용하실 수 있습니다.",
               "로그인 페이지로 이동하시겠습니까?",

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 interface Props {
-  title: string;
+  title: string[];
   content: string[];
   btnMsg: string;
   align: string;
@@ -30,7 +30,11 @@ export default function ModalCheck({
         className={`flex flex-col w-[17.125rem] rounded-[1.25rem] bg-white text-${align}`}
       >
         <div className="flex flex-col gap-[0.44rem] p-6 pb-4 min-h-24 justify-center text-gray900 text-nowrap">
-          <div className="font-semibold">{title}</div>
+          <div className="font-semibold">
+            {title.map((item) => (
+              <div key={item}>{item}</div>
+            ))}
+          </div>
           {content && (
             <div className="flex flex-col text-sm">
               {content.map((item, index) => (

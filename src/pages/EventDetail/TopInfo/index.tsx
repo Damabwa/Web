@@ -135,7 +135,7 @@ export default function TopInfo({ promotionData }: Props) {
       </div>
       {showDeleteModal && (
         <ModalCheck
-          title="삭제하시겠습니까?"
+          title={["삭제하시겠습니까?"]}
           content={[]}
           btnMsg="확인"
           align="center"
