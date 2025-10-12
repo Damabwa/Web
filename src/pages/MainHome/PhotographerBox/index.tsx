@@ -31,8 +31,10 @@ export default function PhotographerBox() {
     return `${name.slice(0, 8)}...`;
   };
 
-  const onClickPhotographer = (id: number) => {
-    navigation(`/photographer/${id}`);
+  const openDetailPage = (id: string) => {
+    sessionStorage.getItem("isMobile") === "true"
+      ? navigation(`/photographer/${id}`)
+      : window.open(`/photographer/${id}`);
   };
 
   return (
@@ -58,7 +60,7 @@ export default function PhotographerBox() {
           >
             <div
               className="absolute top-0 left-0 z-0 w-full h-full"
-              onClick={() => onClickPhotographer(item.id)}
+              onClick={() => openDetailPage(item.id)}
             >
               <div className="relative inline-block w-full h-full overflow-hidden rounded-xl">
                 <img

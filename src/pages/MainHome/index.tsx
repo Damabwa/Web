@@ -39,6 +39,10 @@ function MainHome() {
     ) {
       setShowLoginPopup(true);
       sessionStorage.setItem("hasVisited", "true");
+      const isMobile =
+        window.matchMedia("(max-width: 768px)").matches ||
+        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      sessionStorage.setItem("isMobile", isMobile.toString());
       return true;
     }
   };

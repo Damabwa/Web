@@ -59,6 +59,12 @@ export default function EventBox() {
     navigation("/events");
   };
 
+  const openDetailPage = (id: string) => {
+    sessionStorage.getItem("isMobile") === "true"
+      ? navigation(`/event/${id}`)
+      : window.open(`/event/${id}`);
+  };
+
   return (
     <div className="flex flex-col py-5">
       <div
@@ -79,7 +85,7 @@ export default function EventBox() {
           <div
             key={item.id}
             className="flex flex-col gap-2 cursor-pointer"
-            onClick={() => navigation(`/event/${item.id}`)}
+            onClick={() => openDetailPage(item.id)}
           >
             <div className="w-[7.5rem] h-[7.5rem] rounded-lg bg-gray50 overflow-hidden flex items-center justify-center">
               <img
