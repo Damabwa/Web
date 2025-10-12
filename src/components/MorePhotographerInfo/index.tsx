@@ -10,7 +10,6 @@ interface Props {
   userInfo: Item;
 }
 export default function MorePhotographerInfo({ userInfo }: Props) {
-  const [selectedImage, setSelectedImage] = useState({ url: "", index: 0 });
   const [enlargedIdx, setEnlargedIdx] = useState(0);
   const [showEnlargedImg, setShowEnlargedImg] = useState(false);
 
