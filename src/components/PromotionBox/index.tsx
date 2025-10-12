@@ -117,6 +117,7 @@ export default function PromotionBox({ data }: Props) {
           <div key={index} className="gap-[0.62rem]">
             <div className="w-[7.5rem] h-[7.5rem]  rounded-lg bg-gray50 overflow-hidden">
               <img
+                loading="lazy"
                 className="object-cover min-w-full min-h-full"
                 src={image.url}
               />
