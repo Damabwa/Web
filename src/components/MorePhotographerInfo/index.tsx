@@ -10,14 +10,17 @@ interface Props {
   userInfo: Item;
 }
 export default function MorePhotographerInfo({ userInfo }: Props) {
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState({ url: "", index: 0 });
+  const [enlargedIdx, setEnlargedIdx] = useState(0);
+  const [showEnlargedImg, setShowEnlargedImg] = useState(false);
 
-  if (selectedImage)
+  if (showEnlargedImg)
     return (
       <div className="absolute top-0 left-0 w-full h-screen">
         <EnlargeImage
-          selectedImage={selectedImage}
-          setSelectedImage={setSelectedImage}
+          images={userInfo.portfolio}
+          startIdx={enlargedIdx}
+          setShowEnlargedImg={setShowEnlargedImg}
         />
       </div>
     );
@@ -34,7 +37,10 @@ export default function MorePhotographerInfo({ userInfo }: Props) {
               <div className="w-[7.5rem] h-[7.5rem]">
                 <img
                   className="object-cover w-full h-full cursor-pointer"
-                  onClick={() => setSelectedImage(image.url)}
+                  onClick={() => {
+                    setEnlargedIdx(index);
+                    setShowEnlargedImg(true);
+                  }}
                   src={image.url}
                 />
               </div>
