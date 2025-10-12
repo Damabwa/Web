@@ -36,7 +36,8 @@ export default function MorePhotographerInfo({ userInfo }: Props) {
             >
               <div className="w-[7.5rem] h-[7.5rem]">
                 <img
-                  className="object-cover w-full h-full cursor-pointer"
+                  className="object-cover w-full h-full cursor-pointer bg-gray50"
+                  loading="lazy"
                   onClick={() => {
                     setEnlargedIdx(index);
                     setShowEnlargedImg(true);
