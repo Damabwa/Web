@@ -100,7 +100,10 @@ export default function EnlargeImage({
                 scrollSnapStop: "always",
               }}
             >
-              <img src={image.url} className="object-cover h-full min-w-full" />
+              <img
+                src={image.url}
+                className="object-contain w-full h-full max-w-screen max-h-screen"
+              />
             </div>
           ))}
         </div>
