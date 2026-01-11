@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+
+import { userState } from "../../atom/atom";
 import { getUserInfo } from "../../api/user";
 import { postPromotion, putPromotion } from "../../api/promotion";
 import InputBox from "../../components/InputBox";
@@ -30,7 +33,7 @@ export default function NewEvent() {
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [content, setContent] = useState("");
   const [isValid, setIsValid] = useState(false);
-
+  const isAuthorHidden = useRecoilValue(userState).roles.includes("ADMIN");
   const [showKeywordModal, setShowKeywordModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
 
@@ -99,7 +102,6 @@ export default function NewEvent() {
     const formatted = date.format("YYYY-MM-DD");
     type === "START" ? setStartedAt(formatted) : setEndedAt(formatted);
   };
-
   const onClickSubmit = async () => {
     const body = {
       promotionType,
@@ -112,6 +114,7 @@ export default function NewEvent() {
       images,
       activeRegions,
       hashtags,
+      isAuthorHidden
     };
     if (location.state) {
       await putPromotion(location.state.id, body);

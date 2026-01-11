@@ -9,7 +9,7 @@ export default function BottomInfo({ promotionData }: Props) {
   return (
     <div className="flex flex-col px-4 py-6 bg-white">
       {promotionData.author &&
-        promotionData.author.roles.includes("PHOTOGRAPHER") && (
+        promotionData.author.roles.includes("PHOTOGRAPHER") && !promotionData.isAuthorHidden && (
           <div>
             <div className="pb-3 font-bold">촬영 작가</div>
             <div className="flex items-center gap-2 pb-6">
