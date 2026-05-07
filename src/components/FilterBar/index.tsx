@@ -19,7 +19,7 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
   const [showSelectBar, setShowSelectBar] = useState(false);
   const [clickedFilter, setClickedFilter] = useState("");
 
-  const [filters, setFilters] = useState<any>(
+  const getDefaultFilters = () =>
     isEvent
       ? {
           progressStatus: "ALL",
@@ -27,8 +27,9 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
         }
       : {
           sortType: "LATEST",
-        }
-  );
+        };
+
+  const [filters, setFilters] = useState<any>(getDefaultFilters());
 
   const [selectedLocs, setSelectedLocs] = useState<string[]>([]);
 
@@ -54,10 +55,7 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
     setIsModifiedState(false);
     setIsModifiedRegion(false);
     setIsModifiedTypes(false);
-    setFilters({
-      progressStatus: "ALL",
-      sortType: "LATEST",
-    });
+    setFilters(getDefaultFilters());
   };
 
   const handleFilter = (type: string) => {
