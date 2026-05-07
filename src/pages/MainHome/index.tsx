@@ -10,6 +10,7 @@ import icn_search from "../../assets/svgs/icn_search_white.svg";
 import BannerBox from "./BannerBox";
 import EventBox from "./EventBox";
 import PhotographerBox from "./PhotographerBox";
+import { tokenStore } from "../../utils/tokenStore";
 
 function MainHome() {
   const navigation = useNavigate();
@@ -22,7 +23,7 @@ function MainHome() {
 
   const getUserInfoFunc = async () => {
     if (showLoginPopupFunc()) return;
-    else if (localStorage.getItem("accessToken")) {
+    else if (tokenStore.getAccessToken()) {
       try {
         await getUserInfo();
       } catch (e: any) {
@@ -34,7 +35,7 @@ function MainHome() {
 
   const showLoginPopupFunc = () => {
     if (
-      !localStorage.getItem("accessToken") &&
+      !tokenStore.getAccessToken() &&
       !sessionStorage.getItem("hasVisited")
     ) {
       setShowLoginPopup(true);
@@ -48,7 +49,7 @@ function MainHome() {
   };
 
   const onClickMyPage = () => {
-    if (!localStorage.getItem("accessToken")) setShowLoginModal(true);
+    if (!tokenStore.getAccessToken()) setShowLoginModal(true);
     else navigation(`/mypage`);
   };
 

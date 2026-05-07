@@ -5,6 +5,7 @@ import {
   deleteSavedPhotographer,
 } from "../../api/photographer";
 import { getPhotoType } from "../../hooks/getKorean";
+import { tokenStore } from "../../utils/tokenStore";
 import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
 import ModalCheck from "../ModalCheck";
@@ -40,7 +41,7 @@ export default function PhotographerBox({ data }: Props) {
   };
 
   const onClickSave = () => {
-    if (!localStorage.getItem("accessToken")) {
+    if (!tokenStore.getAccessToken()) {
       setShowLoginModal(true);
       return;
     } else savePhotographerFunc(isClipped);

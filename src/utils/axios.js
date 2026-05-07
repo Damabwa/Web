@@ -1,11 +1,12 @@
 import axios from "axios";
 import { logout } from "../hooks/logout";
+import { tokenStore } from "./tokenStore";
 
 const fetchWrap = async ({ method, url, body, auth }) => {
   const baseURL = `${process.env.REACT_APP_SERVER_URL}`;
   try {
     const headers = auth
-      ? { Authorization: `Bearer ${localStorage.getItem("accessToken")}` }
+      ? { Authorization: `Bearer ${tokenStore.getAccessToken()}` }
       : {};
 
     const { data } =
