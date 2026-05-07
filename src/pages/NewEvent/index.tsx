@@ -66,16 +66,15 @@ export default function NewEvent() {
   useEffect(() => {
     setIsValid(
       title.length >= 3 &&
-        photographyTypes.length *
-          activeRegions.length *
-          promotionType.length *
-          externalLink.length *
-          images.length *
-          hashtags.length *
-          content.length *
-          startedAt.length *
-          endedAt.length >
-          0
+        photographyTypes.length > 0 &&
+        activeRegions.length > 0 &&
+        promotionType.length > 0 &&
+        externalLink.length > 0 &&
+        images.length > 0 &&
+        hashtags.length > 0 &&
+        content.length > 0 &&
+        startedAt.length > 0 &&
+        endedAt.length > 0
     );
   }, [
     title,
