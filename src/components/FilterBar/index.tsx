@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import icn_reset from "../../assets/svgs/icn_reset.svg";
 import icn_line from "../../assets/svgs/icn_filterLine.svg";
-import FilterType from "./FIlterType";
+import FilterType from "./FilterType";
 import BtnOnOff from "./BtnOnOff";
 import BtnChip from "./BtnChip";
 
