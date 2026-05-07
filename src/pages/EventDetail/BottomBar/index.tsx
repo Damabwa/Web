@@ -4,6 +4,7 @@ import { savePromotion, deleteSavedPromotion } from "../../../api/promotion";
 import icn_clip_off from "../../../assets/svgs/icn_clip.svg";
 import icn_clip_on from "../../../assets/svgs/icn_clipOn.svg";
 import ModalCheck from "../../../components/ModalCheck";
+import { tokenStore } from "../../../utils/tokenStore";
 
 interface Props {
   id: number;
@@ -19,7 +20,7 @@ export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleSave = () => {
-    if (!localStorage.getItem("accessToken")) {
+    if (!tokenStore.getAccessToken()) {
       setShowLoginModal(true);
       return;
     } else savePromotionFunc();

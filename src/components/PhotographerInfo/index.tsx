@@ -11,6 +11,7 @@ import icn_web from "../../assets/svgs/icn_web.svg";
 import icn_loc from "../../assets/svgs/icn_location.svg";
 import icn_insta from "../../assets/svgs/icn_instagram.svg";
 import ModalCheck from "../ModalCheck";
+import { tokenStore } from "../../utils/tokenStore";
 
 interface Props {
   isMypage: boolean;
@@ -30,7 +31,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
   }, [userInfo]);
 
   const handleSave = () => {
-    if (!localStorage.getItem("accessToken")) {
+    if (!tokenStore.getAccessToken()) {
       setShowLoginModal(true);
       return;
     } else savePromotionFunc();

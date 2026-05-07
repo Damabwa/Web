@@ -6,6 +6,7 @@ import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
 import icn_time from "../../assets/svgs/icn_event_home_clock.svg";
 import icn_location from "../../assets/svgs/icn_event_home_location.svg";
 import ModalCheck from "../ModalCheck";
+import { tokenStore } from "../../utils/tokenStore";
 
 interface postData {
   id: number;
@@ -54,7 +55,7 @@ export default function PromotionBox({ data }: Props) {
   };
 
   const onClickSave = () => {
-    if (!localStorage.getItem("accessToken")) {
+    if (!tokenStore.getAccessToken()) {
       setShowLoginModal(true);
       return;
     } else savePromotionFunc(isClipped);
