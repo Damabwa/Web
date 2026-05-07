@@ -10,9 +10,9 @@ import SubHeader from "../../components/SubHeader";
 import GetImagesBox from "../../components/GetImagesBox";
 import Types from "../../components/Types";
 import Location from "../../components/Location";
-import InputLongformBox from "../../components/InputLongformBox/tndex";
+import InputLongformBox from "../../components/InputLongformBox";
 import ButtonActive from "../../components/ButtonActive";
-import ModalComfirm from "../../components/ModalComfirm";
+import ModalConfirm from "../../components/ModalConfirm";
 import EventType from "./EventType";
 import Keywords from "./Keywords";
 import EventPeriod from "./EventPeriod";
@@ -217,13 +217,13 @@ export default function NewEvent() {
         />
       </div>
       {showKeywordModal && (
-        <ModalComfirm
+        <ModalConfirm
           content={["대표 키워드는", "최대 3개까지 입력할 수 있어요"]}
           setShowModal={setShowKeywordModal}
         />
       )}
       {showImageModal && (
-        <ModalComfirm
+        <ModalConfirm
           content={["배너 사진은", "최대 10장까지 첨부할 수 있어요"]}
           setShowModal={setShowImageModal}
         />

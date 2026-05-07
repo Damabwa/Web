@@ -7,8 +7,8 @@ import InputIDBox from "../../components/InputIDBox";
 import InputButtonBox from "../../components/InputButtonBox";
 import ButtonActive from "../../components/ButtonActive";
 import GetImagesBox from "../../components/GetImagesBox";
-import InputLongformBox from "../../components/InputLongformBox/tndex";
-import ModalComfirm from "../../components/ModalComfirm";
+import InputLongformBox from "../../components/InputLongformBox";
+import ModalConfirm from "../../components/ModalConfirm";
 
 declare global {
   interface Window {
@@ -170,7 +170,7 @@ export default function EditPhotographerPage() {
         />
       </div>
       {showImageModal && (
-        <ModalComfirm
+        <ModalConfirm
           content={["포트폴리오 이미지는", "최대 10장까지 첨부할 수 있어요"]}
           setShowModal={setShowImageModal}
         />

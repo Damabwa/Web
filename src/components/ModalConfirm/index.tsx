@@ -5,7 +5,7 @@ interface Props {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ModalComfirm({ content, setShowModal }: Props) {
+export default function ModalConfirm({ content, setShowModal }: Props) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
