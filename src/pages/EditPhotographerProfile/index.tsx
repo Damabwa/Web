@@ -25,9 +25,10 @@ export default function EditPhotographerProfile() {
   const [isDuplicated, setIsDuplicated] = useState("");
 
   useEffect(() => {
+    if (!location.state) return;
     setUserInfo(location.state);
-    setMainPhotographyTypes(location.state.mainPhotographyTypes);
-    setActiveRegions(location.state.activeRegions);
+    setMainPhotographyTypes(location.state.mainPhotographyTypes ?? []);
+    setActiveRegions(location.state.activeRegions ?? []);
   }, []);
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export default function EditPhotographerProfile() {
     let value = e.target.value;
     value = value.replace(/^\s+/, "").replace(/\s+/g, " ");
 
-    if (location.state.nickname === value) setIsChangedName(false);
+    if (location.state?.nickname === value) setIsChangedName(false);
     setUserInfo({ ...userInfo, nickname: value });
 
     const nicknameRegex = /^[가-힣a-zA-Z0-9\s]+$/;
