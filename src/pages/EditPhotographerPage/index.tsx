@@ -37,6 +37,7 @@ export default function EditPhotographerPage() {
   const [showImageModal, setShowImageModal] = useState(false);
 
   useEffect(() => {
+    if (!location.state) return;
     setPortfolio(location.state.portfolio || []);
     setInstagramId(location.state.instagramId || "");
     setContactLink(location.state.contactLink || "");
