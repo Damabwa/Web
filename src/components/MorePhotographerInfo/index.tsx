@@ -28,7 +28,7 @@ export default function MorePhotographerInfo({ userInfo }: Props) {
       <div className="flex flex-col w-full gap-2 pl-4">
         <div>포트폴리오</div>
         <div className="flex w-full gap-2 overflow-x-scroll">
-          {userInfo.portfolio.map((image, index) => (
+          {userInfo.portfolio?.map((image, index) => (
             <div
               key={index}
               className={`${index === userInfo.portfolio.length - 1 && "mr-4"}`}
@@ -47,7 +47,7 @@ export default function MorePhotographerInfo({ userInfo }: Props) {
           ))}
         </div>
       </div>
-      {userInfo.address.roadAddress && (
+      {userInfo.address?.roadAddress && (
         <div className="flex flex-col gap-2 px-4">
           <div>상세 주소</div>
           <div className="text-sm font-medium text-black02">
@@ -58,7 +58,7 @@ export default function MorePhotographerInfo({ userInfo }: Props) {
       <div className="flex flex-col gap-2 px-4">
         <div>작가님 인사말</div>
         <div className="text-sm font-medium text-black02">
-          {userInfo.description.split("\n").map((item: string, index) => (
+          {userInfo.description?.split("\n").map((item: string, index) => (
             <div key={index} className="leading-6">
               {item}
               <br />
