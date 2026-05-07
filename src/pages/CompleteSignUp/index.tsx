@@ -17,6 +17,7 @@ export default function CompleteSignUp() {
   });
 
   useEffect(() => {
+    if (!location.state) return;
     setUserInfo(location.state);
   }, []);
 
