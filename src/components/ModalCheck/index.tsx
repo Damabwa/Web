@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useId, useRef } from "react";
 
 type Align = "start" | "center" | "end";
 
@@ -25,26 +25,45 @@ export default function ModalCheck({
   setShowModal,
   onClick,
 }: Props) {
+  const titleId = useId();
+  const descId = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
+    dialogRef.current?.focus();
     return () => {
       document.body.style.overflow = "auto";
     };
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowModal(false);
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [setShowModal]);
+
   return (
     <div className="z-30 fixed top-0 w-screen max-w-[430px] h-screen bg-black bg-opacity-40 flex items-center justify-center">
       <div
-        className={`flex flex-col w-[17.125rem] rounded-[1.25rem] bg-white ${alignClassMap[align]}`}
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        aria-describedby={descId}
+        tabIndex={-1}
+        className={`flex flex-col w-[17.125rem] rounded-[1.25rem] bg-white ${alignClassMap[align]} outline-none`}
       >
         <div className="flex flex-col gap-[0.44rem] p-6 pb-4 min-h-24 justify-center text-gray900 text-nowrap">
-          <div className="font-semibold">
+          <div id={titleId} className="font-semibold">
             {title.map((item) => (
               <div key={item}>{item}</div>
             ))}
           </div>
           {content && (
-            <div className="flex flex-col text-sm">
+            <div id={descId} className="flex flex-col text-sm">
               {content.map((item, index) => (
                 <div key={index}>{item}</div>
               ))}
@@ -52,13 +71,15 @@ export default function ModalCheck({
           )}
         </div>
         <div className="flex w-full text-sm font-medium border-t border-gray100 h-[2.875rem] text-center">
-          <div
+          <button
+            type="button"
             className="flex items-center justify-center w-1/2 border-r cursor-pointer text-gray900 border-gray100"
             onClick={() => setShowModal(false)}
           >
             취소
-          </div>
-          <div
+          </button>
+          <button
+            type="button"
             className="flex items-center justify-center w-1/2 cursor-pointer text-violet300"
             onClick={() => {
               onClick();
@@ -66,7 +87,7 @@ export default function ModalCheck({
             }}
           >
             {btnMsg}
-          </div>
+          </button>
         </div>
       </div>
     </div>
