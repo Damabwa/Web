@@ -16,6 +16,7 @@ export default function BottomInfo({ promotionData }: Props) {
               <img
                 className="object-cover w-10 h-10 rounded-full cursor-pointer"
                 src={promotionData.author.profileImage?.url}
+                alt={promotionData.author.nickname}
                 onClick={() =>
                   navigation(`/photographer/${promotionData.author.id}`)
                 }

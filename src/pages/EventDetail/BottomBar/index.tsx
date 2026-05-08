@@ -48,6 +48,7 @@ export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
         <img
           className="w-5 ml-[-0.725px]"
           src={isSavedPromotion ? icn_clip_on : icn_clip_off}
+          alt="저장"
         />
         <div className="w-5 text-center">{count}</div>
       </div>

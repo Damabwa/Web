@@ -64,7 +64,7 @@ export default function CompleteSignUp() {
   return (
     <div className="relative flex flex-col w-full min-h-screen py-4">
       <div className="w-full px-4 pb-7 h-fit">
-        <img className="w-28" src={logo_damaba} />
+        <img className="w-28" src={logo_damaba} alt="담아봐 로고" />
       </div>
       <div className="flex flex-col items-center justify-center flex-1 w-full gap-6">
         <div className="text-2xl font-bold">
