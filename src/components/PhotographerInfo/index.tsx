@@ -19,7 +19,7 @@ interface Props {
 }
 
 export default function PhotographerInfo({ isMypage, userInfo }: Props) {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const [count, setCount] = useState(0);
   const [isSavedPhotographer, setIsSavedPhotographer] = useState(false);
@@ -134,7 +134,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
           <button
             className="flex-1 h-10 text-sm font-medium text-white rounded-md outline-none bg-violet300"
             onClick={() =>
-              navigation(`/edit/photographer`, {
+              navigate(`/edit/photographer`, {
                 state: userInfo,
                 replace: true,
               })
@@ -145,7 +145,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
           <button
             className="flex-1 h-10 text-sm font-medium text-white rounded-md outline-none bg-violet300"
             onClick={() =>
-              navigation(`/edit/photographer/detail`, {
+              navigate(`/edit/photographer/detail`, {
                 state: userInfo,
                 replace: true,
               })

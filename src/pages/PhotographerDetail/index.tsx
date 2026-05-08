@@ -11,14 +11,14 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function PhotographerDetail() {
   const isMobile = isMobileDevice();
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [photographerData, setPhotographerData] = useState<any>();
 
   const { id } = useParams();
 
   useEffect(() => {
     if (!id || isNaN(Number(id))) {
-      navigation("/");
+      navigate("/");
       return;
     }
     const fetchPhotographerInfo = async () => {
@@ -30,7 +30,7 @@ export default function PhotographerDetail() {
       }
     };
     fetchPhotographerInfo();
-  }, [id, navigation]);
+  }, [id, navigate]);
 
   const handleCopyUrl = async () => {
     try {
@@ -48,7 +48,7 @@ export default function PhotographerDetail() {
         {isMobile && (
           <img
             className="absolute z-10 w-6 h-6 cursor-pointer top-3 left-4"
-            onClick={() => navigation(-1)}
+            onClick={() => navigate(-1)}
             src={icn_back}
             alt="뒤로가기"
           />

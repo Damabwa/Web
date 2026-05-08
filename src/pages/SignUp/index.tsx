@@ -11,7 +11,7 @@ import Terms from "./Terms";
 import MoreInfo from "./MoreInfo";
 
 export default function SignUp() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const setUser = useSetRecoilState(userState);
 
   const [step, setStep] = useState(0);
@@ -50,7 +50,7 @@ export default function SignUp() {
         id: res.id,
         roles: res.roles,
       });
-      navigation("/success/signup", { state: res, replace: true });
+      navigate("/success/signup", { state: res, replace: true });
     } catch (e) {
       console.log(e);
     }
@@ -71,7 +71,7 @@ export default function SignUp() {
         id: res.id,
         roles: res.roles,
       });
-      navigation("/success/signup", { state: res, replace: true });
+      navigate("/success/signup", { state: res, replace: true });
     } catch (e) {
       console.log(e);
     }

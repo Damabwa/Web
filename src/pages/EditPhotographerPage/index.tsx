@@ -17,7 +17,7 @@ declare global {
 }
 
 export default function EditPhotographerPage() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [portfolio, setPortfolio] = useState<any[]>([]);
@@ -90,7 +90,7 @@ export default function EditPhotographerPage() {
     } catch (e) {
       console.log(e);
     } finally {
-      navigation(`/mypage`, {
+      navigate(`/mypage`, {
         replace: true,
       });
     }

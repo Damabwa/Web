@@ -5,7 +5,7 @@ interface Props {
 }
 
 export default function BottomInfo({ promotionData }: Props) {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col px-4 py-6 bg-white">
       {promotionData.author &&
@@ -18,13 +18,13 @@ export default function BottomInfo({ promotionData }: Props) {
                 src={promotionData.author.profileImage?.url}
                 alt={promotionData.author.nickname}
                 onClick={() =>
-                  navigation(`/photographer/${promotionData.author.id}`)
+                  navigate(`/photographer/${promotionData.author.id}`)
                 }
               />
               <div
                 className="text-sm font-medium cursor-pointer"
                 onClick={() =>
-                  navigation(`/photographer/${promotionData.author.id}`)
+                  navigate(`/photographer/${promotionData.author.id}`)
                 }
               >
                 {promotionData.author.nickname}

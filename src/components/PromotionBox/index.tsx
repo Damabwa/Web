@@ -28,7 +28,7 @@ interface Props {
 }
 
 export default function PromotionBox({ data }: Props) {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [isClipped, setIsClipped] = useState(false);
   const [saveCount, setSaveCount] = useState(0);
   const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
@@ -60,7 +60,7 @@ export default function PromotionBox({ data }: Props) {
 
   const openDetailPage = () => {
     isMobileDevice()
-      ? navigation(`/event/${data.id}`)
+      ? navigate(`/event/${data.id}`)
       : window.open(`/event/${data.id}`);
   };
 

@@ -9,7 +9,7 @@ import FilterBar from "../../components/FilterBar";
 import ListNotFound from "../../components/ListNotFound";
 
 export default function PhotographersHome() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { photographers } = usePhotographerList(searchParams.toString());
@@ -29,7 +29,7 @@ export default function PhotographersHome() {
               alt="<"
               src={icn_back}
               onClick={() => {
-                navigation(`/`);
+                navigate(`/`);
               }}
             />
           }
@@ -38,7 +38,7 @@ export default function PhotographersHome() {
               className="px-4 cursor-pointer"
               src={icn_search}
               alt="검색"
-              onClick={() => navigation(`/search`)}
+              onClick={() => navigate(`/search`)}
             />
           }
         />

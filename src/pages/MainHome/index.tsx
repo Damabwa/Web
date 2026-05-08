@@ -13,7 +13,7 @@ import EventBox from "./EventBox";
 import PhotographerBox from "./PhotographerBox";
 
 function MainHome() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
   const { showLoginModal, requireLogin, loginModalProps } = useLoginGuard();
 
@@ -45,7 +45,7 @@ function MainHome() {
   }, []);
 
   const handleMyPageClick = () => {
-    requireLogin(() => navigation(`/mypage`));
+    requireLogin(() => navigate(`/mypage`));
   };
 
   return (
@@ -56,14 +56,14 @@ function MainHome() {
           left={
             <img
               className="w-[4.75rem] cursor-pointer ml-4"
-              onClick={() => navigation(`/`)}
+              onClick={() => navigate(`/`)}
               src={logo_header}
               alt="담아봐"
             />
           }
           right={
             <div className="flex items-center gap-2">
-              <img src={icn_search} alt="검색" onClick={() => navigation(`/search`)} />
+              <img src={icn_search} alt="검색" onClick={() => navigate(`/search`)} />
               <img
                 className="mr-4"
                 src={icn_mypage}
@@ -92,7 +92,7 @@ function MainHome() {
           btnMsg="회원가입/로그인"
           align="start"
           setShowModal={setIsLoginPopupOpen}
-          onClick={() => navigation(`/login`)}
+          onClick={() => navigate(`/login`)}
         />
       )}
       {showLoginModal && <ModalCheck {...loginModalProps} />}

@@ -11,7 +11,7 @@ import InputIDBox from "../../components/InputIDBox";
 import ButtonActive from "../../components/ButtonActive";
 
 export default function EditUserProfile() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -113,7 +113,7 @@ export default function EditUserProfile() {
     } catch (e) {
       console.log(e);
     } finally {
-      navigation(`/mypage`, { replace: true });
+      navigate(`/mypage`, { replace: true });
     }
   };
 

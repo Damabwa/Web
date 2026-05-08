@@ -5,7 +5,7 @@ import { isMobileDevice } from "../../../utils/device";
 import icn_next from "../../../assets/svgs/icn_next.svg";
 
 export default function PhotographerBox() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const { photographers } = usePhotographerList("page=0&pageSize=4");
 
@@ -16,7 +16,7 @@ export default function PhotographerBox() {
 
   const openDetailPage = (id: string) => {
     isMobileDevice()
-      ? navigation(`/photographer/${id}`)
+      ? navigate(`/photographer/${id}`)
       : window.open(`/photographer/${id}`);
   };
 
@@ -24,7 +24,7 @@ export default function PhotographerBox() {
     <div className="flex flex-col pt-5 pb-10">
       <div
         className="flex flex-col px-4 pb-5 cursor-pointer"
-        onClick={() => navigation("/photographers")}
+        onClick={() => navigate("/photographers")}
       >
         <span className="text-lg font-bold">작가님을 만나봐!</span>
         <div className="flex items-center justify-between text-sm">

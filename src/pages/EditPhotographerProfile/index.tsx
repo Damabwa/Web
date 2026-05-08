@@ -10,7 +10,7 @@ import ButtonActive from "../../components/ButtonActive";
 import InputButtonBox from "../../components/InputButtonBox";
 
 export default function EditPhotographerProfile() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [userInfo, setUserInfo] = useState<any>();
@@ -84,7 +84,7 @@ export default function EditPhotographerProfile() {
     } catch (e) {
       console.log(e);
     } finally {
-      navigation(`/mypage`, { replace: true });
+      navigate(`/mypage`, { replace: true });
     }
   };
 
