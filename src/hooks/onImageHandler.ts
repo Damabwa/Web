@@ -7,7 +7,7 @@ export const onImageHandler = async (file: File, fileType: string) => {
     useWebWorker: true,
   };
 
-  const uploadFile = async (file: any) => {
+  const uploadFile = async (file: File | Blob) => {
     const formData = new FormData();
     formData.append("fileType", fileType);
     formData.append("files", file);
@@ -20,7 +20,7 @@ export const onImageHandler = async (file: File, fileType: string) => {
     return null;
   };
 
-  const compressFile = async (file: any) => {
+  const compressFile = async (file: File) => {
     try {
       const res = await imageCompression(file, options);
       return res;
