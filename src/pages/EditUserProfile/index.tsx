@@ -180,10 +180,10 @@ export default function EditUserProfile() {
             {isDuplicated === "" ? (
               <div className="text-xs text-red">
                 {!isValidName &&
-                  userInfo.ninkname &&
+                  userInfo.nickname &&
                   userInfo.nickname.length > 0 &&
                   "한글, 영어, 숫자 조합 2-7자만 가능해요."}
-                {userInfo.ninkname &&
+                {userInfo.nickname &&
                   userInfo.nickname.length === 0 &&
                   "닉네임을 입력해주세요."}
               </div>
