@@ -1,10 +1,4 @@
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-
-import { userState } from "../../atom/atom";
-import { getUserInfo } from "../../api/user";
-import { postPromotion, putPromotion } from "../../api/promotion";
+import { useState } from "react";
 import InputBox from "../../components/InputBox";
 import SubHeader from "../../components/SubHeader";
 import GetImagesBox from "../../components/GetImagesBox";
@@ -16,117 +10,36 @@ import ModalConfirm from "../../components/ModalConfirm";
 import EventType from "./EventType";
 import Keywords from "./Keywords";
 import EventPeriod from "./EventPeriod";
+import { useEventForm } from "./useEventForm";
 
 export default function NewEvent() {
-  const navigation = useNavigate();
-  const location = useLocation();
-
-  const [tradename, setTradename] = useState("");
-  const [title, setTitle] = useState("");
-  const [photographyTypes, setPhotographyTypes] = useState<string[]>([]);
-  const [activeRegions, setActiveRegions] = useState<string[]>([]);
-  const [promotionType, setPromotionType] = useState("");
-  const [startedAt, setStartedAt] = useState("");
-  const [endedAt, setEndedAt] = useState("");
-  const [externalLink, setExternalLink] = useState("");
-  const [images, setImages] = useState<string[]>([]);
-  const [hashtags, setHashtags] = useState<string[]>([]);
-  const [content, setContent] = useState("");
-  const [isValid, setIsValid] = useState(false);
-  const isAuthorHidden = useRecoilValue(userState).roles.includes("ADMIN");
   const [showKeywordModal, setShowKeywordModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const res = await getUserInfo();
-        setTradename(res.nickname);
-      } catch (e: any) {
-        console.log(e);
-      }
-    };
-    fetchUserInfo();
-    if (location.state) {
-      setTradename(location.state.author.nickname);
-      setTitle(location.state.title);
-      setPhotographyTypes(location.state.photographyTypes);
-      setActiveRegions(location.state.activeRegions);
-      setPromotionType(location.state.promotionType);
-      setStartedAt(location.state.startedAt);
-      setEndedAt(location.state.endedAt);
-      setExternalLink(location.state.externalLink);
-      setImages(location.state.images);
-      setHashtags(location.state.hashtags);
-      setContent(location.state.content);
-    }
-    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    setIsValid(
-      title.length >= 3 &&
-        photographyTypes.length > 0 &&
-        activeRegions.length > 0 &&
-        promotionType.length > 0 &&
-        externalLink.length > 0 &&
-        images.length > 0 &&
-        hashtags.length > 0 &&
-        content.length > 0 &&
-        startedAt.length > 0 &&
-        endedAt.length > 0
-    );
-  }, [
+  const { formData, formSetters, formHandlers, isValid } = useEventForm();
+  const {
+    tradename,
     title,
     photographyTypes,
     activeRegions,
     promotionType,
+    startedAt,
+    endedAt,
     externalLink,
     images,
     hashtags,
     content,
-    startedAt,
-    endedAt,
-  ]);
-
-  const handleTitleInput = (e: any) => {
-    if (e.target.value.length <= 30) setTitle(e.target.value);
-  };
-
-  const handleUrlInput = (e: any) => {
-    setExternalLink(e.target.value);
-  };
-
-  const onChangeDate = (type: string, date: any) => {
-    const formatted = date.format("YYYY-MM-DD");
-    type === "START" ? setStartedAt(formatted) : setEndedAt(formatted);
-  };
-  const onClickSubmit = async () => {
-    const body = {
-      promotionType,
-      title,
-      content,
-      externalLink,
-      startedAt,
-      endedAt,
-      photographyTypes,
-      images,
-      activeRegions,
-      hashtags,
-      isAuthorHidden
-    };
-    try {
-      if (location.state) {
-        await putPromotion(location.state.id, body);
-      } else {
-        await postPromotion(body);
-      }
-      navigation(`/events`, { replace: true });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  } = formData;
+  const {
+    setPhotographyTypes,
+    setActiveRegions,
+    setPromotionType,
+    setImages,
+    setHashtags,
+    setContent,
+  } = formSetters;
+  const { handleTitleInput, handleUrlInput, onChangeDate, onClickSubmit } =
+    formHandlers;
 
   return (
     <div className="flex flex-col min-h-screen">
