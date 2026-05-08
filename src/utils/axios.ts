@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from "axios";
 import { logout } from "../hooks/logout";
-import { tokenStore } from "./tokenStore";
 
 type HttpMethod = "get" | "post" | "put" | "delete";
 
@@ -19,7 +18,7 @@ const fetchWrap = async <T = unknown>({
 }: FetchWrapParams): Promise<T> => {
   const baseURL = process.env.REACT_APP_SERVER_URL ?? "";
   const headers = auth
-    ? { Authorization: `Bearer ${tokenStore.getAccessToken()}` }
+    ? { Authorization: `Bearer ${localStorage.getItem("accessToken")}` }
     : {};
   const config = { headers };
 

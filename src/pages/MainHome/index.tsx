@@ -11,8 +11,6 @@ import icn_search from "../../assets/svgs/icn_search_white.svg";
 import BannerBox from "./BannerBox";
 import EventBox from "./EventBox";
 import PhotographerBox from "./PhotographerBox";
-import { tokenStore } from "../../utils/tokenStore";
-
 function MainHome() {
   const navigation = useNavigate();
   const [showLoginPopup, setShowLoginPopup] = useState(false);
@@ -21,7 +19,7 @@ function MainHome() {
   useEffect(() => {
     const showLoginPopupFunc = () => {
       if (
-        !tokenStore.getAccessToken() &&
+        !localStorage.getItem("accessToken") &&
         !sessionStorage.getItem("hasVisited")
       ) {
         setShowLoginPopup(true);
@@ -36,7 +34,7 @@ function MainHome() {
 
     const getUserInfoFunc = async () => {
       if (showLoginPopupFunc()) return;
-      else if (tokenStore.getAccessToken()) {
+      else if (localStorage.getItem("accessToken")) {
         try {
           await getUserInfo();
         } catch (e: any) {
@@ -50,7 +48,7 @@ function MainHome() {
   }, []);
 
   const onClickMyPage = () => {
-    if (!tokenStore.getAccessToken()) loginModalProps.setShowModal(true);
+    if (!localStorage.getItem("accessToken")) loginModalProps.setShowModal(true);
     else navigation(`/mypage`);
   };
 
