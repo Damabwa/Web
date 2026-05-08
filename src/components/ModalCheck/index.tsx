@@ -1,10 +1,18 @@
 import { useEffect } from "react";
 
+type Align = "start" | "center" | "end";
+
+const alignClassMap: Record<Align, string> = {
+  start: "text-start",
+  center: "text-center",
+  end: "text-end",
+};
+
 interface Props {
   title: string[];
   content: string[];
   btnMsg: string;
-  align: string;
+  align: Align;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   onClick: () => void;
 }
@@ -27,7 +35,7 @@ export default function ModalCheck({
   return (
     <div className="z-30 fixed top-0 w-screen max-w-[430px] h-screen bg-black bg-opacity-40 flex items-center justify-center">
       <div
-        className={`flex flex-col w-[17.125rem] rounded-[1.25rem] bg-white text-${align}`}
+        className={`flex flex-col w-[17.125rem] rounded-[1.25rem] bg-white ${alignClassMap[align]}`}
       >
         <div className="flex flex-col gap-[0.44rem] p-6 pb-4 min-h-24 justify-center text-gray900 text-nowrap">
           <div className="font-semibold">
