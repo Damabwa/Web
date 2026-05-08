@@ -1,5 +1,4 @@
 import { GET, PUT, POST, DELETE } from "../utils/axios";
-import { tokenStore } from "../utils/tokenStore";
 import {
   ModifyPhotographerProfileBody,
   PhotographerDetail,
@@ -18,7 +17,7 @@ export const checkPhotographerExistence = async (nickname: string) =>
 export const getPhotographerList = async (params: string) =>
   await GET<PaginatedResponse<PhotographerListItem>>(
     `/photographers/list?${params}`,
-    tokenStore.getAccessToken() ? true : false
+    localStorage.getItem("accessToken") ? true : false
   );
 
 export const getSavedPhotographerList = async () =>

@@ -1,12 +1,11 @@
 import { GET, PUT, POST, DELETE } from "../utils/axios";
-import { tokenStore } from "../utils/tokenStore";
 import { PromotionBody, PromotionDetail, PromotionListItem } from "../types/promotion";
 import { PaginatedResponse } from "../types/common";
 
 export const getPromotionList = async (params: string) =>
   await GET<PaginatedResponse<PromotionListItem>>(
     `/promotions/list?${params}`,
-    tokenStore.getAccessToken() ? true : false
+    localStorage.getItem("accessToken") ? true : false
   );
 
 export const getSavedPromotionList = async () =>
@@ -15,7 +14,7 @@ export const getSavedPromotionList = async () =>
 export const getPromotionDetail = async (promotionId: number) =>
   await GET<PromotionDetail>(
     `/promotions/${promotionId}/details`,
-    tokenStore.getAccessToken() ? true : false
+    localStorage.getItem("accessToken") ? true : false
   );
 
 export const getPromotion = async (promotionId: number) =>
