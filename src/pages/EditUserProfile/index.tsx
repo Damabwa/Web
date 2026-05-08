@@ -25,10 +25,12 @@ export default function EditUserProfile() {
 
   useEffect(() => {
     setUserInfo(location.state);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     checkValidFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo, isDuplicated]);
 
   const handleImageClick = () => {
@@ -140,15 +142,17 @@ export default function EditUserProfile() {
               <img
                 className="object-cover w-24 h-24 border rounded-full border-darkgray border-opacity-30"
                 src={userInfo.profileImage.url}
+                alt="프로필 이미지"
               />
             ) : (
               <img
                 className="w-24 h-24 border border-white rounded-full"
                 src={icn_profile}
+                alt="기본 프로필"
               />
             )}
             <div className="absolute bottom-0 right-0 p-1 border-2 border-white rounded-full bg-darkgray w-fit">
-              <img src={icn_camera} />
+              <img src={icn_camera} alt="사진 변경" />
             </div>
           </div>
         </div>

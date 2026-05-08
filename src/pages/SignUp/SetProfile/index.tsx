@@ -27,6 +27,7 @@ export default function SetProfile({
 
   useEffect(() => {
     checkValidFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nickname, isDuplicated, gender]);
 
   const handleNameInput = (e: any) => {
@@ -97,7 +98,7 @@ export default function SetProfile({
   return (
     <div className="flex flex-col w-full ">
       <div className="w-full pb-7 h-fit">
-        <img className="w-28" src={logo_damaba} />
+        <img className="w-28" src={logo_damaba} alt="담아봐 로고" />
       </div>
       <div className="w-full pb-8 text-xl font-bold">
         회원 정보를 입력해주세요

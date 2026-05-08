@@ -120,6 +120,7 @@ export default function PromotionBox({ data }: Props) {
               <img
                 className="object-cover min-w-full min-h-full"
                 src={image.url}
+                alt="이벤트 이미지"
               />
             </div>
           </div>
@@ -130,11 +131,11 @@ export default function PromotionBox({ data }: Props) {
         onClick={() => openDetailPage()}
       >
         <div className="flex items-center gap-1">
-          <img src={icn_time} />
+          <img src={icn_time} alt="" />
           <span>{getDDay()}</span>
         </div>
         <div className="flex items-center gap-1">
-          <img src={icn_location} />
+          <img src={icn_location} alt="" />
           {data.activeRegions.map((region: any, index) => (
             <div key={index} className="gap-[0.62rem]">
               <span>{`${region.category} ${region.name}`}</span>

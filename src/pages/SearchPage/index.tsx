@@ -15,6 +15,7 @@ export default function SearchPage() {
   useEffect(() => {
     if (!searchKeyword) return;
     getListFunc(searchKeyword);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   const onSubmit = (input: string) => {

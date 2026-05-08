@@ -16,6 +16,7 @@ export default function Photographers({ data, searchKeyword }: Props) {
 
   useEffect(() => {
     getPhotographerListFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, searchKeyword]);
 
   const getPhotographerListFunc = async () => {

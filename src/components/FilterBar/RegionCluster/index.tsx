@@ -38,11 +38,11 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
 
   const handleAddRegion = (category: string, item: string) => {
     const fullname =
-      category == item ? `${category} 전체` : `${category} ${item}`;
+      category === item ? `${category} 전체` : `${category} ${item}`;
     if (locs.includes(fullname)) setLocs(locs.filter((l) => l !== fullname));
     else {
       if (locs.length >= maxNum) return;
-      else if (category == item) setLocs([...locs, `${category} 전체`]);
+      else if (category === item) setLocs([...locs, `${category} 전체`]);
       else setLocs([...locs, fullname]);
     }
   };
@@ -87,6 +87,7 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
               <img
                 className="cursor-pointer"
                 src={icn_close}
+                alt="삭제"
                 onClick={() => setLocs(locs.filter((l) => l !== item))}
               />
             </div>

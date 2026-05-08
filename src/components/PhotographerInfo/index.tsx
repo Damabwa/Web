@@ -56,6 +56,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
         <img
           className="w-[6.5rem] h-[6.5rem] object-cover border-2 rounded-xl border-lineRegular bg-white"
           src={userInfo.profileImage.url}
+          alt="프로필 이미지"
         />
         {!isMypage && (
           <div
@@ -65,6 +66,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
             <img
               className="w-5 ml-[-0.725px]"
               src={isSavedPhotographer ? icn_clip_on : icn_clip_off}
+              alt="저장"
             />
             <div className="w-5 text-center">{count}</div>
           </div>
@@ -91,7 +93,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
       </div>
       <div className="flex flex-col gap-2 pb-1 -ml-1 text-sm font-medium text-black02">
         <div className="flex items-center gap-1">
-          <img className="w-6" src={icn_loc} />
+          <img className="w-6" src={icn_loc} alt="위치" />
           <div className="flex w-full gap-1">
             {userInfo.activeRegions.map((loc: any, index: number) => (
               <div className="flex gap-1" key={index}>
@@ -106,7 +108,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
         </div>
         {userInfo.instagramId && (
           <div className="flex items-center gap-1">
-            <img className="p-[0.35rem]" src={icn_insta} />
+            <img className="p-[0.35rem]" src={icn_insta} alt="인스타그램" />
             <div
               className="cursor-pointer text-[#0068C3]"
               onClick={() =>
@@ -119,7 +121,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
         )}
         {userInfo.contactLink && (
           <div className="flex items-center gap-1">
-            <img className="" src={icn_web} />
+            <img className="" src={icn_web} alt="웹사이트" />
             <div
               className="cursor-pointer text-[#0068C3]"
               onClick={() => window.open(`${userInfo.contactLink}`)}

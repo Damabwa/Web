@@ -34,6 +34,7 @@ export default function BannerBox() {
             <img
               className={`${item.url && "cursor-pointer"} object-cover w-full h-full`}
               src={item.img}
+              alt="배너"
               onClick={() => item.url && navigation(item.url)}
             />
           </SwiperSlide>

@@ -41,7 +41,7 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
     const newSearchParams = new URLSearchParams();
 
     Object.entries(filters).forEach(([key, value]: any) => {
-      if (!value || value == "ALL" || value.length == 0)
+      if (!value || value === "ALL" || value.length === 0)
         newSearchParams.delete(key);
       else newSearchParams.set(key, value);
     });
@@ -70,7 +70,7 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
           className="flex items-center justify-center mr-1 outline-none min-w-9 h-9 bg-gray100 rounded-3xl"
           onClick={() => handleResetFIlter()}
         >
-          <img className="p-[0.37rem]" src={icn_reset} />
+          <img className="p-[0.37rem]" src={icn_reset} alt="필터 초기화" />
         </button>
         {isEvent && (
           <div className="flex gap-2">
@@ -86,7 +86,7 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
               setOff={() => handleFilterChange("type", "")}
               title="할인"
             />
-            <img src={icn_line} />
+            <img src={icn_line} alt="" />
           </div>
         )}
         <BtnChip

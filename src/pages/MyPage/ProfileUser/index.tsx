@@ -17,6 +17,7 @@ export default function ProfileUser({ userInfo }: Props) {
             src={
               userInfo.profileImage ? userInfo.profileImage.url : img_profile
             }
+            alt="프로필 이미지"
           />
         </div>
         <div className="flex flex-col gap-[0.12rem]">

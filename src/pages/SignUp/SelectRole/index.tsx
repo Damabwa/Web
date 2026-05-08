@@ -23,7 +23,7 @@ export default function SelectRole({ setRoleFunc }: Props) {
           className={`mb-5 w-full cursor-pointer rounded-[0.63rem] flex items-center py-7 px-2 ${role === "USER" ? "bg-violet300" : "bg-gray50"}`}
           onClick={() => setRole("USER")}
         >
-          <img src={role === "USER" ? icn_user_on : icn_user_off} />
+          <img src={role === "USER" ? icn_user_on : icn_user_off} alt="일반 회원" />
           <div className="flex flex-col gap-[1px]">
             <div
               className={`text-lg font-bold ${role === "USER" ? "text-white" : "text-black02"}`}
@@ -47,6 +47,7 @@ export default function SelectRole({ setRoleFunc }: Props) {
                 ? icn_photographer_on
                 : icn_photographer_off
             }
+            alt="작가"
           />
           <div className="flex flex-col gap-[1px]">
             <div

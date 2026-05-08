@@ -48,6 +48,7 @@ export default function ImageBox({ images, promotionType }: Props) {
           className="absolute z-10 w-6 h-6 cursor-pointer top-3 left-4"
           onClick={() => navigation(-1)}
           src={icn_back}
+          alt="뒤로가기"
         />
       )}
       <div
@@ -61,7 +62,7 @@ export default function ImageBox({ images, promotionType }: Props) {
               className="relative flex-shrink-0 w-full slide-item snap-center"
               data-index={index}
             >
-              <img src={image.url} className="object-cover min-w-full h-96 " />
+              <img src={image.url} alt="이벤트 이미지" className="object-cover min-w-full h-96 " />
               <div
                 className="absolute top-0 left-0 w-full pointer-events-none h-28"
                 style={{

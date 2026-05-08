@@ -24,6 +24,7 @@ export default function MoreInfo({
 
   useEffect(() => {
     checkValidFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo, mainPhotographyTypes, locs]);
 
   const checkValidFunc = () => {
@@ -48,7 +49,7 @@ export default function MoreInfo({
   return (
     <div className="flex flex-col w-full">
       <div className="w-full pb-7 h-fit">
-        <img className="w-28" src={logo_damaba} />
+        <img className="w-28" src={logo_damaba} alt="담아봐 로고" />
       </div>
       <div className="w-full pb-5 text-xl font-bold">
         작가 정보를 입력해주세요

@@ -17,6 +17,7 @@ export default function PhotographersHome() {
 
   useEffect(() => {
     getPhotographerListFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const getPhotographerListFunc = async () => {
@@ -53,6 +54,7 @@ export default function PhotographersHome() {
             <img
               className="px-4 cursor-pointer"
               src={icn_search}
+              alt="검색"
               onClick={() => navigation(`/search`)}
             />
           }

@@ -41,6 +41,7 @@ export default function MorePhotographerInfo({ userInfo }: Props) {
                     setShowEnlargedImg(true);
                   }}
                   src={image.url}
+                  alt="포트폴리오"
                 />
               </div>
             </div>

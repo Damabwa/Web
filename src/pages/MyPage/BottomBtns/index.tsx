@@ -28,7 +28,7 @@ export default function BottomBtns() {
         <div className="pl-2 cursor-pointer" onClick={() => window.open(url)}>
           문의하기
         </div>
-        <img className="cursor-pointer" src={icn_next} />
+        <img className="cursor-pointer" src={icn_next} alt=">" />
       </div>
       <div className="flex items-center justify-between h-12 px-4 ">
         <div
@@ -41,6 +41,7 @@ export default function BottomBtns() {
           className="cursor-pointer"
           onClick={() => setShowLogoutModal(true)}
           src={icn_next}
+          alt=">"
         />
       </div>
       <div className="flex items-center justify-between h-12 px-4 ">
@@ -54,6 +55,7 @@ export default function BottomBtns() {
           className="cursor-pointer"
           onClick={() => setShowWithdrawalModal(true)}
           src={icn_next}
+          alt=">"
         />
       </div>
       {showLogoutModal && (
