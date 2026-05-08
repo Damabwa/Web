@@ -42,7 +42,7 @@ export function useEventForm() {
       try {
         const res = await getUserInfo();
         setTradename(res.nickname);
-      } catch (e: any) {
+      } catch (e) {
         console.log(e);
       }
     };

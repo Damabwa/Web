@@ -38,7 +38,7 @@ export default function MyPage() {
         const photographers = await getSavedPhotographerList();
         setSavedPromotions(promotions.items);
         setSavedPhotographers(photographers.items);
-      } catch (e: any) {
+      } catch (e) {
         console.log(e);
       }
     };

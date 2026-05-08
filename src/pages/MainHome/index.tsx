@@ -34,7 +34,7 @@ function MainHome() {
       else if (localStorage.getItem("accessToken")) {
         try {
           await getUserInfo();
-        } catch (e: any) {
+        } catch (e) {
         } finally {
           showLoginPopupFunc();
         }

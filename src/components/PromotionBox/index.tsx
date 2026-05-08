@@ -50,7 +50,7 @@ export default function PromotionBox({ data }: Props) {
       isClipped
         ? await deleteSavedPromotion(data.id)
         : await savePromotion(data.id);
-    } catch (e: any) {
+    } catch (e) {
       setIsClipped(false);
       setSaveCount(isClipped ? saveCount + 1 : saveCount - 1);
       setShowLoginModal(true);
