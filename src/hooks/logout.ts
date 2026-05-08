@@ -1,9 +1,9 @@
 import { setRecoil } from "recoil-nexus";
 import { userState } from "../atom/atom";
-import { tokenStore } from "../utils/tokenStore";
 
 export const logout = () => {
   setRecoil(userState, { id: -1, roles: [] });
-  tokenStore.clearAccessToken();
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
   if (window.location.pathname !== "/") window.location.href = "/";
 };
