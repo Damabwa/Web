@@ -32,7 +32,7 @@ export default function MoreInfo({
     else setIsValid(false);
   }, [userInfo, mainPhotographyTypes, locs]);
 
-  const onClickHandler = () => {
+  const handleNext = () => {
     setUserInfo({
       ...userInfo,
       mainPhotographyTypes,
@@ -61,7 +61,7 @@ export default function MoreInfo({
       <ButtonActive
         activation={isValid}
         onClick={() => {
-          if (isValid) onClickHandler();
+          if (isValid) handleNext();
         }}
         text="다음"
       />
