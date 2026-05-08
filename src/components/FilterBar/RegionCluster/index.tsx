@@ -4,7 +4,7 @@ import icn_close from "../../../assets/svgs/icn_closeRegion.svg";
 
 interface Props {
   locs: string[];
-  setLocs: (value: string[]) => void;
+  setLocs: React.Dispatch<React.SetStateAction<string[]>>;
   maxNum: number;
 }
 
