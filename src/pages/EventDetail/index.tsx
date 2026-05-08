@@ -12,6 +12,7 @@ export default function EventDetail() {
 
   useEffect(() => {
     getPromotionFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getPromotionFunc = async () => {

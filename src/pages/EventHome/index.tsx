@@ -21,6 +21,7 @@ function EventHome() {
 
   useEffect(() => {
     getPromotionListFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const getPromotionListFunc = async () => {
@@ -56,6 +57,7 @@ function EventHome() {
             <img
               className="px-4 cursor-pointer"
               src={icn_search}
+              alt="검색"
               onClick={() => navigation(`/search`)}
             />
           }
@@ -88,7 +90,7 @@ function EventHome() {
             className="outline-none absolute right-4 bottom-3 rounded-3xl bg-violet500 text-white px-4 py-[0.81rem] shadow-btn-shadow flex gap-[0.31rem] font-semibold text-[0.9375rem]"
             onClick={() => navigation(`/new/event`)}
           >
-            <img src={icn_pencil} />
+            <img src={icn_pencil} alt="" />
             <div>이벤트 게시</div>
           </button>
         </div>

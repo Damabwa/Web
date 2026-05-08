@@ -19,6 +19,7 @@ function MainHome() {
 
   useEffect(() => {
     getUserInfoFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getUserInfoFunc = async () => {
