@@ -34,7 +34,7 @@ export const onImageHandler = async (file: File, fileType: string) => {
 
   if (file.size >= 3 * 1024 * 1024) {
     const compressedFile = await compressFile(file);
-    if (compressedFile) image = await uploadFileFunc(compressedFile);
+    image = await uploadFileFunc(compressedFile ?? file);
   } else image = await uploadFileFunc(file);
 
   return image;
