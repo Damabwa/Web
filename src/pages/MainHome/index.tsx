@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../../api/user";
+import { useLoginGuard } from "../../hooks/useLoginGuard";
 import Header from "../../components/Header";
 import ModalCheck from "../../components/ModalCheck";
 import Bottom from "../../components/Bottom";
@@ -14,8 +15,8 @@ import { tokenStore } from "../../utils/tokenStore";
 
 function MainHome() {
   const navigation = useNavigate();
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const { showLoginModal, loginModalProps } = useLoginGuard();
 
   useEffect(() => {
     const showLoginPopupFunc = () => {
@@ -49,7 +50,7 @@ function MainHome() {
   }, []);
 
   const onClickMyPage = () => {
-    if (!tokenStore.getAccessToken()) setShowLoginModal(true);
+    if (!tokenStore.getAccessToken()) loginModalProps.setShowModal(true);
     else navigation(`/mypage`);
   };
 
@@ -100,19 +101,7 @@ function MainHome() {
           onClick={() => navigation(`/login`)}
         />
       )}
-      {showLoginModal && (
-        <ModalCheck
-          title={["로그인이 필요한 서비스입니다."]}
-          content={[
-            "이 기능은 로그인 후 이용하실 수 있습니다.",
-            "로그인 페이지로 이동하시겠습니까?",
-          ]}
-          btnMsg="로그인 하기"
-          align="start"
-          setShowModal={setShowLoginModal}
-          onClick={() => navigation(`/login`)}
-        />
-      )}
+      {showLoginModal && <ModalCheck {...loginModalProps} />}
     </div>
   );
 }

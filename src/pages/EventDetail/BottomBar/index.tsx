@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { savePromotion, deleteSavedPromotion } from "../../../api/promotion";
+import { useLoginGuard } from "../../../hooks/useLoginGuard";
 import icn_clip_off from "../../../assets/svgs/icn_clip.svg";
 import icn_clip_on from "../../../assets/svgs/icn_clipOn.svg";
 import ModalCheck from "../../../components/ModalCheck";
-import { tokenStore } from "../../../utils/tokenStore";
 
 interface Props {
   id: number;
@@ -14,16 +13,13 @@ interface Props {
 }
 
 export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
-  const navigation = useNavigate();
   const [count, setCount] = useState(saveCount);
   const [isSavedPromotion, setIsSavedPromotion] = useState(isSaved);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
+    useLoginGuard();
 
   const handleSave = () => {
-    if (!tokenStore.getAccessToken()) {
-      setShowLoginModal(true);
-      return;
-    } else savePromotionFunc();
+    requireLogin(() => savePromotionFunc());
   };
 
   const savePromotionFunc = async () => {
@@ -58,19 +54,7 @@ export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
       >
         신청하러 가기
       </div>
-      {showLoginModal && (
-        <ModalCheck
-          title={["로그인이 필요한 서비스입니다."]}
-          content={[
-            "이 기능은 로그인 후 이용하실 수 있습니다.",
-            "로그인 페이지로 이동하시겠습니까?",
-          ]}
-          btnMsg="로그인 하기"
-          align="start"
-          setShowModal={setShowLoginModal}
-          onClick={() => navigation(`/login`)}
-        />
-      )}
+      {showLoginModal && <ModalCheck {...loginModalProps} />}
     </div>
   );
 }

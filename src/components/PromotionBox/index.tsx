@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { savePromotion, deleteSavedPromotion } from "../../api/promotion";
+import { useLoginGuard } from "../../hooks/useLoginGuard";
+import { getDDayText } from "../../utils/date";
 import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
 import icn_time from "../../assets/svgs/icn_event_home_clock.svg";
 import icn_location from "../../assets/svgs/icn_event_home_location.svg";
 import ModalCheck from "../ModalCheck";
-import { tokenStore } from "../../utils/tokenStore";
 
 interface postData {
   id: number;
@@ -27,38 +28,17 @@ interface Props {
 export default function PromotionBox({ data }: Props) {
   const navigation = useNavigate();
   const [isClipped, setIsClipped] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [saveCount, setSaveCount] = useState(0);
+  const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
+    useLoginGuard();
 
   useEffect(() => {
     setIsClipped(data.isSaved);
     setSaveCount(data.saveCount);
   }, [data]);
 
-  const getDDay = () => {
-    const now = new Date();
-    const koreaTimeOffset = 9 * 60 * 60 * 1000;
-    const today = new Date(now.getTime() + koreaTimeOffset);
-
-    const targetDate = new Date(data.endedAt);
-
-    const diffTime = targetDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays < 0) {
-      return "마감된 이벤트";
-    } else if (diffDays === 0) {
-      return "오늘 마감되는 이벤트";
-    } else {
-      return `이벤트 마감까지 D-${diffDays}`;
-    }
-  };
-
   const onClickSave = () => {
-    if (!tokenStore.getAccessToken()) {
-      setShowLoginModal(true);
-      return;
-    } else savePromotionFunc(isClipped);
+    requireLogin(() => savePromotionFunc(isClipped));
   };
 
   const savePromotionFunc = async (isClipped: boolean) => {
@@ -132,7 +112,7 @@ export default function PromotionBox({ data }: Props) {
       >
         <div className="flex items-center gap-1">
           <img src={icn_time} alt="" />
-          <span>{getDDay()}</span>
+          <span>{getDDayText(data.endedAt)}</span>
         </div>
         <div className="flex items-center gap-1">
           <img src={icn_location} alt="" />
@@ -144,19 +124,7 @@ export default function PromotionBox({ data }: Props) {
           ))}
         </div>
       </div>
-      {showLoginModal && (
-        <ModalCheck
-          title={["로그인이 필요한 서비스입니다."]}
-          content={[
-            "이 기능은 로그인 후 이용하실 수 있습니다.",
-            "로그인 페이지로 이동하시겠습니까?",
-          ]}
-          btnMsg="로그인 하기"
-          align="start"
-          setShowModal={setShowLoginModal}
-          onClick={() => navigation(`/login`)}
-        />
-      )}
+      {showLoginModal && <ModalCheck {...loginModalProps} />}
     </div>
   );
 }
