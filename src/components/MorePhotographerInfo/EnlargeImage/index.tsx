@@ -84,22 +84,14 @@ export default function EnlargeImage({
       </div>
       <div className="relative">
         <div
-          className="flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory"
+          className="flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth"
           ref={containerRef}
-          style={{
-            scrollSnapType: "x mandatory",
-            scrollBehavior: "smooth",
-          }}
         >
           {images.map((image: any, index: number) => (
             <div
               key={image.url}
-              className="flex-shrink-0 w-full slide-item snap-center"
+              className="flex-shrink-0 w-full slide-item snap-center snap-always"
               data-index={index}
-              style={{
-                scrollSnapAlign: "center",
-                scrollSnapStop: "always",
-              }}
             >
               <img
                 src={image.url}
