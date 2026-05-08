@@ -70,7 +70,7 @@ export default function PhotographerBox({ data }: Props) {
               alt={data.profileImage.name}
               className="block object-cover min-w-full min-h-full"
             />
-            <div className="absolute bottom-0 left-0 w-full h-[40%] bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.25)] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-full h-[40%] bg-card-overlay pointer-events-none" />
           </div>
         </div>
         <div className="z-10 flex items-center justify-end p-2">

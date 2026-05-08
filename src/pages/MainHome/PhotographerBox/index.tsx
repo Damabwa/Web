@@ -1,30 +1,13 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getPhotographerList } from "../../../api/photographer";
+import { usePhotographerList } from "../../../hooks/usePhotographerList";
 import { getPhotoType } from "../../../hooks/getKorean";
+import { isMobileDevice } from "../../../utils/device";
 import icn_next from "../../../assets/svgs/icn_next.svg";
 
 export default function PhotographerBox() {
   const navigation = useNavigate();
 
-  const [photographers, setPhotographers] = useState<any>([]);
-
-  useEffect(() => {
-    getPhotographerListFunc();
-  }, []);
-
-  const getPhotographerListFunc = async () => {
-    try {
-      const res = await getPhotographerList("page=0&pageSize=4");
-      setPhotographers(res.items);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const navigatePhotographers = () => {
-    navigation("/photographers");
-  };
+  const { photographers } = usePhotographerList("page=0&pageSize=4");
 
   const handleTextLength = (name: string) => {
     if (name.length < 8) return name;
@@ -32,7 +15,7 @@ export default function PhotographerBox() {
   };
 
   const openDetailPage = (id: string) => {
-    sessionStorage.getItem("isMobile") === "true"
+    isMobileDevice()
       ? navigation(`/photographer/${id}`)
       : window.open(`/photographer/${id}`);
   };
@@ -41,7 +24,7 @@ export default function PhotographerBox() {
     <div className="flex flex-col pt-5 pb-10">
       <div
         className="flex flex-col px-4 pb-5 cursor-pointer"
-        onClick={() => navigatePhotographers()}
+        onClick={() => navigation("/photographers")}
       >
         <span className="text-lg font-bold">작가님을 만나봐!</span>
         <div className="flex items-center justify-between text-sm">
@@ -53,14 +36,14 @@ export default function PhotographerBox() {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-5 px-4">
-        {photographers.map((item: any) => (
+        {photographers.map((item) => (
           <div
             key={item.nickname}
             className="relative flex flex-col justify-end h-48 overflow-hidden text-white cursor-pointer bg-gray rounded-xl"
           >
             <div
               className="absolute top-0 left-0 z-0 w-full h-full"
-              onClick={() => openDetailPage(item.id)}
+              onClick={() => openDetailPage(String(item.id))}
             >
               <div className="relative inline-block w-full h-full overflow-hidden rounded-xl">
                 <img
@@ -68,7 +51,7 @@ export default function PhotographerBox() {
                   alt={item.profileImage.name}
                   className="block object-cover min-w-full min-h-full"
                 />
-                <div className="absolute bottom-0 left-0 w-full h-[40%] bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.25)] pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-full h-[40%] bg-card-overlay pointer-events-none" />
               </div>
             </div>
             <div className="z-10 p-3">

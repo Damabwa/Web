@@ -59,7 +59,7 @@ export default function EditPhotographerProfile() {
     );
   };
 
-  const checkExistenceFunc = async () => {
+  const checkExistence = async () => {
     if (!isValidName) return;
     let formatted = userInfo.nickname.replace(/\s+$/, "");
     try {
@@ -101,7 +101,7 @@ export default function EditPhotographerProfile() {
             description=""
             placeholder="상호명을 입력해주세요."
             onChange={handleNameInput}
-            onClick={() => checkExistenceFunc()}
+            onClick={() => checkExistence()}
             activation={
               isValidName && isChangedName && isDuplicated !== "false"
             }

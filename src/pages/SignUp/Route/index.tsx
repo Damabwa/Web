@@ -3,10 +3,10 @@ import logo_damaba from "../../../assets/imgs/logo_damaba.png";
 import ButtonActive from "../../../components/ButtonActive";
 
 interface Props {
-  setNextFunc: () => void;
+  onNext: () => void;
 }
 
-export default function Route({ setNextFunc }: Props) {
+export default function Route({ onNext }: Props) {
   const [isValid, setIsValid] = useState(false);
   const [btns, setBtns] = useState([
     {
@@ -75,7 +75,7 @@ export default function Route({ setNextFunc }: Props) {
         <ButtonActive
           activation={isValid}
           onClick={() => {
-            if (isValid) setNextFunc();
+            if (isValid) onNext();
           }}
           text="다음"
         />

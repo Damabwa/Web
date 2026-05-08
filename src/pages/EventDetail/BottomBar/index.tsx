@@ -19,10 +19,10 @@ export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
     useLoginGuard();
 
   const handleSave = () => {
-    requireLogin(() => savePromotionFunc());
+    requireLogin(() => toggleSavePromotion());
   };
 
-  const savePromotionFunc = async () => {
+  const toggleSavePromotion = async () => {
     setCount(isSavedPromotion ? count - 1 : count + 1);
     setIsSavedPromotion(!isSavedPromotion);
     try {

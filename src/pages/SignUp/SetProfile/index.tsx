@@ -10,12 +10,12 @@ import ButtonActive from "../../../components/ButtonActive";
 interface Props {
   userInfo: any;
   setUserInfo: React.Dispatch<React.SetStateAction<any>>;
-  setNextFunc: () => void;
+  onNext: () => void;
 }
 
 export default function SetProfile({
   userInfo,
-  setNextFunc,
+  onNext,
   setUserInfo,
 }: Props) {
   const [isValid, setIsValid] = useState(false);
@@ -62,7 +62,7 @@ export default function SetProfile({
     setInstagramId(value);
   };
 
-  const checkExistenceFunc = async () => {
+  const checkExistence = async () => {
     if (!isValidName) return;
     try {
       if (userInfo.role === "USER") {
@@ -87,7 +87,7 @@ export default function SetProfile({
       gender,
       instagramId: instagramId.length > 0 ? instagramId : null,
     });
-    setNextFunc();
+    onNext();
   };
 
   return (
@@ -106,7 +106,7 @@ export default function SetProfile({
             description=""
             placeholder={`${userInfo.role === "USER" ? "닉네임" : "상호/활동명"}을 입력해주세요.`}
             onChange={handleNameInput}
-            onClick={() => checkExistenceFunc()}
+            onClick={() => checkExistence()}
             activation={isValidName && isDuplicated !== "false"}
             buttonTitle="중복 확인"
             bottomText={`${userInfo.role === "USER" ? "한글, 영어, 숫자 조합 2-7자" : "한글, 영어, 숫자, 공백 조합 18자 이내"}`}

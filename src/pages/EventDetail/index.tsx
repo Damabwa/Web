@@ -16,7 +16,7 @@ export default function EventDetail() {
       navigation("/");
       return;
     }
-    const getPromotionFunc = async () => {
+    const fetchPromotion = async () => {
       try {
         const res = await getPromotionDetail(Number(id));
         setPromotionData(res);
@@ -24,7 +24,7 @@ export default function EventDetail() {
         console.log(e);
       }
     };
-    getPromotionFunc();
+    fetchPromotion();
   }, [id, navigation]);
 
   if (!promotionData) return <></>;

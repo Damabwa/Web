@@ -95,7 +95,7 @@ export default function EditUserProfile() {
     setUserInfo({ ...userInfo, instagramId: value });
   };
 
-  const checkExistenceFunc = async () => {
+  const checkExistence = async () => {
     if (!isValidName) return;
     try {
       const res = await checkUserExistence(userInfo.nickname);
@@ -168,7 +168,7 @@ export default function EditUserProfile() {
               description=""
               placeholder="닉네임을 입력해주세요."
               onChange={handleNameInput}
-              onClick={() => checkExistenceFunc()}
+              onClick={() => checkExistence()}
               activation={
                 isValidName && isChangedName && isDuplicated !== "false"
               }
