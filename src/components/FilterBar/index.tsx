@@ -49,7 +49,7 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
     setSearchParams(newSearchParams);
   }, [filters, setSearchParams]);
 
-  const handleResetFIlter = () => {
+  const handleResetFilter = () => {
     setIsModifiedOrder(false);
     setIsModifiedState(false);
     setIsModifiedRegion(false);
@@ -67,7 +67,7 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
       <div className="flex items-center gap-2 min-w-full h-[3.75rem] p-3 text-sm font-medium whitespace-nowrap overflow-x-scroll">
         <button
           className="flex items-center justify-center mr-1 outline-none min-w-9 h-9 bg-gray100 rounded-3xl"
-          onClick={() => handleResetFIlter()}
+          onClick={() => handleResetFilter()}
         >
           <img className="p-[0.37rem]" src={icn_reset} alt="필터 초기화" />
         </button>
