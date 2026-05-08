@@ -35,11 +35,11 @@ export default function PhotographerBox({ data }: Props) {
     return `${data.nickname.slice(0, 8)}...`;
   };
 
-  const onClickPhotographer = () => {
+  const handlePhotographerClick = () => {
     window.open(`/photographer/${data.id}`);
   };
 
-  const onClickSave = () => {
+  const handleSave = () => {
     requireLogin(() => toggleSavePhotographer(isClipped));
   };
 
@@ -62,7 +62,7 @@ export default function PhotographerBox({ data }: Props) {
       <div className="relative flex flex-col justify-between w-full text-white cursor-pointer h-44 bg-gray rounded-xl">
         <div
           className="absolute top-0 left-0 z-0 w-full h-full"
-          onClick={() => onClickPhotographer()}
+          onClick={() => handlePhotographerClick()}
         >
           <div className="relative inline-block w-full h-full overflow-hidden rounded-xl">
             <img
@@ -78,11 +78,11 @@ export default function PhotographerBox({ data }: Props) {
             <img
               alt="clip"
               src={isClipped ? icn_clipOn : icn_clipOff}
-              onClick={() => onClickSave()}
+              onClick={() => handleSave()}
             />
           </div>
         </div>
-        <div className="z-10 p-3" onClick={() => onClickPhotographer()}>
+        <div className="z-10 p-3" onClick={() => handlePhotographerClick()}>
           <div className="font-semibold">{handleTextLength()}</div>
           <div className="flex items-center gap-1 text-xs">
             {data.mainPhotographyTypes.map((type, index) => (

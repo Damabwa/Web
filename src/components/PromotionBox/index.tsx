@@ -38,7 +38,7 @@ export default function PromotionBox({ data }: Props) {
     setSaveCount(data.saveCount);
   }, [data]);
 
-  const onClickSave = () => {
+  const handleSave = () => {
     requireLogin(() => toggleSavePromotion(isClipped));
   };
 
@@ -87,7 +87,7 @@ export default function PromotionBox({ data }: Props) {
           <img
             alt="clip"
             src={isClipped ? icn_clipOn : icn_clipOff}
-            onClick={() => onClickSave()}
+            onClick={() => handleSave()}
           />
         </div>
       </div>
