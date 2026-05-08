@@ -8,7 +8,7 @@ import ButtonActive from "../../components/ButtonActive";
 
 export default function CompleteSignUp() {
   const location = useLocation();
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const user = useRecoilValue(userState);
   const role = user.roles.includes("PHOTOGRAPHER") ? "PHOTOGRAPHER" : "USER";
 
@@ -81,7 +81,7 @@ export default function CompleteSignUp() {
           <button
             className="mb-3 text-sm border-b text-black02 border-black02"
             onClick={() =>
-              navigation(`/edit/photographer/detail`, {
+              navigate(`/edit/photographer/detail`, {
                 state: userInfo,
                 replace: true,
               })
@@ -92,7 +92,7 @@ export default function CompleteSignUp() {
         )}
         <ButtonActive
           activation={true}
-          onClick={() => navigation("/")}
+          onClick={() => navigate("/")}
           text="홈으로 이동하기"
         />
       </div>

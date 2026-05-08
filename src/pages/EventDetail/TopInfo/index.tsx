@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function TopInfo({ promotionData }: Props) {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [showHandler, setShowHandler] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const user = useRecoilValue(userState);
@@ -30,12 +30,12 @@ export default function TopInfo({ promotionData }: Props) {
     } catch (e) {
       console.log(e);
     } finally {
-      navigation("/events");
+      navigate("/events");
     }
   };
 
   const modifyHandler = () => {
-    navigation(`/new/event`, { state: promotionData });
+    navigate(`/new/event`, { state: promotionData });
   };
 
   const handleCopyUrl = async () => {
