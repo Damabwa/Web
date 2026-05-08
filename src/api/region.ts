@@ -1,4 +1,4 @@
-import { GET, PUT, POST, DELETE } from "../utils/axios";
+import { GET } from "../utils/axios";
 
 export const getRegionList = async () => await GET(`/regions/groups`, true);
 

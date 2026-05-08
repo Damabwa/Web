@@ -19,7 +19,7 @@ export default function CompleteSignUp() {
   useEffect(() => {
     if (!location.state) return;
     setUserInfo(location.state);
-  }, []);
+  }, [location.state]);
 
   const getPhotographerName = (name: string) => {
     if (name.length > 10) return `${name.slice(0, 10)}... `;
@@ -72,7 +72,7 @@ export default function CompleteSignUp() {
           {role === "PHOTOGRAPHER" && " 작가"}님,
           {userInfo.nickname.length > 10 && <br />} 환영합니다!
         </div>
-        <img src={img_complete} />
+        <img src={img_complete} alt="가입 완료" />
         {getMessage(role === "USER")}
       </div>
       <div className="flex-grow" />
