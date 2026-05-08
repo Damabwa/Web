@@ -1,5 +1,17 @@
 import { GET } from "../utils/axios";
 
-export const getRegionList = async () => await GET(`/regions/groups`, true);
+interface RegionGroup {
+  category: string;
+  regions: string[];
+}
 
-export const getRegionCluster = async () => await GET(`/region-clusters`, true);
+interface RegionCluster {
+  category: string;
+  clusters: string[];
+}
+
+export const getRegionList = async () =>
+  await GET<{ regionGroups: RegionGroup[] }>(`/regions/groups`, true);
+
+export const getRegionCluster = async () =>
+  await GET<{ regionClusters: RegionCluster[] }>(`/region-clusters`, true);

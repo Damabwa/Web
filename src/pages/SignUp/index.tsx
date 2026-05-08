@@ -43,7 +43,7 @@ export default function SignUp() {
     try {
       const res = await userRegistration({
         nickname: userInfo.nickname,
-        gender: userInfo.gender,
+        gender: userInfo.gender as "MALE" | "FEMALE",
         instagramId: userInfo.instagramId,
       });
       setUser({
@@ -61,7 +61,7 @@ export default function SignUp() {
     try {
       const res = await photographerRegistration({
         nickname: userInfo.nickname,
-        gender: userInfo.gender,
+        gender: userInfo.gender as "MALE" | "FEMALE",
         instagramId: userInfo.instagramId,
         profileImage: userInfo.profileImage,
         mainPhotographyTypes: userInfo.mainPhotographyTypes,
