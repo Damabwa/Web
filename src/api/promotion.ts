@@ -1,31 +1,33 @@
 import { GET, PUT, POST, DELETE } from "../utils/axios";
 import { tokenStore } from "../utils/tokenStore";
+import { PromotionBody, PromotionDetail, PromotionListItem } from "../types/promotion";
+import { PaginatedResponse } from "../types/common";
 
 export const getPromotionList = async (params: string) =>
-  await GET(
+  await GET<PaginatedResponse<PromotionListItem>>(
     `/promotions/list?${params}`,
     tokenStore.getAccessToken() ? true : false
   );
 
 export const getSavedPromotionList = async () =>
-  await GET(`/promotions/saved`, true);
+  await GET<PaginatedResponse<PromotionListItem>>(`/promotions/saved`, true);
 
 export const getPromotionDetail = async (promotionId: number) =>
-  await GET(
+  await GET<PromotionDetail>(
     `/promotions/${promotionId}/details`,
     tokenStore.getAccessToken() ? true : false
   );
 
 export const getPromotion = async (promotionId: number) =>
-  await GET(`/promotions/${promotionId}`);
+  await GET<PromotionDetail>(`/promotions/${promotionId}`);
 
-export const postPromotion = async (body: any) =>
+export const postPromotion = async (body: PromotionBody) =>
   await POST(`/promotions`, body, true);
 
 export const savePromotion = async (promotionId: number) =>
   await POST(`/promotions/${promotionId}/save`, {}, true);
 
-export const putPromotion = async (promotionId: number, body: any) =>
+export const putPromotion = async (promotionId: number, body: PromotionBody) =>
   await PUT(`/promotions/${promotionId}`, body, true);
 
 export const deleteSavedPromotion = async (promotionId: number) =>

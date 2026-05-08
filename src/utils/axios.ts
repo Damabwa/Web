@@ -11,13 +11,12 @@ interface FetchWrapParams {
   auth: boolean;
 }
 
-const fetchWrap = async ({
+const fetchWrap = async <T = unknown>({
   method,
   url,
   body,
   auth,
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-}: FetchWrapParams): Promise<any> => {
+}: FetchWrapParams): Promise<T> => {
   const baseURL = process.env.REACT_APP_SERVER_URL ?? "";
   const headers = auth
     ? { Authorization: `Bearer ${tokenStore.getAccessToken()}` }
@@ -25,20 +24,20 @@ const fetchWrap = async ({
   const config = { headers };
 
   try {
-    let response: AxiosResponse;
+    let response: AxiosResponse<T>;
 
     switch (method) {
       case "get":
-        response = await axios.get(baseURL + url, config);
+        response = await axios.get<T>(baseURL + url, config);
         break;
       case "post":
-        response = await axios.post(baseURL + url, body, config);
+        response = await axios.post<T>(baseURL + url, body, config);
         break;
       case "put":
-        response = await axios.put(baseURL + url, body, config);
+        response = await axios.put<T>(baseURL + url, body, config);
         break;
       case "delete":
-        response = await axios.delete(baseURL + url, config);
+        response = await axios.delete<T>(baseURL + url, config);
         break;
     }
 
@@ -51,14 +50,14 @@ const fetchWrap = async ({
   }
 };
 
-export const GET = (url: string, auth = false) =>
-  fetchWrap({ method: "get", url, auth });
+export const GET = <T = unknown>(url: string, auth = false) =>
+  fetchWrap<T>({ method: "get", url, auth });
 
-export const POST = (url: string, body: unknown, auth = false) =>
-  fetchWrap({ method: "post", url, body, auth });
+export const POST = <T = unknown>(url: string, body: unknown, auth = false) =>
+  fetchWrap<T>({ method: "post", url, body, auth });
 
-export const PUT = (url: string, body: unknown, auth = false) =>
-  fetchWrap({ method: "put", url, body, auth });
+export const PUT = <T = unknown>(url: string, body: unknown, auth = false) =>
+  fetchWrap<T>({ method: "put", url, body, auth });
 
-export const DELETE = (url: string, auth = false) =>
-  fetchWrap({ method: "delete", url, auth });
+export const DELETE = <T = unknown>(url: string, auth = false) =>
+  fetchWrap<T>({ method: "delete", url, auth });
