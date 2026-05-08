@@ -5,13 +5,13 @@ import {
   savePhotographer,
 } from "../../api/photographer";
 import { getPhotoType } from "../../hooks/getKorean";
+import { useLoginGuard } from "../../hooks/useLoginGuard";
 import icn_clip_off from "../../assets/svgs/icn_clip.svg";
 import icn_clip_on from "../../assets/svgs/icn_clipOn.svg";
 import icn_web from "../../assets/svgs/icn_web.svg";
 import icn_loc from "../../assets/svgs/icn_location.svg";
 import icn_insta from "../../assets/svgs/icn_instagram.svg";
 import ModalCheck from "../ModalCheck";
-import { tokenStore } from "../../utils/tokenStore";
 
 interface Props {
   isMypage: boolean;
@@ -23,7 +23,8 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
 
   const [count, setCount] = useState(0);
   const [isSavedPhotographer, setIsSavedPhotographer] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
+    useLoginGuard();
 
   useEffect(() => {
     setCount(userInfo.saveCount);
@@ -31,13 +32,10 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
   }, [userInfo]);
 
   const handleSave = () => {
-    if (!tokenStore.getAccessToken()) {
-      setShowLoginModal(true);
-      return;
-    } else savePromotionFunc();
+    requireLogin(() => savePhotographerFunc());
   };
 
-  const savePromotionFunc = async () => {
+  const savePhotographerFunc = async () => {
     setCount(isSavedPhotographer ? count - 1 : count + 1);
     setIsSavedPhotographer(!isSavedPhotographer);
     try {
@@ -158,19 +156,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
         </div>
       )}
       <div className="-mx-4">
-        {showLoginModal && (
-          <ModalCheck
-            title={["로그인이 필요한 서비스입니다."]}
-            content={[
-              "이 기능은 로그인 후 이용하실 수 있습니다.",
-              "로그인 페이지로 이동하시겠습니까?",
-            ]}
-            btnMsg="로그인 하기"
-            align="start"
-            setShowModal={setShowLoginModal}
-            onClick={() => navigation(`/login`)}
-          />
-        )}
+        {showLoginModal && <ModalCheck {...loginModalProps} />}
       </div>
     </div>
   );
