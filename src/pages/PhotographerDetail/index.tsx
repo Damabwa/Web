@@ -16,6 +16,10 @@ export default function PhotographerDetail() {
   const { id } = useParams();
 
   useEffect(() => {
+    if (!id || isNaN(Number(id))) {
+      navigation("/");
+      return;
+    }
     const getPhotographerInfoFunc = async () => {
       try {
         const res = await getPhotographerInfo(Number(id));
@@ -25,7 +29,7 @@ export default function PhotographerDetail() {
       }
     };
     getPhotographerInfoFunc();
-  }, [id]);
+  }, [id, navigation]);
 
   const handleCopyUrl = async () => {
     try {
