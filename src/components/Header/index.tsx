@@ -1,7 +1,7 @@
 interface Props {
-  main: any;
-  left: any;
-  right: any;
+  main: React.ReactNode;
+  left: React.ReactNode;
+  right: React.ReactNode;
 }
 
 export default function Header({ main, left, right }: Props) {

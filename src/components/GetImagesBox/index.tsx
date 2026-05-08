@@ -48,7 +48,7 @@ export default function GetImagesBox({
       return;
     }
     setLoading(true);
-    const newImages: string[] = [];
+    const newImages: any[] = [];
 
     for (let i = 0; i < files.length; i++) {
       const image = await onImageHandler(files[i], fileType);
