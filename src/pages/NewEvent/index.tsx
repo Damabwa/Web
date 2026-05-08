@@ -47,8 +47,6 @@ export default function NewEvent() {
       }
     };
     fetchUserInfo();
-    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     if (location.state) {
       setTradename(location.state.author.nickname);
       setTitle(location.state.title);
@@ -62,6 +60,8 @@ export default function NewEvent() {
       setHashtags(location.state.hashtags);
       setContent(location.state.content);
     }
+    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

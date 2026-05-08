@@ -24,9 +24,9 @@ export default function EditUserProfile() {
   const [isDuplicated, setIsDuplicated] = useState("");
 
   useEffect(() => {
+    setUserInfo(location.state);
     // 마운트 시 location.state에서 수정할 초기값을 1회 설정
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    setUserInfo(location.state);
   }, []);
 
   useEffect(() => {

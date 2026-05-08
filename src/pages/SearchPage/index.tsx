@@ -14,23 +14,22 @@ export default function SearchPage() {
 
   useEffect(() => {
     if (!searchKeyword || state !== "OVERVIEW") return;
-    getListFunc(searchKeyword);
+    const fetchList = async () => {
+      try {
+        const res1 = await getPromotionList(`searchKeyword=${searchKeyword}`);
+        const res2 = await getPhotographerList(`searchKeyword=${searchKeyword}`);
+        setPromotionList(res1.items);
+        setPhotographerList(res2.items);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchList();
   }, [state, searchKeyword]);
 
   const onSubmit = (input: string) => {
     if (!input) return;
     setSearchKeyword(input);
-  };
-
-  const getListFunc = async (input: string) => {
-    try {
-      const res1 = await getPromotionList(`searchKeyword=${input}`);
-      const res2 = await getPhotographerList(`searchKeyword=${input}`);
-      setPromotionList(res1.items);
-      setPhotographerList(res2.items);
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   return (

@@ -37,13 +37,13 @@ export default function EditPhotographerPage() {
 
   useEffect(() => {
     if (!location.state) return;
-    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     setPortfolio(location.state.portfolio || []);
     setInstagramId(location.state.instagramId || "");
     setContactLink(location.state.contactLink || "");
     setDescription(location.state.description || "");
     if (location.state.address) setAddress(location.state.address);
+    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -58,6 +58,8 @@ export default function Auth() {
         }
       })
       .catch((err) => console.log(err));
+    // navigate, setUser는 stable reference (useNavigate, useSetRecoilState 보장)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <></>;

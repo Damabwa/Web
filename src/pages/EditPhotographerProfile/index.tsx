@@ -26,11 +26,11 @@ export default function EditPhotographerProfile() {
 
   useEffect(() => {
     if (!location.state) return;
-    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     setUserInfo(location.state);
     setMainPhotographyTypes(location.state.mainPhotographyTypes ?? []);
     setActiveRegions(location.state.activeRegions ?? []);
+    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
