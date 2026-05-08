@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePromotionList } from "../../../hooks/usePromotionList";
 import { getPhotoType } from "../../../hooks/getKorean";
+import { isMobileDevice } from "../../../utils/device";
 import { getDDayText } from "../../../utils/date";
 import icn_next from "../../../assets/svgs/icn_next.svg";
 import icn_camera from "../../../assets/svgs/icn_camera.svg";
@@ -22,7 +23,7 @@ export default function EventBox() {
   );
 
   const openDetailPage = (id: string) => {
-    sessionStorage.getItem("isMobile") === "true"
+    isMobileDevice()
       ? navigation(`/event/${id}`)
       : window.open(`/event/${id}`);
   };

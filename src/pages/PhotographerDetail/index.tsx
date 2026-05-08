@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { isMobileDevice } from "../../utils/device";
 import { toast, ToastContainer } from "react-toastify";
 import { getPhotographerInfo } from "../../api/photographer";
 import icn_share from "../../assets/svgs/icn_share.svg";
@@ -9,7 +10,7 @@ import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function PhotographerDetail() {
-  const isMobile = sessionStorage.getItem("isMobile") === "true";
+  const isMobile = isMobileDevice();
   const navigation = useNavigate();
   const [photographerData, setPhotographerData] = useState<any>();
 
