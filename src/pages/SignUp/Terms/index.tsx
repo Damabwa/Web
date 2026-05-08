@@ -6,11 +6,11 @@ import icn_check_off from "../../../assets/svgs/btn_signup_check_off.svg";
 import ButtonActive from "../../../components/ButtonActive";
 
 interface Props {
-  setNextFunc: () => void;
+  onNext: () => void;
   role: string;
 }
 
-export default function Terms({ setNextFunc, role }: Props) {
+export default function Terms({ onNext, role }: Props) {
   const [isValid, setIsValid] = useState(false);
   const [allCheck, setAllCheck] = useState(false);
   const [termsList, setTermsList] = useState([
@@ -118,7 +118,7 @@ export default function Terms({ setNextFunc, role }: Props) {
         <ButtonActive
           activation={isValid}
           onClick={() => {
-            if (isValid) setNextFunc();
+            if (isValid) onNext();
           }}
           text="다음"
         />

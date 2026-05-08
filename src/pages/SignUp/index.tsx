@@ -25,20 +25,20 @@ export default function SignUp() {
     activeRegions: [],
   });
 
-  const setRoleFunc = (selectedRole: string) => {
+  const handleRoleSelect = (selectedRole: string) => {
     setUserInfo({ ...userInfo, role: selectedRole });
     setStep(step + 1);
   };
 
-  const setNextFunc = () => {
+  const goToNextStep = () => {
     setStep(step + 1);
   };
 
-  const signUpFunc = () => {
-    userInfo.role === "USER" ? userSignUpFunc() : photographerSignUpFunc();
+  const handleSignUp = () => {
+    userInfo.role === "USER" ? submitUserSignUp() : submitPhotographerSignUp();
   };
 
-  const userSignUpFunc = async () => {
+  const submitUserSignUp = async () => {
     if (userInfo.role === "PHOTOGRAPHER") return;
     try {
       const res = await userRegistration({
@@ -56,7 +56,7 @@ export default function SignUp() {
     }
   };
 
-  const photographerSignUpFunc = async () => {
+  const submitPhotographerSignUp = async () => {
     if (userInfo.role === "USER") return;
     try {
       const res = await photographerRegistration({
@@ -80,28 +80,28 @@ export default function SignUp() {
   return (
     <div className="flex flex-col w-full h-full min-h-screen p-4">
       <div className="relative flex flex-1 w-full h-full">
-        {step === 0 && <SelectRole setRoleFunc={setRoleFunc} />}
+        {step === 0 && <SelectRole onRoleSelect={handleRoleSelect} />}
         {step === 1 && (
           <SetProfile
             userInfo={userInfo}
             setUserInfo={setUserInfo}
-            setNextFunc={setNextFunc}
+            onNext={goToNextStep}
           />
         )}
         {step === 2 && userInfo.role === "PHOTOGRAPHER" && (
           <MoreInfo
             userInfo={userInfo}
             setUserInfo={setUserInfo}
-            onClickFunc={setNextFunc}
+            onNext={goToNextStep}
           />
         )}
         {((step === 2 && userInfo.role === "USER") ||
           (step === 3 && userInfo.role === "PHOTOGRAPHER")) && (
-          <Terms setNextFunc={setNextFunc} role={userInfo.role} />
+          <Terms onNext={goToNextStep} role={userInfo.role} />
         )}
         {((step === 3 && userInfo.role === "USER") ||
           (step === 4 && userInfo.role === "PHOTOGRAPHER")) && (
-          <Route setNextFunc={signUpFunc} />
+          <Route onNext={handleSignUp} />
         )}
       </div>
     </div>

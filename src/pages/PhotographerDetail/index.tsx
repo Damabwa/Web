@@ -20,7 +20,7 @@ export default function PhotographerDetail() {
       navigation("/");
       return;
     }
-    const getPhotographerInfoFunc = async () => {
+    const fetchPhotographerInfo = async () => {
       try {
         const res = await getPhotographerInfo(Number(id));
         setPhotographerData(res);
@@ -28,7 +28,7 @@ export default function PhotographerDetail() {
         console.log(e);
       }
     };
-    getPhotographerInfoFunc();
+    fetchPhotographerInfo();
   }, [id, navigation]);
 
   const handleCopyUrl = async () => {
