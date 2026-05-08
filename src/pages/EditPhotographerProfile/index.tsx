@@ -29,13 +29,19 @@ export default function EditPhotographerProfile() {
     setUserInfo(location.state);
     setMainPhotographyTypes(location.state.mainPhotographyTypes ?? []);
     setActiveRegions(location.state.activeRegions ?? []);
+    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    checkValidFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDuplicated, userInfo]);
+    if (
+      isDuplicated !== "true" &&
+      mainPhotographyTypes.length > 0 &&
+      activeRegions.length > 0
+    )
+      setIsValid(true);
+    else setIsValid(false);
+  }, [isDuplicated, userInfo, mainPhotographyTypes, activeRegions]);
 
   const handleNameInput = (e: any) => {
     setIsDuplicated("");
@@ -51,16 +57,6 @@ export default function EditPhotographerProfile() {
     setIsValidName(
       value.length > 1 && value.length <= 18 && nicknameRegex.test(value)
     );
-  };
-
-  const checkValidFunc = () => {
-    if (
-      isDuplicated !== "true" &&
-      mainPhotographyTypes.length > 0 &&
-      activeRegions.length > 0
-    )
-      setIsValid(true);
-    else setIsValid(false);
   };
 
   const checkExistenceFunc = async () => {

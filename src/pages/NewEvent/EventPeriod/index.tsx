@@ -27,8 +27,7 @@ export default function EventPeriod({
       setStartDate(dayjs(startedAt));
       setEndDate(dayjs(endedAt));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startedAt, endedAt]);
+  }, [startedAt, endedAt, startDate, endDate]);
 
   const onChange = (type: string, date: any) => {
     if (type === "START") {

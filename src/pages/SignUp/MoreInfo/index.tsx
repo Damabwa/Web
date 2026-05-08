@@ -23,11 +23,6 @@ export default function MoreInfo({
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    checkValidFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo, mainPhotographyTypes, locs]);
-
-  const checkValidFunc = () => {
     if (
       userInfo.profileImage.url &&
       mainPhotographyTypes.length > 0 &&
@@ -35,7 +30,7 @@ export default function MoreInfo({
     )
       setIsValid(true);
     else setIsValid(false);
-  };
+  }, [userInfo, mainPhotographyTypes, locs]);
 
   const onClickHandler = () => {
     setUserInfo({

@@ -69,8 +69,7 @@ export default function Terms({ setNextFunc, role }: Props) {
         if (item.isRequired) setIsValid(false);
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [termsList]);
+  }, [termsList, role]);
 
   return (
     <div className="flex flex-col w-full">

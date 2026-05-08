@@ -11,18 +11,16 @@ export default function EventDetail() {
   const [promotionData, setPromotionData] = useState<any>();
 
   useEffect(() => {
+    const getPromotionFunc = async () => {
+      try {
+        const res = await getPromotionDetail(Number(id));
+        setPromotionData(res);
+      } catch (e) {
+        console.log(e);
+      }
+    };
     getPromotionFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getPromotionFunc = async () => {
-    try {
-      const res = await getPromotionDetail(Number(id));
-      setPromotionData(res);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  }, [id]);
 
   if (!promotionData) return <></>;
   return (

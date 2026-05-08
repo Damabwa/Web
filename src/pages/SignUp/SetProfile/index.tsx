@@ -26,8 +26,8 @@ export default function SetProfile({
   const [instagramId, setInstagramId] = useState("");
 
   useEffect(() => {
-    checkValidFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (isDuplicated === "false" && gender !== "") setIsValid(true);
+    else setIsValid(false);
   }, [nickname, isDuplicated, gender]);
 
   const handleNameInput = (e: any) => {
@@ -77,11 +77,6 @@ export default function SetProfile({
     } catch (e) {
       console.log(e);
     }
-  };
-
-  const checkValidFunc = () => {
-    if (isDuplicated === "false" && gender !== "") setIsValid(true);
-    else setIsValid(false);
   };
 
   const handleNextBtn = () => {

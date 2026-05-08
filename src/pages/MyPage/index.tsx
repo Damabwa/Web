@@ -26,25 +26,23 @@ export default function MyPage() {
   const role = user.roles.includes("PHOTOGRAPHER") ? "PHOTOGRAPHER" : "USER";
 
   useEffect(() => {
+    const getUserInfoFunc = async () => {
+      try {
+        const res =
+          role === "USER"
+            ? await getUserInfo()
+            : await getPhotographerInfo(user.id);
+        setUserInfo(res);
+        const promotions = await getSavedPromotionList();
+        const photographers = await getSavedPhotographerList();
+        setSavedPromotions(promotions.items);
+        setSavedPhotographer(photographers.items);
+      } catch (e: any) {
+        console.log(e);
+      }
+    };
     getUserInfoFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getUserInfoFunc = async () => {
-    try {
-      const res =
-        role === "USER"
-          ? await getUserInfo()
-          : await getPhotographerInfo(user.id);
-      setUserInfo(res);
-      const promotions = await getSavedPromotionList();
-      const photographers = await getSavedPhotographerList();
-      setSavedPromotions(promotions.items);
-      setSavedPhotographer(photographers.items);
-    } catch (e: any) {
-      console.log(e);
-    }
-  };
+  }, [role, user.id]);
 
   if (!userInfo) return <></>;
   return (

@@ -16,19 +16,17 @@ export default function PhotographersHome() {
   const [photographerList, setPhotographertList] = useState<any>([]);
 
   useEffect(() => {
-    getPhotographerListFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetchPhotographerList = async () => {
+      const params = searchParams.toString();
+      try {
+        const res = await getPhotographerList(params);
+        setPhotographertList(res.items);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchPhotographerList();
   }, [searchParams]);
-
-  const getPhotographerListFunc = async () => {
-    const params = searchParams.toString();
-    try {
-      const res = await getPhotographerList(params);
-      setPhotographertList(res.items);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   if (!photographerList) return <></>;
   return (
