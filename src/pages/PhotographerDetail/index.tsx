@@ -17,6 +17,7 @@ export default function PhotographerDetail() {
 
   useEffect(() => {
     getPhotographerInfoFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getPhotographerInfoFunc = async () => {

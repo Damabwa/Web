@@ -24,7 +24,7 @@ export default function Keywords({
       return;
     }
     let hasSame = false;
-    keywords.map((k) => {
+    keywords.forEach((k) => {
       if (k === item) hasSame = true;
     });
     if (hasSame) return;
@@ -71,7 +71,7 @@ export default function Keywords({
             className="flex items-center text-sm font-medium bg-violet400 bg-opacity-15 rounded-2xl pl-[0.69rem] py-1 pr-1 w-fit"
           >
             <div>#{item}</div>
-            <img src={icn_delete} onClick={() => deleteKeyword(item)} />
+            <img src={icn_delete} alt="삭제" onClick={() => deleteKeyword(item)} />
           </div>
         ))}
       </div>
