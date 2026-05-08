@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { isMobileDevice } from "../../../utils/device";
 import icn_back from "../../../assets/svgs/icn_back_white.svg";
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 }
 
 export default function ImageBox({ images, promotionType }: Props) {
-  const isMobile = sessionStorage.getItem("isMobile") === "true";
+  const isMobile = isMobileDevice();
   const containerRef = useRef<HTMLDivElement>(null);
   const navigation = useNavigate();
 
