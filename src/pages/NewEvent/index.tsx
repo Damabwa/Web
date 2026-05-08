@@ -116,16 +116,15 @@ export default function NewEvent() {
       hashtags,
       isAuthorHidden
     };
-    if (location.state) {
-      await putPromotion(location.state.id, body);
-    } else {
-      await postPromotion(body);
-    }
     try {
+      if (location.state) {
+        await putPromotion(location.state.id, body);
+      } else {
+        await postPromotion(body);
+      }
+      navigation(`/events`, { replace: true });
     } catch (e) {
       console.log(e);
-    } finally {
-      navigation(`/events`, { replace: true });
     }
   };
 
