@@ -6,10 +6,10 @@ import icn_photographer_off from "../../../assets/svgs/icn_onboarding_photograph
 import ButtonActive from "../../../components/ButtonActive";
 
 interface Props {
-  setRoleFunc: (name: string) => void;
+  onRoleSelect: (name: string) => void;
 }
 
-export default function SelectRole({ setRoleFunc }: Props) {
+export default function SelectRole({ onRoleSelect }: Props) {
   const [role, setRole] = useState("");
 
   return (
@@ -67,7 +67,7 @@ export default function SelectRole({ setRoleFunc }: Props) {
       <div className="absolute bottom-0 w-full">
         <ButtonActive
           activation={role !== ""}
-          onClick={() => setRoleFunc(role)}
+          onClick={() => onRoleSelect(role)}
           text="다음"
         />
       </div>

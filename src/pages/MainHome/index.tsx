@@ -11,18 +11,19 @@ import icn_search from "../../assets/svgs/icn_search_white.svg";
 import BannerBox from "./BannerBox";
 import EventBox from "./EventBox";
 import PhotographerBox from "./PhotographerBox";
+
 function MainHome() {
   const navigation = useNavigate();
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
   const { showLoginModal, loginModalProps } = useLoginGuard();
 
   useEffect(() => {
-    const showLoginPopupFunc = () => {
+    const checkAndShowLoginPopup = () => {
       if (
         !localStorage.getItem("accessToken") &&
         !sessionStorage.getItem("hasVisited")
       ) {
-        setShowLoginPopup(true);
+        setIsLoginPopupOpen(true);
         sessionStorage.setItem("hasVisited", "true");
         const isMobile =
           window.matchMedia("(max-width: 768px)").matches ||
@@ -32,22 +33,22 @@ function MainHome() {
       }
     };
 
-    const getUserInfoFunc = async () => {
-      if (showLoginPopupFunc()) return;
+    const fetchUserInfo = async () => {
+      if (checkAndShowLoginPopup()) return;
       else if (localStorage.getItem("accessToken")) {
         try {
           await getUserInfo();
         } catch (e: any) {
         } finally {
-          showLoginPopupFunc();
+          checkAndShowLoginPopup();
         }
       }
     };
 
-    getUserInfoFunc();
+    fetchUserInfo();
   }, []);
 
-  const onClickMyPage = () => {
+  const handleMyPageClick = () => {
     if (!localStorage.getItem("accessToken")) loginModalProps.setShowModal(true);
     else navigation(`/mypage`);
   };
@@ -72,7 +73,7 @@ function MainHome() {
                 className="mr-4"
                 src={icn_mypage}
                 alt="마이페이지"
-                onClick={() => onClickMyPage()}
+                onClick={() => handleMyPageClick()}
               />
             </div>
           }
@@ -86,7 +87,7 @@ function MainHome() {
       </div>
       <PhotographerBox />
       <Bottom />
-      {showLoginPopup && (
+      {isLoginPopupOpen && (
         <ModalCheck
           title={[
             "우측 상단 [마이페이지] 버튼을 통해",
@@ -95,7 +96,7 @@ function MainHome() {
           content={[]}
           btnMsg="회원가입/로그인"
           align="start"
-          setShowModal={setShowLoginPopup}
+          setShowModal={setIsLoginPopupOpen}
           onClick={() => navigation(`/login`)}
         />
       )}

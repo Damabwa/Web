@@ -18,7 +18,7 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
   const [regions, setRegions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const getRegionFunc = async () => {
+  const fetchRegion = async () => {
     try {
       const res = await getRegionList();
       setLocList(
@@ -35,7 +35,7 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
   };
 
   useEffect(() => {
-    getRegionFunc();
+    fetchRegion();
   }, []);
 
   useEffect(() => {

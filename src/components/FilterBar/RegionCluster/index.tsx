@@ -4,7 +4,7 @@ import icn_close from "../../../assets/svgs/icn_closeRegion.svg";
 
 interface Props {
   locs: string[];
-  setLocs: (value: string[]) => void;
+  setLocs: React.Dispatch<React.SetStateAction<string[]>>;
   maxNum: number;
 }
 
@@ -18,7 +18,7 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
   const [clusters, setClusters] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const getRegionFunc = async () => {
+  const fetchRegion = async () => {
     try {
       const res = await getRegionCluster();
       setLocList(res.regionClusters);
@@ -28,7 +28,7 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
   };
 
   useEffect(() => {
-    getRegionFunc();
+    fetchRegion();
   }, []);
 
   useEffect(() => {

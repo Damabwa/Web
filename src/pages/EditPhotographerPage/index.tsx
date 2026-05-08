@@ -33,7 +33,7 @@ export default function EditPhotographerPage() {
 
   const [isValid, setIsValid] = useState(false);
 
-  const [showImageModal, setShowImageModal] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   useEffect(() => {
     if (!location.state) return;
@@ -78,7 +78,7 @@ export default function EditPhotographerPage() {
     setInstagramId(value);
   };
 
-  const putPhotographerPageFunc = async () => {
+  const submitPhotographerPage = async () => {
     try {
       await putPhotographerPage({
         portfolio,
@@ -115,7 +115,7 @@ export default function EditPhotographerPage() {
             images={portfolio}
             fileType="PHOTOGRAPHER_PORTFOLIO_IMAGE"
             setImages={setPortfolio}
-            setShowModal={setShowImageModal}
+            setShowModal={setIsImageModalOpen}
           />
         </div>
         <div className="flex flex-col gap-8 px-4 mb-9">
@@ -161,15 +161,15 @@ export default function EditPhotographerPage() {
         <ButtonActive
           activation={isValid}
           onClick={() => {
-            if (isValid) putPhotographerPageFunc();
+            if (isValid) submitPhotographerPage();
           }}
           text="등록"
         />
       </div>
-      {showImageModal && (
+      {isImageModalOpen && (
         <ModalConfirm
           content={["포트폴리오 이미지는", "최대 10장까지 첨부할 수 있어요"]}
-          setShowModal={setShowImageModal}
+          setShowModal={setIsImageModalOpen}
         />
       )}
     </div>
