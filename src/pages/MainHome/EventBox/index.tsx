@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getPromotionList } from "../../../api/promotion";
 import { getPhotoType } from "../../../hooks/getKorean";
+import { getDDayText } from "../../../utils/date";
 import icn_next from "../../../assets/svgs/icn_next.svg";
 import icn_camera from "../../../assets/svgs/icn_camera.svg";
 import icn_clock from "../../../assets/svgs/icn_clock.svg";
@@ -33,27 +34,6 @@ export default function EventBox() {
     }
   };
 
-  const getDDay = (startedAt: string, endedAt: string) => {
-    const now = new Date();
-    const koreaTimeOffset = 9 * 60 * 60 * 1000;
-    const today = new Date(now.getTime() + koreaTimeOffset);
-
-    const startDate = new Date(startedAt).getTime() - today.getTime();
-    const endDate = new Date(endedAt);
-
-    const diffTime = endDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays < 0) {
-      return "마감된 이벤트";
-    } else if (diffDays === 0) {
-      return "오늘 마감되는 이벤트";
-    } else if (startDate > 0) {
-      return "진행 전";
-    } else {
-      return `마감까지 D-${diffDays}`;
-    }
-  };
 
   const navigateEvent = () => {
     navigation("/events");
@@ -117,7 +97,7 @@ export default function EventBox() {
                 <div className="flex items-center justify-center w-4 h-4">
                   <img src={icn_clock} alt="" />
                 </div>
-                {getDDay(item.startedAt, item.endedAt)}
+                {getDDayText(item.endedAt, item.startedAt)}
               </div>
             </div>
           </div>

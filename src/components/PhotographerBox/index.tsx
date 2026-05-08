@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   savePhotographer,
   deleteSavedPhotographer,
 } from "../../api/photographer";
 import { getPhotoType } from "../../hooks/getKorean";
-import { tokenStore } from "../../utils/tokenStore";
+import { useLoginGuard } from "../../hooks/useLoginGuard";
 import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
 import ModalCheck from "../ModalCheck";
@@ -23,9 +22,9 @@ interface Props {
 }
 
 export default function PhotographerBox({ data }: Props) {
-  const navigation = useNavigate();
   const [isClipped, setIsClipped] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
+    useLoginGuard();
 
   useEffect(() => {
     setIsClipped(data.isSaved);
@@ -41,10 +40,7 @@ export default function PhotographerBox({ data }: Props) {
   };
 
   const onClickSave = () => {
-    if (!tokenStore.getAccessToken()) {
-      setShowLoginModal(true);
-      return;
-    } else savePhotographerFunc(isClipped);
+    requireLogin(() => savePhotographerFunc(isClipped));
   };
 
   const savePhotographerFunc = async (isClipped: boolean) => {
@@ -100,17 +96,7 @@ export default function PhotographerBox({ data }: Props) {
       </div>
       {showLoginModal && (
         <div className="absolute -left-4">
-          <ModalCheck
-            title={["로그인이 필요한 서비스입니다."]}
-            content={[
-              "이 기능은 로그인 후 이용하실 수 있습니다.",
-              "로그인 페이지로 이동하시겠습니까?",
-            ]}
-            btnMsg="로그인 하기"
-            align="start"
-            setShowModal={setShowLoginModal}
-            onClick={() => navigation(`/login`)}
-          />
+          <ModalCheck {...loginModalProps} />
         </div>
       )}
     </div>
