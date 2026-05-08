@@ -9,7 +9,7 @@ import icn_camera from "../../../assets/svgs/icn_camera.svg";
 import icn_clock from "../../../assets/svgs/icn_clock.svg";
 
 export default function EventBox() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const { promotions: ongoingEvents } = usePromotionList(
     "page=0&pageSize=5&progressStatus=ONGOING"
@@ -24,7 +24,7 @@ export default function EventBox() {
 
   const openDetailPage = (id: string) => {
     isMobileDevice()
-      ? navigation(`/event/${id}`)
+      ? navigate(`/event/${id}`)
       : window.open(`/event/${id}`);
   };
 
@@ -32,7 +32,7 @@ export default function EventBox() {
     <div className="flex flex-col py-5">
       <div
         className="flex flex-col px-4 pb-5 cursor-pointer"
-        onClick={() => navigation("/events")}
+        onClick={() => navigate("/events")}
       >
         <span className="text-lg font-bold">Event로 담아봐!</span>
         <div className="flex items-center justify-between text-sm">

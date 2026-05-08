@@ -8,12 +8,12 @@ import BottomBar from "./BottomBar";
 
 export default function EventDetail() {
   const { id } = useParams();
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [promotionData, setPromotionData] = useState<any>();
 
   useEffect(() => {
     if (!id || isNaN(Number(id))) {
-      navigation("/");
+      navigate("/");
       return;
     }
     const fetchPromotion = async () => {
@@ -25,7 +25,7 @@ export default function EventDetail() {
       }
     };
     fetchPromotion();
-  }, [id, navigation]);
+  }, [id, navigate]);
 
   if (!promotionData) return <></>;
   return (

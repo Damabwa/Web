@@ -11,7 +11,7 @@ interface Props {
 export default function ImageBox({ images, promotionType }: Props) {
   const isMobile = isMobileDevice();
   const containerRef = useRef<HTMLDivElement>(null);
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -47,7 +47,7 @@ export default function ImageBox({ images, promotionType }: Props) {
       {isMobile && (
         <img
           className="absolute z-10 w-6 h-6 cursor-pointer top-3 left-4"
-          onClick={() => navigation(-1)}
+          onClick={() => navigate(-1)}
           src={icn_back}
           alt="뒤로가기"
         />

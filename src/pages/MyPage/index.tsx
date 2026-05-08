@@ -19,7 +19,7 @@ import Bottom from "../../components/Bottom";
 
 export default function MyPage() {
   const isMobile = isMobileDevice();
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<any>();
   const [savedPromotions, setSavedPromotions] = useState<any>([]);
   const [savedPhotographers, setSavedPhotographers] = useState<any>([]);
@@ -63,7 +63,7 @@ export default function MyPage() {
             {isMobile && (
               <img
                 className="absolute z-10 w-6 h-6 cursor-pointer top-3 left-4"
-                onClick={() => navigation(-1)}
+                onClick={() => navigate(-1)}
                 src={icn_back}
                 alt="뒤로가기"
               />
