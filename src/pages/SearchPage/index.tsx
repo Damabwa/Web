@@ -1,24 +1,31 @@
-import { useState } from "react";
-import { usePromotionList } from "../../hooks/usePromotionList";
-import { usePhotographerList } from "../../hooks/usePhotographerList";
+import { useEffect, useState } from "react";
+import { getPromotionList } from "../../api/promotion";
+import { getPhotographerList } from "../../api/photographer";
 import SearchBar from "./SearchBar";
 import Overview from "./Overview";
 import Promotions from "./Promotions";
 import Photographers from "./Photographers";
 
 export default function SearchPage() {
+  const [promotionList, setPromotionList] = useState<any[]>([]);
+  const [photographerList, setPhotographerList] = useState<any[]>([]);
   const [state, setState] = useState("OVERVIEW");
   const [searchKeyword, setSearchKeyword] = useState("");
 
-  const isOverview = state === "OVERVIEW" && !!searchKeyword;
-  const { promotions: promotionList } = usePromotionList(
-    `searchKeyword=${searchKeyword}`,
-    isOverview
-  );
-  const { photographers: photographerList } = usePhotographerList(
-    `searchKeyword=${searchKeyword}`,
-    isOverview
-  );
+  useEffect(() => {
+    if (!searchKeyword || state !== "OVERVIEW") return;
+    const fetchList = async () => {
+      try {
+        const res1 = await getPromotionList(`searchKeyword=${searchKeyword}`);
+        const res2 = await getPhotographerList(`searchKeyword=${searchKeyword}`);
+        setPromotionList(res1.items);
+        setPhotographerList(res2.items);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchList();
+  }, [state, searchKeyword]);
 
   const onSubmit = (input: string) => {
     if (!input) return;

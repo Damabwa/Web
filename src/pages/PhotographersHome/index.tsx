@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { usePhotographerList } from "../../hooks/usePhotographerList";
+import { getPhotographerList } from "../../api/photographer";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import icn_noList from "../../assets/svgs/icn_no_photogrpher.svg";
 import icn_search from "../../assets/svgs/icn_search_white.svg";
@@ -12,8 +13,22 @@ export default function PhotographersHome() {
   const navigation = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { photographers } = usePhotographerList(searchParams.toString());
+  const [photographerList, setPhotographertList] = useState<any>([]);
 
+  useEffect(() => {
+    const fetchPhotographerList = async () => {
+      const params = searchParams.toString();
+      try {
+        const res = await getPhotographerList(params);
+        setPhotographertList(res.items);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchPhotographerList();
+  }, [searchParams]);
+
+  if (!photographerList) return <></>;
   return (
     <div className="flex flex-col w-full min-h-screen">
       <div className="h-12">
@@ -46,9 +61,9 @@ export default function PhotographersHome() {
       <div className="border-b-[0.375rem] border-gray50">
         <FilterBar isEvent={false} setSearchParams={setSearchParams} />
       </div>
-      {photographers.length > 0 ? (
+      {photographerList.length > 0 ? (
         <div className="relative grid grid-cols-2 gap-5 m-4">
-          {photographers.map((item) => (
+          {photographerList.map((item: any) => (
             <PhotographerBox key={item.id} data={item} />
           ))}
           <div className="w-full h-20 bg-white" />

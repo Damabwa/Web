@@ -1,6 +1,6 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePromotionList } from "../../../hooks/usePromotionList";
+import { getPromotionList } from "../../../api/promotion";
 import { getPhotoType } from "../../../hooks/getKorean";
 import { getDDayText } from "../../../utils/date";
 import icn_next from "../../../assets/svgs/icn_next.svg";
@@ -10,16 +10,34 @@ import icn_clock from "../../../assets/svgs/icn_clock.svg";
 export default function EventBox() {
   const navigation = useNavigate();
 
-  const { promotions: ongoingEvents } = usePromotionList(
-    "page=0&pageSize=5&progressStatus=ONGOING"
-  );
-  const { promotions: upcomingEvents } = usePromotionList(
-    "page=0&pageSize=5&progressStatus=UPCOMING"
-  );
-  const events = useMemo(
-    () => [...ongoingEvents, ...upcomingEvents].slice(0, 5),
-    [ongoingEvents, upcomingEvents]
-  );
+  const [events, setEvents] = useState<any>([]);
+
+  useEffect(() => {
+    getPromotionListFunc();
+  }, []);
+
+  const getPromotionListFunc = async () => {
+    try {
+      const [ongoingRes, upcomingRes] = await Promise.all([
+        getPromotionList("page=0&pageSize=5&progressStatus=ONGOING"),
+        getPromotionList("page=0&pageSize=5&progressStatus=UPCOMING"),
+      ]);
+
+      const mergedList = [...ongoingRes.items, ...upcomingRes.items].slice(
+        0,
+        5
+      );
+
+      setEvents(mergedList);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+
+  const navigateEvent = () => {
+    navigation("/events");
+  };
 
   const openDetailPage = (id: string) => {
     sessionStorage.getItem("isMobile") === "true"
@@ -31,7 +49,7 @@ export default function EventBox() {
     <div className="flex flex-col py-5">
       <div
         className="flex flex-col px-4 pb-5 cursor-pointer"
-        onClick={() => navigation("/events")}
+        onClick={() => navigateEvent()}
       >
         <span className="text-lg font-bold">Event로 담아봐!</span>
         <div className="flex items-center justify-between text-sm">
