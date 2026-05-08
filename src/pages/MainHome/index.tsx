@@ -18,36 +18,35 @@ function MainHome() {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   useEffect(() => {
-    getUserInfoFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getUserInfoFunc = async () => {
-    if (showLoginPopupFunc()) return;
-    else if (tokenStore.getAccessToken()) {
-      try {
-        await getUserInfo();
-      } catch (e: any) {
-      } finally {
-        showLoginPopupFunc();
+    const showLoginPopupFunc = () => {
+      if (
+        !tokenStore.getAccessToken() &&
+        !sessionStorage.getItem("hasVisited")
+      ) {
+        setShowLoginPopup(true);
+        sessionStorage.setItem("hasVisited", "true");
+        const isMobile =
+          window.matchMedia("(max-width: 768px)").matches ||
+          /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        sessionStorage.setItem("isMobile", isMobile.toString());
+        return true;
       }
-    }
-  };
+    };
 
-  const showLoginPopupFunc = () => {
-    if (
-      !tokenStore.getAccessToken() &&
-      !sessionStorage.getItem("hasVisited")
-    ) {
-      setShowLoginPopup(true);
-      sessionStorage.setItem("hasVisited", "true");
-      const isMobile =
-        window.matchMedia("(max-width: 768px)").matches ||
-        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      sessionStorage.setItem("isMobile", isMobile.toString());
-      return true;
-    }
-  };
+    const getUserInfoFunc = async () => {
+      if (showLoginPopupFunc()) return;
+      else if (tokenStore.getAccessToken()) {
+        try {
+          await getUserInfo();
+        } catch (e: any) {
+        } finally {
+          showLoginPopupFunc();
+        }
+      }
+    };
+
+    getUserInfoFunc();
+  }, []);
 
   const onClickMyPage = () => {
     if (!tokenStore.getAccessToken()) setShowLoginModal(true);

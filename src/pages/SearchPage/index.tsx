@@ -13,26 +13,23 @@ export default function SearchPage() {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   useEffect(() => {
-    if (!searchKeyword) return;
-    getListFunc(searchKeyword);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state]);
+    if (!searchKeyword || state !== "OVERVIEW") return;
+    const fetchList = async () => {
+      try {
+        const res1 = await getPromotionList(`searchKeyword=${searchKeyword}`);
+        const res2 = await getPhotographerList(`searchKeyword=${searchKeyword}`);
+        setPromotionList(res1.items);
+        setPhotographerList(res2.items);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchList();
+  }, [state, searchKeyword]);
 
   const onSubmit = (input: string) => {
     if (!input) return;
-    else if (state === "OVERVIEW") getListFunc(input);
     setSearchKeyword(input);
-  };
-
-  const getListFunc = async (input: string) => {
-    try {
-      const res1 = await getPromotionList(`searchKeyword=${input}`);
-      const res2 = await getPhotographerList(`searchKeyword=${input}`);
-      setPromotionList(res1.items);
-      setPhotographerList(res2.items);
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   return (

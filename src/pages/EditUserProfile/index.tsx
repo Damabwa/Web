@@ -25,13 +25,19 @@ export default function EditUserProfile() {
 
   useEffect(() => {
     setUserInfo(location.state);
+    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    checkValidFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userInfo, isDuplicated]);
+    if (
+      isChangeImage ||
+      isChangedInstaId ||
+      (isChangedName && isDuplicated === "false")
+    )
+      setIsValid(true);
+    else setIsValid(false);
+  }, [userInfo, isDuplicated, isChangeImage, isChangedInstaId, isChangedName]);
 
   const handleImageClick = () => {
     if (fileInputRef.current) {
@@ -98,16 +104,6 @@ export default function EditUserProfile() {
     } catch (e) {
       console.log(e);
     }
-  };
-
-  const checkValidFunc = () => {
-    if (
-      isChangeImage ||
-      isChangedInstaId ||
-      (isChangedName && isDuplicated === "false")
-    )
-      setIsValid(true);
-    else setIsValid(false);
   };
 
   const onClickSave = async () => {

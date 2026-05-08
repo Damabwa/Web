@@ -15,20 +15,18 @@ export default function Photographers({ data, searchKeyword }: Props) {
   const [photographerList, setPhotographerList] = useState<any[]>(data);
 
   useEffect(() => {
-    getPhotographerListFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetchPhotographerList = async () => {
+      const p = new URLSearchParams(searchParams);
+      p.set("searchKeyword", searchKeyword);
+      try {
+        const res = await getPhotographerList(p.toString());
+        setPhotographerList(res.items);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchPhotographerList();
   }, [searchParams, searchKeyword]);
-
-  const getPhotographerListFunc = async () => {
-    const p = new URLSearchParams(searchParams);
-    p.set("searchKeyword", searchKeyword);
-    try {
-      const res = await getPhotographerList(p.toString());
-      setPhotographerList(res.items);
-    } catch (e) {
-      console.log(e);
-    }
-  };
   return (
     <div className="flex flex-col min-h-screen">
       <div className="border-b-[0.375rem] border-gray50">
