@@ -14,12 +14,6 @@ export interface ModifyProfileBody {
   profileImage?: ImageFile | null;
 }
 
-export interface RegistrationResponse {
-  id: number;
-  roles: string[];
-  [key: string]: unknown;
-}
-
 export interface UserInfo {
   id: number;
   nickname: string;

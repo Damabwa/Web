@@ -33,12 +33,6 @@ export interface PhotographerListItem {
   isSaved: boolean;
 }
 
-export interface RegistrationResponse {
-  id: number;
-  roles: string[];
-  [key: string]: unknown;
-}
-
 export interface PhotographerDetail {
   id: number;
   profileImage: ImageFile;

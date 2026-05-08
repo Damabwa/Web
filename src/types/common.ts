@@ -19,3 +19,9 @@ export interface PaginatedResponse<T> {
   page: number;
   pageSize: number;
 }
+
+export interface RegistrationResponse {
+  id: number;
+  roles: string[];
+  [key: string]: unknown;
+}
