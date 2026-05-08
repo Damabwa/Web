@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { usePhotographerList } from "../../../hooks/usePhotographerList";
 import { getPhotoType } from "../../../hooks/getKorean";
+import { isMobileDevice } from "../../../utils/device";
 import icn_next from "../../../assets/svgs/icn_next.svg";
 
 export default function PhotographerBox() {
@@ -14,7 +15,7 @@ export default function PhotographerBox() {
   };
 
   const openDetailPage = (id: string) => {
-    sessionStorage.getItem("isMobile") === "true"
+    isMobileDevice()
       ? navigation(`/photographer/${id}`)
       : window.open(`/photographer/${id}`);
   };
