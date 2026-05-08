@@ -15,7 +15,7 @@ import PhotographerBox from "./PhotographerBox";
 function MainHome() {
   const navigation = useNavigate();
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
-  const { showLoginModal, loginModalProps } = useLoginGuard();
+  const { showLoginModal, requireLogin, loginModalProps } = useLoginGuard();
 
   useEffect(() => {
     const showLoginPopupFunc = () => {
@@ -44,9 +44,8 @@ function MainHome() {
     getUserInfoFunc();
   }, []);
 
-  const onClickMyPage = () => {
-    if (!localStorage.getItem("accessToken")) loginModalProps.setShowModal(true);
-    else navigation(`/mypage`);
+  const handleMyPageClick = () => {
+    requireLogin(() => navigation(`/mypage`));
   };
 
   return (
@@ -69,7 +68,7 @@ function MainHome() {
                 className="mr-4"
                 src={icn_mypage}
                 alt="마이페이지"
-                onClick={() => onClickMyPage()}
+                onClick={() => handleMyPageClick()}
               />
             </div>
           }
