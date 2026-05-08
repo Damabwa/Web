@@ -5,9 +5,8 @@ import {
   PhotographerListItem,
   PhotographerPageBody,
   PhotographerRegistrationBody,
-  RegistrationResponse,
 } from "../types/photographer";
-import { PaginatedResponse } from "../types/common";
+import { PaginatedResponse, RegistrationResponse } from "../types/common";
 
 export const checkPhotographerExistence = async (nickname: string) =>
   await GET<{ exists: boolean }>(

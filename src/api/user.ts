@@ -1,5 +1,6 @@
 import { GET, PUT, POST, DELETE } from "../utils/axios";
-import { ModifyProfileBody, RegistrationResponse, UserInfo, UserRegistrationBody } from "../types/user";
+import { ModifyProfileBody, UserInfo, UserRegistrationBody } from "../types/user";
+import { RegistrationResponse } from "../types/common";
 
 export const refresh = async () => await GET("/refresh-token", true);
 
