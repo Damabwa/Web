@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { tokenStore } from "../utils/tokenStore";
 
 interface UseLoginGuardReturn {
   showLoginModal: boolean;
@@ -21,7 +20,7 @@ export function useLoginGuard(): UseLoginGuardReturn {
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const requireLogin = (onAuthorized: () => void) => {
-    if (!tokenStore.getAccessToken()) {
+    if (!localStorage.getItem("accessToken")) {
       setShowLoginModal(true);
       return;
     }
