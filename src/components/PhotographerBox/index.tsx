@@ -49,7 +49,7 @@ export default function PhotographerBox({ data }: Props) {
       isClipped
         ? await deleteSavedPhotographer(data.id)
         : await savePhotographer(data.id);
-    } catch (e: any) {
+    } catch (e) {
       setIsClipped(false);
       setShowLoginModal(true);
       console.log(e);

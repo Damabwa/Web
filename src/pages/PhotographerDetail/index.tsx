@@ -25,7 +25,7 @@ export default function PhotographerDetail() {
       try {
         const res = await getPhotographerInfo(Number(id));
         setPhotographerData(res);
-      } catch (e: any) {
+      } catch (e) {
         console.log(e);
       }
     };
