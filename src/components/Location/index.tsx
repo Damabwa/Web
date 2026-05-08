@@ -44,11 +44,10 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
 
   const handleAddRegion = (item: string) => {
     let exist = false;
-    locs.map((loc: any) => {
+    locs.forEach((loc: any) => {
       if (`${loc.category} ${loc.name}` === item) {
         setLocs(locs.filter((i) => i !== loc));
         exist = true;
-        return;
       }
     });
     if (locs.length >= maxNum || exist) return;
@@ -116,6 +115,7 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
               <img
                 className="cursor-pointer"
                 src={icn_close}
+                alt="삭제"
                 onClick={() => setLocs(locs.filter((l) => l !== item))}
               />
             </div>

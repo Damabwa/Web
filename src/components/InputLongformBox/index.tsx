@@ -32,7 +32,7 @@ export default function InputLongformBox({
       textareaRef.current.style.height = minHeight;
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  }, [text]);
+  }, [text, minHeight]);
 
   return (
     <div className="flex flex-col w-full gap-2 text-sm">

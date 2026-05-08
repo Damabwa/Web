@@ -52,6 +52,7 @@ export default function NewEvent() {
       setHashtags(location.state.hashtags);
       setContent(location.state.content);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getUserInfoFunc = async () => {

@@ -22,7 +22,7 @@ export default function Overview({
     <div className="flex flex-col">
       <div>
         <SubHeader
-          icn={<img className="w-3 h-[0.875rem]" src={icn_event} />}
+          icn={<img className="w-3 h-[0.875rem]" src={icn_event} alt="" />}
           text="Event로 담아봐"
         />
         {promotionList.length > 0 ? (
@@ -36,7 +36,7 @@ export default function Overview({
                 onClick={() => setState("PROMOTION")}
               >
                 <div>더보기</div>
-                <img className="w-3" src={icn_next} />
+                <img className="w-3" src={icn_next} alt=">" />
               </div>
             </div>
           </div>
@@ -53,7 +53,7 @@ export default function Overview({
       <div>
         <SubHeader
           icn={
-            <img className="w-[0.875rem] h-[0.875rem]" src={icn_photographer} />
+            <img className="w-[0.875rem] h-[0.875rem]" src={icn_photographer} alt="" />
           }
           text="작가님을 만나봐"
         />
@@ -70,7 +70,7 @@ export default function Overview({
                 onClick={() => setState("PHOTOGRAPHER")}
               >
                 <div>더보기</div>
-                <img className="w-3" src={icn_next} />
+                <img className="w-3" src={icn_next} alt=">" />
               </div>
             </div>
           </div>

@@ -87,7 +87,7 @@ export default function GetImagesBox({
               className="ml-4 cursor-pointer  min-w-[4.75rem] min-h-[4.75rem] border-black04 rounded-[0.63rem] border  items-center justify-center  flex flex-col text-black03 text-xs"
               onClick={() => handleImageClick()}
             >
-              <img className="w-[1.8125rem] h-[1.8125rem]" src={icn_camera} />
+              <img className="w-[1.8125rem] h-[1.8125rem]" src={icn_camera} alt="사진 추가" />
               <div className="">
                 {images.length}/{maxLength}
               </div>
@@ -100,6 +100,7 @@ export default function GetImagesBox({
                 <img
                   className="absolute right-[-0.75rem] top-[-0.75rem] cursor-pointer"
                   src={icn_delete}
+                  alt="삭제"
                   onClick={() =>
                     setImages((prev) =>
                       prev.filter((image) => image.url !== item.url)
@@ -109,6 +110,7 @@ export default function GetImagesBox({
                 <img
                   className="object-cover w-[4.75rem] h-[4.75rem] border-lineRegular rounded-[0.63rem] border"
                   src={item.url}
+                  alt="업로드 이미지"
                 />
               </div>
             ))}

@@ -91,6 +91,7 @@ export default function EventBox() {
               <img
                 className="object-cover min-w-full min-h-full rounded-lg"
                 src={item.images[0].url}
+                alt="이벤트 썸네일"
               />
             </div>
             <div className="flex flex-col text-xs font-medium text-black02">
@@ -101,7 +102,7 @@ export default function EventBox() {
               </div>
               <div className="flex items-center pb-[0.1rem]">
                 <div className="flex items-center justify-center w-4 h-4 ">
-                  <img src={icn_camera} />
+                  <img src={icn_camera} alt="" />
                 </div>
                 <div className="flex gap-1">
                   {item.photographyTypes.map((type: string, index: number) => (
@@ -114,7 +115,7 @@ export default function EventBox() {
               </div>
               <div className="flex items-center">
                 <div className="flex items-center justify-center w-4 h-4">
-                  <img src={icn_clock} />
+                  <img src={icn_clock} alt="" />
                 </div>
                 {getDDay(item.startedAt, item.endedAt)}
               </div>

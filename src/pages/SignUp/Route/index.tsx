@@ -38,7 +38,7 @@ export default function Route({ setNextFunc }: Props) {
 
   useEffect(() => {
     setIsValid(false);
-    btns.map((item) => {
+    btns.forEach((item) => {
       if (item.isSelected === true) setIsValid(true);
     });
   }, [btns]);
@@ -46,7 +46,7 @@ export default function Route({ setNextFunc }: Props) {
   return (
     <div className="flex flex-col w-full">
       <div className="w-full pb-7 h-fit">
-        <img className="w-28" src={logo_damaba} />
+        <img className="w-28" src={logo_damaba} alt="담아봐 로고" />
       </div>
       <div className="w-full pb-8 text-xl font-bold">
         담아봐를

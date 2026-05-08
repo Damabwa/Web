@@ -29,10 +29,12 @@ export default function EditPhotographerProfile() {
     setUserInfo(location.state);
     setMainPhotographyTypes(location.state.mainPhotographyTypes ?? []);
     setActiveRegions(location.state.activeRegions ?? []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     checkValidFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDuplicated, userInfo]);
 
   const handleNameInput = (e: any) => {

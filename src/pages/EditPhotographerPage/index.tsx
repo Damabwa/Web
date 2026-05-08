@@ -32,7 +32,6 @@ export default function EditPhotographerPage() {
   const [description, setDescription] = useState("");
 
   const [isValid, setIsValid] = useState(false);
-  const [isChangedInstaId, setIsChangedInstaId] = useState(false);
 
   const [showImageModal, setShowImageModal] = useState(false);
 
@@ -43,10 +42,12 @@ export default function EditPhotographerPage() {
     setContactLink(location.state.contactLink || "");
     setDescription(location.state.description || "");
     if (location.state.address) setAddress(location.state.address);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     checkValidFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [portfolio, address, instagramId, contactLink, description]);
 
   const handleAddressSearch = () => {
@@ -67,7 +68,6 @@ export default function EditPhotographerPage() {
   };
 
   const handleIdInput = (e: any) => {
-    setIsChangedInstaId(true);
     let { value } = e.target;
     value = value.toLowerCase();
     value = value.replace(/[^0-9a-z._]/g, "");

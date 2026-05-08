@@ -19,6 +19,7 @@ function MainHome() {
 
   useEffect(() => {
     getUserInfoFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getUserInfoFunc = async () => {
@@ -63,14 +64,16 @@ function MainHome() {
               className="w-[4.75rem] cursor-pointer ml-4"
               onClick={() => navigation(`/`)}
               src={logo_header}
+              alt="담아봐"
             />
           }
           right={
             <div className="flex items-center gap-2">
-              <img src={icn_search} onClick={() => navigation(`/search`)} />
+              <img src={icn_search} alt="검색" onClick={() => navigation(`/search`)} />
               <img
                 className="mr-4"
                 src={icn_mypage}
+                alt="마이페이지"
                 onClick={() => onClickMyPage()}
               />
             </div>

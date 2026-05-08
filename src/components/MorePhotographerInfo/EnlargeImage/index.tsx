@@ -78,6 +78,7 @@ export default function EnlargeImage({
         <img
           className="absolute right-0 z-10 p-4 cursor-pointer"
           src={icn_close}
+          alt="닫기"
           onClick={() => setShowEnlargedImg(false)}
         />
       </div>
@@ -102,6 +103,7 @@ export default function EnlargeImage({
             >
               <img
                 src={image.url}
+                alt="포트폴리오"
                 className="object-contain w-full h-full max-w-screen max-h-screen"
               />
             </div>

@@ -12,6 +12,7 @@ export default function SubHeader({ title }: Props) {
       <img
         className="absolute left-0 w-6 h-6 cursor-pointer"
         src={icn_back}
+        alt="뒤로가기"
         onClick={() => navigation(-1)}
       />
       <div>{title}</div>

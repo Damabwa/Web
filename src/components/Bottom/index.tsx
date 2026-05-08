@@ -8,11 +8,12 @@ export default function Bottom() {
   return (
     <div className="flex flex-col justify-center p-5 w-full max-w-[430px] bg-gray50 gap-3 pb-8 text-nowrap">
       <div className="flex justify-between pb-1 ">
-        <img className="w-28" src={logo_damaba} />
+        <img className="w-28" src={logo_damaba} alt="담아봐 로고" />
         <img
           className="w-6 cursor-pointer"
           onClick={() => window.open(url_instagram)}
           src={icn_insta}
+          alt="인스타그램"
         />
       </div>
       <div className="flex gap-3 text-sm text-black02">
