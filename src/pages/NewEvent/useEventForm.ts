@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../../atom/atom";
 import { getUserInfo } from "../../api/user";
 import { postPromotion, putPromotion } from "../../api/promotion";
+import { ImageFile } from "../../types/common";
 
 export function useEventForm() {
   const navigate = useNavigate();
@@ -18,13 +19,13 @@ export function useEventForm() {
   const [startedAt, setStartedAt] = useState("");
   const [endedAt, setEndedAt] = useState("");
   const [externalLink, setExternalLink] = useState("");
-  const [images, setImages] = useState<any[]>([]);
+  const [images, setImages] = useState<ImageFile[]>([]);
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [content, setContent] = useState("");
 
   useEffect(() => {
     if (location.state) {
-      setTradename(location.state.author.nickname);
+      setTradename(location.state.author?.nickname ?? "");
       setTitle(location.state.title);
       setPhotographyTypes(location.state.photographyTypes);
       setActiveRegions(location.state.activeRegions);
