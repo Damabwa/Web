@@ -11,7 +11,7 @@ export default function SavedContents() {
 
   useEffect(() => {
     setData(location.state);
-  }, []);
+  }, [location.state]);
 
   if (data.length === 0) return <></>;
   return (

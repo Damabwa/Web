@@ -27,6 +27,7 @@ export default function SearchBar({ onSubmit, state, setState }: Props) {
         <img
           className="w-6 cursor-pointer"
           src={icn_back}
+          alt="뒤로가기"
           onClick={() =>
             state === "OVERVIEW" ? navigation(-1) : setState("OVERVIEW")
           }
@@ -43,6 +44,7 @@ export default function SearchBar({ onSubmit, state, setState }: Props) {
         <img
           className="cursor-pointer "
           src={icn_search}
+          alt="검색"
           onClick={() => onSubmit(input)}
         />
       </div>

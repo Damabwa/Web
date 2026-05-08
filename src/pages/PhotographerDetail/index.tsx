@@ -47,11 +47,13 @@ export default function PhotographerDetail() {
             className="absolute z-10 w-6 h-6 cursor-pointer top-3 left-4"
             onClick={() => navigation(-1)}
             src={icn_back}
+            alt="뒤로가기"
           />
         )}
         <img
           className="absolute cursor-pointer top-3 right-4"
           src={icn_share}
+          alt="공유"
           onClick={handleCopyUrl}
         />
         <ToastContainer

@@ -16,6 +16,7 @@ export default function Promotions({ data, searchKeyword }: Props) {
 
   useEffect(() => {
     getPromotionListFunc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, searchKeyword]);
 
   const getPromotionListFunc = async () => {
