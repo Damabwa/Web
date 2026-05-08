@@ -20,11 +20,10 @@ export default function Photographers({ data, searchKeyword }: Props) {
   }, [searchParams, searchKeyword]);
 
   const getPhotographerListFunc = async () => {
-    const params = searchParams.toString();
+    const p = new URLSearchParams(searchParams);
+    p.set("searchKeyword", searchKeyword);
     try {
-      const res = await getPhotographerList(
-        `${params}&searchKeyword=${searchKeyword}`
-      );
+      const res = await getPhotographerList(p.toString());
       setPhotographerList(res.items);
     } catch (e) {
       console.log(e);
