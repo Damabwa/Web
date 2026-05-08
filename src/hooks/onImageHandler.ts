@@ -20,7 +20,7 @@ export const onImageHandler = async (file: File, fileType: string) => {
     return null;
   };
 
-  const compressFile = async (file: File) => {
+  const compressFile = async (file: File): Promise<File | null> => {
     try {
       const res = await imageCompression(file, options);
       return res;
