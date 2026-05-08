@@ -32,10 +32,10 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
   }, [userInfo]);
 
   const handleSave = () => {
-    requireLogin(() => savePhotographerFunc());
+    requireLogin(() => toggleSavePhotographer());
   };
 
-  const savePhotographerFunc = async () => {
+  const toggleSavePhotographer = async () => {
     setCount(isSavedPhotographer ? count - 1 : count + 1);
     setIsSavedPhotographer(!isSavedPhotographer);
     try {

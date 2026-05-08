@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { savePromotion, deleteSavedPromotion } from "../../api/promotion";
 import { useLoginGuard } from "../../hooks/useLoginGuard";
 import { getDDayText } from "../../utils/date";
+import { Region } from "../../types/common";
+import { isMobileDevice } from "../../utils/device";
 import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
 import icn_time from "../../assets/svgs/icn_event_home_clock.svg";
@@ -16,7 +18,7 @@ interface postData {
   author: any;
   hashtags: string[];
   endedAt: string;
-  activeRegions: string[];
+  activeRegions: Region[];
   saveCount: number;
   isSaved: boolean;
 }
@@ -57,7 +59,7 @@ export default function PromotionBox({ data }: Props) {
   };
 
   const openDetailPage = () => {
-    sessionStorage.getItem("isMobile") === "true"
+    isMobileDevice()
       ? navigation(`/event/${data.id}`)
       : window.open(`/event/${data.id}`);
   };

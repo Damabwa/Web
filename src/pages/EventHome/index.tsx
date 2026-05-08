@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../atom/atom";
-import { getPromotionList } from "../../api/promotion";
+import { usePromotionList } from "../../hooks/usePromotionList";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import icn_pencil from "../../assets/svgs/icn_eventhome_pencil.svg";
 import icn_noList from "../../assets/svgs/icn_no_promotion.svg";
@@ -17,20 +16,7 @@ function EventHome() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const roles = useRecoilValue(userState).roles;
-  const [promotionList, setPromotionList] = useState<any[]>([]);
-
-  useEffect(() => {
-    const fetchPromotionList = async () => {
-      const params = searchParams.toString();
-      try {
-        const res = await getPromotionList(params);
-        setPromotionList(res.items);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchPromotionList();
-  }, [searchParams]);
+  const { promotions } = usePromotionList(searchParams.toString());
 
   return (
     <div className="relative flex flex-col w-full min-h-screen">
@@ -64,9 +50,9 @@ function EventHome() {
       <div className="border-b-[0.375rem] border-gray50">
         <FilterBar isEvent={true} setSearchParams={setSearchParams} />
       </div>
-      {promotionList.length > 0 ? (
+      {promotions.length > 0 ? (
         <div className="flex flex-col gap-1 bg-gray50">
-          {promotionList.map((item) => (
+          {promotions.map((item) => (
             <div key={item.id} className="bg-white">
               <PromotionBox data={item} />
             </div>

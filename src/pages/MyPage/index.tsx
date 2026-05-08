@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { isMobileDevice } from "../../utils/device";
 import { userState } from "../../atom/atom";
 import { getUserInfo } from "../../api/user";
 import {
@@ -17,16 +18,16 @@ import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 import Bottom from "../../components/Bottom";
 
 export default function MyPage() {
-  const isMobile = sessionStorage.getItem("isMobile") === "true";
+  const isMobile = isMobileDevice();
   const navigation = useNavigate();
   const [userInfo, setUserInfo] = useState<any>();
   const [savedPromotions, setSavedPromotions] = useState<any>([]);
-  const [savedPhotographers, setSavedPhotographer] = useState<any>([]);
+  const [savedPhotographers, setSavedPhotographers] = useState<any>([]);
   const user = useRecoilValue(userState);
   const role = user.roles.includes("PHOTOGRAPHER") ? "PHOTOGRAPHER" : "USER";
 
   useEffect(() => {
-    const getUserInfoFunc = async () => {
+    const fetchUserInfo = async () => {
       try {
         const res =
           role === "USER"
@@ -36,12 +37,12 @@ export default function MyPage() {
         const promotions = await getSavedPromotionList();
         const photographers = await getSavedPhotographerList();
         setSavedPromotions(promotions.items);
-        setSavedPhotographer(photographers.items);
+        setSavedPhotographers(photographers.items);
       } catch (e: any) {
         console.log(e);
       }
     };
-    getUserInfoFunc();
+    fetchUserInfo();
   }, [role, user.id]);
 
   if (!userInfo) return <></>;
