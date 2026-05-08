@@ -29,7 +29,7 @@ export default function GetImagesBox({
   const [loading, setLoading] = useState(false);
 
   const handleImageClick = () => {
-    if (images.length === 10) {
+    if (images.length === maxLength) {
       setShowModal(true);
       return;
     }
@@ -43,7 +43,7 @@ export default function GetImagesBox({
   ) => {
     const files = event.target.files;
     if (!files || files.length === 0) return;
-    else if (images.length + files.length > 10) {
+    else if (images.length + files.length > maxLength) {
       setShowModal(true);
       return;
     }

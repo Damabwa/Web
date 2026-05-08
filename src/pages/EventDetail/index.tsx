@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getPromotionDetail } from "../../api/promotion";
 import ImageBox from "./ImageBox";
 import TopInfo from "./TopInfo";
@@ -8,9 +8,14 @@ import BottomBar from "./BottomBar";
 
 export default function EventDetail() {
   const { id } = useParams();
+  const navigation = useNavigate();
   const [promotionData, setPromotionData] = useState<any>();
 
   useEffect(() => {
+    if (!id || isNaN(Number(id))) {
+      navigation("/");
+      return;
+    }
     const getPromotionFunc = async () => {
       try {
         const res = await getPromotionDetail(Number(id));
@@ -20,7 +25,7 @@ export default function EventDetail() {
       }
     };
     getPromotionFunc();
-  }, [id]);
+  }, [id, navigation]);
 
   if (!promotionData) return <></>;
   return (
