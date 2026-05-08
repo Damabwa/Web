@@ -18,7 +18,7 @@ function MainHome() {
   const { showLoginModal, loginModalProps } = useLoginGuard();
 
   useEffect(() => {
-    const checkAndShowLoginPopup = () => {
+    const showLoginPopupFunc = () => {
       if (
         !localStorage.getItem("accessToken") &&
         !sessionStorage.getItem("hasVisited")
@@ -33,22 +33,22 @@ function MainHome() {
       }
     };
 
-    const fetchUserInfo = async () => {
-      if (checkAndShowLoginPopup()) return;
+    const getUserInfoFunc = async () => {
+      if (showLoginPopupFunc()) return;
       else if (localStorage.getItem("accessToken")) {
         try {
           await getUserInfo();
         } catch (e: any) {
         } finally {
-          checkAndShowLoginPopup();
+          showLoginPopupFunc();
         }
       }
     };
 
-    fetchUserInfo();
+    getUserInfoFunc();
   }, []);
 
-  const handleMyPageClick = () => {
+  const onClickMyPage = () => {
     if (!localStorage.getItem("accessToken")) loginModalProps.setShowModal(true);
     else navigation(`/mypage`);
   };
@@ -73,7 +73,7 @@ function MainHome() {
                 className="mr-4"
                 src={icn_mypage}
                 alt="마이페이지"
-                onClick={() => handleMyPageClick()}
+                onClick={() => onClickMyPage()}
               />
             </div>
           }
