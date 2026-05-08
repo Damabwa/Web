@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 import icn_check from "../../../assets/svgs/icn_filterCheck.svg";
 import icn_reset from "../../../assets/svgs/icn_reset.svg";
 import Types from "../Types";
 import RegionCluster from "../RegionCluster";
+import { FilterAction, FilterState } from "..";
 
 const orderBtns = [
   { id: "LATEST", full: "최신순" },
@@ -16,75 +17,55 @@ const stateBtns = [
 ];
 
 interface Props {
-  filters: any;
+  state: FilterState;
+  dispatch: Dispatch<FilterAction>;
   title: string;
-  selectedLocs: string[];
-  isModifiedOrder: boolean;
-  isModifiedState: boolean;
-  setSelectedLocs: React.Dispatch<React.SetStateAction<string[]>>;
-  setIsModifiedOrder: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsModifiedState: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsModifiedRegion: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsModifiedTypes: React.Dispatch<React.SetStateAction<boolean>>;
-  handleFilterChange: (arg1: string, arg2: any) => void;
-  setShowSelectBar: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
 }
 
-export default function FilterType({
-  filters,
-  title,
-  selectedLocs,
-  setSelectedLocs,
-  isModifiedOrder,
-  isModifiedState,
-  setIsModifiedOrder,
-  setIsModifiedRegion,
-  setIsModifiedTypes,
-  setIsModifiedState,
-  setShowSelectBar,
-  handleFilterChange,
-}: Props) {
+export default function FilterType({ state, dispatch, title, onClose }: Props) {
+  const { filters, isModifiedOrder, isModifiedState, selectedLocs } = state;
+
   const [selectedTypes, setSelectedTypes] = useState<string[]>(
     filters.photographyTypes || []
   );
 
   const handleChildClick = (item: string) => {
     if (title === "정렬") {
-      handleFilterChange("sortType", item);
-      setIsModifiedOrder(true);
+      dispatch({ type: "SET_FILTER", key: "sortType", value: item });
+      dispatch({ type: "SET_MODIFIED", key: "isModifiedOrder", value: true });
     } else if (title === "진행 상태") {
-      handleFilterChange("progressStatus", item);
-      setIsModifiedState(true);
+      dispatch({ type: "SET_FILTER", key: "progressStatus", value: item });
+      dispatch({ type: "SET_MODIFIED", key: "isModifiedState", value: true });
     }
-    setShowSelectBar(false);
+    onClose();
   };
 
   const getChild = () => {
     if (title === "정렬") return orderBtns;
-    else return stateBtns;
+    return stateBtns;
   };
 
   const handleResetBtn = () => {
-    if (title === "지역") setSelectedLocs([]);
+    if (title === "지역") dispatch({ type: "SET_SELECTED_LOCS", value: [] });
     else if (title === "촬영 종류") setSelectedTypes([]);
   };
 
   const handleSave = () => {
     if (title === "지역") {
       const regions = getRegionName();
-      handleFilterChange("regions", regions);
-      setIsModifiedRegion(selectedLocs.length > 0);
+      dispatch({ type: "SET_FILTER", key: "regions", value: regions });
+      dispatch({ type: "SET_MODIFIED", key: "isModifiedRegion", value: selectedLocs.length > 0 });
     } else if (title === "촬영 종류") {
-      handleFilterChange("photographyTypes", selectedTypes);
-      setIsModifiedTypes(selectedTypes.length > 0);
+      dispatch({ type: "SET_FILTER", key: "photographyTypes", value: selectedTypes });
+      dispatch({ type: "SET_MODIFIED", key: "isModifiedTypes", value: selectedTypes.length > 0 });
     }
-    setShowSelectBar(false);
+    onClose();
   };
 
   const getRegionName = () => {
-    const arr = [];
-    const newArr = new Array(...selectedLocs);
-    for (const region of newArr) {
+    const arr: string[] = [];
+    for (const region of selectedLocs) {
       const category = region.split(" ")[0];
       const value = region.split(" ")[1];
       if (value === "전체") arr.push(category);
@@ -118,7 +99,7 @@ export default function FilterType({
       {title === "지역" && (
         <RegionCluster
           locs={selectedLocs}
-          setLocs={setSelectedLocs}
+          setLocs={(value) => dispatch({ type: "SET_SELECTED_LOCS", value })}
           maxNum={10000}
         />
       )}
@@ -129,14 +110,14 @@ export default function FilterType({
         <div className="flex gap-2 pt-4 text-sm">
           <button
             className="flex items-center justify-center h-12 gap-1 px-6 bg-gray50 rounded-xl"
-            onClick={() => handleResetBtn()}
+            onClick={handleResetBtn}
           >
             <img src={icn_reset} alt="재설정" />
             재설정
           </button>
           <button
             className="flex-1 h-12 text-center text-white rounded-xl bg-violet300"
-            onClick={() => handleSave()}
+            onClick={handleSave}
           >
             확인
           </button>
