@@ -20,19 +20,17 @@ function EventHome() {
   const [promotionList, setPromotionList] = useState<any[]>([]);
 
   useEffect(() => {
-    getPromotionListFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetchPromotionList = async () => {
+      const params = searchParams.toString();
+      try {
+        const res = await getPromotionList(params);
+        setPromotionList(res.items);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchPromotionList();
   }, [searchParams]);
-
-  const getPromotionListFunc = async () => {
-    const params = searchParams.toString();
-    try {
-      const res = await getPromotionList(params);
-      setPromotionList(res.items);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   return (
     <div className="relative flex flex-col w-full min-h-screen">

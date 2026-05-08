@@ -13,14 +13,12 @@ export default function SearchPage() {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   useEffect(() => {
-    if (!searchKeyword) return;
+    if (!searchKeyword || state !== "OVERVIEW") return;
     getListFunc(searchKeyword);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state]);
+  }, [state, searchKeyword]);
 
   const onSubmit = (input: string) => {
     if (!input) return;
-    else if (state === "OVERVIEW") getListFunc(input);
     setSearchKeyword(input);
   };
 

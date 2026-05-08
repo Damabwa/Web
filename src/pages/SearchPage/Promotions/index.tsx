@@ -15,20 +15,18 @@ export default function Promotions({ data, searchKeyword }: Props) {
   const [promotionList, setPromotionList] = useState<any[]>(data);
 
   useEffect(() => {
-    getPromotionListFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetchPromotionList = async () => {
+      const p = new URLSearchParams(searchParams);
+      p.set("searchKeyword", searchKeyword);
+      try {
+        const res = await getPromotionList(p.toString());
+        setPromotionList(res.items);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchPromotionList();
   }, [searchParams, searchKeyword]);
-
-  const getPromotionListFunc = async () => {
-    const p = new URLSearchParams(searchParams);
-    p.set("searchKeyword", searchKeyword);
-    try {
-      const res = await getPromotionList(p.toString());
-      setPromotionList(res.items);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   return (
     <div className="flex flex-col min-h-screen">

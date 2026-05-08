@@ -16,18 +16,16 @@ export default function PhotographerDetail() {
   const { id } = useParams();
 
   useEffect(() => {
+    const getPhotographerInfoFunc = async () => {
+      try {
+        const res = await getPhotographerInfo(Number(id));
+        setPhotographerData(res);
+      } catch (e: any) {
+        console.log(e);
+      }
+    };
     getPhotographerInfoFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getPhotographerInfoFunc = async () => {
-    try {
-      const res = await getPhotographerInfo(Number(id));
-      setPhotographerData(res);
-    } catch (e: any) {
-      console.log(e);
-    }
-  };
+  }, [id]);
 
   const handleCopyUrl = async () => {
     try {

@@ -37,17 +37,18 @@ export default function EditPhotographerPage() {
 
   useEffect(() => {
     if (!location.state) return;
+    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     setPortfolio(location.state.portfolio || []);
     setInstagramId(location.state.instagramId || "");
     setContactLink(location.state.contactLink || "");
     setDescription(location.state.description || "");
     if (location.state.address) setAddress(location.state.address);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    checkValidFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (portfolio.length > 0 && description) setIsValid(true);
+    else setIsValid(false);
   }, [portfolio, address, instagramId, contactLink, description]);
 
   const handleAddressSearch = () => {
@@ -75,11 +76,6 @@ export default function EditPhotographerPage() {
       value = value.slice(0, 30);
     }
     setInstagramId(value);
-  };
-
-  const checkValidFunc = () => {
-    if (portfolio.length > 0 && description) setIsValid(true);
-    else setIsValid(false);
   };
 
   const putPhotographerPageFunc = async () => {
