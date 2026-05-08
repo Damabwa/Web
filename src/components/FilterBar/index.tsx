@@ -86,7 +86,6 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
       else newSearchParams.set(key, String(value));
     });
 
-    window.history.pushState({}, "", "/");
     setSearchParams(newSearchParams);
   }, [filters, setSearchParams]);
 
