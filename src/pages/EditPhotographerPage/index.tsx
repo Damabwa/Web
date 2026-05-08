@@ -78,7 +78,7 @@ export default function EditPhotographerPage() {
     setInstagramId(value);
   };
 
-  const putPhotographerPageFunc = async () => {
+  const submitPhotographerPage = async () => {
     try {
       await putPhotographerPage({
         portfolio,
@@ -161,7 +161,7 @@ export default function EditPhotographerPage() {
         <ButtonActive
           activation={isValid}
           onClick={() => {
-            if (isValid) putPhotographerPageFunc();
+            if (isValid) submitPhotographerPage();
           }}
           text="등록"
         />

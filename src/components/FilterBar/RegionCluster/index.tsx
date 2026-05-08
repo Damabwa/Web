@@ -18,7 +18,7 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
   const [clusters, setClusters] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const getRegionFunc = async () => {
+  const fetchRegion = async () => {
     try {
       const res = await getRegionCluster();
       setLocList(res.regionClusters);
@@ -28,7 +28,7 @@ export default function RegionCluster({ locs, setLocs, maxNum }: Props) {
   };
 
   useEffect(() => {
-    getRegionFunc();
+    fetchRegion();
   }, []);
 
   useEffect(() => {

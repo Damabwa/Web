@@ -28,7 +28,7 @@ export default function Auth() {
       return res;
     };
 
-    const authLoginFunc = async (token: string) => {
+    const authLogin = async (token: string) => {
       try {
         const res = await axios.post(
           `${process.env.REACT_APP_SERVER_URL}/auth/login`,
@@ -51,7 +51,7 @@ export default function Auth() {
     getToken()
       .then((res) => {
         if (res) {
-          authLoginFunc(res.data.access_token);
+          authLogin(res.data.access_token);
         }
       })
       .catch((err) => console.log(err));

@@ -40,10 +40,10 @@ export default function PhotographerBox({ data }: Props) {
   };
 
   const onClickSave = () => {
-    requireLogin(() => savePhotographerFunc(isClipped));
+    requireLogin(() => toggleSavePhotographer(isClipped));
   };
 
-  const savePhotographerFunc = async (isClipped: boolean) => {
+  const toggleSavePhotographer = async (isClipped: boolean) => {
     try {
       setIsClipped(!isClipped);
       isClipped

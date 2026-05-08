@@ -39,10 +39,10 @@ export default function PromotionBox({ data }: Props) {
   }, [data]);
 
   const onClickSave = () => {
-    requireLogin(() => savePromotionFunc(isClipped));
+    requireLogin(() => toggleSavePromotion(isClipped));
   };
 
-  const savePromotionFunc = async (isClipped: boolean) => {
+  const toggleSavePromotion = async (isClipped: boolean) => {
     try {
       setIsClipped(!isClipped);
       setSaveCount(isClipped ? saveCount - 1 : saveCount + 1);
