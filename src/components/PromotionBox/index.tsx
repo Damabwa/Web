@@ -9,7 +9,6 @@ import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
 import icn_time from "../../assets/svgs/icn_event_home_clock.svg";
 import icn_location from "../../assets/svgs/icn_event_home_location.svg";
-import icn_noPhotographer from "../../assets/svgs/icn_no_photogrpher.svg";
 import ModalCheck from "../ModalCheck";
 
 interface postData {
@@ -109,10 +108,6 @@ export default function PromotionBox({ data }: Props) {
                 className="object-cover min-w-full min-h-full"
                 src={image.url}
                 alt="이벤트 이미지"
-                loading="lazy"
-                onError={(e) => {
-                  e.currentTarget.src = icn_noPhotographer;
-                }}
               />
             </div>
           </div>

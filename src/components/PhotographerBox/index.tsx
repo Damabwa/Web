@@ -7,7 +7,6 @@ import { getPhotoType } from "../../hooks/getKorean";
 import { useLoginGuard } from "../../hooks/useLoginGuard";
 import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
-import icn_noPhotographer from "../../assets/svgs/icn_no_photogrpher.svg";
 import ModalCheck from "../ModalCheck";
 
 interface postData {
@@ -76,10 +75,6 @@ export default function PhotographerBox({ data }: Props) {
               src={data.profileImage.url}
               alt={data.profileImage.name}
               className="block object-cover min-w-full min-h-full"
-              loading="lazy"
-              onError={(e) => {
-                e.currentTarget.src = icn_noPhotographer;
-              }}
             />
             <div className="absolute bottom-0 left-0 w-full h-[40%] bg-card-overlay pointer-events-none" />
           </div>
