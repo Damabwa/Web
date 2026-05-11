@@ -40,7 +40,13 @@ export default function Auth() {
         localStorage.setItem("accessToken", res.data.accessToken.value);
         localStorage.setItem("refreshToken", res.data.refreshToken.value);
         if (res.status === 200 && res.data.isRegistrationCompleted) {
-          setUser({ id: res.data.user?.id ?? -1, roles: res.data.user?.roles ?? [] });
+          const user = res.data?.user;
+          if (!user) {
+            console.error("Login succeeded but user data is missing");
+            navigate("/login", { replace: true });
+            return;
+          }
+          setUser({ id: user.id, roles: user.roles ?? [] });
           navigate("/");
         } else navigate("/signup", { replace: true });
       } catch (e) {
