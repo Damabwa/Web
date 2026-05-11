@@ -29,13 +29,12 @@ export default function MyPage() {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const res =
-          role === "USER"
-            ? await getUserInfo()
-            : await getPhotographerInfo(user.id);
+        const [res, promotions, photographers] = await Promise.all([
+          role === "USER" ? getUserInfo() : getPhotographerInfo(user.id),
+          getSavedPromotionList(),
+          getSavedPhotographerList(),
+        ]);
         setUserInfo(res);
-        const promotions = await getSavedPromotionList();
-        const photographers = await getSavedPhotographerList();
         setSavedPromotions(promotions.items);
         setSavedPhotographers(photographers.items);
       } catch (e) {
