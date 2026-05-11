@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { PAGE_SIZE } from "../../../constants/validation";
 import { usePromotionList } from "../../../hooks/usePromotionList";
 import { getPhotoType } from "../../../hooks/getKorean";
 import { isMobileDevice } from "../../../utils/device";
@@ -12,10 +13,10 @@ export default function EventBox() {
   const navigate = useNavigate();
 
   const { promotions: ongoingEvents } = usePromotionList(
-    "page=0&pageSize=5&progressStatus=ONGOING"
+    `page=0&pageSize=${PAGE_SIZE.EVENT}&progressStatus=ONGOING`
   );
   const { promotions: upcomingEvents } = usePromotionList(
-    "page=0&pageSize=5&progressStatus=UPCOMING"
+    `page=0&pageSize=${PAGE_SIZE.EVENT}&progressStatus=UPCOMING`
   );
   const events = useMemo(
     () => [...ongoingEvents, ...upcomingEvents].slice(0, 5),

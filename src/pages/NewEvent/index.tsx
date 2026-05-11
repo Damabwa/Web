@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { VALIDATION } from "../../constants/validation";
 import InputBox from "../../components/InputBox";
 import SubHeader from "../../components/SubHeader";
 import GetImagesBox from "../../components/GetImagesBox";
@@ -99,7 +100,7 @@ export default function NewEvent() {
           isRequired={true}
           title="배너 사진"
           description="첫 번째 사진이 메인에 보이는 사진입니다"
-          maxLength={10}
+          maxLength={VALIDATION.EVENT_IMAGES.MAX}
           images={images}
           fileType="PROMOTION_IMAGE"
           setImages={setImages}
@@ -116,7 +117,7 @@ export default function NewEvent() {
           isRequired={true}
           title="상세 소개"
           minHeight="10.5rem"
-          maxLength={500}
+          maxLength={VALIDATION.EVENT_CONTENT.MAX}
           setValue={setContent}
           value={content}
         />

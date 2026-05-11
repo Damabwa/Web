@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { VALIDATION } from "../../../constants/validation";
 import { checkUserExistence } from "../../../api/user";
 import { checkPhotographerExistence } from "../../../api/photographer";
 import logo_damaba from "../../../assets/imgs/logo_damaba.png";
@@ -38,16 +39,17 @@ export default function SetProfile({
 
     setNickname(value);
 
-    const userRegex = /^[가-힣a-zA-Z0-9]+$/;
-    const photographerRegex = /^[가-힣a-zA-Z0-9\s]+$/;
-
     if (userInfo.role === "USER") {
       setIsValidName(
-        value.length > 1 && value.length <= 7 && userRegex.test(value)
+        value.length >= VALIDATION.NICKNAME_USER.MIN &&
+          value.length <= VALIDATION.NICKNAME_USER.MAX &&
+          VALIDATION.NICKNAME_USER.REGEX.test(value)
       );
     } else if (userInfo.role === "PHOTOGRAPHER") {
       setIsValidName(
-        value.length > 1 && value.length <= 18 && photographerRegex.test(value)
+        value.length >= VALIDATION.NICKNAME_PHOTOGRAPHER.MIN &&
+          value.length <= VALIDATION.NICKNAME_PHOTOGRAPHER.MAX &&
+          VALIDATION.NICKNAME_PHOTOGRAPHER.REGEX.test(value)
       );
     }
   };
@@ -55,9 +57,9 @@ export default function SetProfile({
   const handleIdInput = (e: any) => {
     let { value } = e.target;
     value = value.toLowerCase();
-    value = value.replace(/[^0-9a-z._]/g, "");
-    if (value.length > 30) {
-      value = value.slice(0, 30);
+    value = value.replace(VALIDATION.INSTAGRAM_ID.REGEX, "");
+    if (value.length > VALIDATION.INSTAGRAM_ID.MAX) {
+      value = value.slice(0, VALIDATION.INSTAGRAM_ID.MAX);
     }
     setInstagramId(value);
   };

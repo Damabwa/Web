@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { VALIDATION } from "../../constants/validation";
 import { checkPhotographerExistence } from "../../api/photographer";
 import { modifyPhotographerProfile } from "../../api/photographer";
 import SubHeader from "../../components/SubHeader";
@@ -53,9 +54,10 @@ export default function EditPhotographerProfile() {
     if (location.state?.nickname === value) setIsChangedName(false);
     setUserInfo({ ...userInfo, nickname: value });
 
-    const nicknameRegex = /^[가-힣a-zA-Z0-9\s]+$/;
     setIsValidName(
-      value.length > 1 && value.length <= 18 && nicknameRegex.test(value)
+      value.length >= VALIDATION.NICKNAME_PHOTOGRAPHER.MIN &&
+        value.length <= VALIDATION.NICKNAME_PHOTOGRAPHER.MAX &&
+        VALIDATION.NICKNAME_PHOTOGRAPHER.REGEX.test(value)
     );
   };
 

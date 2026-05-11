@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { VALIDATION } from "../../constants/validation";
 import { checkUserExistence, modifyProfile } from "../../api/user";
 import { onImageHandler } from "../../hooks/onImageHandler";
 import icn_camera from "../../assets/svgs/icn_profile_camera_white.svg";
@@ -74,11 +75,10 @@ export default function EditUserProfile() {
     setUserInfo({ ...userInfo, nickname: e.target.value });
     if (location.state.nickname === e.target.value) setIsChangedName(false);
 
-    const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
     setIsValidName(
-      e.target.value.length > 1 &&
-        e.target.value.length < 8 &&
-        nicknameRegex.test(e.target.value)
+      e.target.value.length >= VALIDATION.NICKNAME_USER.MIN &&
+        e.target.value.length <= VALIDATION.NICKNAME_USER.MAX &&
+        VALIDATION.NICKNAME_USER.REGEX.test(e.target.value)
     );
   };
 
@@ -88,9 +88,9 @@ export default function EditUserProfile() {
       setIsChangedInstaId(false);
     let { value } = e.target;
     value = value.toLowerCase();
-    value = value.replace(/[^0-9a-z._]/g, "");
-    if (value.length > 30) {
-      value = value.slice(0, 30);
+    value = value.replace(VALIDATION.INSTAGRAM_ID.REGEX, "");
+    if (value.length > VALIDATION.INSTAGRAM_ID.MAX) {
+      value = value.slice(0, VALIDATION.INSTAGRAM_ID.MAX);
     }
     setUserInfo({ ...userInfo, instagramId: value });
   };
