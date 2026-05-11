@@ -36,6 +36,8 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
   };
 
   const toggleSavePhotographer = async () => {
+    const prevCount = count;
+    const prevIsSaved = isSavedPhotographer;
     setCount(isSavedPhotographer ? count - 1 : count + 1);
     setIsSavedPhotographer(!isSavedPhotographer);
     try {
@@ -43,6 +45,8 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
         ? await deleteSavedPhotographer(userInfo.id)
         : await savePhotographer(userInfo.id);
     } catch (e) {
+      setCount(prevCount);
+      setIsSavedPhotographer(prevIsSaved);
       setShowLoginModal(true);
       console.log(e);
     }
