@@ -40,7 +40,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
     setIsSavedPhotographer(!isSavedPhotographer);
     try {
       isSavedPhotographer
-        ? deleteSavedPhotographer(userInfo.id)
+        ? await deleteSavedPhotographer(userInfo.id)
         : await savePhotographer(userInfo.id);
     } catch (e) {
       setShowLoginModal(true);
