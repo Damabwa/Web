@@ -21,7 +21,7 @@ export default function InputLongformBox({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.value.length <= 1000) {
+    if (e.target.value.length <= maxLength) {
       setValue(e.target.value);
       setText(e.target.value);
     }
