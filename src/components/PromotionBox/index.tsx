@@ -37,7 +37,7 @@ export default function PromotionBox({ data }: Props) {
   useEffect(() => {
     setIsClipped(data.isSaved);
     setSaveCount(data.saveCount);
-  }, [data]);
+  }, [data.isSaved, data.saveCount]);
 
   const dDayText = useMemo(() => getDDayText(data.endedAt), [data.endedAt]);
 
@@ -45,18 +45,18 @@ export default function PromotionBox({ data }: Props) {
     async (clipped: boolean) => {
       try {
         setIsClipped(!clipped);
-        setSaveCount(clipped ? saveCount - 1 : saveCount + 1);
+        setSaveCount((prev) => (clipped ? prev - 1 : prev + 1));
         clipped
           ? await deleteSavedPromotion(data.id)
           : await savePromotion(data.id);
       } catch (e) {
-        setIsClipped(false);
-        setSaveCount(clipped ? saveCount + 1 : saveCount - 1);
+        setIsClipped(clipped);
+        setSaveCount((prev) => (clipped ? prev + 1 : prev - 1));
         setShowLoginModal(true);
         console.log(e);
       }
     },
-    [data.id, saveCount, setShowLoginModal],
+    [data.id, setShowLoginModal],
   );
 
   const onClickSave = useCallback(() => {

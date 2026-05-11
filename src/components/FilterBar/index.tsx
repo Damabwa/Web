@@ -78,6 +78,8 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
     setClickedFilter(type);
   }, []);
 
+  const handleCloseSelectBar = useCallback(() => setShowSelectBar(false), []);
+
   return (
     <div className="w-full">
       <div className="flex items-center gap-2 min-w-full h-[3.75rem] p-3 text-sm font-medium whitespace-nowrap overflow-x-scroll">
@@ -135,7 +137,7 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
         <div className="fixed bottom-0 z-40 flex items-end h-screen w-full max-w-[430px]">
           <div
             className="absolute top-0 w-full h-screen bg-black bg-opacity-40"
-            onClick={() => setShowSelectBar(false)}
+            onClick={handleCloseSelectBar}
           />
           <div
             className={`w-full ${showSelectBar ? "animate-slideUp" : "hidden"}`}

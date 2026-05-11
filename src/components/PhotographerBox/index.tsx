@@ -28,7 +28,7 @@ export default function PhotographerBox({ data }: Props) {
 
   useEffect(() => {
     setIsClipped(data.isSaved);
-  }, [data]);
+  }, [data.isSaved]);
 
   const nickname = useMemo(
     () =>
@@ -50,7 +50,7 @@ export default function PhotographerBox({ data }: Props) {
           ? await deleteSavedPhotographer(data.id)
           : await savePhotographer(data.id);
       } catch (e) {
-        setIsClipped(false);
+        setIsClipped(clipped);
         setShowLoginModal(true);
         console.log(e);
       }
