@@ -27,21 +27,31 @@ export default function MyPage() {
   const role = user.roles.includes("PHOTOGRAPHER") ? "PHOTOGRAPHER" : "USER";
 
   useEffect(() => {
+    let ignore = false;
     const fetchUserInfo = async () => {
-      try {
-        const [res, promotions, photographers] = await Promise.all([
+      const [resResult, promotionsResult, photographersResult] =
+        await Promise.allSettled([
           role === "USER" ? getUserInfo() : getPhotographerInfo(user.id),
           getSavedPromotionList(),
           getSavedPhotographerList(),
         ]);
-        setUserInfo(res);
-        setSavedPromotions(promotions.items);
-        setSavedPhotographers(photographers.items);
-      } catch (e) {
-        console.log(e);
+      if (ignore) return;
+      if (resResult.status === "fulfilled") {
+        setUserInfo(resResult.value);
+      } else {
+        console.error("Failed to load user profile", resResult.reason);
+      }
+      if (promotionsResult.status === "fulfilled") {
+        setSavedPromotions(promotionsResult.value.items);
+      }
+      if (photographersResult.status === "fulfilled") {
+        setSavedPhotographers(photographersResult.value.items);
       }
     };
     fetchUserInfo();
+    return () => {
+      ignore = true;
+    };
   }, [role, user.id]);
 
   if (!userInfo) return <></>;
