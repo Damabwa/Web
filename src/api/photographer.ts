@@ -31,17 +31,17 @@ export const getPhotographerInfo = async (photographerId: number) =>
     true
   );
 
-export const photographerRegistration = async (
+export const createPhotographer = async (
   body: PhotographerRegistrationBody
 ) => await POST<RegistrationResponse>(`/photographers/me/registration`, body, true);
 
-export const savePhotographer = async (photographerId: number) =>
+export const createSavedPhotographer = async (photographerId: number) =>
   await POST(`/photographers/${photographerId}/save`, {}, true);
 
-export const putPhotographerPage = async (body: PhotographerPageBody) =>
+export const updatePhotographerPage = async (body: PhotographerPageBody) =>
   await PUT(`/photographers/me/page`, body, true);
 
-export const modifyPhotographerProfile = async (
+export const updatePhotographerProfile = async (
   body: ModifyPhotographerProfileBody
 ) => await PUT(`/photographers/me/profile`, body, true);
 

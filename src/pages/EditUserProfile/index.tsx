@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { VALIDATION } from "../../constants/validation";
-import { checkUserExistence, modifyProfile } from "../../api/user";
+import { checkUserExistence, updateProfile } from "../../api/user";
 import { onImageHandler } from "../../hooks/onImageHandler";
 import icn_camera from "../../assets/svgs/icn_profile_camera_white.svg";
 import icn_profile from "../../assets/svgs/icn_profile.svg";
@@ -109,7 +109,7 @@ export default function EditUserProfile() {
   const onClickSave = async () => {
     const { nickname, instagramId, profileImage } = userInfo;
     try {
-      await modifyProfile({ nickname, instagramId, profileImage });
+      await updateProfile({ nickname, instagramId, profileImage });
     } catch (e) {
       console.log(e);
     } finally {

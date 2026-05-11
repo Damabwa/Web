@@ -11,8 +11,8 @@ export const getUserInfo = async () => await GET<UserInfo>(`/users/me`, true);
 
 export const deleteUser = async () => await DELETE(`/users/me`, true);
 
-export const userRegistration = async (body: UserRegistrationBody) =>
+export const createUser = async (body: UserRegistrationBody) =>
   await POST<RegistrationResponse>(`/users/me/registration`, body, true);
 
-export const modifyProfile = async (body: ModifyProfileBody) =>
+export const updateProfile = async (body: ModifyProfileBody) =>
   await PUT<UserInfo>(`/users/me/profile`, body, true);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   deleteSavedPhotographer,
-  savePhotographer,
+  createSavedPhotographer,
 } from "../../api/photographer";
 import { getPhotoType } from "../../hooks/getKorean";
 import { useLoginGuard } from "../../hooks/useLoginGuard";
@@ -43,7 +43,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
     try {
       isSavedPhotographer
         ? await deleteSavedPhotographer(userInfo.id)
-        : await savePhotographer(userInfo.id);
+        : await createSavedPhotographer(userInfo.id);
     } catch (e) {
       setCount(prevCount);
       setIsSavedPhotographer(prevIsSaved);
