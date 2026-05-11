@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { savePromotion, deleteSavedPromotion } from "../../api/promotion";
+import { createSavedPromotion, deleteSavedPromotion } from "../../api/promotion";
 import { useLoginGuard } from "../../hooks/useLoginGuard";
 import { getDDayText } from "../../utils/date";
 import { Region } from "../../types/common";
@@ -9,6 +9,7 @@ import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
 import icn_time from "../../assets/svgs/icn_event_home_clock.svg";
 import icn_location from "../../assets/svgs/icn_event_home_location.svg";
+import icn_camera from "../../assets/svgs/icn_camera.svg";
 import ModalCheck from "../ModalCheck";
 
 interface postData {
@@ -48,7 +49,7 @@ export default function PromotionBox({ data }: Props) {
         setSaveCount((prev) => (clipped ? prev - 1 : prev + 1));
         clipped
           ? await deleteSavedPromotion(data.id)
-          : await savePromotion(data.id);
+          : await createSavedPromotion(data.id);
       } catch (e) {
         setIsClipped(clipped);
         setSaveCount((prev) => (clipped ? prev + 1 : prev - 1));
@@ -108,6 +109,11 @@ export default function PromotionBox({ data }: Props) {
                 className="object-cover min-w-full min-h-full"
                 src={image.url}
                 alt="이벤트 이미지"
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = icn_camera;
+                }}
               />
             </div>
           </div>

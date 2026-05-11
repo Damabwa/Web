@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { VALIDATION } from "../../constants/validation";
 import { checkPhotographerExistence } from "../../api/photographer";
-import { modifyPhotographerProfile } from "../../api/photographer";
+import { updatePhotographerProfile } from "../../api/photographer";
 import SubHeader from "../../components/SubHeader";
 import ProfileImage from "../../components/ProfileImage";
 import Types from "../../components/Types";
@@ -77,7 +77,7 @@ export default function EditPhotographerProfile() {
   const onClickSave = async () => {
     const { nickname, profileImage } = userInfo;
     try {
-      await modifyPhotographerProfile({
+      await updatePhotographerProfile({
         nickname,
         profileImage,
         mainPhotographyTypes,
