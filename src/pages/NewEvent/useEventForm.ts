@@ -4,7 +4,7 @@ import { VALIDATION } from "../../constants/validation";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../atom/atom";
 import { getUserInfo } from "../../api/user";
-import { postPromotion, putPromotion } from "../../api/promotion";
+import { createPromotion, updatePromotion } from "../../api/promotion";
 import { ImageFile } from "../../types/common";
 
 export function useEventForm() {
@@ -111,9 +111,9 @@ export function useEventForm() {
     };
     try {
       if (location.state) {
-        await putPromotion(location.state.id, body);
+        await updatePromotion(location.state.id, body);
       } else {
-        await postPromotion(body);
+        await createPromotion(body);
       }
       navigate(`/events`, { replace: true });
     } catch (e) {

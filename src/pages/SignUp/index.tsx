@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../../atom/atom";
-import { userRegistration } from "../../api/user";
-import { photographerRegistration } from "../../api/photographer";
+import { createUser } from "../../api/user";
+import { createPhotographer } from "../../api/photographer";
 import SelectRole from "./SelectRole";
 import SetProfile from "./SetProfile";
 import Route from "./Route";
@@ -41,7 +41,7 @@ export default function SignUp() {
   const submitUserSignUp = async () => {
     if (userInfo.role === "PHOTOGRAPHER") return;
     try {
-      const res = await userRegistration({
+      const res = await createUser({
         nickname: userInfo.nickname,
         gender: userInfo.gender as "MALE" | "FEMALE",
         instagramId: userInfo.instagramId,
@@ -59,7 +59,7 @@ export default function SignUp() {
   const submitPhotographerSignUp = async () => {
     if (userInfo.role === "USER") return;
     try {
-      const res = await photographerRegistration({
+      const res = await createPhotographer({
         nickname: userInfo.nickname,
         gender: userInfo.gender as "MALE" | "FEMALE",
         instagramId: userInfo.instagramId,

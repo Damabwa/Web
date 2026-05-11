@@ -20,13 +20,13 @@ export const getPromotionDetail = async (promotionId: number) =>
 export const getPromotion = async (promotionId: number) =>
   await GET<PromotionDetail>(`/promotions/${promotionId}`);
 
-export const postPromotion = async (body: PromotionBody) =>
+export const createPromotion = async (body: PromotionBody) =>
   await POST(`/promotions`, body, true);
 
-export const savePromotion = async (promotionId: number) =>
+export const createSavedPromotion = async (promotionId: number) =>
   await POST(`/promotions/${promotionId}/save`, {}, true);
 
-export const putPromotion = async (promotionId: number, body: PromotionBody) =>
+export const updatePromotion = async (promotionId: number, body: PromotionBody) =>
   await PUT(`/promotions/${promotionId}`, body, true);
 
 export const deleteSavedPromotion = async (promotionId: number) =>

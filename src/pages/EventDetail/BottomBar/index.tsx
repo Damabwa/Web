@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { savePromotion, deleteSavedPromotion } from "../../../api/promotion";
+import { createSavedPromotion, deleteSavedPromotion } from "../../../api/promotion";
 import { useLoginGuard } from "../../../hooks/useLoginGuard";
 import icn_clip_off from "../../../assets/svgs/icn_clip.svg";
 import icn_clip_on from "../../../assets/svgs/icn_clipOn.svg";
@@ -28,7 +28,7 @@ export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
     try {
       isSavedPromotion
         ? await deleteSavedPromotion(id)
-        : await savePromotion(id);
+        : await createSavedPromotion(id);
     } catch (e) {
       setShowLoginModal(true);
       console.log(e);
