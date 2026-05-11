@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { savePromotion, deleteSavedPromotion } from "../../api/promotion";
+import { createSavedPromotion, deleteSavedPromotion } from "../../api/promotion";
 import { useLoginGuard } from "../../hooks/useLoginGuard";
 import { getDDayText } from "../../utils/date";
 import { Region } from "../../types/common";
@@ -49,7 +49,7 @@ export default function PromotionBox({ data }: Props) {
         setSaveCount((prev) => (clipped ? prev - 1 : prev + 1));
         clipped
           ? await deleteSavedPromotion(data.id)
-          : await savePromotion(data.id);
+          : await createSavedPromotion(data.id);
       } catch (e) {
         setIsClipped(clipped);
         setSaveCount((prev) => (clipped ? prev + 1 : prev - 1));

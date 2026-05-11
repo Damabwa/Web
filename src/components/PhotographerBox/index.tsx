@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  savePhotographer,
+  createSavedPhotographer,
   deleteSavedPhotographer,
 } from "../../api/photographer";
 import { getPhotoType } from "../../hooks/getKorean";
@@ -49,7 +49,7 @@ export default function PhotographerBox({ data }: Props) {
         setIsClipped(!clipped);
         clipped
           ? await deleteSavedPhotographer(data.id)
-          : await savePhotographer(data.id);
+          : await createSavedPhotographer(data.id);
       } catch (e) {
         setIsClipped(clipped);
         setShowLoginModal(true);
