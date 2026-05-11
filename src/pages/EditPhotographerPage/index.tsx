@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { VALIDATION } from "../../constants/validation";
-import { putPhotographerPage } from "../../api/photographer";
+import { updatePhotographerPage } from "../../api/photographer";
 import SubHeader from "../../components/SubHeader";
 import InputBox from "../../components/InputBox";
 import InputIDBox from "../../components/InputIDBox";
@@ -81,7 +81,7 @@ export default function EditPhotographerPage() {
 
   const submitPhotographerPage = async () => {
     try {
-      await putPhotographerPage({
+      await updatePhotographerPage({
         portfolio,
         address,
         instagramId,
