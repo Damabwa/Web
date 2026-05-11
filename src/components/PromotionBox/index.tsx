@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { savePromotion, deleteSavedPromotion } from "../../api/promotion";
 import { useLoginGuard } from "../../hooks/useLoginGuard";
@@ -37,37 +37,42 @@ export default function PromotionBox({ data }: Props) {
   useEffect(() => {
     setIsClipped(data.isSaved);
     setSaveCount(data.saveCount);
-  }, [data]);
+  }, [data.isSaved, data.saveCount]);
 
-  const onClickSave = () => {
+  const dDayText = useMemo(() => getDDayText(data.endedAt), [data.endedAt]);
+
+  const savePromotionFunc = useCallback(
+    async (clipped: boolean) => {
+      try {
+        setIsClipped(!clipped);
+        setSaveCount((prev) => (clipped ? prev - 1 : prev + 1));
+        clipped
+          ? await deleteSavedPromotion(data.id)
+          : await savePromotion(data.id);
+      } catch (e) {
+        setIsClipped(clipped);
+        setSaveCount((prev) => (clipped ? prev + 1 : prev - 1));
+        setShowLoginModal(true);
+        console.log(e);
+      }
+    },
+    [data.id, setShowLoginModal],
+  );
+
+  const onClickSave = useCallback(() => {
     requireLogin(() => savePromotionFunc(isClipped));
-  };
+  }, [requireLogin, savePromotionFunc, isClipped]);
 
-  const savePromotionFunc = async (isClipped: boolean) => {
-    try {
-      setIsClipped(!isClipped);
-      setSaveCount(isClipped ? saveCount - 1 : saveCount + 1);
-      isClipped
-        ? await deleteSavedPromotion(data.id)
-        : await savePromotion(data.id);
-    } catch (e) {
-      setIsClipped(false);
-      setSaveCount(isClipped ? saveCount + 1 : saveCount - 1);
-      setShowLoginModal(true);
-      console.log(e);
-    }
-  };
-
-  const openDetailPage = () => {
+  const openDetailPage = useCallback(() => {
     isMobileDevice()
       ? navigate(`/event/${data.id}`)
       : window.open(`/event/${data.id}`);
-  };
+  }, [data.id, navigate]);
 
   return (
     <div className="flex flex-col py-5 cursor-pointer">
       <div className="flex items-start justify-between px-4">
-        <div className="flex flex-col flex-1" onClick={() => openDetailPage()}>
+        <div className="flex flex-col flex-1" onClick={openDetailPage}>
           <span className="mb-1 text-lg font-semibold">{data.title}</span>
           <div className="flex items-center gap-[0.38rem] text-sm text-black02">
             {data.author && !data.author.isAdmin && (
@@ -88,13 +93,13 @@ export default function PromotionBox({ data }: Props) {
           <img
             alt="clip"
             src={isClipped ? icn_clipOn : icn_clipOff}
-            onClick={() => onClickSave()}
+            onClick={onClickSave}
           />
         </div>
       </div>
       <div
         className="flex w-full gap-3 py-3 pl-4 pr-4 overflow-x-auto "
-        onClick={() => openDetailPage()}
+        onClick={openDetailPage}
       >
         {data.images.map((image, index) => (
           <div key={index} className="gap-[0.62rem]">
@@ -110,11 +115,11 @@ export default function PromotionBox({ data }: Props) {
       </div>
       <div
         className="flex flex-col gap-1 pl-4 text-xs text-black03 "
-        onClick={() => openDetailPage()}
+        onClick={openDetailPage}
       >
         <div className="flex items-center gap-1">
           <img src={icn_time} alt="" />
-          <span>{getDDayText(data.endedAt)}</span>
+          <span>{dDayText}</span>
         </div>
         <div className="flex items-center gap-1">
           <img src={icn_location} alt="" />

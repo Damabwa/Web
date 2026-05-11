@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   savePhotographer,
   deleteSavedPhotographer,
@@ -28,33 +28,39 @@ export default function PhotographerBox({ data }: Props) {
 
   useEffect(() => {
     setIsClipped(data.isSaved);
-  }, [data]);
+  }, [data.isSaved]);
 
-  const handleTextLength = () => {
-    if (data.nickname.length < 8) return data.nickname;
-    return `${data.nickname.slice(0, 8)}...`;
-  };
+  const nickname = useMemo(
+    () =>
+      data.nickname.length < 8
+        ? data.nickname
+        : `${data.nickname.slice(0, 8)}...`,
+    [data.nickname],
+  );
 
-  const onClickPhotographer = () => {
+  const onClickPhotographer = useCallback(() => {
     window.open(`/photographer/${data.id}`);
-  };
+  }, [data.id]);
 
-  const onClickSave = () => {
+  const savePhotographerFunc = useCallback(
+    async (clipped: boolean) => {
+      try {
+        setIsClipped(!clipped);
+        clipped
+          ? await deleteSavedPhotographer(data.id)
+          : await savePhotographer(data.id);
+      } catch (e) {
+        setIsClipped(clipped);
+        setShowLoginModal(true);
+        console.log(e);
+      }
+    },
+    [data.id, setShowLoginModal],
+  );
+
+  const onClickSave = useCallback(() => {
     requireLogin(() => savePhotographerFunc(isClipped));
-  };
-
-  const savePhotographerFunc = async (isClipped: boolean) => {
-    try {
-      setIsClipped(!isClipped);
-      isClipped
-        ? await deleteSavedPhotographer(data.id)
-        : await savePhotographer(data.id);
-    } catch (e) {
-      setIsClipped(false);
-      setShowLoginModal(true);
-      console.log(e);
-    }
-  };
+  }, [requireLogin, savePhotographerFunc, isClipped]);
 
   if (!data) return <></>;
   return (
@@ -62,7 +68,7 @@ export default function PhotographerBox({ data }: Props) {
       <div className="relative flex flex-col justify-between w-full text-white cursor-pointer h-44 bg-gray rounded-xl">
         <div
           className="absolute top-0 left-0 z-0 w-full h-full"
-          onClick={() => onClickPhotographer()}
+          onClick={onClickPhotographer}
         >
           <div className="relative inline-block w-full h-full overflow-hidden rounded-xl">
             <img
@@ -78,12 +84,12 @@ export default function PhotographerBox({ data }: Props) {
             <img
               alt="clip"
               src={isClipped ? icn_clipOn : icn_clipOff}
-              onClick={() => onClickSave()}
+              onClick={onClickSave}
             />
           </div>
         </div>
-        <div className="z-10 p-3" onClick={() => onClickPhotographer()}>
-          <div className="font-semibold">{handleTextLength()}</div>
+        <div className="z-10 p-3" onClick={onClickPhotographer}>
+          <div className="font-semibold">{nickname}</div>
           <div className="flex items-center gap-1 text-xs">
             {data.mainPhotographyTypes.map((type, index) => (
               <div key={index}>
