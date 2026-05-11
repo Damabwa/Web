@@ -1,5 +1,6 @@
 import { useMemo, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { VALIDATION } from "../../constants/validation";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../atom/atom";
 import { getUserInfo } from "../../api/user";
@@ -53,7 +54,7 @@ export function useEventForm() {
 
   const isValid = useMemo(
     () =>
-      title.length >= 3 &&
+      title.length >= VALIDATION.EVENT_TITLE.MIN &&
       photographyTypes.length > 0 &&
       activeRegions.length > 0 &&
       promotionType.length > 0 &&
@@ -78,7 +79,7 @@ export function useEventForm() {
   );
 
   const handleTitleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 30) setTitle(e.target.value);
+    if (e.target.value.length <= VALIDATION.EVENT_TITLE.MAX) setTitle(e.target.value);
   };
 
   const handleUrlInput = (e: React.ChangeEvent<HTMLInputElement>) => {

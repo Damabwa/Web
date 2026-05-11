@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { VALIDATION } from "../../constants/validation";
 import { putPhotographerPage } from "../../api/photographer";
 import SubHeader from "../../components/SubHeader";
 import InputBox from "../../components/InputBox";
@@ -71,9 +72,9 @@ export default function EditPhotographerPage() {
   const handleIdInput = (e: any) => {
     let { value } = e.target;
     value = value.toLowerCase();
-    value = value.replace(/[^0-9a-z._]/g, "");
-    if (value.length > 30) {
-      value = value.slice(0, 30);
+    value = value.replace(VALIDATION.INSTAGRAM_ID.REGEX, "");
+    if (value.length > VALIDATION.INSTAGRAM_ID.MAX) {
+      value = value.slice(0, VALIDATION.INSTAGRAM_ID.MAX);
     }
     setInstagramId(value);
   };

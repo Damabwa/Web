@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { VALIDATION } from "../../constants/validation";
 import InputBox from "../../components/InputBox";
 import SubHeader from "../../components/SubHeader";
 import GetImagesBox from "../../components/GetImagesBox";
@@ -54,7 +55,7 @@ export default function NewEvent() {
             description=""
             placeholder="이벤트 제목을 입력해주세요."
             onChange={handleTitleInput}
-            bottomText="공백 포함 3-30자"
+            bottomText={`공백 포함 ${VALIDATION.EVENT_TITLE.MIN}-${VALIDATION.EVENT_TITLE.MAX}자`}
             value={title}
           />
         </div>
@@ -99,7 +100,7 @@ export default function NewEvent() {
           isRequired={true}
           title="배너 사진"
           description="첫 번째 사진이 메인에 보이는 사진입니다"
-          maxLength={10}
+          maxLength={VALIDATION.EVENT_IMAGES.MAX}
           images={images}
           fileType="PROMOTION_IMAGE"
           setImages={setImages}
@@ -116,7 +117,7 @@ export default function NewEvent() {
           isRequired={true}
           title="상세 소개"
           minHeight="10.5rem"
-          maxLength={500}
+          maxLength={VALIDATION.EVENT_CONTENT.MAX}
           setValue={setContent}
           value={content}
         />
@@ -136,7 +137,7 @@ export default function NewEvent() {
       )}
       {showImageModal && (
         <ModalConfirm
-          content={["배너 사진은", "최대 10장까지 첨부할 수 있어요"]}
+          content={["배너 사진은", `최대 ${VALIDATION.EVENT_IMAGES.MAX}장까지 첨부할 수 있어요`]}
           setShowModal={setShowImageModal}
         />
       )}
