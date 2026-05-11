@@ -120,7 +120,7 @@ export default function EditPhotographerProfile() {
                   : "text-red"
               }`}
             >
-              {"한글, 영어, 숫자, 공백 조합 18자 이내"}
+              {`한글, 영어, 숫자, 공백 조합 ${VALIDATION.NICKNAME_PHOTOGRAPHER.MAX}자 이내`}
             </div>
           ) : (
             <div

@@ -182,7 +182,7 @@ export default function EditUserProfile() {
                 {!isValidName &&
                   userInfo.nickname &&
                   userInfo.nickname.length > 0 &&
-                  "한글, 영어, 숫자 조합 2-7자만 가능해요."}
+                  `한글, 영어, 숫자 조합 ${VALIDATION.NICKNAME_USER.MIN}-${VALIDATION.NICKNAME_USER.MAX}자만 가능해요.`}
                 {userInfo.nickname &&
                   userInfo.nickname.length === 0 &&
                   "닉네임을 입력해주세요."}
