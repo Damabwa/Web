@@ -17,31 +17,29 @@ export default function PhotographersHome() {
   return (
     <div className="flex flex-col w-full min-h-screen">
       <div className="h-12">
-        <Header
-          main={
-            <div className="font-semibold text-white cursor-pointer">
-              작가님을 만나봐
-            </div>
-          }
-          left={
+        <Header>
+          <Header.Left>
             <img
               className="px-4 cursor-pointer"
               alt="<"
               src={icn_back}
-              onClick={() => {
-                navigate(`/`);
-              }}
+              onClick={() => navigate(`/`)}
             />
-          }
-          right={
+          </Header.Left>
+          <Header.Center>
+            <div className="font-semibold text-white cursor-pointer">
+              작가님을 만나봐
+            </div>
+          </Header.Center>
+          <Header.Right>
             <img
               className="px-4 cursor-pointer"
               src={icn_search}
               alt="검색"
               onClick={() => navigate(`/search`)}
             />
-          }
-        />
+          </Header.Right>
+        </Header>
       </div>
       <div className="border-b-[0.375rem] border-gray50">
         <FilterBar isEvent={false} setSearchParams={setSearchParams} />

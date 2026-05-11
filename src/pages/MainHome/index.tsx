@@ -51,19 +51,22 @@ function MainHome() {
   return (
     <div className="w-full">
       <div className="h-12">
-        <Header
-          main={null}
-          left={
+        <Header>
+          <Header.Left>
             <img
               className="w-[4.75rem] cursor-pointer ml-4"
               onClick={() => navigate(`/`)}
               src={logo_header}
               alt="담아봐"
             />
-          }
-          right={
+          </Header.Left>
+          <Header.Right>
             <div className="flex items-center gap-2">
-              <img src={icn_search} alt="검색" onClick={() => navigate(`/search`)} />
+              <img
+                src={icn_search}
+                alt="검색"
+                onClick={() => navigate(`/search`)}
+              />
               <img
                 className="mr-4"
                 src={icn_mypage}
@@ -71,8 +74,8 @@ function MainHome() {
                 onClick={() => handleMyPageClick()}
               />
             </div>
-          }
-        />
+          </Header.Right>
+        </Header>
       </div>
       <div className="w-full px-4 pt-3">
         <BannerBox />
