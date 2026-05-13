@@ -58,17 +58,16 @@ export default function Terms({ onNext, role }: Props) {
       isChecked: !allCheck,
     }));
     setTermsList(updated);
-    setAllCheck(!allCheck);
   };
 
   useEffect(() => {
-    setIsValid(true);
-    termsList.forEach((item) => {
-      if (item.roles.includes(role) && !item.isChecked) {
-        setAllCheck(false);
-        if (item.isRequired) setIsValid(false);
-      }
-    });
+    const roleItems = termsList.filter((item) => item.roles.includes(role));
+    const allChecked = roleItems.every((item) => item.isChecked);
+    const allRequiredChecked = roleItems.every(
+      (item) => !item.isRequired || item.isChecked
+    );
+    setAllCheck(allChecked);
+    setIsValid(allRequiredChecked);
   }, [termsList, role]);
 
   return (
