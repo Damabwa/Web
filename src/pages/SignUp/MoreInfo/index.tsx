@@ -8,7 +8,7 @@ import ButtonActive from "../../../components/ButtonActive";
 interface Props {
   userInfo: any;
   setUserInfo: React.Dispatch<React.SetStateAction<any>>;
-  onNext: () => void;
+  onNext: (updates: { mainPhotographyTypes: string[]; activeRegions: string[] }) => void;
 }
 
 export default function MoreInfo({
@@ -33,12 +33,7 @@ export default function MoreInfo({
   }, [userInfo, mainPhotographyTypes, locs]);
 
   const handleNext = () => {
-    setUserInfo({
-      ...userInfo,
-      mainPhotographyTypes,
-      activeRegions: locs,
-    });
-    onNext();
+    onNext({ mainPhotographyTypes, activeRegions: locs });
   };
 
   return (
