@@ -12,7 +12,7 @@ export function usePhotographerList(params: string, enabled = true) {
     let cancelled = false;
     setIsLoading(true);
     setError(null);
-    getPhotographerList(params)
+    getPhotographerList(new URLSearchParams(params))
       .then((res) => {
         if (!cancelled) setPhotographers(res.items);
       })

@@ -12,11 +12,11 @@ export default function SearchPage() {
 
   const isOverview = state === "OVERVIEW" && !!searchKeyword;
   const { promotions: promotionList } = usePromotionList(
-    `searchKeyword=${searchKeyword}`,
+    new URLSearchParams({ searchKeyword }).toString(),
     isOverview
   );
   const { photographers: photographerList } = usePhotographerList(
-    `searchKeyword=${searchKeyword}`,
+    new URLSearchParams({ searchKeyword }).toString(),
     isOverview
   );
 
