@@ -12,7 +12,7 @@ export function usePromotionList(params: string, enabled = true) {
     let cancelled = false;
     setIsLoading(true);
     setError(null);
-    getPromotionList(params)
+    getPromotionList(new URLSearchParams(params))
       .then((res) => {
         if (!cancelled) setPromotions(res.items);
       })

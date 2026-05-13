@@ -2,9 +2,9 @@ import { GET, PUT, POST, DELETE } from "../utils/axios";
 import { PromotionBody, PromotionDetail, PromotionListItem } from "../types/promotion";
 import { PaginatedResponse } from "../types/common";
 
-export const getPromotionList = async (params: string) =>
+export const getPromotionList = async (params: URLSearchParams) =>
   await GET<PaginatedResponse<PromotionListItem>>(
-    `/promotions/list?${params}`,
+    `/promotions/list?${params.toString()}`,
     localStorage.getItem("accessToken") ? true : false
   );
 
