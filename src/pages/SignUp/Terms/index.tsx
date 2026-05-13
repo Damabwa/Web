@@ -58,7 +58,6 @@ export default function Terms({ onNext, role }: Props) {
       isChecked: !allCheck,
     }));
     setTermsList(updated);
-    setAllCheck(!allCheck);
   };
 
   useEffect(() => {
