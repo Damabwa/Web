@@ -19,7 +19,7 @@ export default function Promotions({ data, searchKeyword }: Props) {
       const p = new URLSearchParams(searchParams);
       p.set("searchKeyword", searchKeyword);
       try {
-        const res = await getPromotionList(p.toString());
+        const res = await getPromotionList(p);
         setPromotionList(res.items);
       } catch (e) {
         console.log(e);

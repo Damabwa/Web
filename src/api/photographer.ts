@@ -13,9 +13,9 @@ export const checkPhotographerExistence = async (nickname: string) =>
     `/photographers/nicknames/existence?nickname=${nickname}`
   );
 
-export const getPhotographerList = async (params: string) =>
+export const getPhotographerList = async (params: URLSearchParams) =>
   await GET<PaginatedResponse<PhotographerListItem>>(
-    `/photographers/list?${params}`,
+    `/photographers/list?${params.toString()}`,
     localStorage.getItem("accessToken") ? true : false
   );
 
