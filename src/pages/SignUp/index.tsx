@@ -22,7 +22,7 @@ export default function SignUp() {
     instagramId: null,
     profileImage: { name: "", url: "" },
     mainPhotographyTypes: [""],
-    activeRegions: [],
+    activeRegions: [] as string[],
   });
 
   const handleRoleSelect = (selectedRole: string) => {
@@ -30,8 +30,11 @@ export default function SignUp() {
     setStep(step + 1);
   };
 
-  const goToNextStep = () => {
-    setStep(step + 1);
+  const goToNextStep = (updates?: { mainPhotographyTypes?: string[]; activeRegions?: string[] }) => {
+    if (updates) {
+      setUserInfo((prev) => ({ ...prev, ...updates }));
+    }
+    setStep((prev) => prev + 1);
   };
 
   const handleSignUp = () => {
