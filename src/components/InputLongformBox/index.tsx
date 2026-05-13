@@ -17,7 +17,7 @@ export default function InputLongformBox({
   setValue,
   value,
 }: Props) {
-  const [text, setText] = useState<string>("");
+  const [text, setText] = useState<string>(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
