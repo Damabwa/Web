@@ -22,7 +22,7 @@ export default function SignUp() {
     instagramId: null,
     profileImage: { name: "", url: "" },
     mainPhotographyTypes: [""],
-    activeRegions: [],
+    activeRegions: [] as string[],
   });
 
   const handleRoleSelect = (selectedRole: string) => {
