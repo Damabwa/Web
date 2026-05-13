@@ -23,6 +23,8 @@ export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
   };
 
   const toggleSavePromotion = async () => {
+    const prevCount = count;
+    const prevIsSaved = isSavedPromotion;
     setCount(isSavedPromotion ? count - 1 : count + 1);
     setIsSavedPromotion(!isSavedPromotion);
     try {
@@ -30,6 +32,8 @@ export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
         ? await deleteSavedPromotion(id)
         : await createSavedPromotion(id);
     } catch (e) {
+      setCount(prevCount);
+      setIsSavedPromotion(prevIsSaved);
       setShowLoginModal(true);
       console.log(e);
     }
