@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 interface Props {
   isRequired: boolean;
@@ -17,13 +17,11 @@ export default function InputLongformBox({
   setValue,
   value,
 }: Props) {
-  const [text, setText] = useState<string>("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= maxLength) {
       setValue(e.target.value);
-      setText(e.target.value);
     }
   };
 
@@ -32,7 +30,7 @@ export default function InputLongformBox({
       textareaRef.current.style.height = minHeight;
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  }, [text, minHeight]);
+  }, [value, minHeight]);
 
   return (
     <div className="flex flex-col w-full gap-2 text-sm">
@@ -51,7 +49,7 @@ export default function InputLongformBox({
           className={`text-base min-h-[10.5rem] p-4 border-none outline-none rounded-[0.63rem] bg-gray50 resize-none ${minHeight}`}
         />
         <div className="w-full pt-2 text-sm text-end text-black02">
-          {text.length}/{maxLength}
+          {value.length}/{maxLength}
         </div>
       </div>
     </div>
