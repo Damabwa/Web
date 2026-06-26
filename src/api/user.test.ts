@@ -35,10 +35,10 @@ describe("user API", () => {
     expect(mockGET).toHaveBeenCalledWith("/refresh-token", true);
   });
 
-  it("checkUserExistence는 닉네임 쿼리로 GET을 호출한다(인증 불필요)", async () => {
+  it("checkUserExistence는 닉네임을 URL 인코딩하여 GET을 호출한다(인증 불필요)", async () => {
     await checkUserExistence("홍길동");
     expect(mockGET).toHaveBeenCalledWith(
-      "/users/nicknames/existence?nickname=홍길동"
+      `/users/nicknames/existence?nickname=${encodeURIComponent("홍길동")}`
     );
   });
 
