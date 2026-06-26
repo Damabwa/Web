@@ -27,6 +27,12 @@ describe("Login", () => {
     window.open = originalOpen;
   });
 
+  it("루트가 동적 뷰포트 높이(h-dvh)를 사용해 버튼이 화면 안에 들어온다", () => {
+    // h-screen(100vh)이면 모바일 주소창 때문에 카카오 버튼이 fold 아래로 밀린다.
+    const { container } = renderWithProviders(<Login />);
+    expect(container.firstChild).toHaveClass("h-dvh");
+  });
+
   it("로고와 카카오 로그인, 약관/정책 버튼을 렌더한다", () => {
     renderWithProviders(<Login />);
     expect(screen.getByAltText("담아봐 로고")).toBeInTheDocument();

@@ -70,7 +70,7 @@ export default function EnlargeImage({
   };
 
   return (
-    <div className="w-full h-full max-h-screen bg-[#000] flex-col flex justify-center items-center">
+    <div className="w-full h-full max-h-dvh bg-[#000] flex-col flex justify-center items-center">
       <div className="absolute top-0 flex items-center justify-center w-full p-4">
         <div className="z-10 text-white">
           {currentIndex + 1} / {images.length}
@@ -96,7 +96,7 @@ export default function EnlargeImage({
               <img
                 src={image.url}
                 alt="포트폴리오"
-                className="object-contain w-full h-full max-w-screen max-h-screen"
+                className="object-contain w-full h-full max-w-screen max-h-dvh"
               />
             </div>
           ))}

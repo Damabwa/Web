@@ -28,7 +28,7 @@ export default function Photographers({ data, searchKeyword }: Props) {
     fetchPhotographerList();
   }, [searchParams, searchKeyword]);
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-dvh">
       <div className="border-b-[0.375rem] border-gray50">
         <FilterBar isEvent={false} setSearchParams={setSearchParams} />
       </div>

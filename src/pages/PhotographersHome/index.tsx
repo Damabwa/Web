@@ -15,7 +15,7 @@ export default function PhotographersHome() {
   const { photographers } = usePhotographerList(searchParams.toString());
 
   return (
-    <div className="flex flex-col w-full min-h-screen">
+    <div className="flex flex-col w-full min-h-dvh">
       <div className="h-12">
         <Header>
           <Header.Left>

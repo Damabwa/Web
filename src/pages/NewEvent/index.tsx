@@ -43,7 +43,7 @@ export default function NewEvent() {
     formHandlers;
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-dvh">
       <div className="px-4">
         <SubHeader title="이벤트 등록" />
       </div>
