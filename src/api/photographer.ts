@@ -10,7 +10,7 @@ import { PaginatedResponse, RegistrationResponse } from "../types/common";
 
 export const checkPhotographerExistence = async (nickname: string) =>
   await GET<{ exists: boolean }>(
-    `/photographers/nicknames/existence?nickname=${nickname}`
+    `/photographers/nicknames/existence?nickname=${encodeURIComponent(nickname)}`
   );
 
 export const getPhotographerList = async (params: URLSearchParams) =>
