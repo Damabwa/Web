@@ -98,7 +98,7 @@ export default function EditPhotographerPage() {
   };
 
   return (
-    <div className="relative flex flex-col min-h-screen">
+    <div className="relative flex flex-col min-h-dvh-safe">
       <div>
         <div className="px-4">
           <SubHeader title="작가 페이지 수정" />

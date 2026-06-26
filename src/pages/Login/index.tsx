@@ -10,7 +10,7 @@ export default function Login() {
   const url1 = process.env.REACT_APP_POLICY_URL;
   const url2 = process.env.REACT_APP_TERMS_URL;
   return (
-    <div className="flex flex-col items-center w-full h-screen px-4 bg-violet300">
+    <div className="flex flex-col items-center w-full h-dvh-safe px-4 bg-violet300">
       <div className="flex flex-col justify-center flex-1 w-3/4 gap-3">
         <img className="" src={img_logo} alt="담아봐 로고" />
         <div className="font-semibold text-center text-white">
