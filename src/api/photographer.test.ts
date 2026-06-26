@@ -36,11 +36,17 @@ describe("photographer API", () => {
     mockDELETE.mockResolvedValue({} as never);
   });
 
-  it("checkPhotographerExistence는 닉네임 쿼리로 GET을 호출한다", async () => {
-    await checkPhotographerExistence("길동");
+  it("checkPhotographerExistence는 닉네임을 URL 인코딩하여 GET을 호출한다", async () => {
+    // 작가 닉네임은 공백을 허용하므로 인코딩하지 않으면 쿼리가 깨진다.
+    await checkPhotographerExistence("스튜디오 가");
     expect(mockGET).toHaveBeenCalledWith(
-      "/photographers/nicknames/existence?nickname=길동"
+      `/photographers/nicknames/existence?nickname=${encodeURIComponent(
+        "스튜디오 가"
+      )}`
     );
+    // 공백이 %20으로 인코딩되어 raw 공백이 남지 않아야 한다.
+    expect(mockGET.mock.calls[0][0]).toContain("%20");
+    expect(mockGET.mock.calls[0][0]).not.toContain("가 ");
   });
 
   it("getPhotographerList는 토큰이 없으면 auth=false로 호출한다", async () => {

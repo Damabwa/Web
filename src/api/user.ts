@@ -5,7 +5,9 @@ import { RegistrationResponse } from "../types/common";
 export const refresh = async () => await GET("/refresh-token", true);
 
 export const checkUserExistence = async (nickname: string) =>
-  await GET<{ exists: boolean }>(`/users/nicknames/existence?nickname=${nickname}`);
+  await GET<{ exists: boolean }>(
+    `/users/nicknames/existence?nickname=${encodeURIComponent(nickname)}`
+  );
 
 export const getUserInfo = async () => await GET<UserInfo>(`/users/me`, true);
 
