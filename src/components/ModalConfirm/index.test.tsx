@@ -48,8 +48,8 @@ describe("ModalConfirm", () => {
     expect(document.body.style.overflow).toBe("auto");
   });
 
-  it("오버레이가 동적 뷰포트 높이(h-dvh)로 세로 중앙 정렬된다", () => {
-    // 모바일 주소창 영역까지 100vh로 잡으면 모달이 아래로 치우치므로 h-dvh 사용.
+  it("오버레이가 동적 뷰포트 높이(h-dvh-safe)로 세로 중앙 정렬된다", () => {
+    // 모바일 주소창 영역까지 100vh로 잡으면 모달이 아래로 치우치므로 h-dvh-safe 사용.
     const { container } = renderWithProviders(
       <ModalConfirm content={["내용"]} setShowModal={() => {}} />
     );
