@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { usePhotographerList } from "../../../hooks/usePhotographerList";
 import { getPhotoType } from "../../../hooks/getKorean";
-import { isMobileDevice } from "../../../utils/device";
+import { useOpenInternalLink } from "../../../hooks/useOpenInternalLink";
 import icn_next from "../../../assets/svgs/icn_next.svg";
 
 export default function PhotographerBox() {
   const navigate = useNavigate();
+  const openInternalLink = useOpenInternalLink();
 
   const { photographers } = usePhotographerList("page=0&pageSize=4");
 
@@ -15,9 +16,7 @@ export default function PhotographerBox() {
   };
 
   const openDetailPage = (id: string) => {
-    isMobileDevice()
-      ? navigate(`/photographer/${id}`)
-      : window.open(`/photographer/${id}`);
+    openInternalLink(`/photographer/${id}`);
   };
 
   return (

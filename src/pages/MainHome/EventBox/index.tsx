@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { PAGE_SIZE } from "../../../constants/validation";
 import { usePromotionList } from "../../../hooks/usePromotionList";
 import { getPhotoType } from "../../../hooks/getKorean";
-import { isMobileDevice } from "../../../utils/device";
+import { useOpenInternalLink } from "../../../hooks/useOpenInternalLink";
 import { getDDayText } from "../../../utils/date";
 import icn_next from "../../../assets/svgs/icn_next.svg";
 import icn_camera from "../../../assets/svgs/icn_camera.svg";
@@ -11,6 +11,7 @@ import icn_clock from "../../../assets/svgs/icn_clock.svg";
 
 export default function EventBox() {
   const navigate = useNavigate();
+  const openInternalLink = useOpenInternalLink();
 
   const { promotions: ongoingEvents } = usePromotionList(
     `page=0&pageSize=${PAGE_SIZE.EVENT}&progressStatus=ONGOING`
@@ -24,9 +25,7 @@ export default function EventBox() {
   );
 
   const openDetailPage = (id: string) => {
-    isMobileDevice()
-      ? navigate(`/event/${id}`)
-      : window.open(`/event/${id}`);
+    openInternalLink(`/event/${id}`);
   };
 
   return (

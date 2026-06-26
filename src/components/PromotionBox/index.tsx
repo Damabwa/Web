@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { createSavedPromotion, deleteSavedPromotion } from "../../api/promotion";
 import { useLoginGuard } from "../../hooks/useLoginGuard";
+import { useOpenInternalLink } from "../../hooks/useOpenInternalLink";
 import { getDDayText } from "../../utils/date";
 import { Region } from "../../types/common";
-import { isMobileDevice } from "../../utils/device";
 import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
 import icn_time from "../../assets/svgs/icn_event_home_clock.svg";
@@ -29,7 +28,7 @@ interface Props {
 }
 
 export default function PromotionBox({ data }: Props) {
-  const navigate = useNavigate();
+  const openInternalLink = useOpenInternalLink();
   const [isClipped, setIsClipped] = useState(false);
   const [saveCount, setSaveCount] = useState(0);
   const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
@@ -65,10 +64,8 @@ export default function PromotionBox({ data }: Props) {
   }, [requireLogin, savePromotionFunc, isClipped]);
 
   const openDetailPage = useCallback(() => {
-    isMobileDevice()
-      ? navigate(`/event/${data.id}`)
-      : window.open(`/event/${data.id}`);
-  }, [data.id, navigate]);
+    openInternalLink(`/event/${data.id}`);
+  }, [data.id, openInternalLink]);
 
   return (
     <div className="flex flex-col py-5 cursor-pointer">
