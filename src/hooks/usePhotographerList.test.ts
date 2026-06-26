@@ -62,24 +62,8 @@ describe("usePhotographerList", () => {
     expect(result.current.isLoading).toBe(false);
   });
 
-  it("언마운트 후 늦게 도착한 응답은 상태에 반영하지 않는다", async () => {
-    let resolve!: (value: never) => void;
-    mockGetList.mockReturnValue(
-      new Promise<never>((r) => {
-        resolve = r;
-      })
-    );
-
-    const { result, unmount } = renderHook(() =>
-      usePhotographerList("sort=LATEST")
-    );
-    unmount();
-
-    await act(async () => {
-      resolve(makeResponse([{ id: 99 }]));
-      await Promise.resolve();
-    });
-
-    expect(result.current.photographers).toEqual([]);
-  });
+  // NOTE: 훅의 cleanup(cancelled) 가드는 React 18 환경에서 단위 테스트로
+  // 검증할 신호가 없다. 언마운트 후 setState는 조용히 무시되고 result.current는
+  // 마지막 렌더에 고정되므로, 가드 유무와 무관하게 동일한 결과가 나와(거짓 통과)
+  // 회귀를 잡지 못한다. 해당 분기는 통합/E2E 레벨에서 다룬다.
 });
