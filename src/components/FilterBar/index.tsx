@@ -134,9 +134,9 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
         />
       </div>
       {showSelectBar && (
-        <div className="fixed bottom-0 z-40 flex items-end h-screen w-full max-w-[430px]">
+        <div className="fixed bottom-0 z-40 flex items-end h-dvh-safe w-full max-w-[430px]">
           <div
-            className="absolute top-0 w-full h-screen bg-black bg-opacity-40"
+            className="absolute top-0 w-full h-dvh-safe bg-black bg-opacity-40"
             onClick={handleCloseSelectBar}
           />
           <div
