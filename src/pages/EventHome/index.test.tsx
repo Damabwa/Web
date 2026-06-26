@@ -76,6 +76,15 @@ describe("EventHome", () => {
     ).toBeInTheDocument();
   });
 
+  it("관리자(ADMIN) 권한이면 '이벤트 게시' 버튼을 보여준다", () => {
+    renderWithProviders(<EventHome />, {
+      initializeState: ({ set }) => set(userState, { id: 1, roles: ["ADMIN"] }),
+    });
+    expect(
+      screen.getByRole("button", { name: /이벤트 게시/ })
+    ).toBeInTheDocument();
+  });
+
   it("일반 사용자(권한 없음)는 '이벤트 게시' 버튼이 없다", () => {
     renderWithProviders(<EventHome />, {
       initializeState: ({ set }) => set(userState, { id: 1, roles: [] }),
