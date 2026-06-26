@@ -30,6 +30,12 @@ describe("InputButtonBox", () => {
     ).toBeInTheDocument();
   });
 
+  it("input에 min-w-0가 적용되어 버튼이 잘리지 않는다(너비 초과 방지)", () => {
+    renderWithProviders(<InputButtonBox {...baseProps} value="값" />);
+    // flex item이 축소 가능해야 옆 버튼이 화면 밖으로 밀리지 않는다.
+    expect(screen.getByDisplayValue("값")).toHaveClass("min-w-0");
+  });
+
   it("activation=true이면 버튼이 활성화되고 클릭 시 onClick을 호출한다", async () => {
     const onClick = jest.fn();
     renderWithProviders(
