@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   createSavedPhotographer,
   deleteSavedPhotographer,
 } from "../../api/photographer";
 import { getPhotoType } from "../../hooks/getKorean";
 import { useLoginGuard } from "../../hooks/useLoginGuard";
+import { isMobileDevice } from "../../utils/device";
 import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
 import icn_noPhotographer from "../../assets/svgs/icn_no_photogrpher.svg";
@@ -23,6 +25,7 @@ interface Props {
 }
 
 export default function PhotographerBox({ data }: Props) {
+  const navigate = useNavigate();
   const [isClipped, setIsClipped] = useState(false);
   const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
     useLoginGuard();
@@ -40,8 +43,11 @@ export default function PhotographerBox({ data }: Props) {
   );
 
   const onClickPhotographer = useCallback(() => {
-    window.open(`/photographer/${data.id}`);
-  }, [data.id]);
+    // 모바일은 같은 탭 네비게이션(뒤로가기 편의), 데스크탑은 새 탭.
+    isMobileDevice()
+      ? navigate(`/photographer/${data.id}`)
+      : window.open(`/photographer/${data.id}`);
+  }, [data.id, navigate]);
 
   const savePhotographerFunc = useCallback(
     async (clipped: boolean) => {
