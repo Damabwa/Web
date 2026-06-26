@@ -35,6 +35,8 @@ test.describe("이벤트 홈", () => {
 
   test("검색 클릭 시 검색 페이지로 이동한다", async ({ page }) => {
     await page.goto("/events");
+    // 페이지가 안정화된 뒤 클릭해 타이밍 플레이크를 방지한다.
+    await expect(page.getByText("Event로 담아봐")).toBeVisible();
     await page.getByAltText("검색").click();
     await expect(page).toHaveURL(/\/search$/);
   });
