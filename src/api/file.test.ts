@@ -20,4 +20,11 @@ describe("file API", () => {
     await upLoadFile(formData);
     expect(mockPOST).toHaveBeenCalledWith("/files", formData, true);
   });
+
+  it("POST 응답({files})을 그대로 반환한다", async () => {
+    const response = { files: [{ name: "a.png", url: "https://cdn/a.png" }] };
+    mockPOST.mockResolvedValue(response as never);
+    const result = await upLoadFile(new FormData());
+    expect(result).toEqual(response);
+  });
 });

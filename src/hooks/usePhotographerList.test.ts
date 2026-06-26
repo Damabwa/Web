@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 import { usePhotographerList } from "./usePhotographerList";
 import { getPhotographerList } from "../api/photographer";
 
@@ -49,8 +49,37 @@ describe("usePhotographerList", () => {
     );
   });
 
-  it("enabled=false이면 API를 호출하지 않는다", () => {
-    renderHook(() => usePhotographerList("sort=LATEST", false));
+  it("enabled=false이면 API를 호출하지 않는다", async () => {
+    const { result } = renderHook(() =>
+      usePhotographerList("sort=LATEST", false)
+    );
+
+    // 비동기 호출이 회귀로 생기면 microtask 이후 잡히도록 flush 후 단언
+    await act(async () => {
+      await Promise.resolve();
+    });
     expect(mockGetList).not.toHaveBeenCalled();
+    expect(result.current.isLoading).toBe(false);
+  });
+
+  it("언마운트 후 늦게 도착한 응답은 상태에 반영하지 않는다", async () => {
+    let resolve!: (value: never) => void;
+    mockGetList.mockReturnValue(
+      new Promise<never>((r) => {
+        resolve = r;
+      })
+    );
+
+    const { result, unmount } = renderHook(() =>
+      usePhotographerList("sort=LATEST")
+    );
+    unmount();
+
+    await act(async () => {
+      resolve(makeResponse([{ id: 99 }]));
+      await Promise.resolve();
+    });
+
+    expect(result.current.photographers).toEqual([]);
   });
 });
