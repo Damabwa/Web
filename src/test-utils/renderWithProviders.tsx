@@ -1,13 +1,15 @@
 import { ReactElement, ReactNode } from "react";
 import { render, RenderOptions } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { RecoilRoot } from "recoil";
+import { RecoilRoot, MutableSnapshot } from "recoil";
 
 interface ProviderOptions extends Omit<RenderOptions, "wrapper"> {
   /** MemoryRouter 초기 히스토리 스택 */
   initialEntries?: string[];
   /** MemoryRouter 초기 인덱스 */
   initialIndex?: number;
+  /** RecoilRoot 초기 상태 주입 (예: 로그인/권한 상태 설정) */
+  initializeState?: (snapshot: MutableSnapshot) => void;
 }
 
 /**
@@ -17,10 +19,15 @@ interface ProviderOptions extends Omit<RenderOptions, "wrapper"> {
  */
 export function renderWithProviders(
   ui: ReactElement,
-  { initialEntries = ["/"], initialIndex, ...options }: ProviderOptions = {}
+  {
+    initialEntries = ["/"],
+    initialIndex,
+    initializeState,
+    ...options
+  }: ProviderOptions = {}
 ) {
   const Wrapper = ({ children }: { children: ReactNode }) => (
-    <RecoilRoot>
+    <RecoilRoot initializeState={initializeState}>
       <MemoryRouter initialEntries={initialEntries} initialIndex={initialIndex}>
         {children}
       </MemoryRouter>
