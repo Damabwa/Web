@@ -6,6 +6,11 @@ import {
 import ModalConfirm from ".";
 
 describe("ModalConfirm", () => {
+  afterEach(() => {
+    // 컴포넌트가 body 스타일을 건드리므로 원래 값으로 명시 초기화한다.
+    document.body.style.overflow = "";
+  });
+
   it("내용 줄들과 다이얼로그/확인 버튼을 렌더한다", () => {
     renderWithProviders(
       <ModalConfirm content={["저장되었습니다", "확인해주세요"]} setShowModal={() => {}} />
@@ -41,5 +46,12 @@ describe("ModalConfirm", () => {
     expect(document.body.style.overflow).toBe("hidden");
     unmount();
     expect(document.body.style.overflow).toBe("auto");
+  });
+
+  it("content가 빈 배열이어도 다이얼로그와 확인 버튼을 렌더한다", () => {
+    const setShowModal = jest.fn();
+    renderWithProviders(<ModalConfirm content={[]} setShowModal={setShowModal} />);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "확인" })).toBeInTheDocument();
   });
 });
