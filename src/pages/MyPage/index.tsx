@@ -56,7 +56,7 @@ export default function MyPage() {
 
   if (!userInfo) return <></>;
   return (
-    <div className="relative flex flex-col min-h-dvh gap-4">
+    <div className="relative flex flex-col min-h-dvh-safe gap-4">
       {userInfo.type === "USER" ? (
         <>
           <ProfileUser userInfo={userInfo} />

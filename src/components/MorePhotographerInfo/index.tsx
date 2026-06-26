@@ -15,7 +15,7 @@ export default function MorePhotographerInfo({ userInfo }: Props) {
 
   if (showEnlargedImg)
     return (
-      <div className="absolute top-0 left-0 w-full h-dvh">
+      <div className="absolute top-0 left-0 w-full h-dvh-safe">
         <EnlargeImage
           images={userInfo.portfolio}
           startIdx={enlargedIdx}

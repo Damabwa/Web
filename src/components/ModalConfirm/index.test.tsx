@@ -54,7 +54,7 @@ describe("ModalConfirm", () => {
       <ModalConfirm content={["내용"]} setShowModal={() => {}} />
     );
     const overlay = container.firstChild as HTMLElement;
-    expect(overlay).toHaveClass("h-dvh");
+    expect(overlay).toHaveClass("h-dvh-safe");
     expect(overlay).toHaveClass("items-center");
   });
 

@@ -19,7 +19,7 @@ function EventHome() {
   const { promotions } = usePromotionList(searchParams.toString());
 
   return (
-    <div className="relative flex flex-col w-full min-h-dvh">
+    <div className="relative flex flex-col w-full min-h-dvh-safe">
       <div className="h-12">
         <Header>
           <Header.Left>

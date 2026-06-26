@@ -26,7 +26,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="flex flex-col w-full min-h-dvh">
+    <div className="flex flex-col w-full min-h-dvh-safe">
       <SearchBar onSubmit={onSubmit} state={state} setState={setState} />
       {state === "OVERVIEW" && searchKeyword && (
         <Overview

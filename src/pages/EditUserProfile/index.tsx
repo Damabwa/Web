@@ -119,7 +119,7 @@ export default function EditUserProfile() {
 
   if (!userInfo) return <></>;
   return (
-    <div className="relative flex flex-col justify-between min-h-dvh px-4">
+    <div className="relative flex flex-col justify-between min-h-dvh-safe px-4">
       <div>
         <SubHeader title="프로필 수정" />
         <div className="flex justify-center pt-[0.8rem]">
