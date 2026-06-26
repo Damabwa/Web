@@ -35,11 +35,20 @@ describe("user API", () => {
     expect(mockGET).toHaveBeenCalledWith("/refresh-token", true);
   });
 
-  it("checkUserExistence는 닉네임 쿼리로 GET을 호출한다(인증 불필요)", async () => {
+  it("checkUserExistence는 닉네임을 URL 인코딩하여 GET을 호출한다(인증 불필요)", async () => {
     await checkUserExistence("홍길동");
     expect(mockGET).toHaveBeenCalledWith(
-      "/users/nicknames/existence?nickname=홍길동"
+      `/users/nicknames/existence?nickname=${encodeURIComponent("홍길동")}`
     );
+  });
+
+  it("쿼리를 깨뜨릴 수 있는 문자도 안전하게 인코딩한다", async () => {
+    // API 함수는 입력 검증을 하지 않으므로, 공백/특수문자도 인코딩되어야 한다.
+    await checkUserExistence("a b&c");
+    const calledUrl = mockGET.mock.calls[0][0];
+    expect(calledUrl).toContain("%20"); // 공백
+    expect(calledUrl).toContain("%26"); // &
+    expect(calledUrl).not.toContain("a b&c");
   });
 
   it("getUserInfo는 인증 GET을 호출한다", async () => {
