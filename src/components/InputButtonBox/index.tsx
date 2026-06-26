@@ -35,7 +35,7 @@ export default function InputButtonBox({
       <div className="flex items-center w-full gap-2 mb-[0.31rem]">
         {isReadOnly ? (
           <input
-            className={`text-base flex-1 h-12 px-4 border-none outline-none rounded-xl bg-gray50 ${isReadOnly && "cursor-default"}`}
+            className={`text-base flex-1 min-w-0 h-12 px-4 border-none outline-none rounded-xl bg-gray50 ${isReadOnly && "cursor-default"}`}
             placeholder={placeholder}
             onChange={onChange}
             value={value}
@@ -43,7 +43,7 @@ export default function InputButtonBox({
           />
         ) : (
           <input
-            className="flex-1 h-12 px-4 text-base border-none outline-none rounded-xl bg-gray50"
+            className="flex-1 min-w-0 h-12 px-4 text-base border-none outline-none rounded-xl bg-gray50"
             placeholder={placeholder}
             onChange={onChange}
             value={value}
@@ -52,6 +52,7 @@ export default function InputButtonBox({
         <button
           className={`px-4 h-12 font-semibold outline-none rounded-xl  whitespace-nowrap ${activation ? "bg-violet300 text-white" : "cursor-default text-black02 border-black03 border"} ${isReadOnly && "cursor-pointer"}`}
           onClick={() => onClick()}
+          disabled={!activation && !isReadOnly}
         >
           {buttonTitle}
         </button>
