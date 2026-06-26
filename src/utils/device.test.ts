@@ -24,6 +24,20 @@ describe("isMobileDevice", () => {
     }));
   };
 
+  // 쿼리별로 matches를 다르게 반환(예: max-width는 false, pointer:coarse는 true)
+  const setMatchMediaByQuery = (matchesFor: (query: string) => boolean) => {
+    window.matchMedia = jest.fn().mockImplementation((query: string) => ({
+      matches: matchesFor(query),
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }));
+  };
+
   const setUserAgent = (ua: string) => {
     Object.defineProperty(window.navigator, "userAgent", {
       value: ua,
@@ -61,5 +75,18 @@ describe("isMobileDevice", () => {
     setMatchMedia(false);
     setUserAgent("Mozilla/5.0 (Linux; Android 14)");
     expect(isMobileDevice()).toBe(true);
+  });
+
+  it("포인터가 coarse(터치)면 너비/UA가 데스크탑이어도 모바일로 판별한다", () => {
+    // 예: iPad 데스크탑 모드 (넓은 뷰포트 + Macintosh UA + 터치)
+    setMatchMediaByQuery((query) => query.includes("coarse"));
+    setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)");
+    expect(isMobileDevice()).toBe(true);
+  });
+
+  it("좁은 화면도 아니고 터치도 아니고 데스크탑 UA이면 false를 반환한다", () => {
+    setMatchMediaByQuery(() => false);
+    setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)");
+    expect(isMobileDevice()).toBe(false);
   });
 });
