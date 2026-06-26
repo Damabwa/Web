@@ -1,6 +1,7 @@
 .App {
   width: 100vw;
-  min-height: 100vh;
+  min-height: 100vh; /* dvh 미지원 브라우저 폴백 */
+  min-height: 100dvh;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 30px -5px;
   overflow: hidden;
 }

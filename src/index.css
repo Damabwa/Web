@@ -1,6 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+ * 동적 뷰포트 높이 유틸(vh 폴백 포함).
+ * Tailwind의 h-dvh/min-h-dvh는 dvh 단일 선언이라 dvh 미지원 브라우저
+ * (iOS Safari < 15.4 등)에서 무효화될 수 있어, 100vh 폴백을 동반한다.
+ */
+@layer utilities {
+  .h-dvh-safe {
+    height: 100vh;
+    height: 100dvh;
+  }
+  .min-h-dvh-safe {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  .max-h-dvh-safe {
+    max-height: 100vh;
+    max-height: 100dvh;
+  }
+}
 @font-face {
   font-family: Pretendard;
   font-weight: 400;

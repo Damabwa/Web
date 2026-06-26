@@ -48,6 +48,16 @@ describe("ModalConfirm", () => {
     expect(document.body.style.overflow).toBe("auto");
   });
 
+  it("오버레이가 동적 뷰포트 높이(h-dvh-safe)로 세로 중앙 정렬된다", () => {
+    // 모바일 주소창 영역까지 100vh로 잡으면 모달이 아래로 치우치므로 h-dvh-safe 사용.
+    const { container } = renderWithProviders(
+      <ModalConfirm content={["내용"]} setShowModal={() => {}} />
+    );
+    const overlay = container.firstChild as HTMLElement;
+    expect(overlay).toHaveClass("h-dvh-safe");
+    expect(overlay).toHaveClass("items-center");
+  });
+
   it("content가 빈 배열이어도 다이얼로그와 확인 버튼을 렌더한다", () => {
     const setShowModal = jest.fn();
     renderWithProviders(<ModalConfirm content={[]} setShowModal={setShowModal} />);
