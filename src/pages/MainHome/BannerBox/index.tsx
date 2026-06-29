@@ -10,7 +10,7 @@ import banner_event from "../../../assets/banner/banner_1.webp";
 
 export default function BannerBox() {
   const navigate = useNavigate();
-  const images = [
+  const images: { img: string; url: string | null }[] = [
     { img: banner_main, url: null },
     { img: banner_event, url: "/event/8" },
   ];
@@ -28,7 +28,7 @@ export default function BannerBox() {
         modules={[Autoplay]}
         onSlideChange={(swiper: SwiperClass) => setIdx(swiper.realIndex + 1)}
       >
-        {images.map((item: any, index: number) => (
+        {images.map((item, index) => (
           <SwiperSlide key={index} className="h-full">
             <img
               className={`${item.url && "cursor-pointer"} object-cover w-full h-full`}
