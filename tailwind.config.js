@@ -18,11 +18,17 @@ module.exports = {
       },
       animation: {
         slideUp: "slideUp 300ms ease-in-out forwards",
+        pageIn: "pageIn 220ms ease-out both",
       },
       keyframes: {
         slideUp: {
           "0%": { transform: "translateY(100%)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        // opacity 전용(transform 미사용): 래퍼가 fixed 자손의 컨테이닝 블록이 되지 않도록 함
+        pageIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
       },
       fontFamily: {
