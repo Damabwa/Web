@@ -3,7 +3,10 @@ import { upLoadFile } from "../api/file";
 
 export const onImageHandler = async (file: File, fileType: string) => {
   const options = {
-    maxSizeMB: 3,
+    maxSizeMB: 1,
+    // 긴 변(최대 폭/높이)을 제한해 고해상도 사진의 변환·업로드·표시 속도를 개선.
+    // (제한 없으면 원본 해상도 유지로 압축이 매우 느림)
+    maxWidthOrHeight: 1920,
     useWebWorker: true,
   };
 
