@@ -7,7 +7,10 @@ describe("ButtonActive", () => {
     renderWithProviders(
       <ButtonActive activation text="다음" onClick={() => {}} />
     );
-    expect(screen.getByRole("button", { name: "다음" })).toBeInTheDocument();
+    const button = screen.getByRole("button", { name: "다음" });
+    expect(button).toBeInTheDocument();
+    // 탭 피드백(누를 때 살짝 축소) 마이크로 인터랙션
+    expect(button).toHaveClass("active:scale-[0.97]");
   });
 
   it("activation=true이면 활성 상태이고 클릭 시 onClick을 호출한다", async () => {

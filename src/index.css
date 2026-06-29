@@ -9,7 +9,9 @@
  */
 /* 동작 최소화 선호 사용자는 페이지 전환 애니메이션 비활성화 */
 @media (prefers-reduced-motion: reduce) {
-  .animate-pageIn {
+  .animate-pageIn,
+  .animate-popIn,
+  .animate-slideUp {
     animation: none;
   }
 }

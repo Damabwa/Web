@@ -19,6 +19,7 @@ module.exports = {
       animation: {
         slideUp: "slideUp 300ms ease-in-out forwards",
         pageIn: "pageIn 220ms ease-out both",
+        popIn: "popIn 180ms ease-out both",
       },
       keyframes: {
         slideUp: {
@@ -29,6 +30,11 @@ module.exports = {
         pageIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
+        },
+        // 모달 다이얼로그 등장(scale 전용 — 자손에 fixed 없음)
+        popIn: {
+          "0%": { transform: "scale(0.96)" },
+          "100%": { transform: "scale(1)" },
         },
       },
       fontFamily: {
