@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+import type { Swiper as SwiperClass } from "swiper";
 import "swiper/css";
-import "swiper/css/pagination";
 
 import banner_main from "../../../assets/imgs/banner_damaba_main.webp";
 import banner_event from "../../../assets/banner/banner_1.webp";
@@ -19,15 +19,13 @@ export default function BannerBox() {
   return (
     <div className="relative w-full overflow-hidden bg-gray100 rounded-xl shadow-banner">
       <Swiper
-        centeredSlides={true}
+        loop={true}
         autoplay={{
           delay: 3500,
           disableOnInteraction: false,
         }}
         modules={[Autoplay]}
-        onSlideChange={() => {
-          setIdx(idx > images.length - 1 ? 1 : idx + 1);
-        }}
+        onSlideChange={(swiper: SwiperClass) => setIdx(swiper.realIndex + 1)}
       >
         {images.map((item: any, index: number) => (
           <SwiperSlide key={index}>
