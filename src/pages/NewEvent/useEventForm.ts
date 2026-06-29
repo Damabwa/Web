@@ -87,9 +87,12 @@ export function useEventForm() {
   };
 
   const onChangeDate = (type: string, date: any) => {
-    const formatted = date.format("YYYY-MM-DD");
+    // date가 null(초기화)이면 빈 문자열로 리셋해 stale 날짜가 남지 않게 한다.
+    const formatted = date ? date.format("YYYY-MM-DD") : "";
     if (type === "START") {
       setStartedAt(formatted);
+      // 시작일 변경/초기화 시 종료일 피커가 비워지므로 폼의 종료일도 함께 초기화.
+      setEndedAt("");
     } else {
       setEndedAt(formatted);
     }

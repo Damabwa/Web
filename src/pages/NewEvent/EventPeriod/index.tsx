@@ -34,7 +34,7 @@ export default function EventPeriod({
       setStartDate(date);
       setEndDate(null);
     } else setEndDate(date);
-    if (!date) return;
+    // 날짜를 비운 경우(date=null)에도 부모 폼 상태에 전파해 이전 값이 남지 않도록 한다.
     onChangeDate(type, date);
   };
 
