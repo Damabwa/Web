@@ -1,3 +1,4 @@
+import { act } from "@testing-library/react";
 import {
   renderWithProviders,
   screen,
@@ -6,10 +7,15 @@ import ImageBox from ".";
 
 jest.mock("../../../utils/device", () => ({ isMobileDevice: () => false }));
 
-// jsdom은 IntersectionObserver를 구현하지 않으므로 no-op로 모킹
+// jsdom은 IntersectionObserver 미구현 → 콜백을 캡처하는 spy로 모킹해
+// 슬라이드 교차(스와이프)를 시뮬레이션할 수 있게 한다.
+let ioCallback: (entries: { isIntersecting: boolean; target: Element }[]) => void;
 beforeAll(() => {
   // @ts-expect-error 테스트 폴리필
   global.IntersectionObserver = class {
+    constructor(cb: typeof ioCallback) {
+      ioCallback = cb;
+    }
     observe() {}
     unobserve() {}
     disconnect() {}
@@ -27,6 +33,19 @@ describe("EventDetail ImageBox", () => {
     renderWithProviders(<ImageBox images={images} promotionType="FREE" />);
     expect(screen.getAllByAltText("이벤트 이미지")).toHaveLength(3);
     expect(screen.getByText("1/3")).toBeInTheDocument();
+  });
+
+  it("슬라이드가 화면에 들어오면 인덱스 인디케이터가 갱신된다", () => {
+    const { container } = renderWithProviders(
+      <ImageBox images={images} promotionType="NORMAL" />
+    );
+    expect(screen.getByText("1/3")).toBeInTheDocument();
+
+    const secondSlide = container.querySelector('[data-index="1"]')!;
+    act(() => {
+      ioCallback([{ isIntersecting: true, target: secondSlide }]);
+    });
+    expect(screen.getByText("2/3")).toBeInTheDocument();
   });
 
   it("스크롤 컨테이너에 scrollbar-hide가 적용된다", () => {
