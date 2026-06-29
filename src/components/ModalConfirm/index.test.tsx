@@ -16,6 +16,8 @@ describe("ModalConfirm", () => {
       <ModalConfirm content={["저장되었습니다", "확인해주세요"]} setShowModal={() => {}} />
     );
     expect(screen.getByRole("dialog")).toHaveAttribute("aria-modal", "true");
+    // 등장 마이크로 인터랙션(다이얼로그 scale 팝)
+    expect(screen.getByRole("dialog")).toHaveClass("animate-popIn");
     expect(screen.getByText("저장되었습니다")).toBeInTheDocument();
     expect(screen.getByText("확인해주세요")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "확인" })).toBeInTheDocument();

@@ -26,14 +26,14 @@ export default function ModalConfirm({ content, setShowModal }: Props) {
   }, [setShowModal]);
 
   return (
-    <div className="z-20 fixed top-0 w-screen max-w-[430px] h-dvh-safe bg-black bg-opacity-40 flex items-center justify-center">
+    <div className="z-20 fixed top-0 w-screen max-w-[430px] h-dvh-safe bg-black bg-opacity-40 flex items-center justify-center animate-pageIn">
       <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="flex flex-col w-[17.125rem] rounded-[1.25rem] bg-white outline-none"
+        className="flex flex-col w-[17.125rem] rounded-[1.25rem] bg-white outline-none animate-popIn"
       >
         <div className="pt-[1.87rem] pb-[1.38rem] justify-center text-center">
           <div id={titleId} className="flex flex-col font-semibold text-gray900">
