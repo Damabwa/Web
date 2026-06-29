@@ -24,6 +24,10 @@ export interface PromotionListItem {
   activeRegions: Region[];
   saveCount: number;
   isSaved: boolean;
+  // 리스트 응답에 포함될 수 있는 선택 필드(메인 EventBox에서 사용).
+  // 응답에 없을 수 있으므로 optional — 사용처에서 방어적으로 접근한다.
+  startedAt?: string;
+  photographyTypes?: string[];
 }
 
 export interface PromotionDetail extends PromotionListItem {
