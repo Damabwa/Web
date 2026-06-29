@@ -37,7 +37,7 @@ export default function PhotographerBox() {
       <div className="grid grid-cols-2 gap-5 px-4">
         {photographers.map((item) => (
           <div
-            key={item.nickname}
+            key={item.id}
             className="relative flex flex-col justify-end h-48 overflow-hidden text-white cursor-pointer bg-gray rounded-xl"
           >
             <div
