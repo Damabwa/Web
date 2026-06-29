@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { VALIDATION } from "../../../constants/validation";
 import { checkUserExistence } from "../../../api/user";
 import { checkPhotographerExistence } from "../../../api/photographer";
 import logo_damaba from "../../../assets/imgs/logo_damaba.png";
@@ -10,12 +11,12 @@ import ButtonActive from "../../../components/ButtonActive";
 interface Props {
   userInfo: any;
   setUserInfo: React.Dispatch<React.SetStateAction<any>>;
-  setNextFunc: () => void;
+  onNext: () => void;
 }
 
 export default function SetProfile({
   userInfo,
-  setNextFunc,
+  onNext,
   setUserInfo,
 }: Props) {
   const [isValid, setIsValid] = useState(false);
@@ -26,7 +27,8 @@ export default function SetProfile({
   const [instagramId, setInstagramId] = useState("");
 
   useEffect(() => {
-    checkValidFunc();
+    if (isDuplicated === "false" && gender !== "") setIsValid(true);
+    else setIsValid(false);
   }, [nickname, isDuplicated, gender]);
 
   const handleNameInput = (e: any) => {
@@ -37,16 +39,17 @@ export default function SetProfile({
 
     setNickname(value);
 
-    const userRegex = /^[가-힣a-zA-Z0-9]+$/;
-    const photographerRegex = /^[가-힣a-zA-Z0-9\s]+$/;
-
     if (userInfo.role === "USER") {
       setIsValidName(
-        value.length > 1 && value.length <= 7 && userRegex.test(value)
+        value.length >= VALIDATION.NICKNAME_USER.MIN &&
+          value.length <= VALIDATION.NICKNAME_USER.MAX &&
+          VALIDATION.NICKNAME_USER.REGEX.test(value)
       );
     } else if (userInfo.role === "PHOTOGRAPHER") {
       setIsValidName(
-        value.length > 1 && value.length <= 18 && photographerRegex.test(value)
+        value.length >= VALIDATION.NICKNAME_PHOTOGRAPHER.MIN &&
+          value.length <= VALIDATION.NICKNAME_PHOTOGRAPHER.MAX &&
+          VALIDATION.NICKNAME_PHOTOGRAPHER.REGEX.test(value)
       );
     }
   };
@@ -54,14 +57,14 @@ export default function SetProfile({
   const handleIdInput = (e: any) => {
     let { value } = e.target;
     value = value.toLowerCase();
-    value = value.replace(/[^0-9a-z._]/g, "");
-    if (value.length > 30) {
-      value = value.slice(0, 30);
+    value = value.replace(VALIDATION.INSTAGRAM_ID.REGEX, "");
+    if (value.length > VALIDATION.INSTAGRAM_ID.MAX) {
+      value = value.slice(0, VALIDATION.INSTAGRAM_ID.MAX);
     }
     setInstagramId(value);
   };
 
-  const checkExistenceFunc = async () => {
+  const checkExistence = async () => {
     if (!isValidName) return;
     try {
       if (userInfo.role === "USER") {
@@ -78,11 +81,6 @@ export default function SetProfile({
     }
   };
 
-  const checkValidFunc = () => {
-    if (isDuplicated === "false" && gender !== "") setIsValid(true);
-    else setIsValid(false);
-  };
-
   const handleNextBtn = () => {
     if (!isValid) return;
     setUserInfo({
@@ -91,13 +89,13 @@ export default function SetProfile({
       gender,
       instagramId: instagramId.length > 0 ? instagramId : null,
     });
-    setNextFunc();
+    onNext();
   };
 
   return (
     <div className="flex flex-col w-full ">
       <div className="w-full pb-7 h-fit">
-        <img className="w-28" src={logo_damaba} />
+        <img className="w-28" src={logo_damaba} alt="담아봐 로고" />
       </div>
       <div className="w-full pb-8 text-xl font-bold">
         회원 정보를 입력해주세요
@@ -110,10 +108,14 @@ export default function SetProfile({
             description=""
             placeholder={`${userInfo.role === "USER" ? "닉네임" : "상호/활동명"}을 입력해주세요.`}
             onChange={handleNameInput}
-            onClick={() => checkExistenceFunc()}
+            onClick={() => checkExistence()}
             activation={isValidName && isDuplicated !== "false"}
             buttonTitle="중복 확인"
-            bottomText={`${userInfo.role === "USER" ? "한글, 영어, 숫자 조합 2-7자" : "한글, 영어, 숫자, 공백 조합 18자 이내"}`}
+            bottomText={
+              userInfo.role === "USER"
+                ? `한글, 영어, 숫자 조합 ${VALIDATION.NICKNAME_USER.MIN}-${VALIDATION.NICKNAME_USER.MAX}자`
+                : `한글, 영어, 숫자, 공백 조합 ${VALIDATION.NICKNAME_PHOTOGRAPHER.MAX}자 이내`
+            }
             value={nickname}
             isReadOnly={false}
           />

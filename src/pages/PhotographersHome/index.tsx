@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getPhotographerList } from "../../api/photographer";
+import { usePhotographerList } from "../../hooks/usePhotographerList";
 import icn_back from "../../assets/svgs/icn_back_white.svg";
 import icn_noList from "../../assets/svgs/icn_no_photogrpher.svg";
 import icn_search from "../../assets/svgs/icn_search_white.svg";
@@ -10,60 +9,44 @@ import FilterBar from "../../components/FilterBar";
 import ListNotFound from "../../components/ListNotFound";
 
 export default function PhotographersHome() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [photographerList, setPhotographertList] = useState<any>([]);
+  const { photographers } = usePhotographerList(searchParams.toString());
 
-  useEffect(() => {
-    getPhotographerListFunc();
-  }, [searchParams]);
-
-  const getPhotographerListFunc = async () => {
-    const params = searchParams.toString();
-    try {
-      const res = await getPhotographerList(params);
-      setPhotographertList(res.items);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  if (!photographerList) return <></>;
   return (
-    <div className="flex flex-col w-full min-h-screen">
+    <div className="flex flex-col w-full min-h-dvh-safe">
       <div className="h-12">
-        <Header
-          main={
-            <div className="font-semibold text-white cursor-pointer">
-              작가님을 만나봐
-            </div>
-          }
-          left={
+        <Header>
+          <Header.Left>
             <img
               className="px-4 cursor-pointer"
               alt="<"
               src={icn_back}
-              onClick={() => {
-                navigation(`/`);
-              }}
+              onClick={() => navigate(`/`)}
             />
-          }
-          right={
+          </Header.Left>
+          <Header.Center>
+            <div className="font-semibold text-white cursor-pointer">
+              작가님을 만나봐
+            </div>
+          </Header.Center>
+          <Header.Right>
             <img
               className="px-4 cursor-pointer"
               src={icn_search}
-              onClick={() => navigation(`/search`)}
+              alt="검색"
+              onClick={() => navigate(`/search`)}
             />
-          }
-        />
+          </Header.Right>
+        </Header>
       </div>
       <div className="border-b-[0.375rem] border-gray50">
         <FilterBar isEvent={false} setSearchParams={setSearchParams} />
       </div>
-      {photographerList.length > 0 ? (
+      {photographers.length > 0 ? (
         <div className="relative grid grid-cols-2 gap-5 m-4">
-          {photographerList.map((item: any) => (
+          {photographers.map((item) => (
             <PhotographerBox key={item.id} data={item} />
           ))}
           <div className="w-full h-20 bg-white" />

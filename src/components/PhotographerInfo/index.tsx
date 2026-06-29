@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   deleteSavedPhotographer,
-  savePhotographer,
+  createSavedPhotographer,
 } from "../../api/photographer";
 import { getPhotoType } from "../../hooks/getKorean";
+import { useLoginGuard } from "../../hooks/useLoginGuard";
 import icn_clip_off from "../../assets/svgs/icn_clip.svg";
 import icn_clip_on from "../../assets/svgs/icn_clipOn.svg";
 import icn_web from "../../assets/svgs/icn_web.svg";
@@ -18,11 +19,12 @@ interface Props {
 }
 
 export default function PhotographerInfo({ isMypage, userInfo }: Props) {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const [count, setCount] = useState(0);
   const [isSavedPhotographer, setIsSavedPhotographer] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
+    useLoginGuard();
 
   useEffect(() => {
     setCount(userInfo.saveCount);
@@ -30,20 +32,21 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
   }, [userInfo]);
 
   const handleSave = () => {
-    if (!localStorage.getItem("accessToken")) {
-      setShowLoginModal(true);
-      return;
-    } else savePromotionFunc();
+    requireLogin(() => toggleSavePhotographer());
   };
 
-  const savePromotionFunc = async () => {
+  const toggleSavePhotographer = async () => {
+    const prevCount = count;
+    const prevIsSaved = isSavedPhotographer;
     setCount(isSavedPhotographer ? count - 1 : count + 1);
     setIsSavedPhotographer(!isSavedPhotographer);
     try {
       isSavedPhotographer
-        ? deleteSavedPhotographer(userInfo.id)
-        : await savePhotographer(userInfo.id);
+        ? await deleteSavedPhotographer(userInfo.id)
+        : await createSavedPhotographer(userInfo.id);
     } catch (e) {
+      setCount(prevCount);
+      setIsSavedPhotographer(prevIsSaved);
       setShowLoginModal(true);
       console.log(e);
     }
@@ -55,6 +58,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
         <img
           className="w-[6.5rem] h-[6.5rem] object-cover border-2 rounded-xl border-lineRegular bg-white"
           src={userInfo.profileImage.url}
+          alt="프로필 이미지"
         />
         {!isMypage && (
           <div
@@ -64,6 +68,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
             <img
               className="w-5 ml-[-0.725px]"
               src={isSavedPhotographer ? icn_clip_on : icn_clip_off}
+              alt="저장"
             />
             <div className="w-5 text-center">{count}</div>
           </div>
@@ -90,7 +95,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
       </div>
       <div className="flex flex-col gap-2 pb-1 -ml-1 text-sm font-medium text-black02">
         <div className="flex items-center gap-1">
-          <img className="w-6" src={icn_loc} />
+          <img className="w-6" src={icn_loc} alt="위치" />
           <div className="flex w-full gap-1">
             {userInfo.activeRegions.map((loc: any, index: number) => (
               <div className="flex gap-1" key={index}>
@@ -105,7 +110,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
         </div>
         {userInfo.instagramId && (
           <div className="flex items-center gap-1">
-            <img className="p-[0.35rem]" src={icn_insta} />
+            <img className="p-[0.35rem]" src={icn_insta} alt="인스타그램" />
             <div
               className="cursor-pointer text-[#0068C3]"
               onClick={() =>
@@ -118,7 +123,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
         )}
         {userInfo.contactLink && (
           <div className="flex items-center gap-1">
-            <img className="" src={icn_web} />
+            <img className="" src={icn_web} alt="웹사이트" />
             <div
               className="cursor-pointer text-[#0068C3]"
               onClick={() => window.open(`${userInfo.contactLink}`)}
@@ -133,7 +138,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
           <button
             className="flex-1 h-10 text-sm font-medium text-white rounded-md outline-none bg-violet300"
             onClick={() =>
-              navigation(`/edit/photographer`, {
+              navigate(`/edit/photographer`, {
                 state: userInfo,
                 replace: true,
               })
@@ -144,7 +149,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
           <button
             className="flex-1 h-10 text-sm font-medium text-white rounded-md outline-none bg-violet300"
             onClick={() =>
-              navigation(`/edit/photographer/detail`, {
+              navigate(`/edit/photographer/detail`, {
                 state: userInfo,
                 replace: true,
               })
@@ -155,19 +160,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
         </div>
       )}
       <div className="-mx-4">
-        {showLoginModal && (
-          <ModalCheck
-            title={["로그인이 필요한 서비스입니다."]}
-            content={[
-              "이 기능은 로그인 후 이용하실 수 있습니다.",
-              "로그인 페이지로 이동하시겠습니까?",
-            ]}
-            btnMsg="로그인 하기"
-            align="start"
-            setShowModal={setShowLoginModal}
-            onClick={() => navigation(`/login`)}
-          />
-        )}
+        {showLoginModal && <ModalCheck {...loginModalProps} />}
       </div>
     </div>
   );

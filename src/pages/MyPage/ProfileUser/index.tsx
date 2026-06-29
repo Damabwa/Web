@@ -6,7 +6,7 @@ interface Props {
 }
 
 export default function ProfileUser({ userInfo }: Props) {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col gap-6 px-4 pt-7">
@@ -17,6 +17,7 @@ export default function ProfileUser({ userInfo }: Props) {
             src={
               userInfo.profileImage ? userInfo.profileImage.url : img_profile
             }
+            alt="프로필 이미지"
           />
         </div>
         <div className="flex flex-col gap-[0.12rem]">
@@ -29,7 +30,7 @@ export default function ProfileUser({ userInfo }: Props) {
       <div
         className="w-full h-10 text-sm font-medium items-center flex justify-center bg-gray100 rounded-[0.63rem] cursor-pointer"
         onClick={() =>
-          navigation(`/edit/user`, {
+          navigate(`/edit/user`, {
             state: userInfo,
             replace: true,
           })

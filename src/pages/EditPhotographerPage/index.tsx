@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { putPhotographerPage } from "../../api/photographer";
+import { VALIDATION } from "../../constants/validation";
+import { updatePhotographerPage } from "../../api/photographer";
 import SubHeader from "../../components/SubHeader";
 import InputBox from "../../components/InputBox";
 import InputIDBox from "../../components/InputIDBox";
 import InputButtonBox from "../../components/InputButtonBox";
 import ButtonActive from "../../components/ButtonActive";
 import GetImagesBox from "../../components/GetImagesBox";
-import InputLongformBox from "../../components/InputLongformBox/tndex";
-import ModalComfirm from "../../components/ModalComfirm";
+import InputLongformBox from "../../components/InputLongformBox";
+import ModalConfirm from "../../components/ModalConfirm";
 
 declare global {
   interface Window {
@@ -17,7 +18,7 @@ declare global {
 }
 
 export default function EditPhotographerPage() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [portfolio, setPortfolio] = useState<any[]>([]);
@@ -32,20 +33,23 @@ export default function EditPhotographerPage() {
   const [description, setDescription] = useState("");
 
   const [isValid, setIsValid] = useState(false);
-  const [isChangedInstaId, setIsChangedInstaId] = useState(false);
 
-  const [showImageModal, setShowImageModal] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   useEffect(() => {
+    if (!location.state) return;
     setPortfolio(location.state.portfolio || []);
     setInstagramId(location.state.instagramId || "");
     setContactLink(location.state.contactLink || "");
     setDescription(location.state.description || "");
     if (location.state.address) setAddress(location.state.address);
+    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    checkValidFunc();
+    if (portfolio.length > 0 && description) setIsValid(true);
+    else setIsValid(false);
   }, [portfolio, address, instagramId, contactLink, description]);
 
   const handleAddressSearch = () => {
@@ -66,24 +70,18 @@ export default function EditPhotographerPage() {
   };
 
   const handleIdInput = (e: any) => {
-    setIsChangedInstaId(true);
     let { value } = e.target;
     value = value.toLowerCase();
-    value = value.replace(/[^0-9a-z._]/g, "");
-    if (value.length > 30) {
-      value = value.slice(0, 30);
+    value = value.replace(VALIDATION.INSTAGRAM_ID.REGEX, "");
+    if (value.length > VALIDATION.INSTAGRAM_ID.MAX) {
+      value = value.slice(0, VALIDATION.INSTAGRAM_ID.MAX);
     }
     setInstagramId(value);
   };
 
-  const checkValidFunc = () => {
-    if (portfolio.length > 0 && description) setIsValid(true);
-    else setIsValid(false);
-  };
-
-  const putPhotographerPageFunc = async () => {
+  const submitPhotographerPage = async () => {
     try {
-      await putPhotographerPage({
+      await updatePhotographerPage({
         portfolio,
         address,
         instagramId,
@@ -93,14 +91,14 @@ export default function EditPhotographerPage() {
     } catch (e) {
       console.log(e);
     } finally {
-      navigation(`/mypage`, {
+      navigate(`/mypage`, {
         replace: true,
       });
     }
   };
 
   return (
-    <div className="relative flex flex-col min-h-screen">
+    <div className="relative flex flex-col min-h-dvh-safe">
       <div>
         <div className="px-4">
           <SubHeader title="작가 페이지 수정" />
@@ -118,7 +116,7 @@ export default function EditPhotographerPage() {
             images={portfolio}
             fileType="PHOTOGRAPHER_PORTFOLIO_IMAGE"
             setImages={setPortfolio}
-            setShowModal={setShowImageModal}
+            setShowModal={setIsImageModalOpen}
           />
         </div>
         <div className="flex flex-col gap-8 px-4 mb-9">
@@ -164,15 +162,15 @@ export default function EditPhotographerPage() {
         <ButtonActive
           activation={isValid}
           onClick={() => {
-            if (isValid) putPhotographerPageFunc();
+            if (isValid) submitPhotographerPage();
           }}
           text="등록"
         />
       </div>
-      {showImageModal && (
-        <ModalComfirm
+      {isImageModalOpen && (
+        <ModalConfirm
           content={["포트폴리오 이미지는", "최대 10장까지 첨부할 수 있어요"]}
-          setShowModal={setShowImageModal}
+          setShowModal={setIsImageModalOpen}
         />
       )}
     </div>

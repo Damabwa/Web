@@ -89,7 +89,7 @@ export default function FilterType({
       const value = region.split(" ")[1];
       if (value === "전체") arr.push(category);
       else
-        value.split("/").map((e) => {
+        value.split("/").forEach((e) => {
           arr.push(`${category} ${e}`);
         });
     }
@@ -131,7 +131,7 @@ export default function FilterType({
             className="flex items-center justify-center h-12 gap-1 px-6 bg-gray50 rounded-xl"
             onClick={() => handleResetBtn()}
           >
-            <img src={icn_reset} />
+            <img src={icn_reset} alt="재설정" />
             재설정
           </button>
           <button

@@ -15,23 +15,21 @@ export default function Promotions({ data, searchKeyword }: Props) {
   const [promotionList, setPromotionList] = useState<any[]>(data);
 
   useEffect(() => {
-    getPromotionListFunc();
+    const fetchPromotionList = async () => {
+      const p = new URLSearchParams(searchParams);
+      p.set("searchKeyword", searchKeyword);
+      try {
+        const res = await getPromotionList(p);
+        setPromotionList(res.items);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchPromotionList();
   }, [searchParams, searchKeyword]);
 
-  const getPromotionListFunc = async () => {
-    const params = searchParams.toString();
-    try {
-      const res = await getPromotionList(
-        `${params}&searchKeyword=${searchKeyword}`
-      );
-      setPromotionList(res.items);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-dvh-safe">
       <div className="border-b-[0.375rem] border-gray50">
         <FilterBar isEvent={true} setSearchParams={setSearchParams} />
       </div>

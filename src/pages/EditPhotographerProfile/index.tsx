@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { VALIDATION } from "../../constants/validation";
 import { checkPhotographerExistence } from "../../api/photographer";
-import { modifyPhotographerProfile } from "../../api/photographer";
+import { updatePhotographerProfile } from "../../api/photographer";
 import SubHeader from "../../components/SubHeader";
 import ProfileImage from "../../components/ProfileImage";
 import Types from "../../components/Types";
@@ -10,7 +11,7 @@ import ButtonActive from "../../components/ButtonActive";
 import InputButtonBox from "../../components/InputButtonBox";
 
 export default function EditPhotographerProfile() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [userInfo, setUserInfo] = useState<any>();
@@ -25,14 +26,23 @@ export default function EditPhotographerProfile() {
   const [isDuplicated, setIsDuplicated] = useState("");
 
   useEffect(() => {
+    if (!location.state) return;
     setUserInfo(location.state);
-    setMainPhotographyTypes(location.state.mainPhotographyTypes);
-    setActiveRegions(location.state.activeRegions);
+    setMainPhotographyTypes(location.state.mainPhotographyTypes ?? []);
+    setActiveRegions(location.state.activeRegions ?? []);
+    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    checkValidFunc();
-  }, [isDuplicated, userInfo]);
+    if (
+      isDuplicated !== "true" &&
+      mainPhotographyTypes.length > 0 &&
+      activeRegions.length > 0
+    )
+      setIsValid(true);
+    else setIsValid(false);
+  }, [isDuplicated, userInfo, mainPhotographyTypes, activeRegions]);
 
   const handleNameInput = (e: any) => {
     setIsDuplicated("");
@@ -41,26 +51,17 @@ export default function EditPhotographerProfile() {
     let value = e.target.value;
     value = value.replace(/^\s+/, "").replace(/\s+/g, " ");
 
-    if (location.state.nickname === value) setIsChangedName(false);
+    if (location.state?.nickname === value) setIsChangedName(false);
     setUserInfo({ ...userInfo, nickname: value });
 
-    const nicknameRegex = /^[가-힣a-zA-Z0-9\s]+$/;
     setIsValidName(
-      value.length > 1 && value.length <= 18 && nicknameRegex.test(value)
+      value.length >= VALIDATION.NICKNAME_PHOTOGRAPHER.MIN &&
+        value.length <= VALIDATION.NICKNAME_PHOTOGRAPHER.MAX &&
+        VALIDATION.NICKNAME_PHOTOGRAPHER.REGEX.test(value)
     );
   };
 
-  const checkValidFunc = () => {
-    if (
-      isDuplicated !== "true" &&
-      mainPhotographyTypes.length > 0 &&
-      activeRegions.length > 0
-    )
-      setIsValid(true);
-    else setIsValid(false);
-  };
-
-  const checkExistenceFunc = async () => {
+  const checkExistence = async () => {
     if (!isValidName) return;
     let formatted = userInfo.nickname.replace(/\s+$/, "");
     try {
@@ -76,7 +77,7 @@ export default function EditPhotographerProfile() {
   const onClickSave = async () => {
     const { nickname, profileImage } = userInfo;
     try {
-      await modifyPhotographerProfile({
+      await updatePhotographerProfile({
         nickname,
         profileImage,
         mainPhotographyTypes,
@@ -85,7 +86,7 @@ export default function EditPhotographerProfile() {
     } catch (e) {
       console.log(e);
     } finally {
-      navigation(`/mypage`, { replace: true });
+      navigate(`/mypage`, { replace: true });
     }
   };
 
@@ -102,7 +103,7 @@ export default function EditPhotographerProfile() {
             description=""
             placeholder="상호명을 입력해주세요."
             onChange={handleNameInput}
-            onClick={() => checkExistenceFunc()}
+            onClick={() => checkExistence()}
             activation={
               isValidName && isChangedName && isDuplicated !== "false"
             }
@@ -119,7 +120,7 @@ export default function EditPhotographerProfile() {
                   : "text-red"
               }`}
             >
-              {"한글, 영어, 숫자, 공백 조합 18자 이내"}
+              {`한글, 영어, 숫자, 공백 조합 ${VALIDATION.NICKNAME_PHOTOGRAPHER.MAX}자 이내`}
             </div>
           ) : (
             <div

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { isMobileDevice } from "../../../utils/device";
 import icn_back from "../../../assets/svgs/icn_back_white.svg";
 
 interface Props {
@@ -8,9 +9,9 @@ interface Props {
 }
 
 export default function ImageBox({ images, promotionType }: Props) {
-  const isMobile = sessionStorage.getItem("isMobile") === "true";
+  const isMobile = isMobileDevice();
   const containerRef = useRef<HTMLDivElement>(null);
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -46,8 +47,9 @@ export default function ImageBox({ images, promotionType }: Props) {
       {isMobile && (
         <img
           className="absolute z-10 w-6 h-6 cursor-pointer top-3 left-4"
-          onClick={() => navigation(-1)}
+          onClick={() => navigate(-1)}
           src={icn_back}
+          alt="뒤로가기"
         />
       )}
       <div
@@ -61,7 +63,7 @@ export default function ImageBox({ images, promotionType }: Props) {
               className="relative flex-shrink-0 w-full slide-item snap-center"
               data-index={index}
             >
-              <img src={image.url} className="object-cover min-w-full h-96 " />
+              <img src={image.url} alt="이벤트 이미지" className="object-cover min-w-full h-96 " />
               <div
                 className="absolute top-0 left-0 w-full pointer-events-none h-28"
                 style={{

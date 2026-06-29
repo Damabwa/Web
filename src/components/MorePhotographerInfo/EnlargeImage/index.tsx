@@ -70,7 +70,7 @@ export default function EnlargeImage({
   };
 
   return (
-    <div className="w-full h-full max-h-screen bg-[#000] flex-col flex justify-center items-center">
+    <div className="w-full h-full max-h-dvh-safe bg-[#000] flex-col flex justify-center items-center">
       <div className="absolute top-0 flex items-center justify-center w-full p-4">
         <div className="z-10 text-white">
           {currentIndex + 1} / {images.length}
@@ -78,31 +78,25 @@ export default function EnlargeImage({
         <img
           className="absolute right-0 z-10 p-4 cursor-pointer"
           src={icn_close}
+          alt="닫기"
           onClick={() => setShowEnlargedImg(false)}
         />
       </div>
       <div className="relative">
         <div
-          className="flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory"
+          className="flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth"
           ref={containerRef}
-          style={{
-            scrollSnapType: "x mandatory",
-            scrollBehavior: "smooth",
-          }}
         >
           {images.map((image: any, index: number) => (
             <div
               key={image.url}
-              className="flex-shrink-0 w-full slide-item snap-center"
+              className="flex-shrink-0 w-full slide-item snap-center snap-always"
               data-index={index}
-              style={{
-                scrollSnapAlign: "center",
-                scrollSnapStop: "always",
-              }}
             >
               <img
                 src={image.url}
-                className="object-contain w-full h-full max-w-screen max-h-screen"
+                alt="포트폴리오"
+                className="object-contain w-full h-full max-w-screen max-h-dvh-safe"
               />
             </div>
           ))}

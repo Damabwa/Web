@@ -9,53 +9,61 @@ export default function Auth() {
   const setUser = useSetRecoilState(userState);
 
   useEffect(() => {
+    const getToken = async () => {
+      const token = new URL(window.location.href).searchParams.get("code");
+      const res = await axios.post(
+        "https://kauth.kakao.com/oauth/token",
+        {
+          grant_type: "authorization_code",
+          client_id: process.env.REACT_APP_KAKAO_REST_KEY,
+          redirect_uri: process.env.REACT_APP_REDIRECT_URI,
+          code: token,
+        },
+        {
+          headers: {
+            "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          },
+        }
+      );
+      return res;
+    };
+
+    const authLogin = async (token: string) => {
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/auth/login`,
+          {
+            loginType: "KAKAO",
+            authKey: JSON.stringify(token).slice(1, -1),
+          }
+        );
+        localStorage.setItem("accessToken", res.data.accessToken.value);
+        localStorage.setItem("refreshToken", res.data.refreshToken.value);
+        if (res.status === 200 && res.data.isRegistrationCompleted) {
+          const user = res.data?.user;
+          if (!user) {
+            console.error("Login succeeded but user data is missing");
+            navigate("/login", { replace: true });
+            return;
+          }
+          setUser({ id: user.id, roles: user.roles ?? [] });
+          navigate("/");
+        } else navigate("/signup", { replace: true });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
     getToken()
       .then((res) => {
         if (res) {
-          authLoginFunc(res.data.access_token);
+          authLogin(res.data.access_token);
         }
       })
       .catch((err) => console.log(err));
+    // navigate, setUser는 stable reference (useNavigate, useSetRecoilState 보장)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const getToken = async () => {
-    const token = new URL(window.location.href).searchParams.get("code");
-    const res = await axios.post(
-      "https://kauth.kakao.com/oauth/token",
-      {
-        grant_type: "authorization_code",
-        client_id: process.env.REACT_APP_KAKAO_REST_KEY,
-        redirect_uri: process.env.REACT_APP_REDIRECT_URI,
-        code: token,
-      },
-      {
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-        },
-      }
-    );
-    return res;
-  };
-
-  const authLoginFunc = async (token: string) => {
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/auth/login`,
-        {
-          loginType: "KAKAO",
-          authKey: JSON.stringify(token).slice(1, -1),
-        }
-      );
-      localStorage.setItem("accessToken", res.data.accessToken.value);
-      localStorage.setItem("refreshToken", res.data.refreshToken.value);
-      if (res.status === 200 && res.data.isRegistrationCompleted) {
-        setUser({ id: res.data.user.id, roles: res.data.user.roles });
-        navigate("/");
-      } else navigate("/signup", { replace: true });
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   return <></>;
 }

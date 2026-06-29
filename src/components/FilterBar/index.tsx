@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import icn_reset from "../../assets/svgs/icn_reset.svg";
 import icn_line from "../../assets/svgs/icn_filterLine.svg";
-import FilterType from "./FIlterType";
+import FilterType from "./FilterType";
 import BtnOnOff from "./BtnOnOff";
 import BtnChip from "./BtnChip";
 
@@ -19,76 +19,91 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
   const [showSelectBar, setShowSelectBar] = useState(false);
   const [clickedFilter, setClickedFilter] = useState("");
 
-  const [filters, setFilters] = useState<any>(
-    isEvent
-      ? {
-          progressStatus: "ALL",
-          sortType: "LATEST",
-        }
-      : {
-          sortType: "LATEST",
-        }
+  const getDefaultFilters = useCallback(
+    () =>
+      isEvent
+        ? {
+            progressStatus: "ALL",
+            sortType: "LATEST",
+          }
+        : {
+            sortType: "LATEST",
+          },
+    [isEvent],
   );
+
+  const [filters, setFilters] = useState<any>(getDefaultFilters());
 
   const [selectedLocs, setSelectedLocs] = useState<string[]>([]);
 
-  const handleFilterChange = (key: string, value: any) => {
+  const handleFilterChange = useCallback((key: string, value: any) => {
     setFilters((prevFilters: any) => ({ ...prevFilters, [key]: value }));
-  };
+  }, []);
 
   useEffect(() => {
     const newSearchParams = new URLSearchParams();
 
     Object.entries(filters).forEach(([key, value]: any) => {
-      if (!value || value == "ALL" || value.length == 0)
+      if (!value || value === "ALL" || value.length === 0)
         newSearchParams.delete(key);
       else newSearchParams.set(key, value);
     });
 
-    window.history.pushState({}, "", "/");
     setSearchParams(newSearchParams);
   }, [filters, setSearchParams]);
 
-  const handleResetFIlter = () => {
+  const handleSetFree = useCallback(
+    () => handleFilterChange("type", "FREE"),
+    [handleFilterChange],
+  );
+  const handleSetDiscount = useCallback(
+    () => handleFilterChange("type", "DISCOUNT"),
+    [handleFilterChange],
+  );
+  const handleClearType = useCallback(
+    () => handleFilterChange("type", ""),
+    [handleFilterChange],
+  );
+
+  const handleResetFilter = useCallback(() => {
     setIsModifiedOrder(false);
     setIsModifiedState(false);
     setIsModifiedRegion(false);
     setIsModifiedTypes(false);
-    setFilters({
-      progressStatus: "ALL",
-      sortType: "LATEST",
-    });
-  };
+    setFilters(getDefaultFilters());
+  }, [getDefaultFilters]);
 
-  const handleFilter = (type: string) => {
+  const handleFilter = useCallback((type: string) => {
     setShowSelectBar(true);
     setClickedFilter(type);
-  };
+  }, []);
+
+  const handleCloseSelectBar = useCallback(() => setShowSelectBar(false), []);
 
   return (
     <div className="w-full">
       <div className="flex items-center gap-2 min-w-full h-[3.75rem] p-3 text-sm font-medium whitespace-nowrap overflow-x-scroll">
         <button
           className="flex items-center justify-center mr-1 outline-none min-w-9 h-9 bg-gray100 rounded-3xl"
-          onClick={() => handleResetFIlter()}
+          onClick={handleResetFilter}
         >
-          <img className="p-[0.37rem]" src={icn_reset} />
+          <img className="p-[0.37rem]" src={icn_reset} alt="필터 초기화" />
         </button>
         {isEvent && (
           <div className="flex gap-2">
             <BtnOnOff
               isOn={filters.type === "FREE"}
-              setOn={() => handleFilterChange("type", "FREE")}
-              setOff={() => handleFilterChange("type", "")}
+              setOn={handleSetFree}
+              setOff={handleClearType}
               title="무료"
             />
             <BtnOnOff
               isOn={filters.type === "DISCOUNT"}
-              setOn={() => handleFilterChange("type", "DISCOUNT")}
-              setOff={() => handleFilterChange("type", "")}
+              setOn={handleSetDiscount}
+              setOff={handleClearType}
               title="할인"
             />
-            <img src={icn_line} />
+            <img src={icn_line} alt="" />
           </div>
         )}
         <BtnChip
@@ -119,10 +134,10 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
         />
       </div>
       {showSelectBar && (
-        <div className="fixed bottom-0 z-40 flex items-end h-screen w-full max-w-[430px]">
+        <div className="fixed bottom-0 z-40 flex items-end h-dvh-safe w-full max-w-[430px]">
           <div
-            className="absolute top-0 w-full h-screen bg-black bg-opacity-40"
-            onClick={() => setShowSelectBar(false)}
+            className="absolute top-0 w-full h-dvh-safe bg-black bg-opacity-40"
+            onClick={handleCloseSelectBar}
           />
           <div
             className={`w-full ${showSelectBar ? "animate-slideUp" : "hidden"}`}

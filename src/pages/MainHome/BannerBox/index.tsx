@@ -9,7 +9,7 @@ import banner_main from "../../../assets/imgs/banner_damaba_main.png";
 import banner_event from "../../../assets/banner/banner_1.png";
 
 export default function BannerBox() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const images = [
     { img: banner_main, url: null },
     { img: banner_event, url: "/event/8" },
@@ -34,7 +34,8 @@ export default function BannerBox() {
             <img
               className={`${item.url && "cursor-pointer"} object-cover w-full h-full`}
               src={item.img}
-              onClick={() => item.url && navigation(item.url)}
+              alt="배너"
+              onClick={() => item.url && navigate(item.url)}
             />
           </SwiperSlide>
         ))}

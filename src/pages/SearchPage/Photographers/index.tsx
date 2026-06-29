@@ -15,22 +15,20 @@ export default function Photographers({ data, searchKeyword }: Props) {
   const [photographerList, setPhotographerList] = useState<any[]>(data);
 
   useEffect(() => {
-    getPhotographerListFunc();
+    const fetchPhotographerList = async () => {
+      const p = new URLSearchParams(searchParams);
+      p.set("searchKeyword", searchKeyword);
+      try {
+        const res = await getPhotographerList(p);
+        setPhotographerList(res.items);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchPhotographerList();
   }, [searchParams, searchKeyword]);
-
-  const getPhotographerListFunc = async () => {
-    const params = searchParams.toString();
-    try {
-      const res = await getPhotographerList(
-        `${params}&searchKeyword=${searchKeyword}`
-      );
-      setPhotographerList(res.items);
-    } catch (e) {
-      console.log(e);
-    }
-  };
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-dvh-safe">
       <div className="border-b-[0.375rem] border-gray50">
         <FilterBar isEvent={false} setSearchParams={setSearchParams} />
       </div>

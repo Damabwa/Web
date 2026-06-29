@@ -6,11 +6,11 @@ import icn_check_off from "../../../assets/svgs/btn_signup_check_off.svg";
 import ButtonActive from "../../../components/ButtonActive";
 
 interface Props {
-  setNextFunc: () => void;
+  onNext: () => void;
   role: string;
 }
 
-export default function Terms({ setNextFunc, role }: Props) {
+export default function Terms({ onNext, role }: Props) {
   const [isValid, setIsValid] = useState(false);
   const [allCheck, setAllCheck] = useState(false);
   const [termsList, setTermsList] = useState([
@@ -58,23 +58,22 @@ export default function Terms({ setNextFunc, role }: Props) {
       isChecked: !allCheck,
     }));
     setTermsList(updated);
-    setAllCheck(!allCheck);
   };
 
   useEffect(() => {
-    setIsValid(true);
-    termsList.map((item) => {
-      if (item.roles.includes(role) && !item.isChecked) {
-        setAllCheck(false);
-        if (item.isRequired) setIsValid(false);
-      }
-    });
-  }, [termsList]);
+    const roleItems = termsList.filter((item) => item.roles.includes(role));
+    const allChecked = roleItems.every((item) => item.isChecked);
+    const allRequiredChecked = roleItems.every(
+      (item) => !item.isRequired || item.isChecked
+    );
+    setAllCheck(allChecked);
+    setIsValid(allRequiredChecked);
+  }, [termsList, role]);
 
   return (
     <div className="flex flex-col w-full">
       <div className="w-full pb-7 h-fit">
-        <img className="w-28" src={logo_damaba} />
+        <img className="w-28" src={logo_damaba} alt="담아봐 로고" />
       </div>
       <div className="w-full pb-8 text-xl font-bold">
         서비스 약관에 동의해주세요
@@ -85,6 +84,7 @@ export default function Terms({ setNextFunc, role }: Props) {
             className="w-[1.125rem] h-[1.125rem]"
             onClick={() => handleCheckAll()}
             src={allCheck ? icn_check_on : icn_check_off}
+            alt={allCheck ? "전체 선택 해제" : "전체 선택"}
           />
           <div> 모두 동의합니다.</div>
         </div>
@@ -98,6 +98,7 @@ export default function Terms({ setNextFunc, role }: Props) {
                 className="w-[1.125rem] h-[1.125rem]"
                 onClick={() => handleCheckOnly(i)}
                 src={item.isChecked ? icn_check_on : icn_check_off}
+                alt={item.isChecked ? "선택됨" : "미선택"}
               />
               <div>
                 {item.isRequired ? "[필수] " : "[선택] "}
@@ -106,7 +107,7 @@ export default function Terms({ setNextFunc, role }: Props) {
             </div>
             {item.link && (
               <button onClick={() => window.open(item.link)}>
-                <img className="w-6 h-6" src={icn_next} />
+                <img className="w-6 h-6" src={icn_next} alt=">" />
               </button>
             )}
           </div>
@@ -116,7 +117,7 @@ export default function Terms({ setNextFunc, role }: Props) {
         <ButtonActive
           activation={isValid}
           onClick={() => {
-            if (isValid) setNextFunc();
+            if (isValid) onNext();
           }}
           text="다음"
         />

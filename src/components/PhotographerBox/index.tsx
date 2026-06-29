@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  savePhotographer,
+  createSavedPhotographer,
   deleteSavedPhotographer,
 } from "../../api/photographer";
 import { getPhotoType } from "../../hooks/getKorean";
+import { useLoginGuard } from "../../hooks/useLoginGuard";
+import { useOpenInternalLink } from "../../hooks/useOpenInternalLink";
 import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
+import icn_noPhotographer from "../../assets/svgs/icn_no_photogrpher.svg";
 import ModalCheck from "../ModalCheck";
 
 interface postData {
@@ -22,42 +24,46 @@ interface Props {
 }
 
 export default function PhotographerBox({ data }: Props) {
-  const navigation = useNavigate();
+  const openInternalLink = useOpenInternalLink();
   const [isClipped, setIsClipped] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
+    useLoginGuard();
 
   useEffect(() => {
     setIsClipped(data.isSaved);
-  }, [data]);
+  }, [data.isSaved]);
 
-  const handleTextLength = () => {
-    if (data.nickname.length < 8) return data.nickname;
-    return `${data.nickname.slice(0, 8)}...`;
-  };
+  const nickname = useMemo(
+    () =>
+      data.nickname.length < 8
+        ? data.nickname
+        : `${data.nickname.slice(0, 8)}...`,
+    [data.nickname],
+  );
 
-  const onClickPhotographer = () => {
-    window.open(`/photographer/${data.id}`);
-  };
+  const onClickPhotographer = useCallback(() => {
+    openInternalLink(`/photographer/${data.id}`);
+  }, [data.id, openInternalLink]);
 
-  const onClickSave = () => {
-    if (!localStorage.getItem("accessToken")) {
-      setShowLoginModal(true);
-      return;
-    } else savePhotographerFunc(isClipped);
-  };
+  const savePhotographerFunc = useCallback(
+    async (clipped: boolean) => {
+      try {
+        setIsClipped(!clipped);
+        clipped
+          ? await deleteSavedPhotographer(data.id)
+          : await createSavedPhotographer(data.id);
+      } catch (e) {
+        setIsClipped(clipped);
+        setShowLoginModal(true);
+        console.log(e);
+      }
+    },
+    [data.id, setShowLoginModal],
+  );
 
-  const savePhotographerFunc = async (isClipped: boolean) => {
-    try {
-      setIsClipped(!isClipped);
-      isClipped
-        ? await deleteSavedPhotographer(data.id)
-        : await savePhotographer(data.id);
-    } catch (e: any) {
-      setIsClipped(false);
-      setShowLoginModal(true);
-      console.log(e);
-    }
-  };
+  const onClickSave = useCallback(() => {
+    requireLogin(() => savePhotographerFunc(isClipped));
+  }, [requireLogin, savePhotographerFunc, isClipped]);
 
   if (!data) return <></>;
   return (
@@ -65,15 +71,20 @@ export default function PhotographerBox({ data }: Props) {
       <div className="relative flex flex-col justify-between w-full text-white cursor-pointer h-44 bg-gray rounded-xl">
         <div
           className="absolute top-0 left-0 z-0 w-full h-full"
-          onClick={() => onClickPhotographer()}
+          onClick={onClickPhotographer}
         >
           <div className="relative inline-block w-full h-full overflow-hidden rounded-xl">
             <img
               src={data.profileImage.url}
               alt={data.profileImage.name}
               className="block object-cover min-w-full min-h-full"
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = icn_noPhotographer;
+              }}
             />
-            <div className="absolute bottom-0 left-0 w-full h-[40%] bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.25)] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-full h-[40%] bg-card-overlay pointer-events-none" />
           </div>
         </div>
         <div className="z-10 flex items-center justify-end p-2">
@@ -81,12 +92,12 @@ export default function PhotographerBox({ data }: Props) {
             <img
               alt="clip"
               src={isClipped ? icn_clipOn : icn_clipOff}
-              onClick={() => onClickSave()}
+              onClick={onClickSave}
             />
           </div>
         </div>
-        <div className="z-10 p-3" onClick={() => onClickPhotographer()}>
-          <div className="font-semibold">{handleTextLength()}</div>
+        <div className="z-10 p-3" onClick={onClickPhotographer}>
+          <div className="font-semibold">{nickname}</div>
           <div className="flex items-center gap-1 text-xs">
             {data.mainPhotographyTypes.map((type, index) => (
               <div key={index}>
@@ -99,17 +110,7 @@ export default function PhotographerBox({ data }: Props) {
       </div>
       {showLoginModal && (
         <div className="absolute -left-4">
-          <ModalCheck
-            title={["로그인이 필요한 서비스입니다."]}
-            content={[
-              "이 기능은 로그인 후 이용하실 수 있습니다.",
-              "로그인 페이지로 이동하시겠습니까?",
-            ]}
-            btnMsg="로그인 하기"
-            align="start"
-            setShowModal={setShowLoginModal}
-            onClick={() => navigation(`/login`)}
-          />
+          <ModalCheck {...loginModalProps} />
         </div>
       )}
     </div>

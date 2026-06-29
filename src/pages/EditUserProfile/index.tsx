@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { checkUserExistence, modifyProfile } from "../../api/user";
+import { VALIDATION } from "../../constants/validation";
+import { checkUserExistence, updateProfile } from "../../api/user";
 import { onImageHandler } from "../../hooks/onImageHandler";
 import icn_camera from "../../assets/svgs/icn_profile_camera_white.svg";
 import icn_profile from "../../assets/svgs/icn_profile.svg";
@@ -11,7 +12,7 @@ import InputIDBox from "../../components/InputIDBox";
 import ButtonActive from "../../components/ButtonActive";
 
 export default function EditUserProfile() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -25,11 +26,19 @@ export default function EditUserProfile() {
 
   useEffect(() => {
     setUserInfo(location.state);
+    // 마운트 시 location.state에서 수정할 초기값을 1회 설정
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    checkValidFunc();
-  }, [userInfo, isDuplicated]);
+    if (
+      isChangeImage ||
+      isChangedInstaId ||
+      (isChangedName && isDuplicated === "false")
+    )
+      setIsValid(true);
+    else setIsValid(false);
+  }, [userInfo, isDuplicated, isChangeImage, isChangedInstaId, isChangedName]);
 
   const handleImageClick = () => {
     if (fileInputRef.current) {
@@ -66,11 +75,10 @@ export default function EditUserProfile() {
     setUserInfo({ ...userInfo, nickname: e.target.value });
     if (location.state.nickname === e.target.value) setIsChangedName(false);
 
-    const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
     setIsValidName(
-      e.target.value.length > 1 &&
-        e.target.value.length < 8 &&
-        nicknameRegex.test(e.target.value)
+      e.target.value.length >= VALIDATION.NICKNAME_USER.MIN &&
+        e.target.value.length <= VALIDATION.NICKNAME_USER.MAX &&
+        VALIDATION.NICKNAME_USER.REGEX.test(e.target.value)
     );
   };
 
@@ -80,14 +88,14 @@ export default function EditUserProfile() {
       setIsChangedInstaId(false);
     let { value } = e.target;
     value = value.toLowerCase();
-    value = value.replace(/[^0-9a-z._]/g, "");
-    if (value.length > 30) {
-      value = value.slice(0, 30);
+    value = value.replace(VALIDATION.INSTAGRAM_ID.REGEX, "");
+    if (value.length > VALIDATION.INSTAGRAM_ID.MAX) {
+      value = value.slice(0, VALIDATION.INSTAGRAM_ID.MAX);
     }
     setUserInfo({ ...userInfo, instagramId: value });
   };
 
-  const checkExistenceFunc = async () => {
+  const checkExistence = async () => {
     if (!isValidName) return;
     try {
       const res = await checkUserExistence(userInfo.nickname);
@@ -98,30 +106,20 @@ export default function EditUserProfile() {
     }
   };
 
-  const checkValidFunc = () => {
-    if (
-      isChangeImage ||
-      isChangedInstaId ||
-      (isChangedName && isDuplicated === "false")
-    )
-      setIsValid(true);
-    else setIsValid(false);
-  };
-
   const onClickSave = async () => {
     const { nickname, instagramId, profileImage } = userInfo;
     try {
-      await modifyProfile({ nickname, instagramId, profileImage });
+      await updateProfile({ nickname, instagramId, profileImage });
     } catch (e) {
       console.log(e);
     } finally {
-      navigation(`/mypage`, { replace: true });
+      navigate(`/mypage`, { replace: true });
     }
   };
 
   if (!userInfo) return <></>;
   return (
-    <div className="relative flex flex-col justify-between min-h-screen px-4">
+    <div className="relative flex flex-col justify-between min-h-dvh-safe px-4">
       <div>
         <SubHeader title="프로필 수정" />
         <div className="flex justify-center pt-[0.8rem]">
@@ -140,15 +138,17 @@ export default function EditUserProfile() {
               <img
                 className="object-cover w-24 h-24 border rounded-full border-darkgray border-opacity-30"
                 src={userInfo.profileImage.url}
+                alt="프로필 이미지"
               />
             ) : (
               <img
                 className="w-24 h-24 border border-white rounded-full"
                 src={icn_profile}
+                alt="기본 프로필"
               />
             )}
             <div className="absolute bottom-0 right-0 p-1 border-2 border-white rounded-full bg-darkgray w-fit">
-              <img src={icn_camera} />
+              <img src={icn_camera} alt="사진 변경" />
             </div>
           </div>
         </div>
@@ -168,7 +168,7 @@ export default function EditUserProfile() {
               description=""
               placeholder="닉네임을 입력해주세요."
               onChange={handleNameInput}
-              onClick={() => checkExistenceFunc()}
+              onClick={() => checkExistence()}
               activation={
                 isValidName && isChangedName && isDuplicated !== "false"
               }
@@ -180,10 +180,10 @@ export default function EditUserProfile() {
             {isDuplicated === "" ? (
               <div className="text-xs text-red">
                 {!isValidName &&
-                  userInfo.ninkname &&
+                  userInfo.nickname &&
                   userInfo.nickname.length > 0 &&
-                  "한글, 영어, 숫자 조합 2-7자만 가능해요."}
-                {userInfo.ninkname &&
+                  `한글, 영어, 숫자 조합 ${VALIDATION.NICKNAME_USER.MIN}-${VALIDATION.NICKNAME_USER.MAX}자만 가능해요.`}
+                {userInfo.nickname &&
                   userInfo.nickname.length === 0 &&
                   "닉네임을 입력해주세요."}
               </div>

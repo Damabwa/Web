@@ -1,3 +1,5 @@
-import { GET, PUT, POST, DELETE } from "../utils/axios";
+import { POST } from "../utils/axios";
+import { ImageFile } from "../types/common";
 
-export const upLoadFile = async (body: any) => await POST(`/files`, body, true);
+export const upLoadFile = async (body: FormData) =>
+  await POST<{ files: ImageFile[] }>(`/files`, body, true);
