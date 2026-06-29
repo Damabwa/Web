@@ -22,6 +22,7 @@ const makeItem = (id: number, nickname: string) => ({
 
 describe("MainHome PhotographerBox", () => {
   beforeEach(() => jest.clearAllMocks());
+  afterEach(() => jest.restoreAllMocks());
 
   it("닉네임이 같아도 고유 key(id)로 렌더해 중복 key 경고가 없다", () => {
     // 동명이인(닉네임 동일, id 다름) — key가 nickname이면 React가 중복 key 경고를 낸다.
@@ -39,7 +40,5 @@ describe("MainHome PhotographerBox", () => {
       String(args[0]).includes("same key")
     );
     expect(hasDupKeyWarning).toBe(false);
-
-    errSpy.mockRestore();
   });
 });
