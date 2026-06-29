@@ -44,11 +44,11 @@ export default function EventBox() {
         </div>
       </div>
       <div className="flex w-full gap-3 px-4 overflow-x-auto">
-        {events.map((item: any) => (
+        {events.map((item) => (
           <div
             key={item.id}
             className="flex flex-col gap-2 cursor-pointer"
-            onClick={() => openDetailPage(item.id)}
+            onClick={() => openDetailPage(String(item.id))}
           >
             <div className="w-[7.5rem] h-[7.5rem] rounded-lg bg-gray50 overflow-hidden flex items-center justify-center">
               <img
@@ -63,19 +63,21 @@ export default function EventBox() {
                   ? `${item.title.slice(0, 8)}...`
                   : item.title}
               </div>
-              <div className="flex items-center pb-[0.1rem]">
-                <div className="flex items-center justify-center w-4 h-4 ">
-                  <img src={icn_camera} alt="" />
+              {item.photographyTypes && item.photographyTypes.length > 0 && (
+                <div className="flex items-center pb-[0.1rem]">
+                  <div className="flex items-center justify-center w-4 h-4 ">
+                    <img src={icn_camera} alt="" />
+                  </div>
+                  <div className="flex gap-1">
+                    {item.photographyTypes.map((type, index, arr) => (
+                      <div key={index}>
+                        {getPhotoType(type)}
+                        {index + 1 !== arr.length && <>,</>}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex gap-1">
-                  {item.photographyTypes.map((type: string, index: number) => (
-                    <div key={index}>
-                      {getPhotoType(type)}
-                      {index + 1 !== item.photographyTypes.length && <>,</>}
-                    </div>
-                  ))}
-                </div>
-              </div>
+              )}
               <div className="flex items-center">
                 <div className="flex items-center justify-center w-4 h-4">
                   <img src={icn_clock} alt="" />
