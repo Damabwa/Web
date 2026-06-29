@@ -7,6 +7,13 @@
  * Tailwind의 h-dvh/min-h-dvh는 dvh 단일 선언이라 dvh 미지원 브라우저
  * (iOS Safari < 15.4 등)에서 무효화될 수 있어, 100vh 폴백을 동반한다.
  */
+/* 동작 최소화 선호 사용자는 페이지 전환 애니메이션 비활성화 */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pageIn {
+    animation: none;
+  }
+}
+
 @layer utilities {
   .h-dvh-safe {
     height: 100vh;
