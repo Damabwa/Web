@@ -6,10 +6,12 @@ import PromotionBox from "../../../components/PromotionBox";
 import ListNotFound from "../../../components/ListNotFound";
 import PhotographerBox from "../../../components/PhotographerBox";
 import SubHeader from "./SubHeader";
+import { PromotionListItem } from "../../../types/promotion";
+import { PhotographerListItem } from "../../../types/photographer";
 
 interface Props {
-  promotionList: any[];
-  photographerList: any[];
+  promotionList: PromotionListItem[];
+  photographerList: PhotographerListItem[];
   setState: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -60,7 +62,7 @@ export default function Overview({
         {photographerList.length > 0 ? (
           <div className="flex flex-col">
             <div className="relative grid grid-cols-2 gap-5 mx-4 my-[0.62rem]">
-              {photographerList.slice(0, 2).map((item: any) => (
+              {photographerList.slice(0, 2).map((item) => (
                 <PhotographerBox key={item.id} data={item} />
               ))}
             </div>

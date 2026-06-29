@@ -5,14 +5,16 @@ import icn_noList from "../../../assets/svgs/icn_no_promotion.svg";
 import FilterBar from "../../../components/FilterBar";
 import PromotionBox from "../../../components/PromotionBox";
 import ListNotFound from "../../../components/ListNotFound";
+import { PromotionListItem } from "../../../types/promotion";
 
 interface Props {
-  data: any[];
+  data: PromotionListItem[];
   searchKeyword: string;
 }
 export default function Promotions({ data, searchKeyword }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [promotionList, setPromotionList] = useState<any[]>(data);
+  const [promotionList, setPromotionList] =
+    useState<PromotionListItem[]>(data);
 
   useEffect(() => {
     const fetchPromotionList = async () => {
