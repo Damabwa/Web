@@ -6,7 +6,9 @@ import dayjs from "dayjs";
 import { useEventForm } from "./useEventForm";
 
 // axios(ESM) 로드를 피하기 위해 api 모듈 모킹
-jest.mock("../../api/user", () => ({ getUserInfo: jest.fn() }));
+jest.mock("../../api/user", () => ({
+  getUserInfo: jest.fn().mockResolvedValue({ nickname: "tester" }),
+}));
 jest.mock("../../api/promotion", () => ({
   createPromotion: jest.fn(),
   updatePromotion: jest.fn(),
