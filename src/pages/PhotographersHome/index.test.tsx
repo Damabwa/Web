@@ -32,6 +32,13 @@ const setPhotographers = (photographers: unknown[]) =>
     error: null,
   } as never);
 
+const setLoading = () =>
+  mockUseList.mockReturnValue({
+    photographers: [],
+    isLoading: true,
+    error: null,
+  } as never);
+
 function LocationProbe() {
   return <div data-testid="path">{useLocation().pathname}</div>;
 }
@@ -40,6 +47,15 @@ describe("PhotographersHome", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     setPhotographers([]);
+  });
+
+  it("로딩 중에는 스켈레톤을 보여주고 '결과 없음'을 표시하지 않는다", () => {
+    setLoading();
+    renderWithProviders(<PhotographersHome />);
+    expect(screen.getByLabelText("작가 목록 불러오는 중")).toBeInTheDocument();
+    expect(
+      screen.queryByText("앗! 조건에 맞는 작가님이 없어요.")
+    ).not.toBeInTheDocument();
   });
 
   it("작가가 없으면 빈 상태 안내를 보여준다", () => {

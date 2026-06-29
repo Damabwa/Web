@@ -7,12 +7,15 @@ import Header from "../../components/Header";
 import PhotographerBox from "../../components/PhotographerBox";
 import FilterBar from "../../components/FilterBar";
 import ListNotFound from "../../components/ListNotFound";
+import ListSkeleton from "../../components/ListSkeleton";
 
 export default function PhotographersHome() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { photographers } = usePhotographerList(searchParams.toString());
+  const { photographers, isLoading } = usePhotographerList(
+    searchParams.toString()
+  );
 
   return (
     <div className="flex flex-col w-full min-h-dvh-safe">
@@ -44,7 +47,9 @@ export default function PhotographersHome() {
       <div className="border-b-[0.375rem] border-gray50">
         <FilterBar isEvent={false} setSearchParams={setSearchParams} />
       </div>
-      {photographers.length > 0 ? (
+      {isLoading ? (
+        <ListSkeleton variant="photographer" />
+      ) : photographers.length > 0 ? (
         <div className="relative grid grid-cols-2 gap-5 m-4">
           {photographers.map((item) => (
             <PhotographerBox key={item.id} data={item} />

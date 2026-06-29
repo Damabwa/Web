@@ -4,7 +4,8 @@ import { PhotographerListItem } from "../types/photographer";
 
 export function usePhotographerList(params: string, enabled = true) {
   const [photographers, setPhotographers] = useState<PhotographerListItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // enabled면 마운트 즉시 fetch하므로 초기부터 로딩 상태(첫 프레임 빈상태 깜빡임 방지)
+  const [isLoading, setIsLoading] = useState(enabled);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
