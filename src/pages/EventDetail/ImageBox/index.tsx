@@ -40,7 +40,8 @@ export default function ImageBox({ images, promotionType }: Props) {
     return () => {
       slides.forEach((slide) => observer.unobserve(slide));
     };
-  }, []);
+    // 이미지가 비동기로 도착/변경되면 새 슬라이드를 다시 관찰해 인덱스 추적을 유지
+  }, [images]);
 
   return (
     <div className="relative">
@@ -53,13 +54,13 @@ export default function ImageBox({ images, promotionType }: Props) {
         />
       )}
       <div
-        className="overflow-x-auto overflow-y-hidden h-96 snap-x snap-mandatory"
+        className="overflow-x-auto overflow-y-hidden h-96 snap-x snap-mandatory scrollbar-hide"
         ref={containerRef}
       >
         <div className="flex">
           {images.map((image: any, index: number) => (
             <div
-              key={index}
+              key={image.url ?? index}
               className="relative flex-shrink-0 w-full slide-item snap-center"
               data-index={index}
             >
