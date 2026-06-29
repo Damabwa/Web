@@ -4,6 +4,7 @@ import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
 import ThemeColorSetter from "./components/common/ThemeColorSetter";
 import Loading from "./components/Loading";
+import ErrorBoundary from "./components/ErrorBoundary";
 import "./App.css";
 
 // 라우트별 코드 스플리팅: 진입 시 필요한 페이지 청크만 로드해 초기 번들/로딩을 줄인다.
@@ -33,8 +34,9 @@ function App() {
       <RecoilRoot>
         <RecoilNexus />
         <ThemeColorSetter />
-        <Suspense fallback={<Loading isLoading />}>
-          <Routes>
+        <ErrorBoundary>
+          <Suspense fallback={<Loading isLoading />}>
+            <Routes>
             <Route path="/" element={<MainHome />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -59,7 +61,8 @@ function App() {
             <Route path="/auth" element={<Auth />} />
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
-        </Suspense>
+          </Suspense>
+        </ErrorBoundary>
       </RecoilRoot>
     </div>
   );
