@@ -5,8 +5,8 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import banner_main from "../../../assets/imgs/banner_damaba_main.png";
-import banner_event from "../../../assets/banner/banner_1.png";
+import banner_main from "../../../assets/imgs/banner_damaba_main.webp";
+import banner_event from "../../../assets/banner/banner_1.webp";
 
 export default function BannerBox() {
   const navigate = useNavigate();
