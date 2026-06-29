@@ -53,7 +53,7 @@ export default function EventBox() {
             <div className="w-[7.5rem] h-[7.5rem] rounded-lg bg-gray50 overflow-hidden flex items-center justify-center">
               <img
                 className="object-cover min-w-full min-h-full rounded-lg"
-                src={item.images[0].url}
+                src={item.images[0]?.url}
                 alt="이벤트 썸네일"
               />
             </div>

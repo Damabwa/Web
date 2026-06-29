@@ -57,6 +57,12 @@ describe("EventBox", () => {
     expect(screen.getByText(/프로필/)).toBeInTheDocument();
   });
 
+  it("images가 빈 배열이어도 크래시 없이 렌더한다", () => {
+    mockLists([{ ...baseItem, images: [] }]);
+    renderWithProviders(<EventBox />);
+    expect(screen.getByText("이벤트A")).toBeInTheDocument();
+  });
+
   it("이벤트가 없으면 항목을 렌더하지 않는다", () => {
     mockLists([]);
     renderWithProviders(<EventBox />);
