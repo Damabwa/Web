@@ -1,4 +1,4 @@
-import logo_damaba from "../../assets/svgs/logo_damaba_white.svg";
+import logo_damaba from "../../assets/imgs/logo_damaba_white.png";
 import icn_insta from "../../assets/svgs/icn_instagram_gray.svg";
 
 export default function Bottom() {

@@ -69,7 +69,8 @@ describe("onImageHandler", () => {
     const result = await onImageHandler(file, "SNAP");
 
     expect(mockCompression).toHaveBeenCalledWith(file, {
-      maxSizeMB: 3,
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
       useWebWorker: true,
     });
     expect(mockUpload).toHaveBeenCalledTimes(1);
