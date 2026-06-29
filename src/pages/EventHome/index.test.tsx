@@ -34,6 +34,13 @@ const setPromotions = (promotions: unknown[]) =>
     error: null,
   } as never);
 
+const setLoading = () =>
+  mockUsePromotionList.mockReturnValue({
+    promotions: [],
+    isLoading: true,
+    error: null,
+  } as never);
+
 function LocationProbe() {
   return <div data-testid="path">{useLocation().pathname}</div>;
 }
@@ -42,6 +49,17 @@ describe("EventHome", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     setPromotions([]);
+  });
+
+  it("로딩 중에는 스켈레톤을 보여주고 '결과 없음'을 표시하지 않는다", () => {
+    setLoading();
+    renderWithProviders(<EventHome />);
+    expect(
+      screen.getByLabelText("이벤트 목록 불러오는 중")
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("앗! 조건에 맞는 이벤트가 없어요.")
+    ).not.toBeInTheDocument();
   });
 
   it("프로모션이 없으면 빈 상태 안내를 보여준다", () => {
