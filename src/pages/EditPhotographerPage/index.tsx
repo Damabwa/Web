@@ -10,10 +10,11 @@ import ButtonActive from "../../components/ButtonActive";
 import GetImagesBox from "../../components/GetImagesBox";
 import InputLongformBox from "../../components/InputLongformBox";
 import ModalConfirm from "../../components/ModalConfirm";
+import { loadDaumPostcode } from "../../utils/loadDaumPostcode";
 
 declare global {
   interface Window {
-    daum: any;
+    daum?: any;
   }
 }
 
@@ -52,17 +53,22 @@ export default function EditPhotographerPage() {
     else setIsValid(false);
   }, [portfolio, address, instagramId, contactLink, description]);
 
-  const handleAddressSearch = () => {
-    new window.daum.Postcode({
-      oncomplete: function (data: any) {
-        setAddress({
-          sido: data.sido,
-          sigungu: data.sigungu,
-          roadAddress: data.address,
-          jibunAddress: data.jibunAddress,
-        });
-      },
-    }).open();
+  const handleAddressSearch = async () => {
+    try {
+      await loadDaumPostcode();
+      new window.daum.Postcode({
+        oncomplete: function (data: any) {
+          setAddress({
+            sido: data.sido,
+            sigungu: data.sigungu,
+            roadAddress: data.address,
+            jibunAddress: data.jibunAddress,
+          });
+        },
+      }).open();
+    } catch {
+      alert("주소 검색 서비스를 불러오지 못했어요. 잠시 후 다시 시도해주세요.");
+    }
   };
 
   const handleInput = (e: any) => {
