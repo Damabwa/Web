@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { SetURLSearchParams } from "react-router-dom";
 import icn_reset from "../../assets/svgs/icn_reset.svg";
 import icn_line from "../../assets/svgs/icn_filterLine.svg";
 import FilterType from "./FilterType";
@@ -7,7 +8,7 @@ import BtnChip from "./BtnChip";
 
 interface Props {
   isEvent: boolean;
-  setSearchParams: React.Dispatch<React.SetStateAction<URLSearchParams>>;
+  setSearchParams: SetURLSearchParams;
 }
 
 export default function FilterBar({ isEvent, setSearchParams }: Props) {
@@ -49,7 +50,9 @@ export default function FilterBar({ isEvent, setSearchParams }: Props) {
       else newSearchParams.set(key, value);
     });
 
-    setSearchParams(newSearchParams);
+    // 필터/정렬은 '화면 내 상태' 변경이므로 히스토리에 쌓지 않고 현재 항목을 교체한다.
+    // (URL은 갱신돼 공유/새로고침 시 필터가 유지되지만, 뒤로가기는 목록을 한 번에 벗어남)
+    setSearchParams(newSearchParams, { replace: true });
   }, [filters, setSearchParams]);
 
   const handleSetFree = useCallback(
