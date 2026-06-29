@@ -8,7 +8,7 @@ import ButtonActive from "../../components/ButtonActive";
 
 export default function CompleteSignUp() {
   const location = useLocation();
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const user = useRecoilValue(userState);
   const role = user.roles.includes("PHOTOGRAPHER") ? "PHOTOGRAPHER" : "USER";
 
@@ -17,8 +17,9 @@ export default function CompleteSignUp() {
   });
 
   useEffect(() => {
+    if (!location.state) return;
     setUserInfo(location.state);
-  }, []);
+  }, [location.state]);
 
   const getPhotographerName = (name: string) => {
     if (name.length > 10) return `${name.slice(0, 10)}... `;
@@ -61,9 +62,9 @@ export default function CompleteSignUp() {
   };
 
   return (
-    <div className="relative flex flex-col w-full min-h-screen py-4">
+    <div className="relative flex flex-col w-full min-h-dvh-safe py-4">
       <div className="w-full px-4 pb-7 h-fit">
-        <img className="w-28" src={logo_damaba} />
+        <img className="w-28" src={logo_damaba} alt="담아봐 로고" />
       </div>
       <div className="flex flex-col items-center justify-center flex-1 w-full gap-6">
         <div className="text-2xl font-bold">
@@ -71,7 +72,7 @@ export default function CompleteSignUp() {
           {role === "PHOTOGRAPHER" && " 작가"}님,
           {userInfo.nickname.length > 10 && <br />} 환영합니다!
         </div>
-        <img src={img_complete} />
+        <img src={img_complete} alt="가입 완료" />
         {getMessage(role === "USER")}
       </div>
       <div className="flex-grow" />
@@ -80,7 +81,7 @@ export default function CompleteSignUp() {
           <button
             className="mb-3 text-sm border-b text-black02 border-black02"
             onClick={() =>
-              navigation(`/edit/photographer/detail`, {
+              navigate(`/edit/photographer/detail`, {
                 state: userInfo,
                 replace: true,
               })
@@ -91,7 +92,7 @@ export default function CompleteSignUp() {
         )}
         <ButtonActive
           activation={true}
-          onClick={() => navigation("/")}
+          onClick={() => navigate("/")}
           text="홈으로 이동하기"
         />
       </div>

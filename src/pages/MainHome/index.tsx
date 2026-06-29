@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../../api/user";
+import { useLoginGuard } from "../../hooks/useLoginGuard";
 import Header from "../../components/Header";
 import ModalCheck from "../../components/ModalCheck";
 import Bottom from "../../components/Bottom";
@@ -12,69 +13,69 @@ import EventBox from "./EventBox";
 import PhotographerBox from "./PhotographerBox";
 
 function MainHome() {
-  const navigation = useNavigate();
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const navigate = useNavigate();
+  const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
+  const { showLoginModal, requireLogin, loginModalProps } = useLoginGuard();
 
   useEffect(() => {
+    const showLoginPopupFunc = () => {
+      if (
+        !localStorage.getItem("accessToken") &&
+        !sessionStorage.getItem("hasVisited")
+      ) {
+        setIsLoginPopupOpen(true);
+        sessionStorage.setItem("hasVisited", "true");
+        return true;
+      }
+    };
+
+    const getUserInfoFunc = async () => {
+      if (showLoginPopupFunc()) return;
+      else if (localStorage.getItem("accessToken")) {
+        try {
+          await getUserInfo();
+        } catch (e) {
+        } finally {
+          showLoginPopupFunc();
+        }
+      }
+    };
+
     getUserInfoFunc();
   }, []);
 
-  const getUserInfoFunc = async () => {
-    if (showLoginPopupFunc()) return;
-    else if (localStorage.getItem("accessToken")) {
-      try {
-        await getUserInfo();
-      } catch (e: any) {
-      } finally {
-        showLoginPopupFunc();
-      }
-    }
-  };
-
-  const showLoginPopupFunc = () => {
-    if (
-      !localStorage.getItem("accessToken") &&
-      !sessionStorage.getItem("hasVisited")
-    ) {
-      setShowLoginPopup(true);
-      sessionStorage.setItem("hasVisited", "true");
-      const isMobile =
-        window.matchMedia("(max-width: 768px)").matches ||
-        /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      sessionStorage.setItem("isMobile", isMobile.toString());
-      return true;
-    }
-  };
-
-  const onClickMyPage = () => {
-    if (!localStorage.getItem("accessToken")) setShowLoginModal(true);
-    else navigation(`/mypage`);
+  const handleMyPageClick = () => {
+    requireLogin(() => navigate(`/mypage`));
   };
 
   return (
     <div className="w-full">
       <div className="h-12">
-        <Header
-          main={null}
-          left={
+        <Header>
+          <Header.Left>
             <img
               className="w-[4.75rem] cursor-pointer ml-4"
-              onClick={() => navigation(`/`)}
+              onClick={() => navigate(`/`)}
               src={logo_header}
+              alt="담아봐"
             />
-          }
-          right={
+          </Header.Left>
+          <Header.Right>
             <div className="flex items-center gap-2">
-              <img src={icn_search} onClick={() => navigation(`/search`)} />
+              <img
+                src={icn_search}
+                alt="검색"
+                onClick={() => navigate(`/search`)}
+              />
               <img
                 className="mr-4"
                 src={icn_mypage}
-                onClick={() => onClickMyPage()}
+                alt="마이페이지"
+                onClick={() => handleMyPageClick()}
               />
             </div>
-          }
-        />
+          </Header.Right>
+        </Header>
       </div>
       <div className="w-full px-4 pt-3">
         <BannerBox />
@@ -84,7 +85,7 @@ function MainHome() {
       </div>
       <PhotographerBox />
       <Bottom />
-      {showLoginPopup && (
+      {isLoginPopupOpen && (
         <ModalCheck
           title={[
             "우측 상단 [마이페이지] 버튼을 통해",
@@ -93,23 +94,11 @@ function MainHome() {
           content={[]}
           btnMsg="회원가입/로그인"
           align="start"
-          setShowModal={setShowLoginPopup}
-          onClick={() => navigation(`/login`)}
+          setShowModal={setIsLoginPopupOpen}
+          onClick={() => navigate(`/login`)}
         />
       )}
-      {showLoginModal && (
-        <ModalCheck
-          title={["로그인이 필요한 서비스입니다."]}
-          content={[
-            "이 기능은 로그인 후 이용하실 수 있습니다.",
-            "로그인 페이지로 이동하시겠습니까?",
-          ]}
-          btnMsg="로그인 하기"
-          align="start"
-          setShowModal={setShowLoginModal}
-          onClick={() => navigation(`/login`)}
-        />
-      )}
+      {showLoginModal && <ModalCheck {...loginModalProps} />}
     </div>
   );
 }

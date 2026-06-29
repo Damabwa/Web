@@ -1,136 +1,49 @@
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-
-import { userState } from "../../atom/atom";
-import { getUserInfo } from "../../api/user";
-import { postPromotion, putPromotion } from "../../api/promotion";
+import { useState } from "react";
+import { VALIDATION } from "../../constants/validation";
 import InputBox from "../../components/InputBox";
 import SubHeader from "../../components/SubHeader";
 import GetImagesBox from "../../components/GetImagesBox";
 import Types from "../../components/Types";
 import Location from "../../components/Location";
-import InputLongformBox from "../../components/InputLongformBox/tndex";
+import InputLongformBox from "../../components/InputLongformBox";
 import ButtonActive from "../../components/ButtonActive";
-import ModalComfirm from "../../components/ModalComfirm";
+import ModalConfirm from "../../components/ModalConfirm";
 import EventType from "./EventType";
 import Keywords from "./Keywords";
 import EventPeriod from "./EventPeriod";
+import { useEventForm } from "./useEventForm";
 
 export default function NewEvent() {
-  const navigation = useNavigate();
-  const location = useLocation();
-
-  const [tradename, setTradename] = useState("");
-  const [title, setTitle] = useState("");
-  const [photographyTypes, setPhotographyTypes] = useState<string[]>([]);
-  const [activeRegions, setActiveRegions] = useState<string[]>([]);
-  const [promotionType, setPromotionType] = useState("");
-  const [startedAt, setStartedAt] = useState("");
-  const [endedAt, setEndedAt] = useState("");
-  const [externalLink, setExternalLink] = useState("");
-  const [images, setImages] = useState<string[]>([]);
-  const [hashtags, setHashtags] = useState<string[]>([]);
-  const [content, setContent] = useState("");
-  const [isValid, setIsValid] = useState(false);
-  const isAuthorHidden = useRecoilValue(userState).roles.includes("ADMIN");
   const [showKeywordModal, setShowKeywordModal] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
 
-  useEffect(() => {
-    getUserInfoFunc();
-    if (location.state) {
-      setTradename(location.state.author.nickname);
-      setTitle(location.state.title);
-      setPhotographyTypes(location.state.photographyTypes);
-      setActiveRegions(location.state.activeRegions);
-      setPromotionType(location.state.promotionType);
-      setStartedAt(location.state.startedAt);
-      setEndedAt(location.state.endedAt);
-      setExternalLink(location.state.externalLink);
-      setImages(location.state.images);
-      setHashtags(location.state.hashtags);
-      setContent(location.state.content);
-    }
-  }, []);
-
-  const getUserInfoFunc = async () => {
-    try {
-      const res = await getUserInfo();
-      setTradename(res.nickname);
-    } catch (e: any) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    setIsValid(
-      title.length >= 3 &&
-        photographyTypes.length *
-          activeRegions.length *
-          promotionType.length *
-          externalLink.length *
-          images.length *
-          hashtags.length *
-          content.length *
-          startedAt.length *
-          endedAt.length >
-          0
-    );
-  }, [
+  const { formData, formSetters, formHandlers, isValid } = useEventForm();
+  const {
+    tradename,
     title,
     photographyTypes,
     activeRegions,
     promotionType,
+    startedAt,
+    endedAt,
     externalLink,
     images,
     hashtags,
     content,
-    startedAt,
-    endedAt,
-  ]);
-
-  const handleTitleInput = (e: any) => {
-    if (e.target.value.length <= 30) setTitle(e.target.value);
-  };
-
-  const handleUrlInput = (e: any) => {
-    setExternalLink(e.target.value);
-  };
-
-  const onChangeDate = (type: string, date: any) => {
-    const formatted = date.format("YYYY-MM-DD");
-    type === "START" ? setStartedAt(formatted) : setEndedAt(formatted);
-  };
-  const onClickSubmit = async () => {
-    const body = {
-      promotionType,
-      title,
-      content,
-      externalLink,
-      startedAt,
-      endedAt,
-      photographyTypes,
-      images,
-      activeRegions,
-      hashtags,
-      isAuthorHidden
-    };
-    if (location.state) {
-      await putPromotion(location.state.id, body);
-    } else {
-      await postPromotion(body);
-    }
-    try {
-    } catch (e) {
-      console.log(e);
-    } finally {
-      navigation(`/events`, { replace: true });
-    }
-  };
+  } = formData;
+  const {
+    setPhotographyTypes,
+    setActiveRegions,
+    setPromotionType,
+    setImages,
+    setHashtags,
+    setContent,
+  } = formSetters;
+  const { handleTitleInput, handleUrlInput, onChangeDate, onClickSubmit } =
+    formHandlers;
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-dvh-safe">
       <div className="px-4">
         <SubHeader title="이벤트 등록" />
       </div>
@@ -142,7 +55,7 @@ export default function NewEvent() {
             description=""
             placeholder="이벤트 제목을 입력해주세요."
             onChange={handleTitleInput}
-            bottomText="공백 포함 3-30자"
+            bottomText={`공백 포함 ${VALIDATION.EVENT_TITLE.MIN}-${VALIDATION.EVENT_TITLE.MAX}자`}
             value={title}
           />
         </div>
@@ -187,7 +100,7 @@ export default function NewEvent() {
           isRequired={true}
           title="배너 사진"
           description="첫 번째 사진이 메인에 보이는 사진입니다"
-          maxLength={10}
+          maxLength={VALIDATION.EVENT_IMAGES.MAX}
           images={images}
           fileType="PROMOTION_IMAGE"
           setImages={setImages}
@@ -204,7 +117,7 @@ export default function NewEvent() {
           isRequired={true}
           title="상세 소개"
           minHeight="10.5rem"
-          maxLength={500}
+          maxLength={VALIDATION.EVENT_CONTENT.MAX}
           setValue={setContent}
           value={content}
         />
@@ -217,14 +130,14 @@ export default function NewEvent() {
         />
       </div>
       {showKeywordModal && (
-        <ModalComfirm
+        <ModalConfirm
           content={["대표 키워드는", "최대 3개까지 입력할 수 있어요"]}
           setShowModal={setShowKeywordModal}
         />
       )}
       {showImageModal && (
-        <ModalComfirm
-          content={["배너 사진은", "최대 10장까지 첨부할 수 있어요"]}
+        <ModalConfirm
+          content={["배너 사진은", `최대 ${VALIDATION.EVENT_IMAGES.MAX}장까지 첨부할 수 있어요`]}
           setShowModal={setShowImageModal}
         />
       )}

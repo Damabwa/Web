@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { savePromotion, deleteSavedPromotion } from "../../api/promotion";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { createSavedPromotion, deleteSavedPromotion } from "../../api/promotion";
+import { useLoginGuard } from "../../hooks/useLoginGuard";
+import { useOpenInternalLink } from "../../hooks/useOpenInternalLink";
+import { getDDayText } from "../../utils/date";
+import { Region } from "../../types/common";
 import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
 import icn_time from "../../assets/svgs/icn_event_home_clock.svg";
 import icn_location from "../../assets/svgs/icn_event_home_location.svg";
+import icn_camera from "../../assets/svgs/icn_camera.svg";
 import ModalCheck from "../ModalCheck";
 
 interface postData {
@@ -14,7 +18,7 @@ interface postData {
   author: any;
   hashtags: string[];
   endedAt: string;
-  activeRegions: string[];
+  activeRegions: Region[];
   saveCount: number;
   isSaved: boolean;
 }
@@ -24,67 +28,49 @@ interface Props {
 }
 
 export default function PromotionBox({ data }: Props) {
-  const navigation = useNavigate();
+  const openInternalLink = useOpenInternalLink();
   const [isClipped, setIsClipped] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [saveCount, setSaveCount] = useState(0);
+  const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
+    useLoginGuard();
 
   useEffect(() => {
     setIsClipped(data.isSaved);
     setSaveCount(data.saveCount);
-  }, [data]);
+  }, [data.isSaved, data.saveCount]);
 
-  const getDDay = () => {
-    const now = new Date();
-    const koreaTimeOffset = 9 * 60 * 60 * 1000;
-    const today = new Date(now.getTime() + koreaTimeOffset);
+  const dDayText = useMemo(() => getDDayText(data.endedAt), [data.endedAt]);
 
-    const targetDate = new Date(data.endedAt);
+  const savePromotionFunc = useCallback(
+    async (clipped: boolean) => {
+      try {
+        setIsClipped(!clipped);
+        setSaveCount((prev) => (clipped ? prev - 1 : prev + 1));
+        clipped
+          ? await deleteSavedPromotion(data.id)
+          : await createSavedPromotion(data.id);
+      } catch (e) {
+        setIsClipped(clipped);
+        setSaveCount((prev) => (clipped ? prev + 1 : prev - 1));
+        setShowLoginModal(true);
+        console.log(e);
+      }
+    },
+    [data.id, setShowLoginModal],
+  );
 
-    const diffTime = targetDate.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const onClickSave = useCallback(() => {
+    requireLogin(() => savePromotionFunc(isClipped));
+  }, [requireLogin, savePromotionFunc, isClipped]);
 
-    if (diffDays < 0) {
-      return "마감된 이벤트";
-    } else if (diffDays === 0) {
-      return "오늘 마감되는 이벤트";
-    } else {
-      return `이벤트 마감까지 D-${diffDays}`;
-    }
-  };
-
-  const onClickSave = () => {
-    if (!localStorage.getItem("accessToken")) {
-      setShowLoginModal(true);
-      return;
-    } else savePromotionFunc(isClipped);
-  };
-
-  const savePromotionFunc = async (isClipped: boolean) => {
-    try {
-      setIsClipped(!isClipped);
-      setSaveCount(isClipped ? saveCount - 1 : saveCount + 1);
-      isClipped
-        ? await deleteSavedPromotion(data.id)
-        : await savePromotion(data.id);
-    } catch (e: any) {
-      setIsClipped(false);
-      setSaveCount(isClipped ? saveCount + 1 : saveCount - 1);
-      setShowLoginModal(true);
-      console.log(e);
-    }
-  };
-
-  const openDetailPage = () => {
-    sessionStorage.getItem("isMobile") === "true"
-      ? navigation(`/event/${data.id}`)
-      : window.open(`/event/${data.id}`);
-  };
+  const openDetailPage = useCallback(() => {
+    openInternalLink(`/event/${data.id}`);
+  }, [data.id, openInternalLink]);
 
   return (
     <div className="flex flex-col py-5 cursor-pointer">
       <div className="flex items-start justify-between px-4">
-        <div className="flex flex-col flex-1" onClick={() => openDetailPage()}>
+        <div className="flex flex-col flex-1" onClick={openDetailPage}>
           <span className="mb-1 text-lg font-semibold">{data.title}</span>
           <div className="flex items-center gap-[0.38rem] text-sm text-black02">
             {data.author && !data.author.isAdmin && (
@@ -105,13 +91,13 @@ export default function PromotionBox({ data }: Props) {
           <img
             alt="clip"
             src={isClipped ? icn_clipOn : icn_clipOff}
-            onClick={() => onClickSave()}
+            onClick={onClickSave}
           />
         </div>
       </div>
       <div
         className="flex w-full gap-3 py-3 pl-4 pr-4 overflow-x-auto "
-        onClick={() => openDetailPage()}
+        onClick={openDetailPage}
       >
         {data.images.map((image, index) => (
           <div key={index} className="gap-[0.62rem]">
@@ -119,6 +105,12 @@ export default function PromotionBox({ data }: Props) {
               <img
                 className="object-cover min-w-full min-h-full"
                 src={image.url}
+                alt="이벤트 이미지"
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = icn_camera;
+                }}
               />
             </div>
           </div>
@@ -126,14 +118,14 @@ export default function PromotionBox({ data }: Props) {
       </div>
       <div
         className="flex flex-col gap-1 pl-4 text-xs text-black03 "
-        onClick={() => openDetailPage()}
+        onClick={openDetailPage}
       >
         <div className="flex items-center gap-1">
-          <img src={icn_time} />
-          <span>{getDDay()}</span>
+          <img src={icn_time} alt="" />
+          <span>{dDayText}</span>
         </div>
         <div className="flex items-center gap-1">
-          <img src={icn_location} />
+          <img src={icn_location} alt="" />
           {data.activeRegions.map((region: any, index) => (
             <div key={index} className="gap-[0.62rem]">
               <span>{`${region.category} ${region.name}`}</span>
@@ -142,19 +134,7 @@ export default function PromotionBox({ data }: Props) {
           ))}
         </div>
       </div>
-      {showLoginModal && (
-        <ModalCheck
-          title={["로그인이 필요한 서비스입니다."]}
-          content={[
-            "이 기능은 로그인 후 이용하실 수 있습니다.",
-            "로그인 페이지로 이동하시겠습니까?",
-          ]}
-          btnMsg="로그인 하기"
-          align="start"
-          setShowModal={setShowLoginModal}
-          onClick={() => navigation(`/login`)}
-        />
-      )}
+      {showLoginModal && <ModalCheck {...loginModalProps} />}
     </div>
   );
 }

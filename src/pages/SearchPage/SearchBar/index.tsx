@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function SearchBar({ onSubmit, state, setState }: Props) {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [input, setInput] = useState("");
 
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,8 +27,9 @@ export default function SearchBar({ onSubmit, state, setState }: Props) {
         <img
           className="w-6 cursor-pointer"
           src={icn_back}
+          alt="뒤로가기"
           onClick={() =>
-            state === "OVERVIEW" ? navigation(-1) : setState("OVERVIEW")
+            state === "OVERVIEW" ? navigate(-1) : setState("OVERVIEW")
           }
         />
       </div>
@@ -43,6 +44,7 @@ export default function SearchBar({ onSubmit, state, setState }: Props) {
         <img
           className="cursor-pointer "
           src={icn_search}
+          alt="검색"
           onClick={() => onSubmit(input)}
         />
       </div>

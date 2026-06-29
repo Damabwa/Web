@@ -11,7 +11,7 @@ export default function SavedContent({
   savedPhotographers,
   role,
 }: Props) {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   if (!savedPromotions || !savedPhotographers) return <></>;
   return (
     <div className="bg-white">
@@ -22,7 +22,7 @@ export default function SavedContent({
           className="flex flex-col items-center justify-center w-1/2 gap-1"
           onClick={() => {
             if (savedPromotions.length > 0)
-              navigation(`/my/saved/promotion`, { state: savedPromotions });
+              navigate(`/my/saved/promotion`, { state: savedPromotions });
           }}
         >
           <div className="text-sm font-medium">저장한 이벤트</div>
@@ -33,7 +33,7 @@ export default function SavedContent({
           className="flex flex-col items-center justify-center w-1/2 gap-1"
           onClick={() => {
             if (savedPhotographers.length > 0)
-              navigation(`/my/saved/photographer`, {
+              navigate(`/my/saved/photographer`, {
                 state: savedPhotographers,
               });
           }}

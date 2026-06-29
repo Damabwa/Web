@@ -6,13 +6,14 @@ interface Props {
 }
 
 export default function SubHeader({ title }: Props) {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="relative flex items-center justify-center h-12 font-semibold bg-white">
       <img
         className="absolute left-0 w-6 h-6 cursor-pointer"
         src={icn_back}
-        onClick={() => navigation(-1)}
+        alt="뒤로가기"
+        onClick={() => navigate(-1)}
       />
       <div>{title}</div>
       <div />

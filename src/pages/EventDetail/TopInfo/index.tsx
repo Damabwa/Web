@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function TopInfo({ promotionData }: Props) {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [showHandler, setShowHandler] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const user = useRecoilValue(userState);
@@ -30,12 +30,12 @@ export default function TopInfo({ promotionData }: Props) {
     } catch (e) {
       console.log(e);
     } finally {
-      navigation("/events");
+      navigate("/events");
     }
   };
 
   const modifyHandler = () => {
-    navigation(`/new/event`, { state: promotionData });
+    navigate(`/new/event`, { state: promotionData });
   };
 
   const handleCopyUrl = async () => {
@@ -61,7 +61,7 @@ export default function TopInfo({ promotionData }: Props) {
       <div className="flex flex-col gap-2 px-3 text-sm font-medium text-black02">
         {promotionData.startedAt && promotionData.endedAt && (
           <div className="flex items-center gap-1">
-            <img className="p-[0.35rem]" src={icn_time} />
+            <img className="p-[0.35rem]" src={icn_time} alt="" />
             <div>
               {promotionData.startedAt.replace(/-/g, ".")}
               {" ~ "}
@@ -70,7 +70,7 @@ export default function TopInfo({ promotionData }: Props) {
           </div>
         )}
         <div className="flex items-center gap-1">
-          <img className="w-6" src={icn_loc} />
+          <img className="w-6" src={icn_loc} alt="" />
           <div className="flex w-full gap-1">
             {promotionData.activeRegions.map((loc: any, index: number) => (
               <div className="flex gap-1" key={index}>
@@ -85,7 +85,7 @@ export default function TopInfo({ promotionData }: Props) {
         </div>
         {promotionData.author && promotionData.author.instagramId && (
           <div className="flex items-center gap-1">
-            <img className="p-[0.35rem]" src={icn_insta} />
+            <img className="p-[0.35rem]" src={icn_insta} alt="인스타그램" />
             <div
               className="cursor-pointer text-[#0068C3]"
               onClick={() =>
@@ -101,7 +101,7 @@ export default function TopInfo({ promotionData }: Props) {
       </div>
       <div className="absolute flex gap-2 top-6 right-4">
         <div className="cursor-pointer">
-          <img src={icn_copy} onClick={handleCopyUrl} />
+          <img src={icn_copy} alt="URL 복사" onClick={handleCopyUrl} />
           <ToastContainer
             position="top-center"
             autoClose={1000}
@@ -113,7 +113,7 @@ export default function TopInfo({ promotionData }: Props) {
             className="relative -mr-1 cursor-pointer"
             onClick={() => setShowHandler(!showHandler)}
           >
-            <img src={icn_more} />
+            <img src={icn_more} alt="더보기" />
             {showHandler && (
               <div className="absolute right-0 flex flex-col px-4 text-xs bg-white shadow-md whitespace-nowrap top-8 rounded-2xl">
                 <button

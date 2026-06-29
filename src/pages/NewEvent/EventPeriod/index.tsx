@@ -27,7 +27,7 @@ export default function EventPeriod({
       setStartDate(dayjs(startedAt));
       setEndDate(dayjs(endedAt));
     }
-  }, [startedAt, endedAt]);
+  }, [startedAt, endedAt, startDate, endDate]);
 
   const onChange = (type: string, date: any) => {
     if (type === "START") {

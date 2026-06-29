@@ -52,12 +52,13 @@ export default function ProfileImage({ userInfo, setUserInfo }: Props) {
           <img
             className="object-cover w-[5.25rem] h-[5.25rem] rounded-full border-2 border-darkgray"
             src={userInfo.profileImage.url}
+            alt="프로필 이미지"
           />
         ) : (
-          <img src={icn_profile} />
+          <img src={icn_profile} alt="기본 프로필" />
         )}
         <div className="absolute bottom-0 right-0 p-1 rounded-full bg-darkgray w-fit">
-          <img src={icn_camera} />
+          <img src={icn_camera} alt="사진 변경" />
         </div>
       </div>
     </div>

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../../atom/atom";
-import { userRegistration } from "../../api/user";
-import { photographerRegistration } from "../../api/photographer";
+import { createUser } from "../../api/user";
+import { createPhotographer } from "../../api/photographer";
 import SelectRole from "./SelectRole";
 import SetProfile from "./SetProfile";
 import Route from "./Route";
@@ -11,7 +11,7 @@ import Terms from "./Terms";
 import MoreInfo from "./MoreInfo";
 
 export default function SignUp() {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const setUser = useSetRecoilState(userState);
 
   const [step, setStep] = useState(0);
@@ -22,46 +22,49 @@ export default function SignUp() {
     instagramId: null,
     profileImage: { name: "", url: "" },
     mainPhotographyTypes: [""],
-    activeRegions: [],
+    activeRegions: [] as string[],
   });
 
-  const setRoleFunc = (selectedRole: string) => {
+  const handleRoleSelect = (selectedRole: string) => {
     setUserInfo({ ...userInfo, role: selectedRole });
     setStep(step + 1);
   };
 
-  const setNextFunc = () => {
-    setStep(step + 1);
+  const goToNextStep = (updates?: { mainPhotographyTypes?: string[]; activeRegions?: string[] }) => {
+    if (updates) {
+      setUserInfo((prev) => ({ ...prev, ...updates }));
+    }
+    setStep((prev) => prev + 1);
   };
 
-  const signUpFunc = () => {
-    userInfo.role === "USER" ? userSignUpFunc() : photographerSignUpFunc();
+  const handleSignUp = () => {
+    userInfo.role === "USER" ? submitUserSignUp() : submitPhotographerSignUp();
   };
 
-  const userSignUpFunc = async () => {
+  const submitUserSignUp = async () => {
     if (userInfo.role === "PHOTOGRAPHER") return;
     try {
-      const res = await userRegistration({
+      const res = await createUser({
         nickname: userInfo.nickname,
-        gender: userInfo.gender,
+        gender: userInfo.gender as "MALE" | "FEMALE",
         instagramId: userInfo.instagramId,
       });
       setUser({
         id: res.id,
         roles: res.roles,
       });
-      navigation("/success/signup", { state: res, replace: true });
+      navigate("/success/signup", { state: res, replace: true });
     } catch (e) {
       console.log(e);
     }
   };
 
-  const photographerSignUpFunc = async () => {
+  const submitPhotographerSignUp = async () => {
     if (userInfo.role === "USER") return;
     try {
-      const res = await photographerRegistration({
+      const res = await createPhotographer({
         nickname: userInfo.nickname,
-        gender: userInfo.gender,
+        gender: userInfo.gender as "MALE" | "FEMALE",
         instagramId: userInfo.instagramId,
         profileImage: userInfo.profileImage,
         mainPhotographyTypes: userInfo.mainPhotographyTypes,
@@ -71,37 +74,37 @@ export default function SignUp() {
         id: res.id,
         roles: res.roles,
       });
-      navigation("/success/signup", { state: res, replace: true });
+      navigate("/success/signup", { state: res, replace: true });
     } catch (e) {
       console.log(e);
     }
   };
 
   return (
-    <div className="flex flex-col w-full h-full min-h-screen p-4">
+    <div className="flex flex-col w-full h-full min-h-dvh-safe p-4">
       <div className="relative flex flex-1 w-full h-full">
-        {step === 0 && <SelectRole setRoleFunc={setRoleFunc} />}
+        {step === 0 && <SelectRole onRoleSelect={handleRoleSelect} />}
         {step === 1 && (
           <SetProfile
             userInfo={userInfo}
             setUserInfo={setUserInfo}
-            setNextFunc={setNextFunc}
+            onNext={goToNextStep}
           />
         )}
         {step === 2 && userInfo.role === "PHOTOGRAPHER" && (
           <MoreInfo
             userInfo={userInfo}
             setUserInfo={setUserInfo}
-            onClickFunc={setNextFunc}
+            onNext={goToNextStep}
           />
         )}
         {((step === 2 && userInfo.role === "USER") ||
           (step === 3 && userInfo.role === "PHOTOGRAPHER")) && (
-          <Terms setNextFunc={setNextFunc} role={userInfo.role} />
+          <Terms onNext={goToNextStep} role={userInfo.role} />
         )}
         {((step === 3 && userInfo.role === "USER") ||
           (step === 4 && userInfo.role === "PHOTOGRAPHER")) && (
-          <Route setNextFunc={signUpFunc} />
+          <Route onNext={handleSignUp} />
         )}
       </div>
     </div>

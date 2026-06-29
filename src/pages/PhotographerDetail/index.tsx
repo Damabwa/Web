@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { isMobileDevice } from "../../utils/device";
 import { toast, ToastContainer } from "react-toastify";
 import { getPhotographerInfo } from "../../api/photographer";
 import icn_share from "../../assets/svgs/icn_share.svg";
@@ -9,24 +10,27 @@ import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function PhotographerDetail() {
-  const isMobile = sessionStorage.getItem("isMobile") === "true";
-  const navigation = useNavigate();
+  const isMobile = isMobileDevice();
+  const navigate = useNavigate();
   const [photographerData, setPhotographerData] = useState<any>();
 
   const { id } = useParams();
 
   useEffect(() => {
-    getPhotographerInfoFunc();
-  }, []);
-
-  const getPhotographerInfoFunc = async () => {
-    try {
-      const res = await getPhotographerInfo(Number(id));
-      setPhotographerData(res);
-    } catch (e: any) {
-      console.log(e);
+    if (!id || isNaN(Number(id))) {
+      navigate("/");
+      return;
     }
-  };
+    const fetchPhotographerInfo = async () => {
+      try {
+        const res = await getPhotographerInfo(Number(id));
+        setPhotographerData(res);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchPhotographerInfo();
+  }, [id, navigate]);
 
   const handleCopyUrl = async () => {
     try {
@@ -44,13 +48,15 @@ export default function PhotographerDetail() {
         {isMobile && (
           <img
             className="absolute z-10 w-6 h-6 cursor-pointer top-3 left-4"
-            onClick={() => navigation(-1)}
+            onClick={() => navigate(-1)}
             src={icn_back}
+            alt="뒤로가기"
           />
         )}
         <img
           className="absolute cursor-pointer top-3 right-4"
           src={icn_share}
+          alt="공유"
           onClick={handleCopyUrl}
         />
         <ToastContainer

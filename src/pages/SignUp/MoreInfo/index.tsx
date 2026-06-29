@@ -8,13 +8,13 @@ import ButtonActive from "../../../components/ButtonActive";
 interface Props {
   userInfo: any;
   setUserInfo: React.Dispatch<React.SetStateAction<any>>;
-  onClickFunc: () => void;
+  onNext: (updates: { mainPhotographyTypes: string[]; activeRegions: string[] }) => void;
 }
 
 export default function MoreInfo({
   userInfo,
   setUserInfo,
-  onClickFunc,
+  onNext,
 }: Props) {
   const [mainPhotographyTypes, setMainPhotographyTypes] = useState<string[]>(
     []
@@ -23,10 +23,6 @@ export default function MoreInfo({
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    checkValidFunc();
-  }, [userInfo, mainPhotographyTypes, locs]);
-
-  const checkValidFunc = () => {
     if (
       userInfo.profileImage.url &&
       mainPhotographyTypes.length > 0 &&
@@ -34,21 +30,16 @@ export default function MoreInfo({
     )
       setIsValid(true);
     else setIsValid(false);
-  };
+  }, [userInfo, mainPhotographyTypes, locs]);
 
-  const onClickHandler = () => {
-    setUserInfo({
-      ...userInfo,
-      mainPhotographyTypes,
-      activeRegions: locs,
-    });
-    onClickFunc();
+  const handleNext = () => {
+    onNext({ mainPhotographyTypes, activeRegions: locs });
   };
 
   return (
     <div className="flex flex-col w-full">
       <div className="w-full pb-7 h-fit">
-        <img className="w-28" src={logo_damaba} />
+        <img className="w-28" src={logo_damaba} alt="담아봐 로고" />
       </div>
       <div className="w-full pb-5 text-xl font-bold">
         작가 정보를 입력해주세요
@@ -65,7 +56,7 @@ export default function MoreInfo({
       <ButtonActive
         activation={isValid}
         onClick={() => {
-          if (isValid) onClickHandler();
+          if (isValid) handleNext();
         }}
         text="다음"
       />

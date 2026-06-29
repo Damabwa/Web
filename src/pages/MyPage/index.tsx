@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { isMobileDevice } from "../../utils/device";
 import { userState } from "../../atom/atom";
 import { getUserInfo } from "../../api/user";
 import {
@@ -17,37 +18,45 @@ import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 import Bottom from "../../components/Bottom";
 
 export default function MyPage() {
-  const isMobile = sessionStorage.getItem("isMobile") === "true";
-  const navigation = useNavigate();
+  const isMobile = isMobileDevice();
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<any>();
   const [savedPromotions, setSavedPromotions] = useState<any>([]);
-  const [savedPhotographers, setSavedPhotographer] = useState<any>([]);
+  const [savedPhotographers, setSavedPhotographers] = useState<any>([]);
   const user = useRecoilValue(userState);
   const role = user.roles.includes("PHOTOGRAPHER") ? "PHOTOGRAPHER" : "USER";
 
   useEffect(() => {
-    getUserInfoFunc();
-  }, []);
-
-  const getUserInfoFunc = async () => {
-    try {
-      const res =
-        role === "USER"
-          ? await getUserInfo()
-          : await getPhotographerInfo(user.id);
-      setUserInfo(res);
-      const promotions = await getSavedPromotionList();
-      const photographers = await getSavedPhotographerList();
-      setSavedPromotions(promotions.items);
-      setSavedPhotographer(photographers.items);
-    } catch (e: any) {
-      console.log(e);
-    }
-  };
+    let ignore = false;
+    const fetchUserInfo = async () => {
+      const [resResult, promotionsResult, photographersResult] =
+        await Promise.allSettled([
+          role === "USER" ? getUserInfo() : getPhotographerInfo(user.id),
+          getSavedPromotionList(),
+          getSavedPhotographerList(),
+        ]);
+      if (ignore) return;
+      if (resResult.status === "fulfilled") {
+        setUserInfo(resResult.value);
+      } else {
+        console.error("Failed to load user profile", resResult.reason);
+      }
+      if (promotionsResult.status === "fulfilled") {
+        setSavedPromotions(promotionsResult.value.items);
+      }
+      if (photographersResult.status === "fulfilled") {
+        setSavedPhotographers(photographersResult.value.items);
+      }
+    };
+    fetchUserInfo();
+    return () => {
+      ignore = true;
+    };
+  }, [role, user.id]);
 
   if (!userInfo) return <></>;
   return (
-    <div className="relative flex flex-col min-h-screen gap-4">
+    <div className="relative flex flex-col min-h-dvh-safe gap-4">
       {userInfo.type === "USER" ? (
         <>
           <ProfileUser userInfo={userInfo} />
@@ -63,8 +72,9 @@ export default function MyPage() {
             {isMobile && (
               <img
                 className="absolute z-10 w-6 h-6 cursor-pointer top-3 left-4"
-                onClick={() => navigation(-1)}
+                onClick={() => navigate(-1)}
                 src={icn_back}
+                alt="뒤로가기"
               />
             )}
           </div>
