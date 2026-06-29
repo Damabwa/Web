@@ -13,4 +13,14 @@ describe("App 라우팅 (코드 스플리팅)", () => {
     // lazy 청크 로드 완료 후 로그인 화면 요소가 나타나야 한다.
     expect(await screen.findByAltText("카카오 로그인")).toBeInTheDocument();
   });
+
+  it("라우트 전환 페이드(animate-pageIn) 래퍼로 감싼다", async () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={["/login"]}>
+        <App />
+      </MemoryRouter>
+    );
+    await screen.findByAltText("카카오 로그인");
+    expect(container.querySelector(".animate-pageIn")).toBeInTheDocument();
+  });
 });

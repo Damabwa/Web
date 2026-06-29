@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
 import ThemeColorSetter from "./components/common/ThemeColorSetter";
@@ -28,15 +28,12 @@ const NewEvent = lazy(() => import("./pages/NewEvent"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
-function App() {
+// 라우트 전환 시 경로별로 re-mount되며 페이드-인(pageIn) 애니메이션을 적용한다.
+function AnimatedRoutes() {
+  const location = useLocation();
   return (
-    <div className="text-black select-none App">
-      <RecoilRoot>
-        <RecoilNexus />
-        <ThemeColorSetter />
-        <ErrorBoundary>
-          <Suspense fallback={<Loading isLoading />}>
-            <Routes>
+    <div key={location.pathname} className="animate-pageIn">
+      <Routes location={location}>
             <Route path="/" element={<MainHome />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
@@ -60,7 +57,20 @@ function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/*" element={<NotFoundPage />} />
-          </Routes>
+      </Routes>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div className="text-black select-none App">
+      <RecoilRoot>
+        <RecoilNexus />
+        <ThemeColorSetter />
+        <ErrorBoundary>
+          <Suspense fallback={<Loading isLoading />}>
+            <AnimatedRoutes />
           </Suspense>
         </ErrorBoundary>
       </RecoilRoot>
