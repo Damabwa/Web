@@ -5,14 +5,16 @@ import icn_noList from "../../../assets/svgs/icn_no_photogrpher.svg";
 import FilterBar from "../../../components/FilterBar";
 import PhotographerBox from "../../../components/PhotographerBox";
 import ListNotFound from "../../../components/ListNotFound";
+import { PhotographerListItem } from "../../../types/photographer";
 
 interface Props {
-  data: any[];
+  data: PhotographerListItem[];
   searchKeyword: string;
 }
 export default function Photographers({ data, searchKeyword }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [photographerList, setPhotographerList] = useState<any[]>(data);
+  const [photographerList, setPhotographerList] =
+    useState<PhotographerListItem[]>(data);
 
   useEffect(() => {
     const fetchPhotographerList = async () => {
@@ -34,7 +36,7 @@ export default function Photographers({ data, searchKeyword }: Props) {
       </div>
       {photographerList.length > 0 ? (
         <div className="relative grid grid-cols-2 gap-5 m-4">
-          {photographerList.map((item: any) => (
+          {photographerList.map((item) => (
             <PhotographerBox key={item.id} data={item} />
           ))}
           <div className="w-full h-20 bg-white" />

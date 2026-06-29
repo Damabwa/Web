@@ -3,7 +3,7 @@ import { createSavedPromotion, deleteSavedPromotion } from "../../api/promotion"
 import { useLoginGuard } from "../../hooks/useLoginGuard";
 import { useOpenInternalLink } from "../../hooks/useOpenInternalLink";
 import { getDDayText } from "../../utils/date";
-import { Region } from "../../types/common";
+import { ImageFile, Region } from "../../types/common";
 import icn_clipOff from "../../assets/svgs/icn_clip.svg";
 import icn_clipOn from "../../assets/svgs/icn_clipOn.svg";
 import icn_time from "../../assets/svgs/icn_event_home_clock.svg";
@@ -13,9 +13,9 @@ import ModalCheck from "../ModalCheck";
 
 interface postData {
   id: number;
-  images: any[];
+  images: ImageFile[];
   title: string;
-  author: any;
+  author: { nickname: string; isAdmin: boolean } | null;
   hashtags: string[];
   endedAt: string;
   activeRegions: Region[];
@@ -126,7 +126,7 @@ export default function PromotionBox({ data }: Props) {
         </div>
         <div className="flex items-center gap-1">
           <img src={icn_location} alt="" />
-          {data.activeRegions.map((region: any, index) => (
+          {data.activeRegions.map((region: Region, index) => (
             <div key={index} className="gap-[0.62rem]">
               <span>{`${region.category} ${region.name}`}</span>
               {index + 1 !== data.activeRegions.length && <span>, </span>}
