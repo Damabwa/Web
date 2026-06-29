@@ -10,13 +10,14 @@ import Header from "../../components/Header";
 import FilterBar from "../../components/FilterBar";
 import PromotionBox from "../../components/PromotionBox";
 import ListNotFound from "../../components/ListNotFound";
+import ListSkeleton from "../../components/ListSkeleton";
 
 function EventHome() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const roles = useRecoilValue(userState).roles;
-  const { promotions } = usePromotionList(searchParams.toString());
+  const { promotions, isLoading } = usePromotionList(searchParams.toString());
 
   return (
     <div className="relative flex flex-col w-full min-h-dvh-safe">
@@ -48,7 +49,9 @@ function EventHome() {
       <div className="border-b-[0.375rem] border-gray50">
         <FilterBar isEvent={true} setSearchParams={setSearchParams} />
       </div>
-      {promotions.length > 0 ? (
+      {isLoading ? (
+        <ListSkeleton variant="event" />
+      ) : promotions.length > 0 ? (
         <div className="flex flex-col gap-1 bg-gray50">
           {promotions.map((item) => (
             <div key={item.id} className="bg-white">
