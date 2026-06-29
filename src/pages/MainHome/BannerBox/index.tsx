@@ -17,8 +17,9 @@ export default function BannerBox() {
   const [idx, setIdx] = useState(1);
 
   return (
-    <div className="relative w-full overflow-hidden bg-gray100 rounded-xl shadow-banner">
+    <div className="relative w-full aspect-[2/1] overflow-hidden bg-gray100 rounded-xl shadow-banner">
       <Swiper
+        className="h-full"
         loop={true}
         autoplay={{
           delay: 3500,
@@ -28,7 +29,7 @@ export default function BannerBox() {
         onSlideChange={(swiper: SwiperClass) => setIdx(swiper.realIndex + 1)}
       >
         {images.map((item: any, index: number) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={index} className="h-full">
             <img
               className={`${item.url && "cursor-pointer"} object-cover w-full h-full`}
               src={item.img}
