@@ -3,6 +3,9 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
+// 플러그인 등록은 모듈 로드 시 1회만 수행(렌더 본문 호출 안티패턴 제거)
+dayjs.extend(customParseFormat);
+
 interface Props {
   onChangeDate: (
     type: string,
@@ -19,8 +22,6 @@ export default function EventPeriod({
 }: Props) {
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null);
   const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(null);
-
-  dayjs.extend(customParseFormat);
 
   useEffect(() => {
     if (startedAt && endedAt && !startDate && !endDate) {
