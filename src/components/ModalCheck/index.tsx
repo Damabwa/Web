@@ -46,7 +46,7 @@ export default function ModalCheck({
   }, [setShowModal]);
 
   return (
-    <div className="z-30 fixed top-0 w-screen max-w-[430px] h-dvh-safe bg-black bg-opacity-40 flex items-center justify-center">
+    <div className="z-30 fixed top-0 w-screen max-w-[430px] h-dvh-safe bg-black bg-opacity-40 flex items-center justify-center animate-pageIn">
       <div
         ref={dialogRef}
         role="dialog"
@@ -54,7 +54,7 @@ export default function ModalCheck({
         aria-labelledby={titleId}
         aria-describedby={descId}
         tabIndex={-1}
-        className={`flex flex-col w-[17.125rem] rounded-[1.25rem] bg-white ${alignClassMap[align]} outline-none`}
+        className={`flex flex-col w-[17.125rem] rounded-[1.25rem] bg-white ${alignClassMap[align]} outline-none animate-popIn`}
       >
         <div className="flex flex-col gap-[0.44rem] p-6 pb-4 min-h-24 justify-center text-gray900 text-nowrap">
           <div id={titleId} className="font-semibold">
