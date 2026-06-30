@@ -42,6 +42,8 @@ export default function MorePhotographerInfo({ userInfo }: Props) {
                   }}
                   src={image.url}
                   alt="포트폴리오"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>

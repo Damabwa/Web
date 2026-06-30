@@ -97,6 +97,8 @@ export default function EnlargeImage({
                 src={image.url}
                 alt="포트폴리오"
                 className="object-contain w-full h-full max-w-screen max-h-dvh-safe"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           ))}
