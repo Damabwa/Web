@@ -21,8 +21,8 @@ export default function SavedContent({
         <div
           className="flex flex-col items-center justify-center w-1/2 gap-1"
           onClick={() => {
-            if (savedPromotions.length > 0)
-              navigate(`/my/saved/promotion`, { state: savedPromotions });
+            // SavedContents가 직접 조회하므로 state 전달 불필요
+            if (savedPromotions.length > 0) navigate(`/my/saved/promotion`);
           }}
         >
           <div className="text-sm font-medium">저장한 이벤트</div>
@@ -32,10 +32,9 @@ export default function SavedContent({
         <div
           className="flex flex-col items-center justify-center w-1/2 gap-1"
           onClick={() => {
+            // SavedContents가 직접 조회하므로 state 전달 불필요
             if (savedPhotographers.length > 0)
-              navigate(`/my/saved/photographer`, {
-                state: savedPhotographers,
-              });
+              navigate(`/my/saved/photographer`);
           }}
         >
           <div className="text-sm font-medium">저장한 작가님</div>

@@ -33,9 +33,10 @@ export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
       isSavedPromotion
         ? await deleteSavedPromotion(id)
         : await createSavedPromotion(id);
-      // 저장 변경을 목록/상세 캐시에 반영
+      // 저장 변경을 목록/상세/저장목록 캐시에 반영
       queryClient.invalidateQueries({ queryKey: ["promotions"] });
       queryClient.invalidateQueries({ queryKey: ["promotion", id] });
+      queryClient.invalidateQueries({ queryKey: ["savedPromotions"] });
     } catch (e) {
       setCount(prevCount);
       setIsSavedPromotion(prevIsSaved);

@@ -54,9 +54,10 @@ function PhotographerBox({ data }: Props) {
         clipped
           ? await deleteSavedPhotographer(data.id)
           : await createSavedPhotographer(data.id);
-        // 저장 상태 변경을 다른 캐시 화면(목록/상세)에도 반영
+        // 저장 상태 변경을 다른 캐시 화면(목록/상세/저장목록)에도 반영
         queryClient.invalidateQueries({ queryKey: ["photographers"] });
         queryClient.invalidateQueries({ queryKey: ["photographer", data.id] });
+        queryClient.invalidateQueries({ queryKey: ["savedPhotographers"] });
       } catch (e) {
         setIsClipped(clipped);
         setShowLoginModal(true);
