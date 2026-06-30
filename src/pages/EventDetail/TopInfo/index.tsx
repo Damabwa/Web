@@ -11,10 +11,12 @@ import icn_insta from "../../../assets/svgs/icn_instagram.svg";
 import icn_copy from "../../../assets/svgs/btn_url_copy.svg";
 import icn_more from "../../../assets/svgs/icn_more.svg";
 import ModalCheck from "../../../components/ModalCheck";
+import { PromotionDetail } from "../../../types/promotion";
+import { Region } from "../../../types/common";
 import "react-toastify/dist/ReactToastify.css";
 
 interface Props {
-  promotionData: any;
+  promotionData: PromotionDetail;
 }
 
 export default function TopInfo({ promotionData }: Props) {
@@ -72,7 +74,7 @@ export default function TopInfo({ promotionData }: Props) {
         <div className="flex items-center gap-1">
           <img className="w-6" src={icn_loc} alt="" />
           <div className="flex w-full gap-1">
-            {promotionData.activeRegions.map((loc: any, index: number) => (
+            {promotionData.activeRegions.map((loc: Region, index: number) => (
               <div className="flex gap-1" key={index}>
                 <p>{loc.category}</p>
                 <p>
@@ -90,7 +92,7 @@ export default function TopInfo({ promotionData }: Props) {
               className="cursor-pointer text-[#0068C3]"
               onClick={() =>
                 window.open(
-                  `https://www.instagram.com/${promotionData.author.instagramId}`
+                  `https://www.instagram.com/${promotionData.author?.instagramId}`
                 )
               }
             >

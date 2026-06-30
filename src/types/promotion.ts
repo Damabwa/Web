@@ -30,9 +30,23 @@ export interface PromotionListItem {
   photographyTypes?: string[];
 }
 
-export interface PromotionDetail extends PromotionListItem {
+// 상세 응답의 author는 목록(author:{nickname,isAdmin})보다 풍부하다.
+export interface Author {
+  id: number;
+  nickname: string;
+  isAdmin: boolean;
+  instagramId?: string;
+  profileImage?: ImageFile;
+  roles?: string[];
+}
+
+export interface PromotionDetail
+  extends Omit<PromotionListItem, "author" | "photographyTypes"> {
+  author: Author | null;
+  photographyTypes: string[];
   content: string;
   externalLink: string;
   startedAt: string;
   promotionType: string;
+  isAuthorHidden?: boolean;
 }

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { ImageFile } from "../../../types/common";
 import icn_close from "../../../assets/svgs/icn_close_white.svg";
 
 interface Props {
-  images: any[];
+  images: ImageFile[];
   startIdx: number;
   setShowEnlargedImg: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -87,7 +88,7 @@ export default function EnlargeImage({
           className="flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory scroll-smooth"
           ref={containerRef}
         >
-          {images.map((image: any, index: number) => (
+          {images.map((image: ImageFile, index: number) => (
             <div
               key={image.url}
               className="flex-shrink-0 w-full slide-item snap-center snap-always"
