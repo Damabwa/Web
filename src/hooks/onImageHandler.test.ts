@@ -37,8 +37,8 @@ describe("onImageHandler", () => {
     jest.restoreAllMocks();
   });
 
-  it("3MB 미만 파일은 압축 없이 바로 업로드한다", async () => {
-    const file = makeFile(1 * MB);
+  it("1MB 미만 파일은 압축 없이 바로 업로드한다", async () => {
+    const file = makeFile(0.5 * MB);
     const result = await onImageHandler(file, "PROFILE");
 
     expect(mockCompression).not.toHaveBeenCalled();
@@ -50,9 +50,9 @@ describe("onImageHandler", () => {
     expect(result).toEqual(uploaded);
   });
 
-  it("정확히 3MB(경계값) 파일은 압축 경로를 탄다", async () => {
-    const file = makeFile(3 * MB);
-    const compressed = makeFile(2 * MB, "compressed.png");
+  it("정확히 1MB(경계값) 파일은 압축 경로를 탄다", async () => {
+    const file = makeFile(1 * MB);
+    const compressed = makeFile(0.5 * MB, "compressed.png");
     mockCompression.mockResolvedValue(compressed);
 
     await onImageHandler(file, "SNAP");
@@ -61,9 +61,9 @@ describe("onImageHandler", () => {
     expect(uploadedFileName()).toBe("compressed.png");
   });
 
-  it("3MB 초과 파일은 압축 후 압축본을 업로드한다", async () => {
-    const file = makeFile(4 * MB);
-    const compressed = makeFile(2 * MB, "compressed.png");
+  it("1MB 초과 파일은 압축 후 압축본을 업로드한다", async () => {
+    const file = makeFile(2 * MB);
+    const compressed = makeFile(0.5 * MB, "compressed.png");
     mockCompression.mockResolvedValue(compressed);
 
     const result = await onImageHandler(file, "SNAP");
@@ -91,7 +91,7 @@ describe("onImageHandler", () => {
   });
 
   it("업로드 실패 시 null을 반환한다", async () => {
-    const file = makeFile(1 * MB);
+    const file = makeFile(0.5 * MB);
     mockUpload.mockRejectedValue(new Error("upload fail"));
     jest.spyOn(console, "log").mockImplementation(() => {});
 
