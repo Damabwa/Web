@@ -23,9 +23,9 @@ beforeAll(() => {
 });
 
 const images = [
-  { url: "https://cdn/a.jpg" },
-  { url: "https://cdn/b.jpg" },
-  { url: "https://cdn/c.jpg" },
+  { name: "a", url: "https://cdn/a.jpg" },
+  { name: "b", url: "https://cdn/b.jpg" },
+  { name: "c", url: "https://cdn/c.jpg" },
 ];
 
 describe("EventDetail ImageBox", () => {

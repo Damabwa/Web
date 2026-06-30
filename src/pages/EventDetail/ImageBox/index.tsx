@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isMobileDevice } from "../../../utils/device";
+import { ImageFile } from "../../../types/common";
 import icn_back from "../../../assets/svgs/icn_back_white.svg";
 
 interface Props {
-  images: any[];
+  images: ImageFile[];
   promotionType: string;
 }
 
@@ -58,7 +59,7 @@ export default function ImageBox({ images, promotionType }: Props) {
         ref={containerRef}
       >
         <div className="flex">
-          {images.map((image: any, index: number) => (
+          {images.map((image: ImageFile, index: number) => (
             <div
               key={image.url ?? index}
               className="relative flex-shrink-0 w-full slide-item snap-center"

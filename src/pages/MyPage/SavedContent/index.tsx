@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { PromotionListItem } from "../../../types/promotion";
+import { PhotographerListItem } from "../../../types/photographer";
 
 interface Props {
-  savedPromotions: any[];
-  savedPhotographers: any[];
+  savedPromotions: PromotionListItem[];
+  savedPhotographers: PhotographerListItem[];
   role: string;
 }
 

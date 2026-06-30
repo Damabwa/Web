@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
+import { PromotionDetail } from "../../../types/promotion";
 
 interface Props {
-  promotionData: any;
+  promotionData: PromotionDetail;
 }
 
 export default function BottomInfo({ promotionData }: Props) {
@@ -18,13 +19,13 @@ export default function BottomInfo({ promotionData }: Props) {
                 src={promotionData.author.profileImage?.url}
                 alt={promotionData.author.nickname}
                 onClick={() =>
-                  navigate(`/photographer/${promotionData.author.id}`)
+                  navigate(`/photographer/${promotionData.author?.id}`)
                 }
               />
               <div
                 className="text-sm font-medium cursor-pointer"
                 onClick={() =>
-                  navigate(`/photographer/${promotionData.author.id}`)
+                  navigate(`/photographer/${promotionData.author?.id}`)
                 }
               >
                 {promotionData.author.nickname}

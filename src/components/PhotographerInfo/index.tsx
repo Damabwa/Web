@@ -13,10 +13,12 @@ import icn_web from "../../assets/svgs/icn_web.svg";
 import icn_loc from "../../assets/svgs/icn_location.svg";
 import icn_insta from "../../assets/svgs/icn_instagram.svg";
 import ModalCheck from "../ModalCheck";
+import { PhotographerDetail } from "../../types/photographer";
+import { Region } from "../../types/common";
 
 interface Props {
   isMypage: boolean;
-  userInfo: any;
+  userInfo: PhotographerDetail;
 }
 
 export default function PhotographerInfo({ isMypage, userInfo }: Props) {
@@ -103,7 +105,7 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
         <div className="flex items-center gap-1">
           <img className="w-6" src={icn_loc} alt="위치" />
           <div className="flex w-full gap-1">
-            {userInfo.activeRegions.map((loc: any, index: number) => (
+            {userInfo.activeRegions.map((loc: Region, index: number) => (
               <div className="flex gap-1" key={index}>
                 <p>{loc.category}</p>
                 <p>
