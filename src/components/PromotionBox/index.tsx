@@ -51,9 +51,10 @@ function PromotionBox({ data }: Props) {
         clipped
           ? await deleteSavedPromotion(data.id)
           : await createSavedPromotion(data.id);
-        // 저장 상태 변경을 다른 캐시 화면(목록/상세)에도 반영
+        // 저장 상태 변경을 다른 캐시 화면(목록/상세/저장목록)에도 반영
         queryClient.invalidateQueries({ queryKey: ["promotions"] });
         queryClient.invalidateQueries({ queryKey: ["promotion", data.id] });
+        queryClient.invalidateQueries({ queryKey: ["savedPromotions"] });
       } catch (e) {
         setIsClipped(clipped);
         setSaveCount((prev) => (clipped ? prev + 1 : prev - 1));

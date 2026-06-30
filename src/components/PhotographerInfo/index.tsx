@@ -46,9 +46,10 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
       isSavedPhotographer
         ? await deleteSavedPhotographer(userInfo.id)
         : await createSavedPhotographer(userInfo.id);
-      // 저장 변경을 목록/상세 캐시에 반영
+      // 저장 변경을 목록/상세/저장목록 캐시에 반영
       queryClient.invalidateQueries({ queryKey: ["photographers"] });
       queryClient.invalidateQueries({ queryKey: ["photographer", userInfo.id] });
+      queryClient.invalidateQueries({ queryKey: ["savedPhotographers"] });
     } catch (e) {
       setCount(prevCount);
       setIsSavedPhotographer(prevIsSaved);
