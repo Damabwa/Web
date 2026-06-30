@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getRegionList } from "../../api/region";
 import { Region } from "../../types/common";
 import icn_close from "../../assets/svgs/icn_closeRegion.svg";
@@ -18,6 +18,12 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
   const [locList, setLocList] = useState<Loc[]>([]);
   const [regions, setRegions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  // 선택 여부를 O(1)로 조회하기 위해 "category name" 형태의 Set으로 변환.
+  const selectedSet = useMemo(
+    () => new Set(locs.map((loc) => `${loc.category} ${loc.name}`)),
+    [locs]
+  );
 
   const fetchRegion = async () => {
     try {
@@ -85,18 +91,14 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
       )}
       {regions.length > 0 && (
         <div className="grid gap-4 grid-cols-4 bg-[#E8EBEF] p-4 rounded-xl text-sm font-medium">
-          {regions.map((item, index) => (
+          {regions.map((item) => (
             <button
               className={`py-[0.6rem] rounded-lg border outline-none ${
-                locs.some(
-                  (loc) =>
-                    loc.category === item.split(" ")[0] &&
-                    loc.name === item.split(" ")[1]
-                )
+                selectedSet.has(item)
                   ? "text-violet400 border-violet400 bg-[#EAE0F6]"
                   : " border-white bg-white"
               }`}
-              key={index}
+              key={item}
               onClick={() => handleAddRegion(item)}
             >
               {item.split(" ")[1]}
@@ -106,10 +108,10 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
       )}
       {locs.length !== 0 && (
         <div className="flex flex-wrap gap-2 bg-[#E8EBEF] p-4 rounded-xl text-xs ">
-          {locs.map((item, index) => (
+          {locs.map((item) => (
             <div
               className="flex items-center py-1 pl-2 border rounded-lg outline-none min-w-fit whitespace-nowrap text-violet400 border-violet400 bg-[#EAE0F6]"
-              key={index}
+              key={`${item.category} ${item.name}`}
             >
               {`${item.category} 
                ${item.name}`}
