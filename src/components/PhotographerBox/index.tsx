@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import {
   createSavedPhotographer,
   deleteSavedPhotographer,
@@ -23,7 +23,7 @@ interface Props {
   data: postData;
 }
 
-export default function PhotographerBox({ data }: Props) {
+function PhotographerBox({ data }: Props) {
   const openInternalLink = useOpenInternalLink();
   const [isClipped, setIsClipped] = useState(false);
   const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
@@ -116,3 +116,6 @@ export default function PhotographerBox({ data }: Props) {
     </div>
   );
 }
+
+// 부모(목록) 재렌더 시 data 참조가 같으면 카드 재렌더를 건너뛴다.
+export default memo(PhotographerBox);

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { createSavedPromotion, deleteSavedPromotion } from "../../api/promotion";
 import { useLoginGuard } from "../../hooks/useLoginGuard";
 import { useOpenInternalLink } from "../../hooks/useOpenInternalLink";
@@ -27,7 +27,7 @@ interface Props {
   data: postData;
 }
 
-export default function PromotionBox({ data }: Props) {
+function PromotionBox({ data }: Props) {
   const openInternalLink = useOpenInternalLink();
   const [isClipped, setIsClipped] = useState(false);
   const [saveCount, setSaveCount] = useState(0);
@@ -138,3 +138,6 @@ export default function PromotionBox({ data }: Props) {
     </div>
   );
 }
+
+// 부모(목록) 재렌더 시 data 참조가 같으면 카드 재렌더를 건너뛴다.
+export default memo(PromotionBox);
