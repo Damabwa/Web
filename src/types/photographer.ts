@@ -7,14 +7,14 @@ export interface PhotographerRegistrationBody {
   instagramId?: string | null;
   profileImage?: ImageFile | null;
   mainPhotographyTypes: string[];
-  activeRegions: string[];
+  activeRegions: Region[];
 }
 
 export interface ModifyPhotographerProfileBody {
   nickname?: string;
   profileImage?: ImageFile | null;
   mainPhotographyTypes?: string[];
-  activeRegions?: string[];
+  activeRegions?: Region[];
 }
 
 export interface PhotographerPageBody {

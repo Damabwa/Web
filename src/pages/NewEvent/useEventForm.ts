@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../../atom/atom";
 import { getUserInfo } from "../../api/user";
 import { createPromotion, updatePromotion } from "../../api/promotion";
-import { ImageFile } from "../../types/common";
+import { ImageFile, Region } from "../../types/common";
 
 export function useEventForm() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export function useEventForm() {
   const [tradename, setTradename] = useState("");
   const [title, setTitle] = useState("");
   const [photographyTypes, setPhotographyTypes] = useState<string[]>([]);
-  const [activeRegions, setActiveRegions] = useState<string[]>([]);
+  const [activeRegions, setActiveRegions] = useState<Region[]>([]);
   const [promotionType, setPromotionType] = useState("");
   const [startedAt, setStartedAt] = useState("");
   const [endedAt, setEndedAt] = useState("");
@@ -29,7 +29,7 @@ export function useEventForm() {
       setTradename(location.state.author?.nickname ?? "");
       setTitle(location.state.title);
       setPhotographyTypes(location.state.photographyTypes);
-      setActiveRegions(location.state.activeRegions);
+      setActiveRegions(location.state.activeRegions ?? []);
       setPromotionType(location.state.promotionType);
       setStartedAt(location.state.startedAt);
       setEndedAt(location.state.endedAt);

@@ -9,7 +9,7 @@ export interface PromotionBody {
   endedAt: string;
   photographyTypes: string[];
   images: ImageFile[];
-  activeRegions: string[];
+  activeRegions: Region[];
   hashtags: string[];
   isAuthorHidden: boolean;
 }

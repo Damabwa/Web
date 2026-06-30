@@ -4,11 +4,12 @@ import ProfileImage from "../../../components/ProfileImage";
 import Types from "../../../components/Types";
 import Location from "../../../components/Location";
 import ButtonActive from "../../../components/ButtonActive";
+import { Region } from "../../../types/common";
 
 interface Props {
   userInfo: any;
   setUserInfo: React.Dispatch<React.SetStateAction<any>>;
-  onNext: (updates: { mainPhotographyTypes: string[]; activeRegions: string[] }) => void;
+  onNext: (updates: { mainPhotographyTypes: string[]; activeRegions: Region[] }) => void;
 }
 
 export default function MoreInfo({
@@ -19,7 +20,7 @@ export default function MoreInfo({
   const [mainPhotographyTypes, setMainPhotographyTypes] = useState<string[]>(
     []
   );
-  const [locs, setLocs] = useState<string[]>([]);
+  const [locs, setLocs] = useState<Region[]>([]);
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
