@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { getRegionList } from "../../api/region";
+import { Region } from "../../types/common";
 import icn_close from "../../assets/svgs/icn_closeRegion.svg";
 
 interface Props {
-  locs: any[];
-  setLocs: React.Dispatch<React.SetStateAction<string[]>>;
+  locs: Region[];
+  setLocs: React.Dispatch<React.SetStateAction<Region[]>>;
   maxNum: number;
 }
 
@@ -44,7 +45,7 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
 
   const handleAddRegion = (item: string) => {
     let exist = false;
-    locs.forEach((loc: any) => {
+    locs.forEach((loc) => {
       if (`${loc.category} ${loc.name}` === item) {
         setLocs(locs.filter((i) => i !== loc));
         exist = true;
@@ -68,7 +69,7 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
       </div>
       {locList.length > 0 && (
         <div className="grid grid-cols-5 mb-2">
-          {locList.map((item: any, index) => (
+          {locList.map((item, index) => (
             <button
               className={`py-2 mx-1 text-sm font-medium border rounded-3xl ${selectedIndex === index ? "border-black" : "border-white"}`}
               key={item.category}
@@ -84,7 +85,7 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
       )}
       {regions.length > 0 && (
         <div className="grid gap-4 grid-cols-4 bg-[#E8EBEF] p-4 rounded-xl text-sm font-medium">
-          {regions.map((item: any, index) => (
+          {regions.map((item, index) => (
             <button
               className={`py-[0.6rem] rounded-lg border outline-none ${
                 locs.some(
@@ -105,7 +106,7 @@ export default function Location({ locs, setLocs, maxNum }: Props) {
       )}
       {locs.length !== 0 && (
         <div className="flex flex-wrap gap-2 bg-[#E8EBEF] p-4 rounded-xl text-xs ">
-          {locs.map((item: any, index) => (
+          {locs.map((item, index) => (
             <div
               className="flex items-center py-1 pl-2 border rounded-lg outline-none min-w-fit whitespace-nowrap text-violet400 border-violet400 bg-[#EAE0F6]"
               key={index}
