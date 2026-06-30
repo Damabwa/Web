@@ -2,6 +2,7 @@ import { ReactElement, ReactNode } from "react";
 import { render, RenderOptions } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { RecoilRoot, MutableSnapshot } from "recoil";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 interface ProviderOptions extends Omit<RenderOptions, "wrapper"> {
   /** MemoryRouter 초기 히스토리 스택 */
@@ -26,12 +27,22 @@ export function renderWithProviders(
     ...options
   }: ProviderOptions = {}
 ) {
+  // 테스트마다 새 QueryClient로 캐시 격리. 재시도는 꺼 실패 테스트가 빠르게 끝나도록.
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
+
   const Wrapper = ({ children }: { children: ReactNode }) => (
-    <RecoilRoot initializeState={initializeState}>
-      <MemoryRouter initialEntries={initialEntries} initialIndex={initialIndex}>
-        {children}
-      </MemoryRouter>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot initializeState={initializeState}>
+        <MemoryRouter
+          initialEntries={initialEntries}
+          initialIndex={initialIndex}
+        >
+          {children}
+        </MemoryRouter>
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 
   return render(ui, { wrapper: Wrapper, ...options });
