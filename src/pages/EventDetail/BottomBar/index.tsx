@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { createSavedPromotion, deleteSavedPromotion } from "../../../api/promotion";
 import { useLoginGuard } from "../../../hooks/useLoginGuard";
 import icn_clip_off from "../../../assets/svgs/icn_clip.svg";
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
+  const queryClient = useQueryClient();
   const [count, setCount] = useState(saveCount);
   const [isSavedPromotion, setIsSavedPromotion] = useState(isSaved);
   const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
@@ -31,6 +33,9 @@ export default function BottomBar({ id, url, saveCount, isSaved }: Props) {
       isSavedPromotion
         ? await deleteSavedPromotion(id)
         : await createSavedPromotion(id);
+      // 저장 변경을 목록/상세 캐시에 반영
+      queryClient.invalidateQueries({ queryKey: ["promotions"] });
+      queryClient.invalidateQueries({ queryKey: ["promotion", id] });
     } catch (e) {
       setCount(prevCount);
       setIsSavedPromotion(prevIsSaved);

@@ -1,5 +1,6 @@
 import { useMemo, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { VALIDATION } from "../../constants/validation";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../atom/atom";
@@ -10,6 +11,7 @@ import { ImageFile, Region } from "../../types/common";
 export function useEventForm() {
   const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
   const isAuthorHidden = useRecoilValue(userState).roles.includes("ADMIN");
 
   const [tradename, setTradename] = useState("");
@@ -115,9 +117,14 @@ export function useEventForm() {
     try {
       if (location.state) {
         await updatePromotion(location.state.id, body);
+        queryClient.invalidateQueries({
+          queryKey: ["promotion", location.state.id],
+        });
       } else {
         await createPromotion(body);
       }
+      // 생성/수정한 이벤트가 목록 캐시에 반영되도록 무효화
+      queryClient.invalidateQueries({ queryKey: ["promotions"] });
       navigate(`/events`, { replace: true });
     } catch (e) {
       console.log(e);

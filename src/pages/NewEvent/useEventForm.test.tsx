@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { renderHook, act } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
 import { MemoryRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useEventForm } from "./useEventForm";
 
@@ -14,11 +15,18 @@ jest.mock("../../api/promotion", () => ({
   updatePromotion: jest.fn(),
 }));
 
-const wrapper = ({ children }: { children: ReactNode }) => (
-  <RecoilRoot>
-    <MemoryRouter>{children}</MemoryRouter>
-  </RecoilRoot>
-);
+const wrapper = ({ children }: { children: ReactNode }) => {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <MemoryRouter>{children}</MemoryRouter>
+      </RecoilRoot>
+    </QueryClientProvider>
+  );
+};
 
 const setup = () => renderHook(() => useEventForm(), { wrapper });
 
@@ -66,5 +74,28 @@ describe("useEventForm onChangeDate (TA-250)", () => {
     );
     act(() => result.current.formHandlers.onChangeDate("END", null));
     expect(result.current.formData.endedAt).toBe("");
+  });
+});
+
+describe("useEventForm 생성 후 캐시 무효화 (TA-278)", () => {
+  it("이벤트 생성 성공 시 promotions 쿼리를 무효화한다", async () => {
+    const client = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
+    });
+    const spy = jest.spyOn(client, "invalidateQueries");
+    const w = ({ children }: { children: ReactNode }) => (
+      <QueryClientProvider client={client}>
+        <RecoilRoot>
+          <MemoryRouter>{children}</MemoryRouter>
+        </RecoilRoot>
+      </QueryClientProvider>
+    );
+
+    const { result } = renderHook(() => useEventForm(), { wrapper: w });
+    await act(async () => {
+      await result.current.formHandlers.onClickSubmit();
+    });
+
+    expect(spy).toHaveBeenCalledWith({ queryKey: ["promotions"] });
   });
 });
