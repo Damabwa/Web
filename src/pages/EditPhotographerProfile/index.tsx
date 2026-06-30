@@ -9,6 +9,7 @@ import Types from "../../components/Types";
 import Location from "../../components/Location";
 import ButtonActive from "../../components/ButtonActive";
 import InputButtonBox from "../../components/InputButtonBox";
+import { Region } from "../../types/common";
 
 export default function EditPhotographerProfile() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function EditPhotographerProfile() {
   const [mainPhotographyTypes, setMainPhotographyTypes] = useState<string[]>(
     []
   );
-  const [activeRegions, setActiveRegions] = useState<string[]>([]);
+  const [activeRegions, setActiveRegions] = useState<Region[]>([]);
 
   const [isValid, setIsValid] = useState(false);
   const [isChangedName, setIsChangedName] = useState(false);
