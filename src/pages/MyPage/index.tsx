@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { useQuery } from "@tanstack/react-query";
 import { isMobileDevice } from "../../utils/device";
 import { userState } from "../../atom/atom";
 import { getUserInfo } from "../../api/user";
@@ -16,44 +16,32 @@ import SavedContent from "./SavedContent";
 import PhotographerInfo from "../../components/PhotographerInfo";
 import MorePhotographerInfo from "../../components/MorePhotographerInfo";
 import Bottom from "../../components/Bottom";
+import Loading from "../../components/Loading";
 
 export default function MyPage() {
   const isMobile = isMobileDevice();
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState<any>();
-  const [savedPromotions, setSavedPromotions] = useState<any>([]);
-  const [savedPhotographers, setSavedPhotographers] = useState<any>([]);
   const user = useRecoilValue(userState);
   const role = user.roles.includes("PHOTOGRAPHER") ? "PHOTOGRAPHER" : "USER";
 
-  useEffect(() => {
-    let ignore = false;
-    const fetchUserInfo = async () => {
-      const [resResult, promotionsResult, photographersResult] =
-        await Promise.allSettled([
-          role === "USER" ? getUserInfo() : getPhotographerInfo(user.id),
-          getSavedPromotionList(),
-          getSavedPhotographerList(),
-        ]);
-      if (ignore) return;
-      if (resResult.status === "fulfilled") {
-        setUserInfo(resResult.value);
-      } else {
-        console.error("Failed to load user profile", resResult.reason);
-      }
-      if (promotionsResult.status === "fulfilled") {
-        setSavedPromotions(promotionsResult.value.items);
-      }
-      if (photographersResult.status === "fulfilled") {
-        setSavedPhotographers(photographersResult.value.items);
-      }
-    };
-    fetchUserInfo();
-    return () => {
-      ignore = true;
-    };
-  }, [role, user.id]);
+  // 프로필/저장목록을 각각 독립 useQuery로 조회(allSettled의 개별 실패 허용과 동등).
+  // 저장목록은 SavedContents와 동일 키를 써 캐시 공유 + 저장 invalidation 시 카운트도 함께 갱신.
+  // 프로필은 역할별 응답 타입(UserInfo|PhotographerDetail)이 달라 any로 둔다(기존 동작 유지).
+  const { data: userInfo, isLoading: isProfileLoading } = useQuery<any>({
+    queryKey: ["myProfile", role, user.id],
+    queryFn: () => (role === "USER" ? getUserInfo() : getPhotographerInfo(user.id)),
+  });
+  const { data: savedPromotions = [] } = useQuery({
+    queryKey: ["savedPromotions"],
+    queryFn: () => getSavedPromotionList().then((res) => res.items),
+  });
+  const { data: savedPhotographers = [] } = useQuery({
+    queryKey: ["savedPhotographers"],
+    queryFn: () => getSavedPhotographerList().then((res) => res.items),
+  });
 
+  // 콜드 진입 시 빈 화면 깜빡임 방지(SavedContents와 일관)
+  if (isProfileLoading) return <Loading isLoading={true} />;
   if (!userInfo) return <></>;
   return (
     <div className="relative flex flex-col min-h-dvh-safe gap-4">
