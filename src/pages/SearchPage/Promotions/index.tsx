@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getPromotionList } from "../../../api/promotion";
 import icn_noList from "../../../assets/svgs/icn_no_promotion.svg";
@@ -13,10 +13,21 @@ interface Props {
 }
 export default function Promotions({ data, searchKeyword }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
+  // data를 초기값으로만 사용. 이 컴포넌트는 탭 전환 시 매번 언마운트/재마운트되므로
+  // (SearchPage의 조건부 렌더) 재진입마다 최신 data로 다시 초기화된다.
   const [promotionList, setPromotionList] =
     useState<PromotionListItem[]>(data);
 
+  // 부모(SearchPage)가 키워드로 이미 조회해 data로 넘기므로 첫 렌더의 중복 조회는 건너뛴다.
+  // 이후 필터(searchParams)나 키워드가 실제로 바뀔 때만 재조회한다.
+  const isFirstRender = useRef(true);
+
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (!searchKeyword) return;
     const fetchPromotionList = async () => {
       const p = new URLSearchParams(searchParams);
       p.set("searchKeyword", searchKeyword);
