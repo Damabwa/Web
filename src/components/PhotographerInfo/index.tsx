@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   deleteSavedPhotographer,
   createSavedPhotographer,
@@ -20,6 +21,7 @@ interface Props {
 
 export default function PhotographerInfo({ isMypage, userInfo }: Props) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [count, setCount] = useState(0);
   const [isSavedPhotographer, setIsSavedPhotographer] = useState(false);
@@ -44,6 +46,9 @@ export default function PhotographerInfo({ isMypage, userInfo }: Props) {
       isSavedPhotographer
         ? await deleteSavedPhotographer(userInfo.id)
         : await createSavedPhotographer(userInfo.id);
+      // 저장 변경을 목록/상세 캐시에 반영
+      queryClient.invalidateQueries({ queryKey: ["photographers"] });
+      queryClient.invalidateQueries({ queryKey: ["photographer", userInfo.id] });
     } catch (e) {
       setCount(prevCount);
       setIsSavedPhotographer(prevIsSaved);

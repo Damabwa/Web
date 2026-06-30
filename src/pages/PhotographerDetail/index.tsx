@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { isMobileDevice } from "../../utils/device";
 import { toast, ToastContainer } from "react-toastify";
 import { getPhotographerInfo } from "../../api/photographer";
@@ -12,25 +13,20 @@ import "react-toastify/dist/ReactToastify.css";
 export default function PhotographerDetail() {
   const isMobile = isMobileDevice();
   const navigate = useNavigate();
-  const [photographerData, setPhotographerData] = useState<any>();
 
   const { id } = useParams();
+  const numericId = Number(id);
+  const invalidId = !id || isNaN(numericId);
 
   useEffect(() => {
-    if (!id || isNaN(Number(id))) {
-      navigate("/");
-      return;
-    }
-    const fetchPhotographerInfo = async () => {
-      try {
-        const res = await getPhotographerInfo(Number(id));
-        setPhotographerData(res);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchPhotographerInfo();
-  }, [id, navigate]);
+    if (invalidId) navigate("/");
+  }, [invalidId, navigate]);
+
+  const { data: photographerData } = useQuery({
+    queryKey: ["photographer", numericId],
+    queryFn: () => getPhotographerInfo(numericId),
+    enabled: !invalidId,
+  });
 
   const handleCopyUrl = async () => {
     try {

@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { createSavedPromotion, deleteSavedPromotion } from "../../api/promotion";
 import { useLoginGuard } from "../../hooks/useLoginGuard";
 import { useOpenInternalLink } from "../../hooks/useOpenInternalLink";
@@ -29,6 +30,7 @@ interface Props {
 
 function PromotionBox({ data }: Props) {
   const openInternalLink = useOpenInternalLink();
+  const queryClient = useQueryClient();
   const [isClipped, setIsClipped] = useState(false);
   const [saveCount, setSaveCount] = useState(0);
   const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
@@ -49,6 +51,9 @@ function PromotionBox({ data }: Props) {
         clipped
           ? await deleteSavedPromotion(data.id)
           : await createSavedPromotion(data.id);
+        // 저장 상태 변경을 다른 캐시 화면(목록/상세)에도 반영
+        queryClient.invalidateQueries({ queryKey: ["promotions"] });
+        queryClient.invalidateQueries({ queryKey: ["promotion", data.id] });
       } catch (e) {
         setIsClipped(clipped);
         setSaveCount((prev) => (clipped ? prev + 1 : prev - 1));
@@ -56,7 +61,7 @@ function PromotionBox({ data }: Props) {
         console.log(e);
       }
     },
-    [data.id, setShowLoginModal],
+    [data.id, setShowLoginModal, queryClient],
   );
 
   const onClickSave = useCallback(() => {
