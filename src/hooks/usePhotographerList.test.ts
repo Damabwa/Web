@@ -1,4 +1,6 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
+import { createElement, ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { usePhotographerList } from "./usePhotographerList";
 import { getPhotographerList } from "../api/photographer";
 
@@ -11,6 +13,20 @@ const mockGetList = getPhotographerList as jest.MockedFunction<
   typeof getPhotographerList
 >;
 
+// react-query 훅 테스트용 래퍼. 테스트마다 새 client로 캐시 격리, 재시도 off.
+const createWrapper = () => {
+  const client = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
+  return ({ children }: { children: ReactNode }) =>
+    createElement(QueryClientProvider, { client }, children);
+};
+
+const renderList = (params: string, enabled?: boolean) =>
+  renderHook(() => usePhotographerList(params, enabled), {
+    wrapper: createWrapper(),
+  });
+
 const makeResponse = (items: unknown[]) =>
   ({ items, totalCount: items.length, page: 1, pageSize: 10 } as never);
 
@@ -22,7 +38,7 @@ describe("usePhotographerList", () => {
   it("성공 시 목록을 채우고 로딩을 종료한다", async () => {
     mockGetList.mockResolvedValue(makeResponse([{ id: 1 }]));
 
-    const { result } = renderHook(() => usePhotographerList("sort=LATEST"));
+    const { result } = renderList("sort=LATEST");
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(result.current.photographers).toEqual([{ id: 1 }]);
@@ -32,7 +48,7 @@ describe("usePhotographerList", () => {
   it("실패 시 에러 메시지를 설정한다", async () => {
     mockGetList.mockRejectedValue(new Error("서버 오류"));
 
-    const { result } = renderHook(() => usePhotographerList("sort=LATEST"));
+    const { result } = renderList("sort=LATEST");
 
     await waitFor(() => expect(result.current.error).toBe("서버 오류"));
     expect(result.current.isLoading).toBe(false);
@@ -42,7 +58,7 @@ describe("usePhotographerList", () => {
   it("에러에 message가 없으면 기본 메시지를 사용한다", async () => {
     mockGetList.mockRejectedValue({});
 
-    const { result } = renderHook(() => usePhotographerList("sort=LATEST"));
+    const { result } = renderList("sort=LATEST");
 
     await waitFor(() =>
       expect(result.current.error).toBe("데이터를 불러오는 데 실패했습니다.")
@@ -50,9 +66,7 @@ describe("usePhotographerList", () => {
   });
 
   it("enabled=false이면 API를 호출하지 않는다", async () => {
-    const { result } = renderHook(() =>
-      usePhotographerList("sort=LATEST", false)
-    );
+    const { result } = renderList("sort=LATEST", false);
 
     // 비동기 호출이 회귀로 생기면 microtask 이후 잡히도록 flush 후 단언
     await act(async () => {
