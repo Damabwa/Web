@@ -9,6 +9,7 @@ import SetProfile from "./SetProfile";
 import Route from "./Route";
 import Terms from "./Terms";
 import MoreInfo from "./MoreInfo";
+import { Region } from "../../types/common";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function SignUp() {
     instagramId: null,
     profileImage: { name: "", url: "" },
     mainPhotographyTypes: [""],
-    activeRegions: [] as string[],
+    activeRegions: [] as Region[],
   });
 
   const handleRoleSelect = (selectedRole: string) => {
@@ -30,7 +31,7 @@ export default function SignUp() {
     setStep(step + 1);
   };
 
-  const goToNextStep = (updates?: { mainPhotographyTypes?: string[]; activeRegions?: string[] }) => {
+  const goToNextStep = (updates?: { mainPhotographyTypes?: string[]; activeRegions?: Region[] }) => {
     if (updates) {
       setUserInfo((prev) => ({ ...prev, ...updates }));
     }
