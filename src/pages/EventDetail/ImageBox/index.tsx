@@ -64,7 +64,13 @@ export default function ImageBox({ images, promotionType }: Props) {
               className="relative flex-shrink-0 w-full slide-item snap-center"
               data-index={index}
             >
-              <img src={image.url} alt="이벤트 이미지" className="object-cover min-w-full h-96 " />
+              <img
+                src={image.url}
+                alt="이벤트 이미지"
+                className="object-cover min-w-full h-96 "
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
+              />
               <div
                 className="absolute top-0 left-0 w-full pointer-events-none h-28"
                 style={{

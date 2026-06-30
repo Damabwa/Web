@@ -112,6 +112,8 @@ export default function GetImagesBox({
                   className="object-cover w-[4.75rem] h-[4.75rem] border-lineRegular rounded-[0.63rem] border"
                   src={item.url}
                   alt="업로드 이미지"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             ))}

@@ -35,6 +35,8 @@ export default function BannerBox() {
               src={item.img}
               alt="배너"
               onClick={() => item.url && navigate(item.url)}
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding="async"
             />
           </SwiperSlide>
         ))}
