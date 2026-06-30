@@ -48,12 +48,13 @@ export default function GetImagesBox({
       return;
     }
     setLoading(true);
-    const newImages: any[] = [];
 
-    for (let i = 0; i < files.length; i++) {
-      const image = await onImageHandler(files[i], fileType);
-      if (image) newImages.push(image);
-    }
+    // 여러 장을 병렬로 압축·업로드한다(순차 await 대비 대기 단축).
+    // Promise.all은 입력 순서대로 결과를 보존하고, 실패(null)는 걸러낸다.
+    const results = await Promise.all(
+      Array.from(files).map((file) => onImageHandler(file, fileType))
+    );
+    const newImages = results.filter(Boolean);
 
     setImages([...images, ...newImages]);
     setLoading(false);
