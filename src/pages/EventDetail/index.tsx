@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { getPromotionDetail } from "../../api/promotion";
 import ImageBox from "./ImageBox";
 import TopInfo from "./TopInfo";
@@ -9,23 +10,18 @@ import BottomBar from "./BottomBar";
 export default function EventDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [promotionData, setPromotionData] = useState<any>();
+  const numericId = Number(id);
+  const invalidId = !id || isNaN(numericId);
 
   useEffect(() => {
-    if (!id || isNaN(Number(id))) {
-      navigate("/");
-      return;
-    }
-    const fetchPromotion = async () => {
-      try {
-        const res = await getPromotionDetail(Number(id));
-        setPromotionData(res);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchPromotion();
-  }, [id, navigate]);
+    if (invalidId) navigate("/");
+  }, [invalidId, navigate]);
+
+  const { data: promotionData } = useQuery({
+    queryKey: ["promotion", numericId],
+    queryFn: () => getPromotionDetail(numericId),
+    enabled: !invalidId,
+  });
 
   if (!promotionData) return <></>;
   return (

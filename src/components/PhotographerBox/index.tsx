@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   createSavedPhotographer,
   deleteSavedPhotographer,
@@ -25,6 +26,7 @@ interface Props {
 
 function PhotographerBox({ data }: Props) {
   const openInternalLink = useOpenInternalLink();
+  const queryClient = useQueryClient();
   const [isClipped, setIsClipped] = useState(false);
   const { showLoginModal, setShowLoginModal, requireLogin, loginModalProps } =
     useLoginGuard();
@@ -52,13 +54,16 @@ function PhotographerBox({ data }: Props) {
         clipped
           ? await deleteSavedPhotographer(data.id)
           : await createSavedPhotographer(data.id);
+        // 저장 상태 변경을 다른 캐시 화면(목록/상세)에도 반영
+        queryClient.invalidateQueries({ queryKey: ["photographers"] });
+        queryClient.invalidateQueries({ queryKey: ["photographer", data.id] });
       } catch (e) {
         setIsClipped(clipped);
         setShowLoginModal(true);
         console.log(e);
       }
     },
-    [data.id, setShowLoginModal],
+    [data.id, setShowLoginModal, queryClient],
   );
 
   const onClickSave = useCallback(() => {
