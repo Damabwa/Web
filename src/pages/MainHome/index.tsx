@@ -63,12 +63,13 @@ function MainHome() {
           <Header.Right>
             <div className="flex items-center gap-2">
               <img
+                className="cursor-pointer"
                 src={icn_search}
                 alt="검색"
                 onClick={() => navigate(`/search`)}
               />
               <img
-                className="mr-4"
+                className="mr-4 cursor-pointer"
                 src={icn_mypage}
                 alt="마이페이지"
                 onClick={() => handleMyPageClick()}
