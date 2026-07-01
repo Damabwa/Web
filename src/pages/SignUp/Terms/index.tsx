@@ -81,7 +81,7 @@ export default function Terms({ onNext, role }: Props) {
       <div className="flex flex-col justify-center text-sm">
         <div className="w-full flex gap-4 px-[1.12rem] py-5">
           <img
-            className="w-[1.125rem] h-[1.125rem]"
+            className="w-[1.125rem] h-[1.125rem] cursor-pointer"
             onClick={() => handleCheckAll()}
             src={allCheck ? icn_check_on : icn_check_off}
             alt={allCheck ? "전체 선택 해제" : "전체 선택"}
@@ -95,7 +95,7 @@ export default function Terms({ onNext, role }: Props) {
           >
             <div className="flex gap-4">
               <img
-                className="w-[1.125rem] h-[1.125rem]"
+                className="w-[1.125rem] h-[1.125rem] cursor-pointer"
                 onClick={() => handleCheckOnly(i)}
                 src={item.isChecked ? icn_check_on : icn_check_off}
                 alt={item.isChecked ? "선택됨" : "미선택"}

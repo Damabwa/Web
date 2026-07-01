@@ -96,6 +96,7 @@ function PhotographerBox({ data }: Props) {
         <div className="z-10 flex items-center justify-end p-2">
           <div className="bg-white rounded-full p-[0.375rem]">
             <img
+              className="cursor-pointer"
               alt="clip"
               src={isClipped ? icn_clipOn : icn_clipOff}
               onClick={onClickSave}

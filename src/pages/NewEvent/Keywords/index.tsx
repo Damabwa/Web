@@ -71,7 +71,12 @@ export default function Keywords({
             className="flex items-center text-sm font-medium bg-violet400 bg-opacity-15 rounded-2xl pl-[0.69rem] py-1 pr-1 w-fit"
           >
             <div>#{item}</div>
-            <img src={icn_delete} alt="삭제" onClick={() => deleteKeyword(item)} />
+            <img
+              className="cursor-pointer"
+              src={icn_delete}
+              alt="삭제"
+              onClick={() => deleteKeyword(item)}
+            />
           </div>
         ))}
       </div>
